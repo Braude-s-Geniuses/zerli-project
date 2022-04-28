@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ZerliServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ZerliServer_jar</output-path>
+    <root id="archive" name="ZerliServer.jar">
+      <element id="module-output" name="ZerliServer" />
+      <element id="module-output" name="OCSF" />
+      <element id="module-output" name="ZerliCommon" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliServer/lib/mysql-connector-java-8.0.13.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
