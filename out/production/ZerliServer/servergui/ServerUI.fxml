@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: white;" stylesheets="@../Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="servergui.ServerUIController">
+   <children>
+      <TextField fx:id="fldDbName" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="220.0" promptText="Database Name" text="zerli">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </TextField>
+      <Button fx:id="btnStart" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" onAction="#clickBtnStart" prefHeight="40.0" prefWidth="220.0" styleClass="btn" text="Start">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnStop" disable="true" layoutX="10.0" layoutY="210.0" mnemonicParsing="false" onAction="#clickBtnStop" prefHeight="40.0" prefWidth="220.0" styleClass="btn" text="Stop">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="txtServerConsole" editable="false" layoutX="10.0" layoutY="290.0" prefHeight="180.0" prefWidth="620.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font></TextArea>
+      <TextField fx:id="fldDbUser" layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="220.0" promptText="Database User" text="root">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="fldDbPassword" layoutX="10.0" layoutY="110.0" prefHeight="40.0" prefWidth="220.0" promptText="Database Password" text="root">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </PasswordField>
+      <StackPane layoutX="250.0" layoutY="10.0">
+         <children>
+            <TableView fx:id="tableClients" prefHeight="240.0" prefWidth="380.0">
+              <columns>
+                <TableColumn fx:id="columnIP" prefWidth="153.0" text="IP Address" />
+                <TableColumn fx:id="columnClient" prefWidth="142.0" text="Client Name" />
+                <TableColumn fx:id="columnStatus" prefWidth="84.0" text="Status" />
+              </columns>
+            </TableView>
+         </children>
+      </StackPane>
+      <Label fx:id="lblServerConsole" layoutX="262.0" layoutY="268.0" prefHeight="22.0" prefWidth="116.0" text="Server Console" textFill="#b2b2b2">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

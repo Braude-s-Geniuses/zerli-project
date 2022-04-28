@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.UpdateOrderFormController">
+   <children>
+      <VBox layoutX="50.0" prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #e4d7de; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
+         <children>
+            <Pane prefHeight="189.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="158.0" fitWidth="158.0" layoutX="21.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../logo.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
+            <Button fx:id="btnBrowseOrders" alignment="BASELINE_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickBtnBrowseOrders" prefWidth="200.0" styleClass="sidenav-button" text="Browse Orders" textAlignment="JUSTIFY" textFill="#77385a">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Pane prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: #77385a;" />
+      <Pane layoutX="253.0" prefHeight="50.0" prefWidth="1027.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;" />
+      <Pane layoutX="284.0" layoutY="73.0" prefHeight="420.0" prefWidth="963.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
+         <children>
+            <Button fx:id="btnUpdate" layoutX="420.0" layoutY="350.0" mnemonicParsing="false" onAction="#clickBtnUpdate" prefHeight="40.0" prefWidth="120.0" styleClass="btn" text="Update">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Button>
+            <Label layoutX="60.0" layoutY="120.0" prefHeight="22.0" prefWidth="300.0" text="Select a new Date and/or Color:">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblOrderNumber" layoutX="60.0" layoutY="60.0" prefHeight="22.0" prefWidth="307.0" text="Order number:">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="34.0" layoutY="14.0" text="Update Order" textFill="#77385a">
+               <font>
+                  <Font name="Calibri" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="307.0" layoutY="231.0" prefHeight="22.0" prefWidth="350.0" textAlignment="CENTER" textFill="INDIANRED">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cbNewColor" layoutX="370.0" layoutY="171.0" prefHeight="40.0" prefWidth="220.0" promptText="Select new color" styleClass="combo-color" />
+            <DatePicker fx:id="dpNewDate" accessibleRole="IMAGE_VIEW" layoutX="370.0" layoutY="111.0" prefHeight="40.0" prefWidth="220.0" promptText="Select date" />
+            <ComboBox fx:id="cbTime" layoutX="609.0" layoutY="111.0" prefHeight="40.0" prefWidth="110.0" promptText="Time" styleClass="combo-time" />
+         </children>
+      </Pane>
+      <Pane layoutX="252.0" layoutY="750.0" prefHeight="50.0" prefWidth="1027.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
+         <children>
+            <Label layoutX="421.0" layoutY="17.0" text="© 2022 Zerli. All rights reserved.">
+               <font>
+                  <Font name="Calibri" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

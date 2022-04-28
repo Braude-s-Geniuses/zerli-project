@@ -1,0 +1,106 @@
+.sidenav-button {
+	-fx-background-radius: 0;
+	-fx-background-color: transparent;	
+}
+
+.sidenav-button:hover {
+	-fx-background-color: #77385a;
+	-fx-text-fill: #ffffff;
+}
+
+.sidenav-button:pressed {
+	-fx-background-color: linear-gradient(#e4d7de, #e0acca);
+}
+
+.topnav-button {
+	-fx-background-radius: 0;
+	-fx-background-color: transparent;		
+}
+
+.btn {
+	-fx-background-color: #77385a;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: transparent;
+	-fx-effect:  dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5)
+}
+
+.btn:pressed {
+	-fx-background-color: #9e4b79;
+	-fx-effect: innershadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 15.0, 0.7, 0.0, 1.5)
+}
+
+.btn:hover{
+	-fx-background-color: #974874;
+	
+}
+
+.table-column {
+  -fx-alignment: CENTER;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #77385a, #e4d7de);
+    -fx-background-radius: 2px 2px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-text-background-color: #ffffff;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+}
+.table-row-cell:hover {
+    -fx-background-color: #93f9b911;
+    -fx-text-background-color: #77385a;
+}
+.table-row-cell:odd {
+    -fx-background-color: #f2e6ec;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    
+}
+.table-row-cell:even {
+    -fx-background-color: #fbf7f9;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:selected { 
+	-fx-background-color: #77385a;
+}
+
+.table-row-cell:selected:hover { 
+	-fx-text-background-color: #ffffff;
+}
+
+.date-picker {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 18;
+    -fx-border-color: #77385a;
+    -fx-border-radius: 1;
+    -fx-background-color: white;
+}
+
+.date-picker > .arrow-button {
+	-fx-background-color: white;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: transparent;
+	-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);
+}
+
+.combo-color,.combo-time {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 18;
+    -fx-border-color: #77385a;
+    -fx-border-radius: 1;
+    -fx-background-color: white;
+}
