@@ -13,24 +13,13 @@ import java.io.IOException;
  *
  */
 public class ZerliServer extends AbstractServer {
-    /** Represents the instance of the server gui controller.
-     *
-     */
-    public ServerUIController serverUIController;
 
-    /** The constructor initializes the <code>serverUIController</code> and displays it.
+    /** The constructor initializes the server.
      *
      * @param port on which the <code>ZerliServer</code> should listen to.
-     * @param primaryStage the stage passed through the <code>Server</code> Application instance.
      */
-    public ZerliServer(int port, Stage primaryStage) {
+    public ZerliServer(int port) {
         super(port);
-        serverUIController = new ServerUIController();
-        try {
-            serverUIController.start(primaryStage);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     protected void serverStarted() {
@@ -58,18 +47,17 @@ public class ZerliServer extends AbstractServer {
     public void handleMessageFromClient(Object message, ConnectionToClient client) {
         Message messageFromClient = (Message) message;
         Message messageFromServer = null;
-        DatabaseController databaseController = DatabaseController.getInstance();
 
         switch (messageFromClient.getTask()) {
             case DISCONNECT_CLIENT:
-                serverUIController.removeClientFromTable(client);
+                Server.serverUIController.removeClientFromTable(client);
                 break;
             case REQUEST_ORDERS_TABLE:
-                messageFromServer = databaseController.getAllOrders();
+                messageFromServer = Server.serverController.getAllOrders();
                 break;
             case UPDATE_COLOR:
             case UPDATE_DATE:
-                messageFromServer = databaseController.updateOrder(messageFromClient);
+                messageFromServer = Server.serverController.updateOrder(messageFromClient);
                 break;
             default:
                 break;
@@ -84,7 +72,7 @@ public class ZerliServer extends AbstractServer {
 
     @Override
     protected void clientConnected(ConnectionToClient client) {
-        serverUIController.addClientToTable(client);
+        Server.serverUIController.addClientToTable(client);
     }
 
 }

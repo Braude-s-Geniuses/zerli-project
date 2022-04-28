@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import servergui.ServerUIController;
 
 import java.io.IOException;
 
@@ -12,18 +13,23 @@ import java.io.IOException;
  */
 public class Server extends Application {
 
-    /** represents the only (static) instance of a server.
+    /** Represents the instance of the server gui controller.
      *
      */
-    public static ZerliServer zerliServer;
+    public static ServerUIController serverUIController;
+
+    /** represents the only (static) instance of a server contrller.
+     *
+     */
+    public static ServerController serverController;
 
     /** represents the only (static) instance of a database contrller.
      *
      */
     public static DatabaseController databaseController;
 
-    /**
-     * the default port on which <code>ZerliServer</code> listens to.
+    /** the default port on which <code>ZerliServer</code> listens to.
+     *
      */
     final public static int DEFAULT_PORT = 5555;
 
@@ -44,7 +50,10 @@ public class Server extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        zerliServer = new ZerliServer(DEFAULT_PORT, primaryStage);
+        serverUIController = new ServerUIController();
+        serverUIController.start(primaryStage);
+
+        serverController = new ServerController();
 
         /** Once the server window is closed, close the server connection safely.
          *
@@ -77,13 +86,13 @@ public class Server extends Application {
 
         resultSQL = databaseController.connect();
         System.out.println(resultSQL);
+        result += resultSQL;
 
         if (resultSQL.contains("SQL connection succeed")) {
-            result += resultSQL;
             try {
-                zerliServer.listen();
+                serverController.getServer().listen();
                 result += "\nConnected to Server!";
-                result += "\nServer listening for connections on port " + zerliServer.getPort();
+                result += "\nServer listening for connections on port " + serverController.getServer().getPort();
             } catch (Exception e) {
                 result = "[ERROR] Failed to start Server";
             }
@@ -97,7 +106,7 @@ public class Server extends Application {
      */
     public static void stopServer() {
         try {
-            zerliServer.close();
+            serverController.getServer().close();
         } catch (IOException e) {
             System.out.println(e);
         }
