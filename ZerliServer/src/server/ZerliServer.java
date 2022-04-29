@@ -1,10 +1,8 @@
 package server;
 
-import common.Message;
-import javafx.stage.Stage;
+import communication.Message;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import servergui.ServerUIController;
 
 import java.io.IOException;
 
@@ -51,13 +49,6 @@ public class ZerliServer extends AbstractServer {
         switch (messageFromClient.getTask()) {
             case DISCONNECT_CLIENT:
                 Server.serverUIController.removeClientFromTable(client);
-                break;
-            case REQUEST_ORDERS_TABLE:
-                messageFromServer = Server.serverController.getAllOrders();
-                break;
-            case UPDATE_COLOR:
-            case UPDATE_DATE:
-                messageFromServer = Server.serverController.updateOrder(messageFromClient);
                 break;
             default:
                 break;
