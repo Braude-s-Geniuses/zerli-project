@@ -81,7 +81,7 @@ public class ZerliClient extends AbstractClient {
     /** The method is triggered by <code>clientgui</code> Controllers once the client does
      * an action requiring sending a message to <code>ZerliServer</code>.
      *
-     * @param message the message to send
+     * @param message the message to send.
      * @param await <code>true</code> the clients waits for server response; <code>false</code> client continues without wait.
      */
     public void handleMessageFromUI(Object message, boolean await) {
@@ -110,8 +110,9 @@ public class ZerliClient extends AbstractClient {
     }
 
     /**
+     *  Getter for <code>users</code>.
      *
-     * @return User****************************************************************************
+     * @return <code>loggedInUser</code>.
      */
     public User getUser() {
         return loggedInUser;

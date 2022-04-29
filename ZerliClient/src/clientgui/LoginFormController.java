@@ -53,41 +53,63 @@ public class LoginFormController {
         error_Lable.setVisible(false);
     }
 
+    /**
+     *  This method is called by pressing login button.
+     *  Forwards the client to relevant screen, in case of error prints warring to screen.
+     *
+     * @param event , Forward to the next screen according the privilege.
+     * @throws Exception , In case of a problem with connectivity with the Server.
+     */
+
     public void loginClick (ActionEvent event) throws Exception{
         User newUser = client.tryToLogin(username_textField.getText(),password_textField.getText());
         error_Lable.setVisible(false);
         switch (newUser.getUserType()){
 
-            case CUSTOMER:
-                startNewScene(event,"Customer");
-                break;
-            case BRANCH_EMPLOYEE:
-                startNewScene(event,"BranchEmployee");
-                break;
-            case BRANCH_MANAGER:
-                startNewScene(event,"BranchManager");
-                break;
-            case SERVICE_EMPLOYEE:
-                startNewScene(event,"ServiceEmployee");
-                break;
-            case EXPERT_SERVICE_EMPLOYEE:
-                startNewScene(event,"ExpertServiceEmployee");
-                break;
-            case DELIVERY_OPERATOR:
-                startNewScene(event,"DeliveryOperator");
-                break;
-            case CEO:
-                startNewScene(event,"CEO");
-                  break;
             case UNREGISTERED:
                 error_Lable.setTextFill(javafx.scene.paint.Color.color(255,0,0));
                 error_Lable.setVisible(true);
-                error_Lable.setText("Incorrect user/password");
+                error_Lable.setText("You typed the wrong username or password. try again.");
                 break;
+
+            case CUSTOMER:
+                startNewScene(event,"Customer");
+                break;
+
+            case BRANCH_EMPLOYEE:
+                startNewScene(event,"BranchEmployee");
+                break;
+
+            case BRANCH_MANAGER:
+                startNewScene(event,"BranchManager");
+                break;
+
+            case SERVICE_EMPLOYEE:
+                startNewScene(event,"ServiceEmployee");
+                break;
+
+            case EXPERT_SERVICE_EMPLOYEE:
+                startNewScene(event,"ExpertServiceEmployee");
+                break;
+
+            case DELIVERY_OPERATOR:
+                startNewScene(event,"DeliveryOperator");
+                break;
+
+            case CEO:
+                startNewScene(event,"CEO");
+                  break;
         }
 
     }
 
+    /**
+     * This method getting the type of the user and forward him to the relevant screen.
+     *
+     * @param event, pushing the login button.
+     * @param userType getting the user type of the client.
+     * @throws Exception In case of a problem with connectivity with the Server.
+     */
     public void startNewScene(ActionEvent event,String userType) throws Exception{
         try {
             ((Node) event.getSource()).getScene().getWindow().hide();
@@ -104,7 +126,7 @@ public class LoginFormController {
         }catch(ConnectException e){
             error_Lable.setTextFill(javafx.scene.paint.Color.color(255,0,0));
             error_Lable.setVisible(true);
-            error_Lable.setText("Failed to Login please try again");
+            error_Lable.setText("There is a temporary problem with the server. Please try again later.");
         }
     }
 

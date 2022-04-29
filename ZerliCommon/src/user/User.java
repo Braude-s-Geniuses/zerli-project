@@ -2,6 +2,14 @@ package user;
 
 import java.io.Serializable;
 
+/**
+ *  Each user has a class instance.
+ *  The class will store data on the user in the DB.
+ *  This information helps for secure connection, execution of customer and manager actions.
+ */
+
+// Need to check what happens if a customer has not put in a credit card and allow the manager.
+
 public class User implements Serializable {
     private int userId;
     private String username;
@@ -14,7 +22,8 @@ public class User implements Serializable {
     private String email;
     private String phone;
 
-    public User(int userId, String username, String password, UserType userType, boolean loggedIn, String firstName, String lastName, String id, String email, String phone) {
+    public User(int userId, String username, String password,UserType userType, boolean loggedIn,
+                String firstName, String lastName, String id, String email, String phone) {
         this.userId = userId;
         this.username = username;
         this.password = password;
