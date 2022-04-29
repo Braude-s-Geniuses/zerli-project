@@ -7,4 +7,5 @@ import java.io.Serializable;
  */
 public enum MessageFromClient implements Serializable {
     DISCONNECT_CLIENT,
+    LOGIN_REQUEST
 }
