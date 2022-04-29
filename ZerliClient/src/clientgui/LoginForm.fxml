@@ -84,11 +84,16 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="269.0" prefWidth="450.0">
                      <children>
-                        <Button fx:id="login_Button" mnemonicParsing="false" onAction="#loginClick" prefHeight="80.0" prefWidth="144.0" text="Login">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Button>
+                        <VBox alignment="CENTER" prefHeight="79.0" prefWidth="450.0">
+                           <children>
+                              <Button fx:id="login_Button" mnemonicParsing="false" onAction="#loginClick" prefHeight="59.0" prefWidth="140.0" text="Login">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="error_Lable" text="error_Lable" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>

@@ -1,4 +1,4 @@
-package order;
+package communication.order;
 
 import java.io.Serializable;
 

@@ -1,10 +1,11 @@
 package client;
 
-import common.Message;
-import common.MessageFromClient;
-import common.MessageFromServer;
-import common.Order;
+import communication.Message;
+import communication.MessageFromClient;
+import communication.MessageFromServer;
+import communication.order.Order;
 import ocsf.client.AbstractClient;
+import user.User;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public class ZerliClient extends AbstractClient {
      * Used to store orders fetched from the server once <code>ClientController.requestOrders()</code> is called.
      */
     private ArrayList<Order> orders = null;
+
+    private User loggedInUser = null;
 
     /**
      * Used to restore the response from the server to a <code>Message</code> sent by the <code>ZerliClient</code>.
@@ -63,7 +66,16 @@ public class ZerliClient extends AbstractClient {
             case UPDATE_NOT_SUCCEED:
                 message = MessageFromServer.UPDATE_NOT_SUCCEED;
                 break;
+            case LOGIN_NOT_SUCCEED:
+                loggedInUser=null;
+                message = MessageFromServer.LOGIN_NOT_SUCCEED;
+                break;
+            case LOGIN_SUCCEED:
+                loggedInUser = (User)messageFromServer.getData();
+                message = MessageFromServer.LOGIN_SUCCEED;
+                break;
         }
+
     }
 
     /** The method is triggered by <code>clientgui</code> Controllers once the client does
@@ -97,6 +109,14 @@ public class ZerliClient extends AbstractClient {
         return orders;
     }
 
+    /**
+     *
+     * @return User****************************************************************************
+     */
+    public User getUser() {
+        return loggedInUser;
+    }
+
     /** Getter for <code>message</code>
      *
      * @return <code>message</code>.
@@ -121,4 +141,7 @@ public class ZerliClient extends AbstractClient {
             System.exit(0);
         }
     }
+
+
+
 }

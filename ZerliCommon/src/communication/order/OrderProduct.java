@@ -1,7 +1,6 @@
-package order;
+package communication.order;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class OrderProduct implements Serializable {
     private Product product;

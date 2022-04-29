@@ -1,4 +1,4 @@
-package order;
+package communication.order;
 
 import javafx.scene.image.ImageView;
 
