@@ -1,6 +1,6 @@
 package server;
 
-import common.Message;
+import communication.Message;
 
 public class ServerController {
 
@@ -8,14 +8,6 @@ public class ServerController {
 
     public ServerController() {
         server = new ZerliServer(Server.DEFAULT_PORT);
-    }
-
-    public Message getAllOrders() {
-        return Server.databaseController.getInstance().getAllOrders();
-    }
-
-    public Message updateOrder(Message messageFromClient) {
-        return Server.databaseController.getInstance().updateOrder(messageFromClient);
     }
 
     public static ZerliServer getServer() {

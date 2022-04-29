@@ -67,7 +67,7 @@ public class InputHostnameFormController {
              */
             ((Node) event.getSource()).getScene().getWindow().hide();
             Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("ViewOrdersTable.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("ViewBasePage.fxml"));
             Scene scene = new Scene(root);
 
             primaryStage.setTitle("Zerli Client");

@@ -1,4 +1,4 @@
-package common;
+package communication;
 
 import java.io.Serializable;
 
@@ -6,8 +6,4 @@ import java.io.Serializable;
  *
  */
 public enum MessageFromServer implements Serializable {
-	IMPORT_ORDERS_TABLE_SUCCEED,
-	IMPORT_ORDERS_TABLE_NOT_SUCCEED,
-	UPDATE_SUCCEED,
-	UPDATE_NOT_SUCCEED   	
 }

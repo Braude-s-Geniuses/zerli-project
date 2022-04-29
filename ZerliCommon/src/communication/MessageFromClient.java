@@ -1,4 +1,4 @@
-package common;
+package communication;
 
 import java.io.Serializable;
 
@@ -6,8 +6,5 @@ import java.io.Serializable;
  *
  */
 public enum MessageFromClient implements Serializable {
-	DISCONNECT_CLIENT,
-	UPDATE_COLOR,
-	UPDATE_DATE,
-	REQUEST_ORDERS_TABLE	
+    DISCONNECT_CLIENT,
 }

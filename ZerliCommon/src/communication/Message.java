@@ -1,4 +1,4 @@
-package common;
+package communication;
 
 import java.io.Serializable;
 

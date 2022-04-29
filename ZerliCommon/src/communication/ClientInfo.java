@@ -1,4 +1,4 @@
-package common;
+package communication;
 
 /** Represents a Client in the <code>ZerliServer</code> connected clients table.
  *
