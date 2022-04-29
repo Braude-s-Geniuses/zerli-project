@@ -6,4 +6,12 @@ import java.io.Serializable;
  *
  */
 public enum MessageFromServer implements Serializable {
+    UPDATE_NOT_SUCCEED,
+    IMPORT_ORDERS_TABLE_NOT_SUCCEED,
+    IMPORT_ORDERS_TABLE_SUCCEED,
+
+    LOGIN_NOT_SUCCEED,
+
+    LOGIN_SUCCEED,
+    UPDATE_SUCCEED
 }

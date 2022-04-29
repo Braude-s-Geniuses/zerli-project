@@ -9,6 +9,6 @@ public enum UserType implements Serializable {
     SERVICE_EMPLOYEE,
     EXPERT_SERVICE_EMPLOYEE,
     DELIVERY_OPERATOR,
-    UNREGISTERED,
-    CEO
+    CEO,
+    UNREGISTERED
 }
