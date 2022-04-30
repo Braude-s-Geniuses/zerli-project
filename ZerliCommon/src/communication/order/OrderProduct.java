@@ -3,7 +3,7 @@ package communication.order;
 import java.io.Serializable;
 
 public class OrderProduct implements Serializable {
-    private Product product;
+    private static Product product;
     private int quantity;
 
     public OrderProduct(Product product, int quantity) {

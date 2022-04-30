@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import user.User;
+import order.Order;
 
 import static communication.MessageFromClient.LOGIN_REQUEST;
 
@@ -33,6 +34,13 @@ public class Client extends Application {
      * @param args
      * @throws Exception
      */
+
+    /** represents instance of Order Controller.
+     *
+     */
+    public static OrderController orderController;
+
+
     public static void main(String args[]) throws Exception {
         launch(args);
     }
@@ -59,13 +67,14 @@ public class Client extends Application {
 
     /**
      * Initializes the Client Controller once the Client clicks connect with a valid hostname.
+    /** Initializes the Client Controller once the Client clicks connect with a valid hostname. TODO
      *
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname) {
-
         clientController = new ClientController(hostname);
         catalogController = new CatalogController();
+        orderController = new OrderController();
     }
 
 }

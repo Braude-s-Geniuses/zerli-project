@@ -8,21 +8,20 @@ import java.util.HashMap;
 public class Product implements Serializable {
     private int productId;
     private String name;
-
     private HashMap<Item, Integer> items = new HashMap<Item, Integer>();
-    //private int itemId;
-    //private int quantity;
     private float productPrice;
     private float discountPrice;
     private ImageView image;
 
-    public Product(int productId, Item item, int quantity, float price, float discountPrice, ImageView image) {
+    private String dominantColor;
+
+    public Product(int productId, String name, float price, float discountPrice, ImageView image, String dominantColor) {
         this.productId = productId;
-        this.items.put(item, quantity);
-        //this.quantity = quantity;
+        this.name = name;
         this.productPrice = price;
         this.discountPrice = discountPrice;
         this.image = image;
+        this.dominantColor = dominantColor;
     }
 
     public int getProductId() {
@@ -65,6 +64,22 @@ public class Product implements Serializable {
         return items;
     }
 
+    public void setItems(Item item ,Integer quantity) {
+        items.replace(item, quantity);
+    }
+
+    public void addFlowersToProduct(Item item , Integer quantity){
+        this.items.put(item, quantity);
+    }
+
+
+    public void setDominantColor(String dominantColor) {
+        this.dominantColor = dominantColor;
+    }
+
+    public String getDominantColor() {
+        return dominantColor;
+    }
     @Override
     public String toString() {
         return "Product{" +
@@ -74,6 +89,7 @@ public class Product implements Serializable {
                 ", productPrice=" + productPrice +
                 ", discountPrice=" + discountPrice +
                 ", image=" + image +
+                ", dominantColor='" + dominantColor + '\'' +
                 '}';
     }
 }

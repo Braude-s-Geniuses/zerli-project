@@ -46,20 +46,28 @@ public class HomePageClientController {
     }
 
     @FXML
-    void clickBtnViewCart(ActionEvent event) {
-
-    }
-
-
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("HomePageClient.fxml"));
-
+    void clickBtnViewCart(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
         Scene scene = new Scene(root);
+
         primaryStage.setTitle("Zerli Client");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
+//
+//    public void start(Stage primaryStage) throws Exception {
+//        Parent root = FXMLLoader.load(getClass().getResource("HomePageClient.fxml"));
+//
+//        Scene scene = new Scene(root);
+//        primaryStage.setTitle("Zerli Client");
+//        primaryStage.setScene(scene);
+//        primaryStage.setResizable(false);
+//        primaryStage.show();
+//    }
 
 
 }
