@@ -8,12 +8,14 @@ public class Item implements Serializable {
     private String name;
     private String type;
     private String color;
+    private int price;
 
-    public Item(int itemId, String name, String type, String color) {
+    public Item(int itemId, String name, String type, String color, int price) {
         this.itemId = itemId;
         this.name = name;
         this.type = type;
         this.color = color;
+        this.price = price;
     }
 
     public int getItemId() {
@@ -46,6 +48,10 @@ public class Item implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     @Override
