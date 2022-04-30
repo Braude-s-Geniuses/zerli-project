@@ -40,6 +40,8 @@ public class ServiceEmployeeHomePageController {
         primaryStage.setResizable(false);
         primaryStage.show();
         Client.clientController.attachExitEventToStage(primaryStage);
+
+
     }
 
     public void LogoutUser (ActionEvent event) throws Exception {
