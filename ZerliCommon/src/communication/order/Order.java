@@ -10,7 +10,7 @@ public class Order implements Serializable {
     private String branch;
     private OrderStatus orderStatus;
     private String greetingCard;
-    private boolean customMade;
+    //private boolean customMade; TODO TEll Itshak to change in DB
     private float price;
     private float discountPrice;
     private Timestamp orderDate;
@@ -61,13 +61,13 @@ public class Order implements Serializable {
         this.greetingCard = greetingCard;
     }
 
-    public boolean isCustomMade() {
-        return customMade;
-    }
-
-    public void setCustomMade(boolean customMade) {
-        this.customMade = customMade;
-    }
+//    public boolean isCustomMade() {
+//        return customMade;
+//    }
+//
+//    public void setCustomMade(boolean customMade) {
+//        this.customMade = customMade;
+//    }
 
     public float getPrice() {
         return price;
@@ -147,7 +147,7 @@ public class Order implements Serializable {
                 ", branch='" + branch + '\'' +
                 ", orderStatus=" + orderStatus +
                 ", greetingCard='" + greetingCard + '\'' +
-                ", customMade=" + customMade +
+//                ", customMade=" + customMade +
                 ", price=" + price +
                 ", discountPrice=" + discountPrice +
                 ", orderDate=" + orderDate +
