@@ -21,6 +21,8 @@ public class Order implements Serializable {
     private Timestamp cancelTime;
     private ArrayList<OrderProduct> productList;
 
+    public Order(){}
+
     public Order(int orderId, int customerId, String branch, OrderStatus orderStatus, String greetingCard, float price,
                  float discountPrice, Timestamp orderDate, Timestamp deliveryDate, String deliveryAddress, String recipientName,
                  String recipientPhone, Timestamp cancelTime, ArrayList<OrderProduct> productList) {
@@ -69,8 +71,8 @@ public class Order implements Serializable {
         return orderStatus;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = OrderStatus.valueOf(orderStatus);
     }
 
     public String getGreetingCard() {
