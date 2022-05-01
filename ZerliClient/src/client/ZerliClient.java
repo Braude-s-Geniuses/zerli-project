@@ -111,6 +111,7 @@ public class ZerliClient extends AbstractClient {
         try {
             if (await)
                 awaitResponse = true;
+            System.out.println("handleMessageFromUI test");
             sendToServer(message);
             while (awaitResponse) {
                 try {
