@@ -21,6 +21,26 @@ public class Order implements Serializable {
     private Timestamp cancelTime;
     private ArrayList<OrderProduct> productList;
 
+    public Order(int orderId, int customerId, String branch, OrderStatus orderStatus, String greetingCard, float price,
+                 float discountPrice, Timestamp orderDate, Timestamp deliveryDate, String deliveryAddress, String recipientName,
+                 String recipientPhone, Timestamp cancelTime, ArrayList<OrderProduct> productList) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.branch = branch;
+        this.orderStatus = orderStatus;
+        this.greetingCard = greetingCard;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.orderDate = orderDate;
+        this.deliveryDate = deliveryDate;
+        this.deliveryAddress = deliveryAddress;
+        this.recipientName = recipientName;
+        this.recipientPhone = recipientPhone;
+        this.cancelTime = cancelTime;
+        this.productList = productList;
+    }
+
+
     public int getOrderId() {
         return orderId;
     }
