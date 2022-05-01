@@ -11,7 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import order.Order;
-import order.OrderProduct;
 import order.OrderStatus;
 
 import java.net.URL;
@@ -31,7 +30,7 @@ public class OrdersPageController implements Initializable {
     private Button btnViewCart;
 
     @FXML
-    private TableView<OrderProduct> ordersTable;
+    private TableView<Order> ordersTable;
 
     @FXML
     private TableColumn<Order, Integer> orderIdColumn;
@@ -64,13 +63,13 @@ public class OrdersPageController implements Initializable {
         dateTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, Timestamp>("orderDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Order, OrderStatus>("orderStatus"));
 
-//        ArrayList<OrderProduct> result = Client.orderController.getCart();
-//
-//         if (result != null) {
-//            ObservableList<OrderProduct> orders = FXCollections.observableArrayList(result);
-//             ordersTable.setItems(orders);
-//
-//        }
+        ArrayList<Order> result = Client.orderController.requestOrders();
+
+         if (result != null) {
+            ObservableList<Order> orders = FXCollections.observableArrayList(result);
+             ordersTable.setItems(orders);
+
+        }
     }
 
 }

@@ -71,7 +71,8 @@ public class ZerliServer extends AbstractServer {
             case SEND_ORDER_TO_SERVER:
                 messageFromServer =CatalogController.getOrderFromCatalog(messageFromClient);
                 break;
-
+            case REQUEST_ORDERS_TABLE:
+                break;
             default:
                 break;
         }

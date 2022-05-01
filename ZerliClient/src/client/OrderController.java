@@ -1,6 +1,9 @@
 package client;
 
+import communication.Message;
+import communication.MessageFromClient;
 import order.Item;
+import order.Order;
 import order.OrderProduct;
 import order.Product;
 
@@ -33,6 +36,12 @@ public class OrderController {
 
         System.out.println("cart: " + cart.toString());
         return cart;
+    }
+
+    public ArrayList<Order> requestOrders(){
+        Message ordersRequest = new Message(null, MessageFromClient.REQUEST_ORDERS_TABLE);
+        Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
+        return Client.clientController.getClient().getOrders();
     }
 
 
