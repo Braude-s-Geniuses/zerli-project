@@ -12,17 +12,19 @@ public class Product implements Serializable {
     private float productPrice;
     private float discountPrice;
     private ImageView image;
-
+    private boolean customMade;
     private String dominantColor;
 
-    public Product(int productId, String name, float price, float discountPrice, ImageView image, String dominantColor) {
+    public Product(int productId, String name, float productPrice, float discountPrice, ImageView image, boolean customMade, String dominantColor) {
         this.productId = productId;
         this.name = name;
-        this.productPrice = price;
+        this.productPrice = productPrice;
         this.discountPrice = discountPrice;
         this.image = image;
+        this.customMade = customMade;
         this.dominantColor = dominantColor;
     }
+
 
     public int getProductId() {
         return productId;
@@ -72,6 +74,14 @@ public class Product implements Serializable {
         this.items.put(item, quantity);
     }
 
+    public boolean isCustomMade() {
+        return customMade;
+    }
+    public void setCustomMade(boolean customMade) { this.customMade = customMade;
+    }
+    public String customMadeToString(){
+        return customMade == false ? "NO" : "Yes";
+    }
 
     public void setDominantColor(String dominantColor) {
         this.dominantColor = dominantColor;

@@ -1,6 +1,7 @@
 package clientgui;
 
 import client.Client;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,16 +32,19 @@ public class CartPageController implements Initializable {
     private Button btnViewCart;
 
     @FXML
-    private TableColumn<Product, String> nameColumn;
+    private TableColumn<OrderProduct, String> nameColumn;
 
     @FXML
     private TableColumn<OrderProduct, Integer> amountColumn;
 
     @FXML
-    private TableColumn<Product, String> colorColumn;
+    private TableColumn<OrderProduct, String> colorColumn;
 
     @FXML
-    private TableColumn<Product, Integer> priceColumn;
+    private TableColumn<OrderProduct, String> customMadeColumn;
+
+    @FXML
+    private TableColumn<OrderProduct, String> priceColumn;
 
     @FXML
     private TableView<OrderProduct> cartTable;
@@ -53,32 +57,20 @@ public class CartPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<OrderProduct> result = Client.orderController.getCart();
-        ArrayList<Product> products = new ArrayList<>();
-        for (OrderProduct p:  result){
-             products.add(p.getProduct());
-
-        }
+        System.out.println("hii");
         amountColumn.setCellValueFactory(new PropertyValueFactory<OrderProduct, Integer>("quantity"));
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getName()));
+        colorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getDominantColor()));
+        customMadeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().customMadeToString()));
+        priceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getProduct().getProductPrice())));
 
-
-
-        if(result != null) {
-
+        ArrayList<OrderProduct> result = Client.orderController.getCart();
+        System.out.println("result" + result.toString());
+        if (result != null) {
             ObservableList<OrderProduct> itemsInCart = FXCollections.observableArrayList(result);
             cartTable.setItems(itemsInCart);
+
         }
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-
-        colorColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("dominantColor"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("price"));
-
-
-        if(products != null) {
-
-            ObservableList<Product> itemsInCart = FXCollections.observableArrayList(products);
-            cartTable.setItems(itemsInCart);
-        }
-
     }
 }
+

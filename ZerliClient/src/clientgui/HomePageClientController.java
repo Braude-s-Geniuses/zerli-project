@@ -35,7 +35,7 @@ public class HomePageClientController {
     void clickBtnBrowseOrders(ActionEvent event) throws IOException {
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("ViewOrdersTable.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
         Scene scene = new Scene(root);
 
         primaryStage.setTitle("Zerli Client");
@@ -58,16 +58,7 @@ public class HomePageClientController {
         primaryStage.show();
     }
 
-//
-//    public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("HomePageClient.fxml"));
-//
-//        Scene scene = new Scene(root);
-//        primaryStage.setTitle("Zerli Client");
-//        primaryStage.setScene(scene);
-//        primaryStage.setResizable(false);
-//        primaryStage.show();
-//    }
+
 
 
 }
