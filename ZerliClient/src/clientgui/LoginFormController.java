@@ -5,10 +5,10 @@
 package clientgui;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import client.Client;
 import client.LoginClientController;
 import javafx.event.ActionEvent;
@@ -22,10 +22,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import user.User;
+import client.*;
 
 public class LoginFormController {
 
-    private LoginClientController client;
+   private static LoginClientController loginClientController;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -34,24 +35,16 @@ public class LoginFormController {
     private URL location;
 
     @FXML // fx:id="username_textField"
-    private TextField username_textField; // Value injected by FXMLLoader
+    private TextField fldUsername;
 
     @FXML // fx:id="password_textField"
-    private TextField password_textField; // Value injected by FXMLLoader
+    private TextField fldPassword;
 
     @FXML // fx:id="login_Button"
-    private Button login_Button; // Value injected by FXMLLoader
+    private Button login_Button;
 
     @FXML
     private Label error_Lable;
-
-    @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
-        assert username_textField != null : "fx:id=\"username_textField\" was not injected: check your FXML file 'LoginForm.fxml'.";
-        assert password_textField != null : "fx:id=\"password_textField\" was not injected: check your FXML file 'LoginForm.fxml'.";
-        assert login_Button != null : "fx:id=\"login_Button\" was not injected: check your FXML file 'LoginForm.fxml'.";
-        error_Lable.setVisible(false);
-    }
 
     /**
      *  This method is called by pressing login button.
@@ -62,8 +55,10 @@ public class LoginFormController {
      */
 
     public void loginClick (ActionEvent event) throws Exception{
-        User newUser = client.tryToLogin(username_textField.getText(),password_textField.getText());
+        loginClientController = new LoginClientController();
+        User newUser = loginClientController.tryToLogin(fldUsername.getText(), fldPassword.getText());
         error_Lable.setVisible(false);
+        System.out.println(newUser.getUsername());
         switch (newUser.getUserType()){
 
             case UNREGISTERED:
@@ -73,6 +68,7 @@ public class LoginFormController {
                 break;
 
             case CUSTOMER:
+                System.out.println(newUser.getFirstName());
                 startNewScene(event,"Customer");
                 break;
 
@@ -130,4 +126,22 @@ public class LoginFormController {
         }
     }
 
+    /**
+     * This method will open the relevant scene for the client - according the privilege.
+     *
+     * @throws IOException
+     */
+    public void start() throws IOException {
+
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Zerli login");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+        Client.clientController.attachExitEventToStage(primaryStage);
+    }
 }

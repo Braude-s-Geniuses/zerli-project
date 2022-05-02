@@ -29,6 +29,7 @@ public class InputHostnameFormController {
 
     @FXML
     private Label lblErrorMessage;
+    private Stage primaryStage;
 
     /** The method displays the input hostname form gui to the client.
      *
@@ -37,7 +38,7 @@ public class InputHostnameFormController {
      */
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("InputHostnameForm.fxml"));
-
+        this.primaryStage=primaryStage;
         Scene scene = new Scene(root);
         primaryStage.setTitle("Zerli Client");
         primaryStage.setScene(scene);
@@ -52,6 +53,8 @@ public class InputHostnameFormController {
      */
     public void clickBtnConnect(ActionEvent event) throws Exception {
         Border border = new Border(new BorderStroke(Color.INDIANRED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+        LoginFormController login = new LoginFormController();
+
         if (fldHostname.getText().isEmpty()) {
             fldHostname.setBorder(border);
             return;
@@ -63,19 +66,10 @@ public class InputHostnameFormController {
             lblErrorMessage.setVisible(false);
 
             /**
-             * The connection was successful - show browse orders screen.
+             * The connection was successful - show the login screen.
              */
             ((Node) event.getSource()).getScene().getWindow().hide();
-            Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("ViewBasePage.fxml"));
-            Scene scene = new Scene(root);
-
-            primaryStage.setTitle("Zerli Client");
-            primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-
-            Client.clientController.attachExitEventToStage(primaryStage);
+            login.start();
 
         } catch (ConnectException e) {
             fldHostname.setBorder(border);

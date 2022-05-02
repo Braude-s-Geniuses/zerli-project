@@ -1,10 +1,14 @@
 package server;
 
 import communication.Message;
+import communication.MessageFromServer;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import user.User;
 
 import java.io.IOException;
+
+import static communication.MessageFromServer.LOGIN_SUCCEED;
 
 
 /** ZerliClient represents the implementation of <code>OCSF.AbstractServer</code>
@@ -44,11 +48,15 @@ public class ZerliServer extends AbstractServer {
     @Override
     public void handleMessageFromClient(Object message, ConnectionToClient client) {
         Message messageFromClient = (Message) message;
-        Message messageFromServer = null;
+        Message messageFromServer =null;
 
         switch (messageFromClient.getTask()) {
             case DISCONNECT_CLIENT:
                 Server.serverUIController.removeClientFromTable(client);
+                break;
+            case LOGIN_REQUEST:
+                LoginServerController loginController= new LoginServerController();
+                messageFromServer = loginController.tryToLogin((User)messageFromClient.getData());
                 break;
             default:
                 break;

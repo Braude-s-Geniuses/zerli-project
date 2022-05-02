@@ -13,7 +13,7 @@ import static communication.MessageFromClient.LOGIN_REQUEST;
  */
 
 public class LoginClientController {
-    ZerliClient client;
+    private static ZerliClient client;
 
     public LoginClientController(){
         client = Client.clientController.getClient();
@@ -29,11 +29,13 @@ public class LoginClientController {
      * @return user-appropriate permission.
      */
 
-    public User tryToLogin(String username,String password){
+    public User tryToLogin(String username, String password){
+
         User newUser = new User(0,username,password,null,false,null,null,null,null,null);
         Message requestLogin = new Message();
         requestLogin.setTask(LOGIN_REQUEST);
         requestLogin.setData(newUser);
+
         client.handleMessageFromUI(requestLogin,true);
         newUser = client.getUser();
 

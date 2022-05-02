@@ -1,10 +1,14 @@
 package client;
 
 import clientgui.InputHostnameFormController;
+import communication.Message;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import user.User;
+
+import static communication.MessageFromClient.LOGIN_REQUEST;
 
 /** Client represents the main ZerliClient Runnable
  *
@@ -56,4 +60,5 @@ public class Client extends Application {
     public static void initController(String hostname) {
         clientController = new ClientController(hostname);
     }
+
 }

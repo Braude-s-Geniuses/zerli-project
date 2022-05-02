@@ -6,7 +6,7 @@ import java.io.Serializable;
  *  Type of users in the application.
  */
 public enum UserType implements Serializable {
-    UNREGISTERED,
+    UNREGISTERED ,
     CUSTOMER,
     BRANCH_EMPLOYEE,
     BRANCH_MANAGER,
