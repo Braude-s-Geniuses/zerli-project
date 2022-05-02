@@ -109,16 +109,6 @@ public class DatabaseController {
         this.dbPassword = dbPassword;
     }
 
-    public ResultSet getAllOrders(String query){
-        Statement stmt;
-        ResultSet resultSet = null;
-        try {
-            stmt = connection.createStatement();
-            resultSet = stmt.executeQuery(query);
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return resultSet;
-    }
+
 }
 

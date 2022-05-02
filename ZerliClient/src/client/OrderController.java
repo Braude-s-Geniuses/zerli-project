@@ -39,9 +39,8 @@ public class OrderController {
     }
 
     public ArrayList<Order> requestOrders(){
-        Message ordersRequest = new Message(new Order(), MessageFromClient.REQUEST_ORDERS_TABLE);
-        System.out.println("for head of requestOrders");
-
+        Message ordersRequest = new Message(Client.clientController.getClient().getLoggedInUser().getUserId(), MessageFromClient.REQUEST_ORDERS_TABLE);
+        //System.out.println(Client.clientController.getClient().getLoggedInUser());
         Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
 
         return Client.clientController.getClient().getOrders();
