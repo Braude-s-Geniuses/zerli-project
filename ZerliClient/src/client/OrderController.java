@@ -1,13 +1,17 @@
 package client;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import communication.Message;
 import communication.MessageFromClient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import order.Item;
 import order.Order;
 import order.OrderProduct;
 import order.Product;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class OrderController {
 
@@ -15,6 +19,8 @@ public class OrderController {
      * Used to store Products inserted into the cart.
      */
     private ArrayList<OrderProduct> cart ;
+
+    private ArrayList<Order> orders = new ArrayList<>();
 
     public OrderController() {
         this.cart = new ArrayList<>();
@@ -43,10 +49,15 @@ public class OrderController {
         //System.out.println(Client.clientController.getClient().getLoggedInUser());
         Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
 
-        return Client.clientController.getClient().getOrders();
+        return getOrders();
     }
 
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
 
-
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
 
 }

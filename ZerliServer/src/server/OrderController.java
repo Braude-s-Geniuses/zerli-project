@@ -18,9 +18,10 @@ import java.util.List;
 
 public class OrderController {
 
-    Connection connection = DatabaseController.getInstance().getConnection();   //I think this one is null.
+    public static Connection connection = Server.databaseController.getConnection();
+            //DatabaseController.getInstance().getConnection();   //I think this one is null.
 
-    public Message getAllOrdersFromServer(int userId) {
+    public static Message getAllOrdersFromServer(int userId) {
 
         List<Order> orders = new ArrayList<Order>();
         ResultSet resultSet = null;
@@ -57,7 +58,7 @@ public class OrderController {
 
                 orders.add(order);
             }
-            System.out.println(orders);
+            System.out.println("orders form DB " + orders);
              resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,6 +68,5 @@ public class OrderController {
         return new Message(orders, MessageFromServer.IMPORT_ORDERS_TABLE_SUCCEED);
 
     }
-
 
 }

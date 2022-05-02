@@ -1,6 +1,8 @@
 package clientgui;
 
 import client.Client;
+import communication.Message;
+import communication.MessageFromServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,7 +58,8 @@ public class OrdersPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        String s = MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED.toString();
+        System.out.println(s);
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("orderId"));
         branchColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("branch"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Order, Float>("discountPrice"));
