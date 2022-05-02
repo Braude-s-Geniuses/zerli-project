@@ -66,7 +66,7 @@ public class DatabaseController {
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + "?serverTimezone=IST", dbUser, dbPassword);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + "?serverTimezone=Asia/Jerusalem", dbUser, dbPassword);
             result += "\nSQL connection succeed";
 
         } catch (SQLException ex) {/* handle any erroresultSet*/

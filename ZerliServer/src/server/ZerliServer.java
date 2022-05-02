@@ -5,6 +5,7 @@ import communication.MessageFromServer;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import user.User;
+import order.Order;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -72,7 +73,7 @@ public class ZerliServer extends AbstractServer {
                 messageFromServer =CatalogController.getOrderFromCatalog(messageFromClient);
                 break;
             case REQUEST_ORDERS_TABLE:
-                messageFromServer = Server.orderController.getAllOrdersFromServer((int) messageFromClient.getData());
+                messageFromServer = OrderController.getAllOrdersFromServer((int) messageFromClient.getData());
                 break;
             default:
                 break;

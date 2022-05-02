@@ -25,9 +25,6 @@ public class ZerliClient extends AbstractClient {
      */
     private User loggedInUser = null;
 
-    private User loggedInUser = null;
-
-
     /**
      * Used to restore the response from the server to a <code>Message</code> sent by the <code>ZerliClient</code>.
      */
@@ -127,14 +124,6 @@ public class ZerliClient extends AbstractClient {
         } catch (Exception e) {
             quit(false);
         }
-    }
-
-    /** Getter for <code>orders</code>.
-     *
-     * @return <code>orders</code>.
-     */
-    public ArrayList<Order> getOrders() {
-        return orders;
     }
 
     /**

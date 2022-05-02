@@ -25,10 +25,6 @@ public class Server extends Application {
      */
     public static ServerController serverController;
 
-    /** represents the only (static) instance of a Order contrller.
-     *
-     */
-    public static OrderController orderController;
 
     /** represents the only (static) instance of a database contrller.
      *
@@ -61,7 +57,6 @@ public class Server extends Application {
         serverUIController.start(primaryStage);
 
         serverController = new ServerController();
-        orderController = new OrderController();
         /** Once the server window is closed, close the server connection safely.
          *
          */
