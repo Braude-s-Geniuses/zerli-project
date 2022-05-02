@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import user.User;
@@ -38,7 +39,7 @@ public class LoginFormController {
     private TextField fldUsername;
 
     @FXML // fx:id="password_textField"
-    private TextField fldPassword;
+    private PasswordField fldPassword;
 
     @FXML // fx:id="login_Button"
     private Button login_Button;
@@ -57,18 +58,27 @@ public class LoginFormController {
     public void loginClick (ActionEvent event) throws Exception{
         loginClientController = new LoginClientController();
         User newUser = loginClientController.tryToLogin(fldUsername.getText(), fldPassword.getText());
-        error_Lable.setVisible(false);
-        System.out.println(newUser.getUsername());
         switch (newUser.getUserType()){
 
             case UNREGISTERED:
-                error_Lable.setTextFill(javafx.scene.paint.Color.color(255,0,0));
-                error_Lable.setVisible(true);
-                error_Lable.setText("You typed the wrong username or password. try again.");
+                Thread showErrorLableThread = new Thread(){
+                    public void run(){
+                        error_Lable.setTextFill(javafx.scene.paint.Color.color(255,0,0));
+                        error_Lable.setText("You typed the wrong username or password. try again.");
+                        error_Lable.setVisible(true);
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        error_Lable.setVisible(false);
+                    }
+                };
+                showErrorLableThread.start();
+                showErrorLableThread.join();
                 break;
 
             case CUSTOMER:
-                System.out.println(newUser.getFirstName());
                 startNewScene(event,"Customer");
                 break;
 

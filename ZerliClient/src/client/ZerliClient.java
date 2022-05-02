@@ -18,7 +18,9 @@ public class ZerliClient extends AbstractClient {
      * Used to store orders fetched from the server once <code>ClientController.requestOrders()</code> is called.
      */
     private ArrayList<Order> orders = null;
-
+    /**
+     *  Used to store user fetched from the server once <code>loginClientController.tryToLogin()</code> is called.
+     */
     private User loggedInUser = null;
 
     /**
