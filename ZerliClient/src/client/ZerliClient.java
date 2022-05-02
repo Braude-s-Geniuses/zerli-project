@@ -6,6 +6,8 @@ import communication.MessageFromServer;
 import order.Order;
 import ocsf.client.AbstractClient;
 import order.Product;
+import user.User;
+import user.UserType;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,9 @@ public class ZerliClient extends AbstractClient {
      *  Used to store user fetched from the server once <code>loginClientController.tryToLogin()</code> is called.
      */
     private User loggedInUser = null;
+
+    private User loggedInUser = null;
+
 
     /**
      * Used to restore the response from the server to a <code>Message</code> sent by the <code>ZerliClient</code>.
@@ -111,7 +116,6 @@ public class ZerliClient extends AbstractClient {
         try {
             if (await)
                 awaitResponse = true;
-            System.out.println("handleMessageFromUI test");
             sendToServer(message);
             while (awaitResponse) {
                 try {

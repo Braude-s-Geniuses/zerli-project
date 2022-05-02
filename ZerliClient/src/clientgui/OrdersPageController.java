@@ -62,10 +62,8 @@ public class OrdersPageController implements Initializable {
         priceColumn.setCellValueFactory(new PropertyValueFactory<Order, Float>("discountPrice"));
         dateTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, Timestamp>("orderDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Order, OrderStatus>("orderStatus"));
-        System.out.println("test1");
 
         ArrayList<Order> result = Client.orderController.requestOrders();
-        System.out.println(result); //
          if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
              ordersTable.setItems(orders);

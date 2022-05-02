@@ -4,24 +4,41 @@ import com.mysql.cj.xdevapi.Client;
 import communication.Message;
 import communication.MessageFromServer;
 import order.Order;
+import user.User;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 
+
+
+
+
 public class OrderController {
 
-    public Message getAllOrdersFromServer() {
-        System.out.println("test for Order controller");
+    Connection connection = DatabaseController.getInstance().getConnection();   //I think this one is null.
 
-        List<Order> orders = new ArrayList<Order>();                                                                           //TODO change 4
-        ResultSet resultSet = DatabaseController.getInstance().getAllOrders("SELECT * FROM orders WHERE customer_id = 4;");
-        System.out.println("before While orders.");
+    public Message getAllOrdersFromServer(int userId) {
+
+        List<Order> orders = new ArrayList<Order>();
+        ResultSet resultSet = null;
+        System.out.println("userId in  getAllOrdersFromServer "+  userId);
 
         try {
+            System.out.println("test before preparedStatement" );
+
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE `customer_id`=?;");
+            System.out.println("test after preparedStatement" );
+
+            preparedStatement.setInt(1, userId);
+            System.out.println("test before executeQuery" );
+
+            resultSet = preparedStatement.executeQuery();
+            System.out.println("test after executeQuery" );
+
+
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt(1));
@@ -39,8 +56,8 @@ public class OrderController {
                 order.setDeliveryDate(resultSet.getTimestamp(13));
 
                 orders.add(order);
-                System.out.println("result of query:" + orders.toString());
             }
+            System.out.println(orders);
              resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
