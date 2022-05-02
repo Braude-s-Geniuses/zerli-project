@@ -41,7 +41,7 @@ public class Message implements Serializable {
 		this.data = data;
 	}
 	
-	public MessageFromClient getTask() {
+	public MessageFromClient getTask(){
 		return task;
 	}
 	
@@ -59,8 +59,7 @@ public class Message implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Message [data=" + data + ", task=" + task + ", answer=" + answer
-				+ "]";
+		return "Message [data=" + data + ", task=" + task + ", answer=" + answer + "]";
 	}
 	
 }

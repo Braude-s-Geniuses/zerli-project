@@ -47,8 +47,6 @@ public class ClientController {
      *
      * @return <code>client</code>
      */
-    public ZerliClient getClient() {
-        return client;
-    }
+    public ZerliClient getClient() { return client; }
 
 }

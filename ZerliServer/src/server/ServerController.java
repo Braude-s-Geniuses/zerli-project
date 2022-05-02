@@ -10,7 +10,5 @@ public class ServerController {
         server = new ZerliServer(Server.DEFAULT_PORT);
     }
 
-    public static ZerliServer getServer() {
-        return server;
-    }
+    public static ZerliServer getServer() {return server; }
 }

@@ -12,6 +12,8 @@ public enum MessageFromServer implements Serializable {
 
     LOGIN_NOT_SUCCEED,
 
+    LOGIN_NOT_REGISTERED,
+
     LOGIN_SUCCEED,
     UPDATE_SUCCEED
 }
