@@ -36,7 +36,8 @@ public class LoginServerController {
             ResultSet resultSet = stmt.executeQuery(queryToExecute);
             resultSet.next();
               if (resultSet.getString(4) == null) {
-                return new Message(null, MessageFromServer.LOGIN_NOT_REGISTERED);
+                data.setUserType(UserType.UNREGISTERED);
+                return new Message(data, MessageFromServer.LOGIN_NOT_REGISTERED);
            }
             else{
                 data.setUserId(resultSet.getInt(1));
