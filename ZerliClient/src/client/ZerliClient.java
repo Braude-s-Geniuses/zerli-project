@@ -3,9 +3,9 @@ package client;
 import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
-import communication.order.Order;
+import order.Order;
 import ocsf.client.AbstractClient;
-import user.User;
+import order.Product;
 
 import java.util.ArrayList;
 
@@ -91,6 +91,8 @@ public class ZerliClient extends AbstractClient {
             case LOGOUT_NOT_SUCCEED:
                 loggedInUser = null;
                 message = MessageFromServer.LOGOUT_NOT_SUCCEED;
+            case IMPORTED_PRODUCTS_SUCCEED:
+                Client.catalogController.setProducts((ArrayList<Product>) messageFromServer.getData());
                 break;
         }
 

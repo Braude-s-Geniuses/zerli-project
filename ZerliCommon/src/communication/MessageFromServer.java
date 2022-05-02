@@ -16,5 +16,6 @@ public enum MessageFromServer implements Serializable {
     LOGOUT_SUCCEED,
     ALREADY_LOGGED_IN,
     SUCCESSFULLY_DISCONNECTED,
-    UPDATE_SUCCEED
+    UPDATE_SUCCEED,
+    IMPORTED_PRODUCTS_SUCCEED
 }

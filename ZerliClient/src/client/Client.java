@@ -10,22 +10,25 @@ import user.User;
 
 import static communication.MessageFromClient.LOGIN_REQUEST;
 
-/** Client represents the main ZerliClient Runnable
- *
+/**
+ * Client represents the main ZerliClient Runnable
  */
 public class Client extends Application {
 
-    /** represents the only (static) instance of a client.
-     *
+    /**
+     * represents the only (static) instance of a client.
      */
     public static ClientController clientController;
 
-    /** represents the controller instance of the hostname form gui.
-     *
+    public static CatalogController catalogController;
+
+    /**
+     * represents the controller instance of the hostname form gui.
      */
     public InputHostnameFormController inputHostnameFormController;
 
-    /** main method invoked once the Application starts.
+    /**
+     * main method invoked once the Application starts.
      *
      * @param args
      * @throws Exception
@@ -34,10 +37,11 @@ public class Client extends Application {
         launch(args);
     }
 
-    /** Initializes the Hostname Input Form Controller and displays it.
+    /**
+     * Initializes the Hostname Input Form Controller and displays it.
      *
      * @param primaryStage the primary stage for this application, onto which
-     * the application scene can be set.
+     *                     the application scene can be set.
      * @throws Exception
      */
     @Override
@@ -53,12 +57,15 @@ public class Client extends Application {
         });
     }
 
-    /** Initializes the Client Controller once the Client clicks connect with a valid hostname.
+    /**
+     * Initializes the Client Controller once the Client clicks connect with a valid hostname.
      *
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname) {
+
         clientController = new ClientController(hostname);
+        catalogController = new CatalogController();
     }
 
 }

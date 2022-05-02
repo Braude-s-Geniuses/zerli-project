@@ -7,6 +7,7 @@ import ocsf.server.ConnectionToClient;
 import user.User;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static communication.MessageFromServer.LOGIN_SUCCEED;
 
@@ -62,6 +63,11 @@ public class ZerliServer extends AbstractServer {
                 loginController= new LoginServerController();
                 messageFromServer = loginController.tryToLogout((int)messageFromClient.getData());
                 break;
+
+            case GET_PRODUCT:
+                messageFromServer = CatalogController.getProductsFromDataBase();
+                break;
+
             default:
                 break;
         }
@@ -69,7 +75,7 @@ public class ZerliServer extends AbstractServer {
             if(messageFromServer != null)
                 client.sendToClient(messageFromServer);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
