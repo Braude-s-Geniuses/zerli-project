@@ -70,6 +70,16 @@ public class InputHostnameFormController {
              */
             ((Node) event.getSource()).getScene().getWindow().hide();
             loginController.start();
+            Stage primaryStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("BrowseCatalogForm.fxml")); // change here for testing pages
+            Scene scene = new Scene(root);
+
+            primaryStage.setTitle("Zerli Client");
+            primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
+            primaryStage.show();
+
+            Client.clientController.attachExitEventToStage(primaryStage);
 
         } catch (ConnectException e) {
             fldHostname.setBorder(border);

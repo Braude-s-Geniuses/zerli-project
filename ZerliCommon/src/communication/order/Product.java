@@ -1,21 +1,23 @@
 package communication.order;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class Product implements Serializable {
     private int productId;
-    private int itemId;
-    private int quantity;
+    private String name;
     private float price;
     private float discountPrice;
-    private ImageView image;
+    private Image image;
 
-    public Product(int productId, int itemId, int quantity, float price, float discountPrice, ImageView image) {
+
+    public Product (){}
+    public Product(int productId, String name, float price, float discountPrice, Image image) {
         this.productId = productId;
-        this.itemId = itemId;
-        this.quantity = quantity;
+        this.name = name;
         this.price = price;
         this.discountPrice = discountPrice;
         this.image = image;
@@ -29,20 +31,12 @@ public class Product implements Serializable {
         this.productId = productId;
     }
 
-    public int getItemId() {
-        return itemId;
+    public String getName() {
+        return name;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getPrice() {
@@ -61,11 +55,11 @@ public class Product implements Serializable {
         this.discountPrice = discountPrice;
     }
 
-    public ImageView getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(ImageView image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
@@ -73,8 +67,7 @@ public class Product implements Serializable {
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", itemId=" + itemId +
-                ", quantity=" + quantity +
+                ", name=" + name +
                 ", price=" + price +
                 ", discountPrice=" + discountPrice +
                 ", image=" + image +

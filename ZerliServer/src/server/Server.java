@@ -13,6 +13,8 @@ import java.io.IOException;
  */
 public class Server extends Application {
 
+
+
     /** Represents the instance of the server gui controller.
      *
      */
