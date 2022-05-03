@@ -11,18 +11,20 @@ public class CatalogController {
     public ArrayList<Product> list = new ArrayList<>();
 
 
-    public void getProducts(){
+    public void getProducts() {
 
 
-        Client.clientController.getClient().handleMessageFromUI(new Message(null, MessageFromClient.GET_PRODUCT),true);
+        Client.clientController.getClient().handleMessageFromUI(new Message(null, MessageFromClient.GET_PRODUCT), true);
 
     }
 
-    public void setProducts(ArrayList<Product> list ) {
+    public void setProducts(ArrayList<Product> list) {
+
         this.list = list;
+
     }
 
-    public ArrayList<Product> getList(){
+    public ArrayList<Product> getList() {
         return list;
     }
 
