@@ -7,14 +7,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import order.Order;
 import order.OrderStatus;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -54,6 +60,19 @@ public class OrdersPageController implements Initializable {
 
     @FXML
     void clickBtnBrowseOrders(ActionEvent event) {
+    }
+
+    @FXML       //Omer
+    void clickBtnViewCart(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Zerli Client");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
     @Override
