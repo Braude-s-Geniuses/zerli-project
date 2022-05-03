@@ -7,11 +7,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="120.0" prefWidth="330.0" style="-fx-background-color: white;" stylesheets="@../Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.InputHostnameFormController">
+<AnchorPane prefHeight="120.0" prefWidth="330.0" style="-fx-background-color: white;" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.InputHostnameFormController">
    <children>
       <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="240.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../logo.png" />
+            <Image url="@/logo.png" />
          </image>
       </ImageView>
       <TextField fx:id="fldHostname" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="220.0" promptText="Hostname" text="localhost">

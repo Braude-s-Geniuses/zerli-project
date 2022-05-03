@@ -31,7 +31,6 @@ public class ClientInfo {
 
     @Override
     public String toString() {
-        return "ClientInfo [ipAddress=" + ipAddress + ", hostname=" + hostname + ", status=" + status
-                + "]";
+        return "ClientInfo [ipAddress=" + ipAddress + ", hostname=" + hostname + ", status=" + status+ "]";
     }
 }

@@ -34,8 +34,7 @@ public class LoginServerController {
             stmt = con.createStatement();
             String queryToExecute = "select * FROM zerlinew.user where username= \"" + data.getUsername() + "\" AND password= \"" + data.getPassword() + "\";";
             ResultSet resultSet = stmt.executeQuery(queryToExecute);
-            resultSet.next();
-              if (resultSet.getString(4) == null) {
+            if(!resultSet.next()){
                 data.setUserType(UserType.UNREGISTERED);
                 return new Message(data, MessageFromServer.LOGIN_NOT_REGISTERED);
            }
