@@ -21,13 +21,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import user.User;
 import client.*;
+import user.UserType;
+
+import javax.swing.*;
 
 public class LoginFormController {
 
    private static LoginClientController loginClientController;
+   Border border;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -44,8 +50,20 @@ public class LoginFormController {
     @FXML // fx:id="login_Button"
     private Button login_Button;
 
-    @FXML
-    private Label error_Lable;
+    @FXML // fx:id="error_Lab"
+    private Label error_Lab;
+
+    @FXML // fx:id="back_Button"
+    private Button back_Button;
+
+    /**
+     * need to update
+     * @param event
+     */
+    public void backClick(ActionEvent event){
+        //broseCatalogPage.start();
+    }
+
 
     /**
      *  This method is called by pressing login button.
@@ -55,27 +73,25 @@ public class LoginFormController {
      * @throws Exception , In case of a problem with connectivity with the Server.
      */
 
-    public void loginClick (ActionEvent event) throws Exception{
+        public void loginClick (ActionEvent event) throws Exception{
+        border = new Border(new BorderStroke(Color.INDIANRED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
         loginClientController = new LoginClientController();
+
+        if(fldUsername.getText().isEmpty() || fldPassword.getText().isEmpty()){
+            showErrorMessage();
+            return;
+        }
+
         User newUser = loginClientController.tryToLogin(fldUsername.getText(), fldPassword.getText());
-        switch (newUser.getUserType()){
+            moveToUserSceneByUserType(event, newUser.getUserType());
+        }
+
+
+    private void moveToUserSceneByUserType(ActionEvent event, UserType userType) throws Exception {
+        switch (userType){
 
             case UNREGISTERED:
-                Thread showErrorLableThread = new Thread(){
-                    public void run(){
-                        error_Lable.setTextFill(javafx.scene.paint.Color.color(255,0,0));
-                        error_Lable.setText("You typed the wrong username or password. try again.");
-                        error_Lable.setVisible(true);
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        error_Lable.setVisible(false);
-                    }
-                };
-                showErrorLableThread.start();
-                showErrorLableThread.join();
+                showErrorMessage();
                 break;
 
             case CUSTOMER:
@@ -104,9 +120,8 @@ public class LoginFormController {
 
             case CEO:
                 startNewScene(event,"CEO");
-                  break;
+                break;
         }
-
     }
 
     /**
@@ -127,14 +142,15 @@ public class LoginFormController {
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();
-
             Client.clientController.attachExitEventToStage(primaryStage);
         }catch(ConnectException e){
-            error_Lable.setTextFill(javafx.scene.paint.Color.color(255,0,0));
-            error_Lable.setVisible(true);
-            error_Lable.setText("There is a temporary problem with the server. Please try again later.");
+            error_Lab.setTextFill(javafx.scene.paint.Color.color(255,0,0));
+            error_Lab.setVisible(true);
+            error_Lab.setText("There is a temporary problem with the server. Please try again later.");
         }
     }
+
+
 
     /**
      * This method will open the relevant scene for the client - according the privilege.
@@ -154,4 +170,11 @@ public class LoginFormController {
 
         Client.clientController.attachExitEventToStage(primaryStage);
     }
+    private void showErrorMessage() {
+        fldUsername.setBorder(border);
+        fldPassword.setBorder(border);
+        error_Lab.setText("You typed the wrong username or password. Please try again.");
+        error_Lab.setVisible(true);
+    }
+
 }

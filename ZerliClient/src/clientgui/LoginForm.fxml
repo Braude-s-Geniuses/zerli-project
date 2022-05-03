@@ -46,17 +46,17 @@
         </Pane>
         <Pane layoutX="272.0" layoutY="69.0" prefHeight="663.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
          <children>
-            <PasswordField fx:id="fldPassword" layoutX="440.0" layoutY="312.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Password" text="marom">
+            <PasswordField fx:id="fldPassword" layoutX="440.0" layoutY="312.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Password" text="asd">
                <font>
                   <Font size="18.0" />
                </font>
             </PasswordField>
-            <TextField fx:id="fldUsername" layoutX="439.0" layoutY="247.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Username" text="marom">
+            <TextField fx:id="fldUsername" layoutX="439.0" layoutY="247.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Username" text="asd">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Button fx:id="login_Button" layoutX="379.0" layoutY="463.0" mnemonicParsing="false" onAction="#loginClick" prefHeight="35.0" prefWidth="200.0" styleClass="btn" text="Login">
+            <Button fx:id="login_Button" layoutX="504.0" layoutY="470.0" mnemonicParsing="false" onAction="#loginClick" prefHeight="35.0" prefWidth="200.0" styleClass="btn" text="Login">
                <font>
                   <Font size="24.0" />
                </font>
@@ -85,6 +85,15 @@
                   <Font name="Calibri Bold" size="60.0" />
                </font>
             </Label>
+            <Label fx:id="error_Lab" layoutX="276.0" layoutY="534.0" textFill="RED" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="15.0" />
+               </font></Label>
+            <Button fx:id="back_Button" layoutX="281.0" layoutY="470.0" mnemonicParsing="false" onAction="#backClick" prefHeight="35.0" prefWidth="200.0" styleClass="btn" text="Back">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Button>
          </children></Pane>
     </children>
 </AnchorPane>
