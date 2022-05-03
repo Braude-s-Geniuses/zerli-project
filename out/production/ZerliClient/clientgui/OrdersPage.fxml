@@ -62,12 +62,12 @@
                     <columns>
                         <TableColumn fx:id="orderIdColumn" prefWidth="192.99996948242188" text="Order ID" />
                         <TableColumn fx:id="branchColumn" prefWidth="131.0" text="Branch" />
-                        <TableColumn fx:id="priceColumn" prefWidth="283.0" text="Order Date &amp; TIme" />
-                        <TableColumn fx:id="dateTimeColumn" prefWidth="170.0" text="Price" />
-                  <TableColumn fx:id="statusColumn" prefWidth="150.0" text="Status" />
+                        <TableColumn fx:id="dateTimeColumn" prefWidth="283.0" text="Order Date &amp; TIme" />
+                        <TableColumn fx:id="priceColumn" prefWidth="96.7999267578125" text="Price" />
+                  <TableColumn fx:id="statusColumn" prefWidth="224.0" text="Status" />
                     </columns>
                 </TableView>
-            <Button fx:id="btsShowOrderDetails" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="443.0" layoutY="608.0" mnemonicParsing="false" onAction="#clickBtnBrowseOrders" prefWidth="200.0" styleClass="sidenav-button" text="Show Details" textAlignment="JUSTIFY" textFill="#77385a">
+            <Button fx:id="btsShowOrderDetails" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="443.0" layoutY="608.0" mnemonicParsing="false" onAction="#clickBtnBrowseOrders" prefWidth="200.0" styleClass="btn" text="Show Details" textAlignment="JUSTIFY" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="18.0" />
                </font>

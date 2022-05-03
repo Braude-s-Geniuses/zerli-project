@@ -15,11 +15,14 @@ public class Order implements Serializable {
     private float discountPrice;
     private Timestamp orderDate;
     private Timestamp deliveryDate;
+    private Timestamp actualDeliveryDate; //TODO TEll Itshak to change in DB
     private String deliveryAddress;
     private String recipientName;
     private String recipientPhone;
     private Timestamp cancelTime;
     private ArrayList<OrderProduct> productList;
+
+
 
     public Order(){}
 
@@ -83,14 +86,6 @@ public class Order implements Serializable {
         this.greetingCard = greetingCard;
     }
 
-//    public boolean isCustomMade() {
-//        return customMade;
-//    }
-//
-//    public void setCustomMade(boolean customMade) {
-//        this.customMade = customMade;
-//    }
-
     public float getPrice() {
         return price;
     }
@@ -119,6 +114,14 @@ public class Order implements Serializable {
 
     public void setDeliveryDate(Timestamp deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public Timestamp getActualDeliveryDate() {
+        return actualDeliveryDate;
+    }
+
+    public void setActualDeliveryDate(Timestamp actualDeliveryDate) {
+        this.actualDeliveryDate = actualDeliveryDate;
     }
 
     public String getDeliveryAddress() {

@@ -11,15 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-
-
 public class OrderController {
 
     public static Connection connection = Server.databaseController.getConnection();
-            //DatabaseController.getInstance().getConnection();   //I think this one is null.
+
 
     public static Message getAllOrdersFromServer(int userId) {
 
@@ -42,19 +37,19 @@ public class OrderController {
 
             while (resultSet.next()) {
                 Order order = new Order();
-                order.setOrderId(resultSet.getInt(1));
-                order.setCustomerId(resultSet.getInt(2));
-                order.setBranch(resultSet.getString(3));
-                order.setOrderStatus(resultSet.getString(4));
-                order.setGreetingCard(resultSet.getString(5));
-                order.setPrice(resultSet.getFloat(6));
-                order.setDiscountPrice(resultSet.getFloat(7));
-                order.setOrderDate(resultSet.getTimestamp(8));
-                order.setDeliveryDate(resultSet.getTimestamp(9));
-                order.setDeliveryAddress(resultSet.getString(10));
-                order.setRecipientName(resultSet.getString(11));
-                order.setRecipientPhone(resultSet.getString(12));
-                order.setDeliveryDate(resultSet.getTimestamp(13));
+                order.setOrderId(resultSet.getInt("order_id"));
+                order.setCustomerId(resultSet.getInt("customer_id"));
+                order.setBranch(resultSet.getString("branch"));
+                order.setOrderStatus(resultSet.getString("order_status"));
+                order.setGreetingCard(resultSet.getString("greeting_card"));
+                order.setPrice(resultSet.getFloat("price"));
+                order.setDiscountPrice(resultSet.getFloat("discount_price"));
+                order.setOrderDate(resultSet.getTimestamp("order_date"));
+                order.setDeliveryDate(resultSet.getTimestamp("delivery_date"));
+                order.setDeliveryAddress(resultSet.getString("delivery_address"));
+                order.setRecipientName(resultSet.getString("recipient_name"));
+                order.setRecipientPhone(resultSet.getString("recipient_phone"));
+                order.setCancelTime(resultSet.getTimestamp("cancel_time"));
 
                 orders.add(order);
             }
