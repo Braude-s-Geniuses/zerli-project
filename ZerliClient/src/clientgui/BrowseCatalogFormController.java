@@ -4,6 +4,8 @@ import client.Client;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -34,14 +36,17 @@ public class BrowseCatalogFormController implements Initializable {
     @FXML
     private ListView<Object> listView;
 
-    ObservableList<Product> productList = FXCollections.observableArrayList();
+    @FXML
+     private Button loginBtn;
+
+
     ObservableList<String> quantityPicker =
-            FXCollections.observableArrayList("1", "2", "3","4","5","6","7","8","9","10");
+            FXCollections.observableArrayList("1", "2", "3","4","5","6","7","8","9","10");//will be replaced with quantity from database product
     ObservableList<String> colorPicker =
-            FXCollections.observableArrayList("Red","Pink","White");
+            FXCollections.observableArrayList("Red","Pink","White");//will be replaced with color from database product
 
 
-    Image image = new Image("flower.png");
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,44 +55,43 @@ public class BrowseCatalogFormController implements Initializable {
 
         ArrayList<Product> arrivedList = Client.catalogController.getList();
 
-//        for (int i = 0; i < 20; i++) {
-//            productList.add(new Product(i, "hello",i , i, image));
-//        }
 
-//        for (int i = 0; i < productList.size(); i++) {
-//
-//            Label label = new Label("Very beautiful Rose " + i , new ImageView(productList.get(i).getImage()));
-//            label.setFont(new Font(22));
-//            Button addBtn = new Button("Add to cart");
-//            addBtn.getStyleClass().add("btn");
-//            ComboBox comboBoxQuantity = new ComboBox(quantityPicker);
-//            ComboBox comboBoxColor = new ComboBox(colorPicker);
-//            comboBoxQuantity.getSelectionModel().selectFirst();
-//            comboBoxColor.getSelectionModel().selectFirst();
-//            HBox h = new HBox( label, addBtn,comboBoxQuantity,comboBoxColor);
-//            h.setSpacing(120.0);
-//            h.setAlignment(Pos.CENTER_LEFT);
-//            listView.getItems().addAll(h);
-//        }
+        for(int i=0 ; i< arrivedList.size() ; i++) {
+            Image image = new Image(arrivedList.get(i).getImage());
+            Label label = new Label(arrivedList.get(i).getName() , new ImageView(image));
+            label.setFont(new Font(16));
+            Button addBtn = new Button("Add to cart");
+            addBtn.getStyleClass().add("btn");
 
+            addBtn.setOnAction(new EventHandler() {
 
-        Label label = new Label(arrivedList.get(0).getName(), new ImageView(arrivedList.get(0).getImage()));
-        label.setFont(new Font(22));
-        Button addBtn = new Button("Add to cart");
-        addBtn.getStyleClass().add("btn");
-        ComboBox comboBoxQuantity = new ComboBox(quantityPicker);
-        ComboBox comboBoxColor = new ComboBox(colorPicker);
-        comboBoxQuantity.getSelectionModel().selectFirst();
-        comboBoxColor.getSelectionModel().selectFirst();
-        HBox h = new HBox( label, addBtn,comboBoxQuantity,comboBoxColor);
-        h.setSpacing(120.0);
-        h.setAlignment(Pos.CENTER_LEFT);
-        listView.getItems().addAll(h);
+                @Override
+                public void handle(Event event) {
+                    //here i will send the description of order (which item,quantity and color with price)
+                    System.out.println("Hi there! You clicked me!");
+                }
 
+            });
+
+            ComboBox comboBoxQuantity = new ComboBox(quantityPicker);
+            ComboBox comboBoxColor = new ComboBox(colorPicker);
+            comboBoxQuantity.getSelectionModel().selectFirst();
+            comboBoxColor.getSelectionModel().selectFirst();
+            HBox h = new HBox(label,new Label("Price: " +arrivedList.get(i).getPrice() + "₪"), addBtn, comboBoxQuantity, comboBoxColor);
+            h.setSpacing(70.0);
+            h.setAlignment(Pos.CENTER_LEFT);
+            listView.getItems().addAll(h);
+        }
 
     }
 
 
     public void clickLoginBtn(ActionEvent actionEvent) {
+
     }
+
+    public void clickAddBtn(ActionEvent actionEvent){
+
+    }
+
 }

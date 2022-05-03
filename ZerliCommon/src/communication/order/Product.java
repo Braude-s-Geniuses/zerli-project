@@ -1,21 +1,21 @@
 package communication.order;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class Product implements Serializable {
     private int productId;
     private String name;
     private float price;
     private float discountPrice;
-    private Image image;
+    private String image;
 
 
-    public Product (){}
-    public Product(int productId, String name, float price, float discountPrice, Image image) {
+    public Product() {
+    }
+
+    public Product(int productId, String name, float price, float discountPrice, String image) {
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -55,11 +55,11 @@ public class Product implements Serializable {
         this.discountPrice = discountPrice;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
