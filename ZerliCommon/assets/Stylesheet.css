@@ -12,6 +12,11 @@
 	-fx-background-color: linear-gradient(#e4d7de, #e0acca);
 }
 
+.sidenav-button-active {
+    -fx-background-color: #77385a;
+    -fx-text-fill: #ffffff;
+}
+
 .topnav-button {
 	-fx-background-radius: 0;
 	-fx-background-color: transparent;		

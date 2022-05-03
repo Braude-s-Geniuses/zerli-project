@@ -1,29 +1,28 @@
 package clientgui;
 
 import client.Client;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ComboBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.DefaultStringConverter;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;;
+import order.Order;
 import order.OrderProduct;
+import javafx.scene.control.ListView;
 import order.Product;
 
 import java.io.IOException;
@@ -42,7 +41,12 @@ public class CartPageController implements Initializable {
 
     @FXML
     private Button btnViewCart;
-
+    @FXML
+    private Button btnCheckOut;
+    ObservableList<String> quantityPicker =
+            FXCollections.observableArrayList("1", "2", "3","4","5","6","7","8","9","10");
+    @FXML
+    private ListView<Object> cartAsListView;
     @FXML
     private TableColumn<OrderProduct, String> nameColumn;
 
@@ -74,22 +78,60 @@ public class CartPageController implements Initializable {
         primaryStage.show();
 
     }
+    @FXML
+    void clickBtnBrowseCatalog(ActionEvent event) {
+
+    }
+    @FXML
+    void clickBtnCheckOut(ActionEvent event) {
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        amountColumn.setCellValueFactory(new PropertyValueFactory<OrderProduct, Integer>("quantity"));
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getName()));
-        colorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().getDominantColor()));
-        customMadeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProduct().customMadeToString()));
-        priceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getProduct().getProductPrice())));
+        btnViewCart.getStyleClass().add("sidenav-button-active");
 
-        ArrayList<OrderProduct> result = Client.orderController.getCart();
+        ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
+        for (OrderProduct op : arrivedList) {
+            Label NameLabel = new Label(op.getProduct().getName(), null);
+            Label colorLabel = new Label(op.getProduct().getDominantColor(), null);
+            Label customMadeLabel = new Label(op.getProduct().customMadeToString(), null);
+           // Label priceLabel = new Label(String.valueOf(op.getProduct().getProductPrice()), null);
+            Label priceLabel = new Label(op.getProduct().priceToString(), null);
 
-        if (result != null) {
-            ObservableList<OrderProduct> itemsInCart = FXCollections.observableArrayList(result);
+            Image img = new Image("/../ZerliCommon/images.png");
+            ImageView view = new ImageView(img);
+            view.setFitHeight(80);
+            view.setPreserveRatio(true);
+            NameLabel.setGraphic(view);
 
-            cartTable.setItems(itemsInCart);
+            NameLabel.setFont(new Font(18));
+            NameLabel.setPrefWidth(100);
+            NameLabel.setAlignment(Pos.BASELINE_CENTER);
+            NameLabel.setStyle("-fx-text-fill: #77385a");
+            colorLabel.setFont(new Font(18));
+            colorLabel.setPrefWidth(100);
+            colorLabel.setAlignment(Pos.BASELINE_CENTER);
+            colorLabel.setStyle("-fx-text-fill: #77385a");
+            customMadeLabel.setFont(new Font(18));
+            customMadeLabel.setPrefWidth(100);
+            customMadeLabel.setAlignment(Pos.BASELINE_CENTER);
+            customMadeLabel.setStyle("-fx-text-fill: #77385a");
+            priceLabel.setFont(new Font(18));
+            priceLabel.setPrefWidth(100);
+            priceLabel.setAlignment(Pos.BASELINE_CENTER);
+            priceLabel.setStyle("-fx-text-fill: #77385a");
 
+            ComboBox comboBoxQuantity = new ComboBox(quantityPicker);
+            comboBoxQuantity.getSelectionModel().selectFirst();
+            comboBoxQuantity.setBackground(Background.EMPTY);
+            HBox h = new HBox( 110,NameLabel,colorLabel, comboBoxQuantity, customMadeLabel, priceLabel);
+            //h.setPrefWidth(987);
+            HBox.setHgrow(NameLabel, Priority.max(Priority.ALWAYS, Priority.ALWAYS));
+            h.setAlignment(Pos.BASELINE_CENTER);
+            cartAsListView.getItems().addAll(h);
         }
+
     }
 
 
