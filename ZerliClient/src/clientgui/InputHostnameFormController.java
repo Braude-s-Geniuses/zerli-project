@@ -53,7 +53,7 @@ public class InputHostnameFormController {
      */
     public void clickBtnConnect(ActionEvent event) throws Exception {
         Border border = new Border(new BorderStroke(Color.INDIANRED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-        LoginFormController login = new LoginFormController();
+        LoginFormController loginController = new LoginFormController();
 
         if (fldHostname.getText().isEmpty()) {
             fldHostname.setBorder(border);
@@ -69,7 +69,7 @@ public class InputHostnameFormController {
              * The connection was successful - show the login screen.
              */
             ((Node) event.getSource()).getScene().getWindow().hide();
-            login.start();
+            loginController.start();
 
         } catch (ConnectException e) {
             fldHostname.setBorder(border);
