@@ -50,14 +50,14 @@
                 </Label>
             </children>
         </Pane>
-      <Pane layoutX="261.0" layoutY="64.0" prefHeight="673.0" prefWidth="1009.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
+      <Pane layoutX="262.0" layoutY="64.0" prefHeight="673.0" prefWidth="1009.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
          <children>
             <Label alignment="CENTER" layoutX="4.0" prefHeight="75.0" prefWidth="1009.0" text="My Cart" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="64.0" />
                </font>
             </Label>
-            <ListView fx:id="cartAsListView" editable="true" layoutX="10.0" layoutY="111.0" prefHeight="511.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" />
+            <ListView fx:id="cartAsListView" editable="true" layoutX="10.0" layoutY="111.0" prefHeight="458.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" />
             <Label layoutX="50.0" layoutY="79.0" text="Product Name" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="18.0" />
@@ -88,7 +88,17 @@
                   <Font name="Calibri" size="18.0" />
                </font>
             </Button>
+            <Label fx:id="totalLabel" layoutX="19.0" layoutY="586.0" prefHeight="37.0" prefWidth="182.0" text="Total: " textFill="#77385a">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
+      <Label layoutX="60.0" layoutY="89.0" text="Product Name" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

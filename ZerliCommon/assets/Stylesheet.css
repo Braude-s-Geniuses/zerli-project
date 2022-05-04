@@ -39,6 +39,13 @@
 	
 }
 
+.order-btn {
+    -fx-background-color: transparent;
+}
+
+
+
+
 .table-column {
   -fx-alignment: CENTER;
 }
