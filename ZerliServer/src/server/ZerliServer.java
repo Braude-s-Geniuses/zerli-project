@@ -49,8 +49,10 @@ public class ZerliServer extends AbstractServer {
      */
     @Override
     public void handleMessageFromClient(Object message, ConnectionToClient client) {
+        System.out.println("handle message server test 1");
         Message messageFromClient = (Message) message;
-        Message messageFromServer =null;
+        Message messageFromServer = null;
+
 
         switch (messageFromClient.getTask()) {
             case DISCONNECT_CLIENT:
@@ -75,6 +77,8 @@ public class ZerliServer extends AbstractServer {
             case REQUEST_ORDERS_TABLE:
                 messageFromServer = OrderController.getAllOrdersFromServer((int) messageFromClient.getData());
                 break;
+            case REQUEST_BRANCHES:
+                messageFromServer = OrderController.getAllBranches();
             default:
                 break;
         }

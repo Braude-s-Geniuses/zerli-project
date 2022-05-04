@@ -83,7 +83,7 @@ public class Product implements Serializable {
     public void setCustomMade(boolean customMade) { this.customMade = customMade;
     }
     public String customMadeToString(){
-        return customMade == false ? "No" : "Yes";
+        return customMade == false ? "Premade" : "Custom Made";
     }
 
     public void setDominantColor(String dominantColor) {

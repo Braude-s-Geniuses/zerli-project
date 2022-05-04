@@ -14,14 +14,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class OrderController {
-
+    public final float DELIVERY_PRICE = 20;
     /**
      * Used to store Products inserted into the cart.
      */
     private ArrayList<OrderProduct> cart ;
-
-    private ArrayList<Order> orders = new ArrayList<>();
-
+    private  Message response;
+    private Order currentOrder;
     public OrderController() {
         this.cart = new ArrayList<>();
     }
@@ -31,7 +30,7 @@ public class OrderController {
     }
 
     public ArrayList<OrderProduct> getCart() {
-        Product product1 = new Product(1,"Rose Flower" ,20, 0, null, true,"red");
+        Product product1 = new Product(1,"Rose Flower for Itzhak Efraimov" ,20, 0, null, true,"red");
         Product product2 = new Product(2,"Flower" ,25, 0, null, false,"pink");
         product1.addFlowersToProduct(new Item(1, "Rose", "flower","red",10) ,2);
         product2.addFlowersToProduct(new Item(2, "Flower", "flower","pink",10) ,2);
@@ -40,33 +39,31 @@ public class OrderController {
         cart.add(new OrderProduct(product1,2));
         cart.add(new OrderProduct(product2,5));
 
-        System.out.println("cart: " + cart.toString());
+
         return cart;
     }
 
-    public ArrayList<Order> requestOrders(){
-        Message ordersRequest = new Message(Client.clientController.getClient().getLoggedInUser().getUserId(), MessageFromClient.REQUEST_ORDERS_TABLE);
-        //System.out.println(Client.clientController.getClient().getLoggedInUser());
+    public void requestOrders(){
+     //   Message ordersRequest = new Message(Client.clientController.getClient().getLoggedInUser().getUserId(), MessageFromClient.REQUEST_ORDERS_TABLE);
+        Message ordersRequest = new Message(1, MessageFromClient.REQUEST_ORDERS_TABLE);
         Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
-
-        return getOrders();
+    }
+    public void getBranches() {
+        Message msg = new Message(null, MessageFromClient.REQUEST_BRANCHES);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
-    public void setOrders(ArrayList<Order> orders) {
-        this.orders = orders;
-    }
-
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
+    public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
+    public Order getCurrentOrder() { return currentOrder; }
 
     public void setCart(ArrayList<OrderProduct> newCart){ this.cart = newCart; };
 
-    public boolean changeAmountOfProduct(String productName, int newAmount){
+    public Message getResponse() {return response;}
 
-        System.out.println("change " + productName +" Amount to "+ newAmount);
+    public void setResponse(Message response) {this.response = response; }
+
+    public boolean changeAmountOfProduct(String productName, int newAmount){
         for (OrderProduct op : cart){
-            System.out.println("test for each");
             if (op.getProduct().getName().equals(productName)){
                 if (newAmount == 0){
                     cart.remove(op);
@@ -79,5 +76,13 @@ public class OrderController {
         }
         return cart.isEmpty();
     }
+    public float sumOfCart(){
+        float total = 0;
+        for (OrderProduct op : cart){
+            total += op.getProduct().getProductPrice() * op.getQuantity();
+        }
+        return total;
+    }
+
 
 }

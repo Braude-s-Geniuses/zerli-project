@@ -77,15 +77,15 @@ public class OrdersPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String s = MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED.toString();
-        System.out.println(s);
+        btnBrowseOrders.getStyleClass().add("sidenav-button-active");
+
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("orderId"));
         branchColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("branch"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<Order, Float>("discountPrice"));
         dateTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, Timestamp>("orderDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Order, OrderStatus>("orderStatus"));
-
-        ArrayList<Order> result = Client.orderController.requestOrders();
+        Client.orderController.requestOrders();
+        ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getResponse().getData();
          if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
              ordersTable.setItems(orders);

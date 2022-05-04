@@ -16,6 +16,7 @@ public class OrderController {
     public static Connection connection = Server.databaseController.getConnection();
 
 
+
     public static Message getAllOrdersFromServer(int userId) {
 
         List<Order> orders = new ArrayList<Order>();
@@ -64,4 +65,21 @@ public class OrderController {
 
     }
 
-}
+    public static Message getAllBranches() {
+            ArrayList<String> branches = new ArrayList<>();
+            Statement stmt;
+            try {
+                stmt = connection.createStatement();
+                System.out.println("before execute");
+                ResultSet resultSet = stmt.executeQuery("SELECT branch FROM branch;");
+                System.out.println("after execute");
+                while (resultSet.next()) {
+                    branches.add(resultSet.getString("branch"));
+                }
+            } catch (SQLException e) {
+               e.printStackTrace();
+                return new Message(null, MessageFromServer.IMPORT_BRANCHES_NOT_SUCCEDD);
+            }
+            return new Message(branches, MessageFromServer.IMPORT_BRANCHES_SUCCEDD);
+        }
+    }
