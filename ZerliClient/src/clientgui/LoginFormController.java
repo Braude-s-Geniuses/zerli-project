@@ -4,7 +4,6 @@
 
 package clientgui;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
@@ -25,14 +24,21 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import user.User;
-import client.*;
 import user.UserType;
-
-import javax.swing.*;
 
 public class LoginFormController {
 
    private static LoginClientController loginClientController;
+      // private static CustomerController customerControllerController; omer and gal
+     //private static BranchControllerController branchControllerController; haim
+    //private static BranchManagerController branchManagerController;
+    private static ServiceEmployeeController serviceEmployeeController;
+    private static ExpertServiceEmployeeController expertServiceEmployeeController;
+    //private static CEOController ceoController;
+
+    private static DeliveryOperatorController deliveryOperatorController;
+
+
    Border border;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -94,33 +100,82 @@ public class LoginFormController {
                 showErrorMessage();
                 break;
 
-            case CUSTOMER:
-                startNewScene(event,"Customer");
-                break;
-
-            case BRANCH_EMPLOYEE:
-                startNewScene(event,"BranchEmployee");
-                break;
-
-            case BRANCH_MANAGER:
-                startNewScene(event,"BranchManager");
-                break;
+//            case CUSTOMER:
+//                //customerControllerController= new CustomerControllerController();
+//                try {
+//                    //customerControllerController.startNewScene(event, "Customer");
+//                }catch(ConnectException e) {
+//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+//                    error_Lab.setVisible(true);
+//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+//                }
+//                break;
+//
+//            case BRANCH_EMPLOYEE:
+//                branchControllerController= new BranchControllerController();
+//                try {
+//                    branchControllerController.startNewScene(event, "BranchEmployee");
+//                }catch(ConnectException e) {
+//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+//                    error_Lab.setVisible(true);
+//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+//                }
+//                break;
+//
+//            case BRANCH_MANAGER:
+//                branchManagerController= new BranchManagerController();
+//                try {
+//                    branchManagerController.startNewScene(event, "BranchManager");
+//                }catch(ConnectException e) {
+//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+//                    error_Lab.setVisible(true);
+//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+//                }
+//                break;
 
             case SERVICE_EMPLOYEE:
-                startNewScene(event,"ServiceEmployee");
+                serviceEmployeeController= new ServiceEmployeeController();
+                try {
+                    serviceEmployeeController.startNewScene(event, "ServiceEmployee");
+                }catch(ConnectException e) {
+                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+                    error_Lab.setVisible(true);
+                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+                }
                 break;
 
             case EXPERT_SERVICE_EMPLOYEE:
-                startNewScene(event,"ExpertServiceEmployee");
+                expertServiceEmployeeController= new ExpertServiceEmployeeController();
+                try {
+                    expertServiceEmployeeController.startNewScene(event, "ExpertServiceEmployee");
+                }catch(ConnectException e) {
+                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+                    error_Lab.setVisible(true);
+                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+                }
                 break;
 
             case DELIVERY_OPERATOR:
-                startNewScene(event,"DeliveryOperator");
+                deliveryOperatorController= new DeliveryOperatorController();
+                try {
+                    deliveryOperatorController.startNewScene(event, "DeliveryOperator");
+                }catch(ConnectException e){
+            error_Lab.setTextFill(javafx.scene.paint.Color.color(255,0,0));
+            error_Lab.setVisible(true);
+            error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+        }
                 break;
 
-            case CEO:
-                startNewScene(event,"CEO");
-                break;
+//            case CEO:
+//                ceoController= new CeoController();
+//                try {
+//                    ceoController.startNewScene(event, "CEO");
+//                }catch(ConnectException e) {
+//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+//                    error_Lab.setVisible(true);
+//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+//                }
+//                break;
         }
     }
 
@@ -131,24 +186,24 @@ public class LoginFormController {
      * @param userType getting the user type of the client.
      * @throws Exception In case of a problem with connectivity with the Server.
      */
-    public void startNewScene(ActionEvent event,String userType) throws Exception{
-        try {
-            ((Node) event.getSource()).getScene().getWindow().hide();
-            Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource(userType + ".fxml"));
-            Scene scene = new Scene(root);
-
-            primaryStage.setTitle("Zerli Menu");
-            primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-            Client.clientController.attachExitEventToStage(primaryStage);
-        }catch(ConnectException e){
-            error_Lab.setTextFill(javafx.scene.paint.Color.color(255,0,0));
-            error_Lab.setVisible(true);
-            error_Lab.setText("There is a temporary problem with the server. Please try again later.");
-        }
-    }
+//    public void startNewScene(ActionEvent event,String userType) throws Exception{
+//        try {
+//            ((Node) event.getSource()).getScene().getWindow().hide();
+//            Stage primaryStage = new Stage();
+//            Parent root = FXMLLoader.load(getClass().getResource(userType+"HomePage.fxml"));
+//            Scene scene = new Scene(root);
+//
+//            primaryStage.setTitle("Zerli Menu");
+//            primaryStage.setScene(scene);
+//            primaryStage.setResizable(false);
+//            primaryStage.show();
+//            Client.clientController.attachExitEventToStage(primaryStage);
+//        }catch(ConnectException e){
+//            error_Lab.setTextFill(javafx.scene.paint.Color.color(255,0,0));
+//            error_Lab.setVisible(true);
+//            error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+//        }
+//    }
 
 
 

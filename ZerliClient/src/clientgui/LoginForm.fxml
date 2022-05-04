@@ -46,12 +46,12 @@
         </Pane>
         <Pane layoutX="272.0" layoutY="69.0" prefHeight="663.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
          <children>
-            <PasswordField fx:id="fldPassword" layoutX="440.0" layoutY="312.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Password" text="asd">
+            <PasswordField fx:id="fldPassword" layoutX="440.0" layoutY="312.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Password" text="wolt">
                <font>
                   <Font size="18.0" />
                </font>
             </PasswordField>
-            <TextField fx:id="fldUsername" layoutX="439.0" layoutY="247.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Username" text="asd">
+            <TextField fx:id="fldUsername" layoutX="439.0" layoutY="247.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter Username" text="wolt">
                <font>
                   <Font size="18.0" />
                </font>
