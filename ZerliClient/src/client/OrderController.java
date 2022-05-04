@@ -60,4 +60,24 @@ public class OrderController {
         return orders;
     }
 
+    public void setCart(ArrayList<OrderProduct> newCart){ this.cart = newCart; };
+
+    public boolean changeAmountOfProduct(String productName, int newAmount){
+
+        System.out.println("change " + productName +" Amount to "+ newAmount);
+        for (OrderProduct op : cart){
+            System.out.println("test for each");
+            if (op.getProduct().getName().equals(productName)){
+                if (newAmount == 0){
+                    cart.remove(op);
+                    return cart.isEmpty();
+                }
+                else {
+                    op.setQuantity(newAmount);
+                }
+            }
+        }
+        return cart.isEmpty();
+    }
+
 }

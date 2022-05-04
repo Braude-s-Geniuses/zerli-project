@@ -2,6 +2,7 @@ package clientgui;
 
 import client.Client;
 
+import client.OrderController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,7 +47,7 @@ public class CartPageController implements Initializable {
     private Button btnCheckOut;
 
     ObservableList<String> quantityPicker =
-            FXCollections.observableArrayList("1", "2", "3","4","5","6","7","8","9","10");
+            FXCollections.observableArrayList("0", "1", "2", "3","4","5","6","7","8","9","10");
 
 
     @FXML
@@ -101,6 +102,8 @@ public class CartPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+       //if( Client.orderController.getCart().size() == 0 )  {btnCheckOut.setDisable(true);};
+
         btnViewCart.getStyleClass().add("sidenav-button-active");
 
         ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
@@ -135,14 +138,9 @@ public class CartPageController implements Initializable {
             priceLabel.setAlignment(Pos.BASELINE_CENTER);
             priceLabel.setStyle("-fx-text-fill: #77385a");
             ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
-            //comboBoxQuantity.getSelectionModel().select(quantityPicker.get(op.getQuantity()));
-            //comboBoxQuantity.getSelectionModel().getSelectedIndex();
-            //comboBoxQuantity.setPromptText("3");
-            //comboBoxQuantity.getSelectionModel().select("3");
-            //comboBoxQuantity.setPromptText(comboBoxQuantity.getConverter().toString(comboBoxQuantity.getValue()));
             comboBoxQuantity.setValue(quantityPicker.get(3).toString());
             comboBoxQuantity.setOnAction(handler);
-            comboBoxQuantity.getSelectionModel().selectFirst();
+            comboBoxQuantity.getSelectionModel().select(op.getQuantity());
             comboBoxQuantity.setBackground(Background.EMPTY);
             HBox h = new HBox( 110,NameLabel,colorLabel, comboBoxQuantity, customMadeLabel, priceLabel);
             //h.setPrefWidth(987);
@@ -159,7 +157,21 @@ public class CartPageController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                ComboBox comboBox = (ComboBox)event.getSource();
-                System.out.println("test for handler" + comboBoxQuantityArray.indexOf(comboBox));
+               int rownumber = comboBoxQuantityArray.indexOf(comboBox);     //Get row number.
+                //System.out.println("test for handler" + rownumber);
+                cartAsListView.getSelectionModel().select(rownumber);   //mark row
+                HBox h = (HBox) cartAsListView.getSelectionModel().getSelectedItem();   //get Hbox
+                Label l = (Label) h.getChildren().get(0);       //Get name column
+                String productName = l.getText();               //Get product name
+                String  i = (String) comboBox.getValue();       //get comboBox value.
+                int newAmount = Integer.parseInt(i);
+                System.out.println( "amount" + newAmount);
+                if(newAmount == 0){
+                    cartAsListView.getItems().remove(h);    //TODO if cart is empty
+                }
+                if (Client.orderController.changeAmountOfProduct(productName, newAmount)){
+                    btnCheckOut.setDisable(true);
+                }
 
             }
         };
