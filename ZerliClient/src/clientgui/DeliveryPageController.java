@@ -154,7 +154,7 @@ public class DeliveryPageController implements Initializable {
         primaryStage.show();
     }
     @FXML
-    void clickBtnProceed(ActionEvent event) {
+    void clickBtnProceed(ActionEvent event) throws IOException {
             if(validateInput()){
                 Client.orderController.getCurrentOrder().setBranch(cbBranch.getSelectionModel().getSelectedItem());
                 if(btnRadioDelivery.isSelected()) {
@@ -165,8 +165,17 @@ public class DeliveryPageController implements Initializable {
                     Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart());
                 }
                 Timestamp timestamp = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
-                Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);
-                System.out.println(Client.orderController.getCurrentOrder());
+                Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);    //setDeliveryDate need to be change? omer
+                //System.out.println(Client.orderController.getCurrentOrder());
+                ((Node) event.getSource()).getScene().getWindow().hide();
+                Stage primaryStage = new Stage();
+                Parent root = FXMLLoader.load(getClass().getResource("RecipientPage.fxml"));
+                Scene scene = new Scene(root);
+
+                primaryStage.setTitle("Zerli Client");
+                primaryStage.setScene(scene);
+                primaryStage.setResizable(false);
+                primaryStage.show();
             }
 
     }

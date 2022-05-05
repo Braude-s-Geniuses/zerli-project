@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.DeliveryPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.DeliveryPageController">
     <children>
         <VBox layoutX="50.0" prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #e4d7de; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
             <children>
@@ -95,7 +95,7 @@
                </font>
             </Label>
             <DatePicker fx:id="datePicker" layoutX="212.0" layoutY="496.0" />
-            <ComboBox fx:id="cbTime" layoutX="212.0" layoutY="542.0" prefHeight="27.0" prefWidth="84.0" promptText="Time" />
+            <ComboBox fx:id="cbTime" layoutX="212.0" layoutY="542.0" prefHeight="27.0" prefWidth="92.0" promptText="Time" />
             <Label layoutX="17.0" layoutY="200.0" prefHeight="37.0" prefWidth="137.0" text="Select Branch: " textFill="#77385a">
                <font>
                   <Font name="Calibri" size="20.0" />
@@ -111,7 +111,7 @@
                <font>
                   <Font name="Calibri" size="14.0" />
                </font></RadioButton>
-            <RadioButton fx:id="btnRadioDelivery" layoutX="350.0" layoutY="273.0" mnemonicParsing="false" onAction="#clickBtnRadioDelivery" prefHeight="17.0" prefWidth="74.0" text="Delivery" textFill="#77385a">
+            <RadioButton fx:id="btnRadioDelivery" layoutX="350.0" layoutY="273.0" mnemonicParsing="false" onAction="#clickBtnRadioDelivery" prefHeight="20.0" prefWidth="92.0" text="Delivery" textFill="#77385a">
                <font>
                   <Font size="14.0" />
                </font></RadioButton>
