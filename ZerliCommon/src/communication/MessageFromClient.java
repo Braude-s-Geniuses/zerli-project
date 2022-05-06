@@ -9,5 +9,6 @@ public enum MessageFromClient implements Serializable {
     DISCONNECT_CLIENT,
     LOGIN_REQUEST,
     LOGOUT_REQUEST,
-    GET_PRODUCT
+    GET_PRODUCT,
+    SEND_ORDER_TO_SERVER
 }

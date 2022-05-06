@@ -3,6 +3,7 @@ package communication.order;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class Product implements Serializable {
     private int productId;
@@ -10,17 +11,24 @@ public class Product implements Serializable {
     private float price;
     private float discountPrice;
     private String image;
+    private HashMap<Item,Integer> items = new HashMap<>();
+    private boolean customMade;
+    private String dominantColor;
+
 
 
     public Product() {
     }
 
-    public Product(int productId, String name, float price, float discountPrice, String image) {
+    public Product(int productId, String name, float price, float discountPrice, String image,HashMap<Item,Integer> items, boolean customMade,String dominantColor) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.discountPrice = discountPrice;
         this.image = image;
+        this.items = items;
+        this.customMade = customMade;
+        this.dominantColor = dominantColor;
     }
 
     public int getProductId() {
@@ -63,6 +71,30 @@ public class Product implements Serializable {
         this.image = image;
     }
 
+    public HashMap<Item, Integer> getItems() {
+        return items;
+    }
+
+    public void setItems(HashMap<Item, Integer> items) {
+        this.items = items;
+    }
+
+    public String getDominantColor() {
+        return dominantColor;
+    }
+
+    public void setDominantColor(String dominantColor) {
+        this.dominantColor = dominantColor;
+    }
+
+    public boolean getCustomMade(){
+        return customMade;
+    }
+
+    public void setCustomMade(boolean customMade) {
+        this.customMade = customMade;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -71,6 +103,9 @@ public class Product implements Serializable {
                 ", price=" + price +
                 ", discountPrice=" + discountPrice +
                 ", image=" + image +
+                ", items=" + items +
+                ", dominantColor=" + dominantColor +
+                ", customMade=" + customMade +
                 '}';
     }
 }
