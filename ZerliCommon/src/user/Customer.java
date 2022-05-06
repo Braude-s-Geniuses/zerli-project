@@ -5,7 +5,7 @@ public class Customer extends User {
     private String creditCard;
     private String expDate;
     private String cvv;
-    private float balance;
+    private float balance = 0;
 
     public Customer(int userId, String username, String password, UserType userType, boolean loggedIn, String firstName, String lastName, String id, String email, String phone) {
         super(userId, username, password, userType, loggedIn, firstName, lastName, id, email, phone);
@@ -51,4 +51,14 @@ public class Customer extends User {
         this.balance = balance;
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "blocked=" + blocked +
+                ", creditCard='" + creditCard + '\'' +
+                ", expDate='" + expDate + '\'' +
+                ", cvv='" + cvv + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }

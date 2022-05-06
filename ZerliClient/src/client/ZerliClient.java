@@ -6,6 +6,7 @@ import communication.MessageFromServer;
 import order.Order;
 import ocsf.client.AbstractClient;
 import order.Product;
+import user.Customer;
 import user.User;
 import user.UserType;
 

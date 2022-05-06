@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.CartPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.CartPageController">
     <children>
         <VBox layoutX="50.0" prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #e4d7de; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
             <children>
@@ -88,7 +88,7 @@
                   <Font name="Calibri" size="18.0" />
                </font>
             </Button>
-            <Label fx:id="totalLabel" layoutX="19.0" layoutY="586.0" prefHeight="37.0" prefWidth="182.0" text="Total: " textFill="#77385a">
+            <Label fx:id="totalLabel" layoutX="19.0" layoutY="586.0" prefHeight="45.0" prefWidth="263.0" text="Total: " textFill="#77385a">
                <font>
                   <Font size="30.0" />
                </font>

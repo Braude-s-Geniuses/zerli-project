@@ -206,7 +206,6 @@ public class DeliveryPageController implements Initializable {
             lblDateTimeError.setVisible(true);
             invalidFields++;
         }
-
         return  invalidFields == 0 ? true: false;
     }
     @FXML
