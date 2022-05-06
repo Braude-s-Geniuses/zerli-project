@@ -26,17 +26,20 @@ import javafx.stage.Stage;
 import user.User;
 import user.UserType;
 
+import static user.UserType.BRANCH_EMPLOYEE;
+
 public class LoginFormController {
 
    private static LoginClientController loginClientController;
       // private static CustomerController customerControllerController; omer and gal
-     //private static BranchControllerController branchControllerController; haim
-    //private static BranchManagerController branchManagerController;
+     private static BranchEmployeeHomePageController branchEmployeeHomePageController;
+    private static BranchManagerHomePageController branchManagerController;
     private static ServiceEmployeeController serviceEmployeeController;
     private static ExpertServiceEmployeeController expertServiceEmployeeController;
-    //private static CEOController ceoController;
+    private static CEOHomePageController ceoController;
 
     private static DeliveryOperatorController deliveryOperatorController;
+
 
 
    Border border;
@@ -89,7 +92,7 @@ public class LoginFormController {
         }
 
         User newUser = loginClientController.tryToLogin(fldUsername.getText(), fldPassword.getText());
-            moveToUserSceneByUserType(event, newUser.getUserType());
+        moveToUserSceneByUserType(event, newUser.getUserType());
         }
 
 
@@ -100,38 +103,38 @@ public class LoginFormController {
                 showErrorMessage();
                 break;
 
-//            case CUSTOMER:
-//                //customerControllerController= new CustomerControllerController();
-//                try {
-//                    //customerControllerController.startNewScene(event, "Customer");
-//                }catch(ConnectException e) {
-//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
-//                    error_Lab.setVisible(true);
-//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
-//                }
-//                break;
-//
-//            case BRANCH_EMPLOYEE:
-//                branchControllerController= new BranchControllerController();
-//                try {
-//                    branchControllerController.startNewScene(event, "BranchEmployee");
-//                }catch(ConnectException e) {
-//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
-//                    error_Lab.setVisible(true);
-//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
-//                }
-//                break;
-//
-//            case BRANCH_MANAGER:
-//                branchManagerController= new BranchManagerController();
-//                try {
-//                    branchManagerController.startNewScene(event, "BranchManager");
-//                }catch(ConnectException e) {
-//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
-//                    error_Lab.setVisible(true);
-//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
-//                }
-//                break;
+            case CUSTOMER:
+                //customerControllerController= new CustomerControllerController();
+                //try {
+                   // customerControllerController.startNewScene(event, "Customer");
+               // }catch(ConnectException e) {
+                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+                    error_Lab.setVisible(true);
+                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+                //}
+                break;
+
+            case BRANCH_EMPLOYEE:
+                branchEmployeeHomePageController= new BranchEmployeeHomePageController();
+                try {
+                    branchEmployeeHomePageController.startNewScene(event, "BranchEmployee");
+                }catch(ConnectException e) {
+                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+                    error_Lab.setVisible(true);
+                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+                }
+                break;
+
+            case BRANCH_MANAGER:
+                branchManagerController= new BranchManagerHomePageController();
+                try {
+                    branchManagerController.startNewScene(event, "BranchManager");
+                }catch(ConnectException e) {
+                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+                    error_Lab.setVisible(true);
+                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+                }
+                break;
 
             case SERVICE_EMPLOYEE:
                 serviceEmployeeController= new ServiceEmployeeController();
@@ -166,16 +169,16 @@ public class LoginFormController {
         }
                 break;
 
-//            case CEO:
-//                ceoController= new CeoController();
-//                try {
-//                    ceoController.startNewScene(event, "CEO");
-//                }catch(ConnectException e) {
-//                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
-//                    error_Lab.setVisible(true);
-//                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
-//                }
-//                break;
+            case CEO:
+                ceoController= new CEOHomePageController();
+                try {
+                    ceoController.startNewScene(event, "CEO");
+                }catch(ConnectException e) {
+                    error_Lab.setTextFill(javafx.scene.paint.Color.color(255, 0, 0));
+                    error_Lab.setVisible(true);
+                    error_Lab.setText("There is a temporary problem with the server. Please try again later.");
+                }
+                break;
         }
     }
 

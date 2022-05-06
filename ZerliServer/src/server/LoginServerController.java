@@ -32,7 +32,7 @@ public class LoginServerController {
         Statement stmt;
         try {
             stmt = con.createStatement();
-            String queryToExecute = "select * FROM zerlinew.user where username= \"" + data.getUsername() + "\" AND password= \"" + data.getPassword() + "\";";
+            String queryToExecute = "select * FROM zerli.user where username= \"" + data.getUsername() + "\" AND password= \"" + data.getPassword() + "\";";
             ResultSet resultSet = stmt.executeQuery(queryToExecute);
             if(!resultSet.next()){
                 data.setUserType(UserType.UNREGISTERED);
