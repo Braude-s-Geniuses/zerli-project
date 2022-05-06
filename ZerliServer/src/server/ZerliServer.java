@@ -68,6 +68,10 @@ public class ZerliServer extends AbstractServer {
                 messageFromServer = CatalogController.getProductsFromDataBase();
                 break;
 
+            case SEND_ORDER_TO_SERVER:
+                messageFromServer =CatalogController.getOrderFromCatalog(messageFromClient);
+                break;
+
             default:
                 break;
         }
