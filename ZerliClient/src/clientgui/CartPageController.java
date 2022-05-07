@@ -30,92 +30,41 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CartPageController implements Initializable {
-
+    ObservableList<String> quantityPicker = FXCollections.observableArrayList("0", "1", "2", "3","4","5","6","7","8","9","10");
     @FXML
     private Button btnBrowseCatalog;
-
     @FXML
     private Button btnBrowseOrders;
-
     @FXML
     private Button btnViewCart;
-
     @FXML
     private Button btnCheckOut;
     @FXML
     private Label totalLabel;
-    ObservableList<String> quantityPicker =
-            FXCollections.observableArrayList("0", "1", "2", "3","4","5","6","7","8","9","10");
     @FXML
     private ListView<Object> cartAsListView;
-
-    @FXML
-    private TableColumn<OrderProduct, String> nameColumn;
-
-    @FXML
-    private TableColumn<OrderProduct, Integer> amountColumn;
-
-    @FXML
-    private TableColumn<OrderProduct, String> colorColumn;
-
-    @FXML
-    private TableColumn<OrderProduct, String> customMadeColumn;
-
-    @FXML
-    private TableColumn<OrderProduct, String> priceColumn;
-
-    @FXML
-    private TableView<OrderProduct> cartTable;
-
     private ArrayList<ComboBox> comboBoxQuantityArray = new ArrayList<>();
-
-    EventHandler<ActionEvent> handler;
-
-
-    @FXML
-    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-    }
-    @FXML
-    void clickBtnBrowseCatalog(ActionEvent event) {
-
-    }
-    @FXML
-    void clickBtnCheckOut(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("DeliveryPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
+    private EventHandler<ActionEvent> handler;
 
 
-
-
+    /**
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnViewCart.getStyleClass().add("sidenav-button-active");
         ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
         initHandler();
         for (OrderProduct op : arrivedList) {
-            Label nameLabel = new Label(op.getProduct().getName(), null);
-            Label colorLabel = new Label(op.getProduct().getDominantColor(), null);
-            Label customMadeLabel = new Label(op.getProduct().customMadeToString(), null);
-            // Label priceLabel = new Label(String.valueOf(op.getProduct().getProductPrice()), null);
-            Label priceLabel = new Label(op.getProduct().priceToString(), null);
+            Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
+            Label priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString() , null);
 
             Image img = new Image("/../ZerliCommon/images.png");
             ImageView view = new ImageView(img);
@@ -124,58 +73,94 @@ public class CartPageController implements Initializable {
             nameLabel.setGraphic(view);
 
             nameLabel.setFont(new Font(18));
-            nameLabel.setPrefWidth(100);
-            nameLabel.setAlignment(Pos.BASELINE_CENTER);
+            nameLabel.setAlignment(Pos.CENTER_LEFT);
             nameLabel.setStyle("-fx-text-fill: #77385a");
-            colorLabel.setFont(new Font(18));
-            colorLabel.setPrefWidth(100);
-            colorLabel.setAlignment(Pos.BASELINE_CENTER);
-            colorLabel.setStyle("-fx-text-fill: #77385a");
-            customMadeLabel.setFont(new Font(18));
-            customMadeLabel.setPrefWidth(100);
-            customMadeLabel.setAlignment(Pos.BASELINE_CENTER);
-            customMadeLabel.setStyle("-fx-text-fill: #77385a");
+            nameLabel.setPrefWidth(300);
+            nameLabel.setWrapText(true);
+
             priceLabel.setFont(new Font(18));
             priceLabel.setPrefWidth(100);
-            priceLabel.setAlignment(Pos.BASELINE_CENTER);
+            priceLabel.setAlignment(Pos.CENTER);
             priceLabel.setStyle("-fx-text-fill: #77385a");
+
             ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
-            comboBoxQuantity.setValue(quantityPicker.get(3).toString());
             comboBoxQuantity.setOnAction(handler);
             comboBoxQuantity.getSelectionModel().select(op.getQuantity());
             comboBoxQuantity.setBackground(Background.EMPTY);
-            HBox h = new HBox( 110, nameLabel,colorLabel, comboBoxQuantity, customMadeLabel, priceLabel);
-            //h.setPrefWidth(987);
+
+            HBox h = new HBox( 60, nameLabel, comboBoxQuantity, priceLabel);
             HBox.setHgrow(nameLabel, Priority.max(Priority.ALWAYS, Priority.ALWAYS));
-            h.setAlignment(Pos.BASELINE_CENTER);
+            h.setAlignment(Pos.CENTER);
             cartAsListView.getItems().addAll(h);
             comboBoxQuantityArray.add(comboBoxQuantity);
+
         }
         totalLabel.setText(totalLabel.getText() + " " + Client.orderController.sumOfCart() + " \u20AA");
+
     }
 
-
+    /**
+     *change the amount of product in cart
+     */
     public void initHandler(){
          handler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                ComboBox comboBox = (ComboBox)event.getSource();
-               int rowNumber = comboBoxQuantityArray.indexOf(comboBox);     //Get row number.
-                cartAsListView.getSelectionModel().select(rowNumber);   //mark row
-                HBox h = (HBox) cartAsListView.getSelectionModel().getSelectedItem();   //get Hbox
-                Label l = (Label) h.getChildren().get(0);       //Get name column
-                String productName = l.getText();               //Get product name
-                String  i = (String) comboBox.getValue();       //get comboBox value.
+               int rowNumber = comboBoxQuantityArray.indexOf(comboBox);
+                cartAsListView.getSelectionModel().select(rowNumber);
+                HBox h = (HBox) cartAsListView.getSelectionModel().getSelectedItem();
+                Label l = (Label) h.getChildren().get(0);
+                String productName = l.getText();
+                String  i = (String) comboBox.getValue();
                 int newAmount = Integer.parseInt(i);
                 if(newAmount == 0){
-                    cartAsListView.getItems().remove(h);    //TODO if cart is empty
+                    cartAsListView.getItems().remove(h);
                 }
-                if (Client.orderController.changeAmountOfProduct(productName, newAmount)){
+                if (Client.orderController.changeAmountOfProduct(productName, newAmount)){//if cart is empty
                     btnCheckOut.setDisable(true);
                 }
 
             }
         };
+    }
+
+    /**
+     * view order list
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Zerli Client");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+    @FXML
+    void clickBtnBrowseCatalog(ActionEvent event) {
+
+    }
+
+    /**
+     * starting place order process, passing into delivery page
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnCheckOut(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("DeliveryPage.fxml"));
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Zerli Client");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 }
 

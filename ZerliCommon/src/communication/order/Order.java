@@ -77,7 +77,9 @@ public class Order implements Serializable {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = OrderStatus.valueOf(orderStatus);
     }
-
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
     public String getGreetingCard() {
         return greetingCard;
     }

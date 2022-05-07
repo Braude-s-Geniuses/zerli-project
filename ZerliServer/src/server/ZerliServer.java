@@ -79,6 +79,10 @@ public class ZerliServer extends AbstractServer {
                 break;
             case REQUEST_BRANCHES:
                 messageFromServer = OrderController.getAllBranches();
+                break;
+            case ADD_NEW_ORDER:
+                System.out.println("handle message in server test 2");
+                messageFromServer = OrderController.AddNewOrder((Order) messageFromClient.getData());
             default:
                 break;
         }

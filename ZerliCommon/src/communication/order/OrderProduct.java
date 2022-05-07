@@ -6,6 +6,7 @@ public class OrderProduct implements Serializable {
     private Product product;
     private int quantity;
 
+    public OrderProduct(){}
     public OrderProduct(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
