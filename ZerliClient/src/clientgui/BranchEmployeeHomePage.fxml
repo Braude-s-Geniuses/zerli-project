@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.BranchEmployeeHomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.BranchEmployeeHomePageController">
     <children>
         <VBox layoutX="50.0" prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #e4d7de; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
             <children>
@@ -38,7 +38,7 @@
                     </font>
                 </Button>
                 <Pane prefHeight="410.0" prefWidth="200.0" />
-                <Button fx:id="Logout" alignment="BASELINE_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#LogoutUser" prefWidth="200.0" styleClass="sidenav-button" text="Logout" textAlignment="JUSTIFY" textFill="#77385a">
+                <Button fx:id="Logout" alignment="BASELINE_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#LogoutUser" prefHeight="10.0" prefWidth="200.0" styleClass="sidenav-button" text="Logout" textAlignment="JUSTIFY" textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="18.0" />
                     </font>
