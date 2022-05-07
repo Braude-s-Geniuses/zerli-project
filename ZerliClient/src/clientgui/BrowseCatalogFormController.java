@@ -2,6 +2,7 @@ package clientgui;
 
 import client.Client;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -14,9 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import order.Product;
@@ -32,12 +31,22 @@ public class BrowseCatalogFormController implements Initializable {
     @FXML
     private ScrollPane sPane;
 
+    @FXML
+    private AnchorPane baseAnchor;
     ObservableList<String> quantityPicker =
             FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        new Thread(() -> {
+            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), baseAnchor);
+            fadeTransition.setFromValue(0.0);
+            fadeTransition.setToValue(1.0);
+            fadeTransition.setCycleCount(1);
+            fadeTransition.play();
+        }).start();
 
         Client.catalogController.getProducts();
 
@@ -55,6 +64,7 @@ public class BrowseCatalogFormController implements Initializable {
      * @return product tile that is created from data fetched from Data Base
      */
     private Node createProductTile(Product product) {
+
 
         HBox hBox = new HBox();
         VBox vBox = new VBox();
@@ -74,6 +84,7 @@ public class BrowseCatalogFormController implements Initializable {
         if (product.getImage() != null)
             iv.setImage(new Image(product.getImage()));
 
+
         if (product.getDiscountPrice() != 0) {
             priceLabel.setStrikethrough(true);
             float onlyPriceDiscount = (product.getPrice() * (100 - product.getDiscountPrice())) / 100;
@@ -89,6 +100,7 @@ public class BrowseCatalogFormController implements Initializable {
         vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn);
         hBox.getChildren().addAll(iv, vBox);
         vBox.setSpacing(15);
+        iv.setTranslateY(50);
         hBox.setPadding(new Insets(50, 30, 50, 70));
         vBox.setPadding(new Insets(50, 30, 50, 25));
 
