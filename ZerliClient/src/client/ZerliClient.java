@@ -80,6 +80,18 @@ public class ZerliClient extends AbstractClient {
                 loggedInUser = (User)messageFromServer.getData();
                 message = MessageFromServer.LOGIN_NOT_REGISTERED;
                 break;
+            case ALREADY_LOGGED_IN:
+                loggedInUser = (User)messageFromServer.getData();
+                message = MessageFromServer.ALREADY_LOGGED_IN;
+                break;
+            case LOGOUT_SUCCEED:
+                loggedInUser = null;
+                message = MessageFromServer.LOGOUT_SUCCEED;
+                break;
+            case LOGOUT_NOT_SUCCEED:
+                loggedInUser = null;
+                message = MessageFromServer.LOGOUT_NOT_SUCCEED;
+                break;
         }
 
     }

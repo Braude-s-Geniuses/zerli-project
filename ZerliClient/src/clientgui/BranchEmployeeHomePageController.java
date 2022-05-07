@@ -38,10 +38,10 @@ public class BranchEmployeeHomePageController {
     @FXML // fx:id="roleLabel"
     private Label roleLabel; // Value injected by FXMLLoader
 
-    public void startNewScene(ActionEvent event, String userType) throws Exception{
+    public void startNewScene(ActionEvent event) throws Exception{
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource(userType+"HomePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("BranchEmployeeHomePage.fxml"));
         Scene scene = new Scene(root);
 
         primaryStage.setTitle("Zerli Branch Employee menu");
@@ -66,16 +66,10 @@ public class BranchEmployeeHomePageController {
 
     }
 
-    @FXML
-    void LogoutUser(ActionEvent event) {
+    public void LogoutUser (ActionEvent event) throws Exception {
         LoginFormController loginController = new LoginFormController();
+        loginController.logoutClick(event,Client.clientController.getClient().getUser());
         ((Node) event.getSource()).getScene().getWindow().hide();
-        try {
-            loginController.start();
-        }
-        catch(IOException e)
-        {
-        }
-
+        loginController.start();
     }
 }
