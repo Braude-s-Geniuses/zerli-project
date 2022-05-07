@@ -29,6 +29,7 @@
         <Pane layoutX="253.0" prefHeight="50.0" prefWidth="1027.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
             <children>
                 <Button fx:id="loginBtn" layoutX="882.0" layoutY="8.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickLoginBtn" prefHeight="29.0" prefWidth="129.0" styleClass="btn" text="Login" />
+            <Button fx:id="cartBtn" layoutX="793.0" layoutY="8.0" minWidth="50.0" mnemonicParsing="false" onAction="#clickCartBtn" />
             </children></Pane>
         <Pane layoutX="252.0" layoutY="750.0" prefHeight="50.0" prefWidth="1027.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
             <children>
