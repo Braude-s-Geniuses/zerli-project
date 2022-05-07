@@ -1,6 +1,7 @@
 package clientgui;
 
 import client.Client;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import order.Order;
 import order.OrderStatus;
 import user.Customer;
 
@@ -23,44 +25,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static java.lang.Thread.sleep;
+
 public class PaymentPageController implements Initializable {
     private float total;
     @FXML
     private TextField CardField1;
-
     @FXML
     private TextField CardField2;
-
     @FXML
     private TextField CardField3;
-
     @FXML
     private TextField CardField4;
-
     @FXML
     private CheckBox btnUseAnotherCreditCard;
-
     @FXML
     private Button btnBack;
-
     @FXML
     private Button btnBrowseCatalog;
-
     @FXML
     private Button btnBrowseOrders;
-
     @FXML
     private Button btnPayment;
-
     @FXML
     private Button btnPlaceOrder;
-
     @FXML
     private CheckBox btnSavedCreditCard;
-
     @FXML
     private CheckBox btnUseBalance;
-
     @FXML
     private Button btnViewCart;
 
@@ -114,6 +106,66 @@ public class PaymentPageController implements Initializable {
     private ProgressBar progressBar;
 
     private Customer customer;
+
+
+    /**
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        customer = (Customer) Client.clientController.getClient().getLoggedInUser();
+
+        List<String> monthList = new ArrayList<String>();       //Set value of months.
+        for (int i = 1; i <= 12; i++) {
+            if (i<10){
+                monthList.add("0" + String.valueOf(i));
+            }else {
+                monthList.add(String.valueOf(i));
+            }
+        }
+        ObservableList<String> months = FXCollections.observableArrayList(monthList);
+        comboBoxMonth.getItems().addAll(months);
+
+        List<String> yearList = new ArrayList<String>();       //Set value of years.
+        for (int i = 2022; i <= 2035; i++) {
+            yearList.add(String.valueOf(i));
+        }
+        ObservableList<String> years = FXCollections.observableArrayList(yearList);
+        comboBoxYear.getItems().addAll(years);
+
+        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
+
+
+
+        if(customer.getCreditCard() == null){         //How to get a costomer.
+            btnSavedCreditCard.setDisable(true);
+        }
+        else{
+            btnSavedCreditCard.setText(btnSavedCreditCard.getText() + "  (***" + customer.getCreditCard().substring(15) + ")");
+        }
+        if(customer.getBalance() == 0){
+            btnUseBalance.setDisable(true);     //what if there is a bit of balance?
+        }
+        else{
+            btnUseBalance.setText(btnUseBalance.getText() + "  (" + customer.getBalance() + " \u20AA" + ")");
+        }
+        if (customer.getCreditCard() == null && customer.getBalance() == 0){
+            btnUseAnotherCreditCard.setSelected(true);
+            btnUseAnotherCreditCard.setDisable(true);
+        }
+    }
+
+    /**
+     * Enables the customer to use his credit card
+     * @param event
+     */
     @FXML
     void clickBtnSavedCreditCard(ActionEvent event) {
         lblPaymentError.setVisible(false);
@@ -124,49 +176,25 @@ public class PaymentPageController implements Initializable {
         btnUseAnotherCreditCard.setSelected(false);
         setCreditCardLabels(true);
     }
+
+    /**
+     * Enables the customer to use new credit card
+     * @param event
+     */
     @FXML
     void clickBtnUseAnotherCreditCard(ActionEvent event) {
         lblPaymentError.setVisible(false);
         btnSavedCreditCard.setSelected(false);
         setCreditCardLabels(false);
-
-
     }
-
+    /**
+     * Finishes order process, update order in DB
+     * @param event
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @FXML
-    void clickBtnBack(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("RecipientPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-    }
-
-    @FXML
-    void clickBtnBrowseCatalog(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-
-    @FXML
-    void clickBtnPlaceOrder(ActionEvent event) throws IOException {
+    void clickBtnPlaceOrder(ActionEvent event) throws IOException, InterruptedException {
         if(validateInput()){
             if (btnUpdateCreditCard.isPressed()) {
                 customer.setCreditCard(CardField1.getText() + CardField2.getText() + CardField3.getText() + CardField4.getText());
@@ -179,6 +207,10 @@ public class PaymentPageController implements Initializable {
             Client.orderController.getCurrentOrder().setCustomerId(customer.getUserId());
             Client.orderController.getCurrentOrder().setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
             if(Client.orderController.sendNewOrder()) {
+                progressBar.setProgress(1.0);
+                btnPayment.setStyle("-fx-text-fill: #309639" );
+                sleep(1000);
+
                 ((Node) event.getSource()).getScene().getWindow().hide();
                 Stage primaryStage = new Stage();
                 Parent root = FXMLLoader.load(getClass().getResource("CompletedOrderPage.fxml"));
@@ -196,6 +228,10 @@ public class PaymentPageController implements Initializable {
         }
     }
 
+    /**
+     * Validates all values inserted in payment page before finishes order process
+     * @return true if all details are verified
+     */
     private boolean validateInput() {
         if ((Client.orderController.sumOfCart() - customer.getBalance()) <= 0 && btnUseBalance.isSelected()){
             return true; // If balance is enough and was also selected.
@@ -233,6 +269,10 @@ public class PaymentPageController implements Initializable {
         return invalidFields == 0 ? true: false;
     }
 
+    /**
+     * Verifies whether the credit card inserted contains only numbers and in the correct length
+     * @return true if the number card inserted is valid
+     */
     private boolean validCardNumber() {
         if (CardField1.getText().length() != 4 && !CardField1.getText().contains("[0-9]+")){
             return false;
@@ -249,16 +289,10 @@ public class PaymentPageController implements Initializable {
         return true;
     }
 
-
-
-
-    @FXML
-    void clickBtnRecipientInfo(ActionEvent event) {
-
-    }
-
-
-
+    /**
+     * Enables the customer to use his balance and calculates total price
+     * @param event
+     */
     @FXML
     void clickBtnUseBalance(ActionEvent event) {
         if(btnUseBalance.isSelected()){
@@ -279,9 +313,12 @@ public class PaymentPageController implements Initializable {
             btnUseAnotherCreditCard.setDisable(false);
             total =  Client.orderController.getCurrentOrder().getPrice();
         }
-
     }
 
+    /**
+     * Set credit card fields disable/ enable
+     * @param isDisabled
+     */
     private void setCreditCardLabels(boolean isDisabled) {
         creditLabel.setDisable(isDisabled);
         CardField1.setDisable(isDisabled);
@@ -299,63 +336,50 @@ public class PaymentPageController implements Initializable {
         btnUpdateCreditCard.setDisable(isDisabled);
     }
 
+    /**
+     * Returns to recipient info page
+     * @param event
+     * @throws IOException
+     */
     @FXML
-    void clickBtnViewCart(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+    void clickBtnBack(ActionEvent event) throws IOException {
+        Client.setScene(event, getClass().getResource("RecipientPage.fxml"));
+    }
+    /**
+     * View Catalog - cancels current Order
+     * @param event
+     */
+    @FXML
+    void clickBtnBrowseCatalog(ActionEvent event) {
+        initCurrentOrder();
+        //TODO Combine
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        customer = (Customer) Client.clientController.getClient().getLoggedInUser();
+    /**
+     * View Customer`s orders - cancels current Order
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
+        initCurrentOrder();
+        Client.setScene(event, getClass().getResource("OrdersPage.fxml"));
+    }
 
-        List<String> monthList = new ArrayList<String>();       //Set value of months.
-        for (int i = 1; i <= 12; i++) {
-            if (i<10){
-                monthList.add("0" + String.valueOf(i));
-            }else {
-                monthList.add(String.valueOf(i));
-            }
-        }
-        ObservableList<String> months = FXCollections.observableArrayList(monthList);
-        comboBoxMonth.getItems().addAll(months);
-
-        List<String> yearList = new ArrayList<String>();       //Set value of years.
-        for (int i = 2022; i <= 2035; i++) {
-            yearList.add(String.valueOf(i));
-        }
-        ObservableList<String> years = FXCollections.observableArrayList(yearList);
-        comboBoxYear.getItems().addAll(years);
-
-        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
-
-
-
-        if(customer.getCreditCard() == null){         //How to get a costomer.
-            btnSavedCreditCard.setDisable(true);
-        }
-        else{
-            btnSavedCreditCard.setText(btnSavedCreditCard.getText() + "  (***" + customer.getCreditCard().substring(15) + " \u20AA" + ")");
-        }
-        if(customer.getBalance() == 0){
-            btnUseBalance.setDisable(true);     //what if there is a bit of balance?
-        }
-        else{
-            btnUseBalance.setText(btnUseBalance.getText() + "  (" + customer.getBalance() + " \u20AA" + ")");
-        }
-        if (customer.getCreditCard() == null && customer.getBalance() == 0){
-            btnUseAnotherCreditCard.setSelected(true);
-            btnUseAnotherCreditCard.setDisable(true);
-        }
-
-
-
+    /**
+     *  Customer`s cart - cancels current Order
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnViewCart(ActionEvent event) throws IOException {
+        initCurrentOrder();
+        Client.setScene(event, getClass().getResource("CartPage.fxml"));
+    }
+    /**
+     * Set order object in order controller to a new Order.
+     */
+    private void initCurrentOrder() {
+        Client.orderController.setCurrentOrder(new Order());
     }
 }

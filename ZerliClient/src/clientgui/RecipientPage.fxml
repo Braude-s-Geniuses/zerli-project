@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.RecipientPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.RecipientPageController">
     <children>
         <VBox layoutX="50.0" prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #e4d7de; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
             <children>
@@ -70,17 +70,17 @@
                <effect>
                   <ColorAdjust brightness="-0.1" contrast="0.04" hue="-0.21" saturation="-0.21" />
                </effect></ProgressBar>
-                <Button fx:id="btnDeliveryData" layoutX="306.0" layoutY="110.0" mnemonicParsing="false" onAction="#clickBtnDeliveryData" styleClass="order-btn" text="Delivery Details" textFill="#309639">
+                <Button layoutX="306.0" layoutY="110.0" mnemonicParsing="false" styleClass="order-btn" text="Delivery Details" textFill="#309639">
                     <font>
                         <Font name="Calibri" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnRecipientInfo" layoutX="432.0" layoutY="110.0" mnemonicParsing="false" onAction="#clickBtnRecipientInfo" styleClass="order-btn" text="Recipient Information" textFill="#77385a">
+                <Button layoutX="432.0" layoutY="110.0" mnemonicParsing="false" styleClass="order-btn" text="Recipient Information" textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnPayment" layoutX="596.0" layoutY="110.0" mnemonicParsing="false" onAction="#clickBtnPayment" prefHeight="23.0" prefWidth="74.0" styleClass="order-btn" text="Payment " textFill="#77385a">
+                <Button layoutX="596.0" layoutY="110.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" styleClass="order-btn" text="Payment " textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="12.0" />
                     </font>
@@ -126,7 +126,7 @@
                     </font>
                 </Button>
             <TextField fx:id="nameField" layoutX="122.0" layoutY="281.0" prefHeight="27.0" prefWidth="300.0" />
-            <Label fx:id="GreetingLableIfYes" layoutX="41.0" layoutY="445.0" prefHeight="37.0" prefWidth="226.0" text="Enter Greeting Card Here:" textFill="#77385a">
+            <Label fx:id="GreetingLabelIfYes" layoutX="41.0" layoutY="445.0" prefHeight="37.0" prefWidth="226.0" text="Enter Greeting Card Here:" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="20.0" />
                </font>
@@ -141,7 +141,7 @@
                   <Font name="Calibri" size="14.0" />
                </font>
             </RadioButton>
-            <TextArea fx:id="GreetingField" layoutX="277.0" layoutY="451.0" prefHeight="190.0" prefWidth="362.0" />
+            <TextArea fx:id="greetingField" layoutX="277.0" layoutY="451.0" prefHeight="190.0" prefWidth="362.0" />
             <Label fx:id="GreetingLable" layoutX="41.0" layoutY="393.0" prefHeight="37.0" prefWidth="226.0" text="Add Greeting Card: " textFill="#77385a">
                <font>
                   <Font name="Calibri" size="20.0" />

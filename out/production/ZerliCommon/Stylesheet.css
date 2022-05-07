@@ -21,6 +21,9 @@
 	-fx-background-radius: 0;
 	-fx-background-color: transparent;		
 }
+.order-label .text{
+    -fx-strikethrough: true;
+}
 
 .btn {
 	-fx-background-color: #77385a;

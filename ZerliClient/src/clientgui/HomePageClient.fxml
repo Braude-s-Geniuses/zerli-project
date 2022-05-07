@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.HomePageClientController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.HomePageClientController">
    <children>
       <VBox layoutX="50.0" prefHeight="800.0" prefWidth="200.0" style="-fx-background-color: #e4d7de; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
          <children>
@@ -41,19 +41,27 @@
       </VBox>
       <Pane prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: #77385a;" />
       <Pane layoutX="253.0" prefHeight="50.0" prefWidth="1027.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;" />
-      <Pane layoutX="264.0" layoutY="73.0" prefHeight="666.0" prefWidth="963.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
+      <Pane fx:id="flowerPicture" layoutX="264.0" layoutY="73.0" prefHeight="666.0" prefWidth="1008.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="35.0" prefHeight="82.0" prefWidth="963.0" text="Welcome!" textAlignment="CENTER" textFill="#77385a">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="81.0" prefHeight="82.0" prefWidth="963.0" text="Welcome!" textAlignment="CENTER" textFill="#77385a">
                <font>
-                  <Font name="Calibri" size="64.0" />
+                  <Font size="96.0" />
                </font>
             </Label>
-            <Label fx:id="CustomerNameLabel" alignment="CENTER" layoutY="177.0" prefHeight="82.0" prefWidth="963.0" textFill="#77385a">
+            <Label layoutX="61.0" layoutY="457.0" prefHeight="82.0" prefWidth="562.0" text="Customer" textFill="#77385a">
                <font>
-                  <Font name="Calibri" size="64.0" />
+                  <Font name="Calibri" size="48.0" />
                </font>
             </Label>
-            <Label layoutY="584.0" prefHeight="82.0" prefWidth="963.0" text="Customer" textFill="#77385a">
+            <AnchorPane fx:id="picturePane" layoutX="595.0" layoutY="198.0" prefHeight="447.0" prefWidth="395.0">
+               <children>
+                  <ImageView fitHeight="447.0" fitWidth="412.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/../ZerliCommon/flower.png" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
+            <Label layoutX="61.0" layoutY="548.0" prefHeight="82.0" prefWidth="540.0" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="48.0" />
                </font>

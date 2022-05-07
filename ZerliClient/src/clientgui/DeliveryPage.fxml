@@ -89,7 +89,7 @@
                   <Font name="Calibri" size="12.0" />
                </font>
             </Button>
-            <Label layoutX="18.0" layoutY="491.0" prefHeight="37.0" prefWidth="178.0" text="Date &amp; Time" textFill="#77385a">
+            <Label fx:id="lblDateTime" layoutX="18.0" layoutY="491.0" prefHeight="37.0" prefWidth="178.0" text="Date &amp; Time" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="20.0" />
                </font>
@@ -107,7 +107,7 @@
                   <Font name="Calibri" size="20.0" />
                </font>
             </Label>
-            <RadioButton fx:id="btnRadioSelfPickup" layoutX="232.0" layoutY="273.0" mnemonicParsing="false" onAction="#clickBtnRadioSelfPickup" text="Self Pickup" textFill="#77385a">
+            <RadioButton fx:id="btnRadioSelfPickup" layoutX="232.0" layoutY="273.0" mnemonicParsing="false" onAction="#clickBtnRadioSelfPickup" text="Self pickup" textFill="#77385a">
                <font>
                   <Font name="Calibri" size="14.0" />
                </font></RadioButton>
@@ -157,6 +157,21 @@
                   <Font name="Calibri" size="18.0" />
                </font>
             </Button>
+            <RadioButton fx:id="btnRadioYes" layoutX="225.0" layoutY="452.0" mnemonicParsing="false" onAction="#clickBtnRadioYes" prefHeight="27.0" prefWidth="67.0" text="Yes" textFill="#77385a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="btnRadioNo" layoutX="350.0" layoutY="450.0" mnemonicParsing="false" onAction="#clickBTNRadioNo" prefHeight="27.0" prefWidth="67.0" text="No" textFill="#77385a">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </RadioButton>
+            <Label layoutX="19.0" layoutY="445.0" prefHeight="37.0" prefWidth="178.0" text="Express Order?" textFill="#77385a">
+               <font>
+                  <Font name="Calibri" size="20.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
     </children>

@@ -1,9 +1,15 @@
 package client;
 
+import clientgui.CartPageController;
 import clientgui.InputHostnameFormController;
 import communication.Message;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import user.User;
@@ -67,14 +73,33 @@ public class Client extends Application {
 
     /**
      * Initializes the Client Controller once the Client clicks connect with a valid hostname.
-    /** Initializes the Client Controller once the Client clicks connect with a valid hostname. TODO
-     *
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname) {
         clientController = new ClientController(hostname);
         catalogController = new CatalogController();
         orderController = new OrderController();
+    }
+
+    /** Creates and passes to a given scene
+     *
+     * @param event
+     * @param fxml
+     */
+    public static void setScene(ActionEvent event, java.net.URL fxml) {
+        Stage currentStage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        Parent root = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(fxml);
+            root = (Parent) loader.load();
+            Scene scene = new Scene(root);
+
+
+            currentStage.setScene(scene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

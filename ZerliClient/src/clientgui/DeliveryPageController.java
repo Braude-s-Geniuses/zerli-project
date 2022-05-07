@@ -20,17 +20,19 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import order.Order;
 import order.OrderProduct;
+import order.OrderStatus;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class DeliveryPageController implements Initializable {
-
     @FXML
     private Button btnViewCart;
     @FXML
@@ -54,6 +56,8 @@ public class DeliveryPageController implements Initializable {
     @FXML
     private Label lblTotal;
     @FXML
+    private Label lblDateTime;
+    @FXML
     private ComboBox<String> cbTime;
     @FXML
     private ComboBox<String> cbBranch;
@@ -65,8 +69,11 @@ public class DeliveryPageController implements Initializable {
     private RadioButton btnRadioDelivery;
     @FXML
     private TextField addressField;
+    @FXML
+    private RadioButton btnRadioYes;
 
-    EventHandler<ActionEvent> handler;
+    @FXML
+    private RadioButton btnRadioNo;
 
     /**
      *
@@ -163,32 +170,173 @@ public class DeliveryPageController implements Initializable {
      * It restores the delivery data that it gets from the order object in order controller.
      */
     private void restoreDeliveryData() {
-            String fullAddress;
-            String fullTime = Client.orderController.getCurrentOrder().getDeliveryDate().toString();
-            int year = Integer.parseInt(fullTime.substring(0, fullTime.indexOf('-')));
-            int month = Integer.parseInt(fullTime.substring(5, 7));
-            int day = Integer.parseInt(fullTime.substring(8, fullTime.indexOf(' ')));
+        String fullAddress;
+        String fullTime = Client.orderController.getCurrentOrder().getDeliveryDate().toString();
+        int year = Integer.parseInt(fullTime.substring(0, fullTime.indexOf('-')));
+        int month = Integer.parseInt(fullTime.substring(5, 7));
+        int day = Integer.parseInt(fullTime.substring(8, fullTime.indexOf(' ')));
+        datePicker.setValue(LocalDate.of(year, month, day));      //set date
+        cbTime.setValue(fullTime.substring(11, 16));             //set time
 
-            cbBranch.setValue(Client.orderController.getCurrentOrder().getBranch());
-            if ((fullAddress = Client.orderController.getCurrentOrder().getDeliveryAddress()) != null) {
-                btnRadioDelivery.setSelected(true);
-                cbCity.setValue(fullAddress.substring(0, fullAddress.indexOf(' ')));
-                addressField.setText(fullAddress.substring(fullAddress.indexOf(' ') + 1, fullAddress.length()));
-            }
-            else{
-                btnRadioSelfPickup.setSelected(true);
-                lblCity.setDisable(true);
-                lblAddress.setDisable(true);
-                cbCity.setDisable(true);
-                addressField.setDisable(true);
-            }
-            datePicker.setValue(LocalDate.of(year, month, day));      //set date
-            cbTime.setValue(fullTime.substring(11, 16));             //set time
+        cbBranch.setValue(Client.orderController.getCurrentOrder().getBranch());
+        if ((fullAddress = Client.orderController.getCurrentOrder().getDeliveryAddress()) != null) {
+            btnRadioDelivery.setSelected(true);
+            cbCity.setValue(fullAddress.substring(0, fullAddress.indexOf(' ')));
+            addressField.setText(fullAddress.substring(fullAddress.indexOf(' ') + 1, fullAddress.length()));
+        }
+        else{
+            btnRadioSelfPickup.setSelected(true);
+            setDeliveryDisable(true);
+        }
+        if(Client.orderController.getCurrentOrder().getOrderStatus() == OrderStatus.EXPRESS_PENDING){
+            btnRadioYes.setSelected(true);
+            setTimeDateDisable(true);
+        }
+        else {
+            btnRadioNo.setSelected(true);
+        }
+    }
+
+    /**
+     * If the user clicked on the delivery button then he will need to entered delivery data.
+     * and a delivery price will be added to his total order price.
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioDelivery(ActionEvent event) {
+        btnRadioSelfPickup.setSelected(false);
+        setDeliveryDisable(false);
+        lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
+        lblTotal.setText("Total: " + (Client.orderController.sumOfCart()+Client.orderController.DELIVERY_PRICE) + " \u20AA");
 
     }
 
     /**
-     * view order list
+     * If the user clicked on self pick-up button
+     * then he will not need to enter delivery data or pay a delivery fee.
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioSelfPickup(ActionEvent event) {
+        btnRadioDelivery.setSelected(false);
+        setDeliveryDisable(true);
+        lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
+        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
+    }
+
+    /**
+     * Disables\enables data in accordance to customer`s selection
+     * @param toDisable
+     */
+    private void setDeliveryDisable(boolean toDisable){
+        lblCity.setDisable(toDisable);
+        lblAddress.setDisable(toDisable);
+        cbCity.setDisable(toDisable);
+        addressField.setDisable(toDisable);
+    }
+
+    /**
+     * The order is not express order
+     * @param event
+     */
+    @FXML
+    void clickBTNRadioNo(ActionEvent event) {
+        btnRadioYes.setSelected(false);
+        setTimeDateDisable(false);
+    }
+
+    /**
+     * The order is express order - set the time and date to be the current
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioYes(ActionEvent event) {
+        btnRadioNo.setSelected(false);
+        setTimeDateDisable(true);
+        datePicker.setValue(LocalDate.now());
+        cbTime.setValue(LocalTime.now().toString().substring(0,3) + "00");
+    }
+
+    /**
+     * Disables\enables data in accordance to customer`s selection
+     * @param toDisable
+     */
+    private void setTimeDateDisable(boolean toDisable){
+        lblDateTime.setDisable(toDisable);
+        datePicker.setDisable(toDisable);
+        cbTime.setDisable(toDisable);
+    }
+
+    /**
+     * This method checks if all the data that was entered for the order are correct.
+     * if tes, it will proceed to the next page in the order process (RecipientPage).
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnProceed(ActionEvent event) throws IOException {
+            if(validateInput()) {
+                Client.orderController.getCurrentOrder().setBranch(cbBranch.getSelectionModel().getSelectedItem());
+                if (btnRadioDelivery.isSelected()) {
+                    Client.orderController.getCurrentOrder().setDeliveryAddress(cbCity.getSelectionModel().getSelectedItem() + " " + addressField.getText());
+                    Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart() + Client.orderController.DELIVERY_PRICE);
+                } else {
+                    Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart());
+                    Client.orderController.getCurrentOrder().setDeliveryAddress(null);
+                }
+                Timestamp timestamp = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
+                Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);
+                Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.EXPRESS_PENDING);
+            }
+                ((Node) event.getSource()).getScene().getWindow().hide();
+                Stage primaryStage = new Stage();
+                Parent root = FXMLLoader.load(getClass().getResource("RecipientPage.fxml"));
+                Scene scene = new Scene(root);
+
+                primaryStage.setTitle("Zerli Client");
+                primaryStage.setScene(scene);
+                primaryStage.setResizable(false);
+                primaryStage.show();
+
+    }
+
+    /**
+     * This method checks if all the data that was entered for the order are correct.
+     * @return true if yes, else false.
+     */
+    private boolean validateInput(){
+        int invalidFields = 0;
+        if(cbBranch.getSelectionModel().isEmpty()){
+            lblBranchError.setVisible(true);
+            invalidFields++;
+        }
+        if(!btnRadioDelivery.isSelected() && !btnRadioSelfPickup.isSelected()){
+            lblDeliveryError.setVisible(true);
+            invalidFields++;
+        }
+        if(btnRadioDelivery.isSelected() && cbCity.getSelectionModel().isEmpty()){
+            lblCityAndAddressError.setVisible(true);
+            invalidFields++;
+        }
+        if(btnRadioDelivery.isSelected() && addressField.getText() == null){
+            lblCityAndAddressError.setVisible(true);
+            invalidFields++;
+        }
+        if(btnRadioNo.isSelected()) {
+            if (datePicker.getValue() == null) {
+                lblDateTimeError.setVisible(true);
+                invalidFields++;
+            }
+            if (cbTime.getSelectionModel().isEmpty()) {
+                lblDateTimeError.setVisible(true);
+                invalidFields++;
+            }
+        }
+        return  invalidFields == 0 ? true: false;
+    }
+
+    /**
+     * View order list
      * @param event
      * @throws IOException
      */
@@ -206,11 +354,12 @@ public class DeliveryPageController implements Initializable {
     }
     @FXML
     void clickBtnBrowseCatalog(ActionEvent event) {
+        initCurrentOrder();
         //TODO combine.
     }
 
     /**
-     * view Customer's Cart.
+     * View Customer's Cart.
      * @param event
      * @throws IOException
      */
@@ -252,105 +401,5 @@ public class DeliveryPageController implements Initializable {
     private void initCurrentOrder() {//TODO
         Client.orderController.setCurrentOrder(new Order());
     }
-
-    /**
-     * If the user clicked on the delivery button then he will need to entered delivery data.
-     * and a delivery price will be added to his total order price.
-     * @param event
-     */
-    @FXML
-    void clickBtnRadioDelivery(ActionEvent event) {
-        btnRadioSelfPickup.setSelected(false);
-        lblCity.setDisable(false);
-        lblAddress.setDisable(false);
-        cbCity.setDisable(false);
-        addressField.setDisable(false);
-        lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
-        lblTotal.setText("Total: " + (Client.orderController.sumOfCart()+Client.orderController.DELIVERY_PRICE) + " \u20AA");
-
-    }
-
-    /**
-     * If the user clicked on self pick-up button
-     * then he will not need to enter delivery data or pay a delivery fee.
-     * @param event
-     */
-    @FXML
-    void clickBtnRadioSelfPickup(ActionEvent event) {
-        btnRadioDelivery.setSelected(false);
-        lblCity.setDisable(true);
-        lblAddress.setDisable(true);
-        cbCity.setDisable(true);
-        addressField.setDisable(true);
-        lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
-        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
-    }
-
-    /**
-     * This method checks if all the data that was entered for the order are correct.
-     * if tes, it will proceed to the next page in the order process (RecipientPage).
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    void clickBtnProceed(ActionEvent event) throws IOException {
-            if(validateInput()){
-                Client.orderController.getCurrentOrder().setBranch(cbBranch.getSelectionModel().getSelectedItem());
-                if(btnRadioDelivery.isSelected()) {
-                    Client.orderController.getCurrentOrder().setDeliveryAddress( cbCity.getSelectionModel().getSelectedItem() + " " + addressField.getText());
-                    Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart()+Client.orderController.DELIVERY_PRICE);
-                }
-                else{
-                    Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart());
-                }
-                Timestamp timestamp = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
-                Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);    //setDeliveryDate need to be change? omer
-                ((Node) event.getSource()).getScene().getWindow().hide();
-                Stage primaryStage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("RecipientPage.fxml"));
-                Scene scene = new Scene(root);
-
-                primaryStage.setTitle("Zerli Client");
-                primaryStage.setScene(scene);
-                primaryStage.setResizable(false);
-                primaryStage.show();
-            }
-
-    }
-
-    /**
-     * This method checks if all the data that was entered for the order are correct.
-     * @return true if yes, else false.
-     */
-    private boolean validateInput(){
-        int invalidFields = 0;
-        if(cbBranch.getSelectionModel().isEmpty()){
-            lblBranchError.setVisible(true);
-            invalidFields++;
-        }
-        if(!btnRadioDelivery.isSelected() && !btnRadioSelfPickup.isSelected()){
-            lblDeliveryError.setVisible(true);
-            invalidFields++;
-        }
-        if(btnRadioDelivery.isSelected() && cbCity.getSelectionModel().isEmpty()){
-            lblCityAndAddressError.setVisible(true);
-            invalidFields++;
-        }
-        if(btnRadioDelivery.isSelected() && addressField.getText() == null){
-            lblCityAndAddressError.setVisible(true);
-            invalidFields++;
-        }
-
-        if(datePicker.getValue() == null){
-            lblDateTimeError.setVisible(true);
-            invalidFields++;
-        }
-        if(cbTime.getSelectionModel().isEmpty()){
-            lblDateTimeError.setVisible(true);
-            invalidFields++;
-        }
-        return  invalidFields == 0 ? true: false;
-    }
-
 
 }
