@@ -95,7 +95,7 @@ public class ZerliClient extends AbstractClient {
                 Client.catalogController.setProducts((ArrayList<Product>) messageFromServer.getData());
                 break;
             case SEND_ORDER_CATALOG:
-                Client.catalogController.recievedFromCatalog(messageFromServer);
+                Client.catalogController.receivedFromCatalog(messageFromServer);
                 break;
         }
 

@@ -124,3 +124,10 @@
     -fx-font-family: 'Calibri';
 }
 
+.cart-btn{
+    -fx-background-color: transparent;
+    -fx-text-fill: #77385a;
+    -fx-font-weight: bold;
+    -fx-graphic-text-gap: 10;
+
+}

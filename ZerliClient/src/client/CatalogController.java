@@ -2,9 +2,7 @@ package client;
 
 import communication.Message;
 import communication.MessageFromClient;
-import communication.MessageFromServer;
 import order.Product;
-import sun.util.resources.cldr.as.LocaleNames_as;
 
 import java.util.ArrayList;
 
@@ -35,11 +33,11 @@ public class CatalogController {
         Client.clientController.getClient().handleMessageFromUI(new Message(obj, MessageFromClient.SEND_ORDER_TO_SERVER), true);
     }
 
-    public void recievedFromCatalog(Message msg){
+    public void receivedFromCatalog(Message msg){
         this.messageForOrders = msg;
     }
 
-    public Message getRecievedFromCatalog(){
+    public Message getReceivedFromCatalog(){
        return messageForOrders;
     }
 
