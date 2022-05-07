@@ -53,9 +53,9 @@ public class BrowseCatalogFormController implements Initializable {
 
         cartBtn.getStyleClass().add("cart-btn");
         cartBtn.setGraphic(new ImageView(new Image("cart.png")));
+        cartBtn.setText((int)sum + "");
 
         Client.catalogController.getProducts();
-
         ArrayList<Product> arrivedList = Client.catalogController.getList();
 
         for (Product product : arrivedList) {
