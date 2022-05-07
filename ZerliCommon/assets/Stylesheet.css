@@ -118,8 +118,9 @@
 }
 
 .new-price-label{
-    -fx-fill: #ff0000;
+    -fx-fill: #77385a;
     -fx-font-weight: bold;
     -fx-font-size: 17;
     -fx-font-family: 'Calibri';
 }
+
