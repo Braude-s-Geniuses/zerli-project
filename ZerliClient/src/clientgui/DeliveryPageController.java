@@ -1,7 +1,6 @@
 package clientgui;
 
 import client.Client;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,22 +32,13 @@ import java.util.ResourceBundle;
 public class DeliveryPageController implements Initializable {
 
     @FXML
-    private Button btnBrowseCatalog;
-    @FXML
-    private Button btnBrowseOrders;
-    @FXML
     private Button btnViewCart;
     @FXML
     private ListView<Object> cartAsListView;
     @FXML
-    private Button cancelOrder;
-    @FXML
-    private Button btnProceed;
-    @FXML
     private DatePicker datePicker;
     @FXML
     private Label lblCity;
-
     @FXML
     private Label lblAddress;
     @FXML
@@ -75,11 +65,19 @@ public class DeliveryPageController implements Initializable {
     private RadioButton btnRadioDelivery;
     @FXML
     private TextField addressField;
-    @FXML
-    private ProgressBar progressBar;
+
     EventHandler<ActionEvent> handler;
 
-
+    /**
+     *
+     *  @param location
+      * The location used to resolve relative paths for the root object, or
+      * <tt>null</tt> if the location is not known.
+      *
+      * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(Client.orderController.getCurrentOrder() != null && Client.orderController.getCurrentOrder().getBranch() != null) {
@@ -122,12 +120,10 @@ public class DeliveryPageController implements Initializable {
         cbCity.getItems().addAll(branches);
         ArrayList<OrderProduct> cart = Client.orderController.getCart();
         Client.orderController.setCurrentOrder(new Order());
-        initHandler();
-        cbCity.setOnAction(handler);
-        cbBranch.setOnAction(handler);
-        cbTime.setOnAction(handler);
 
-
+        /**
+         * For each product order product in the cart - presented in the list
+         */
         for (OrderProduct op : cart) {
             Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
             Label priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString() , null);
@@ -162,8 +158,11 @@ public class DeliveryPageController implements Initializable {
 
     }
 
+    /**
+     * This method is called if the delivery data was already entered.
+     * It restores the delivery data that it gets from the order object in order controller.
+     */
     private void restoreDeliveryData() {
-
             String fullAddress;
             String fullTime = Client.orderController.getCurrentOrder().getDeliveryDate().toString();
             int year = Integer.parseInt(fullTime.substring(0, fullTime.indexOf('-')));
@@ -180,21 +179,12 @@ public class DeliveryPageController implements Initializable {
                 btnRadioSelfPickup.setSelected(true);
                 lblCity.setDisable(true);
                 lblAddress.setDisable(true);
+                cbCity.setDisable(true);
+                addressField.setDisable(true);
             }
             datePicker.setValue(LocalDate.of(year, month, day));      //set date
             cbTime.setValue(fullTime.substring(11, 16));             //set time
 
-
-    }
-
-    public void initHandler(){
-        handler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ComboBox comboBox = (ComboBox)event.getSource();
-
-            }
-        };
     }
 
     /**
@@ -204,7 +194,7 @@ public class DeliveryPageController implements Initializable {
      */
     @FXML
     void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        initDeliveryPage();
+        initCurrentOrder();
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage primaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
@@ -214,15 +204,19 @@ public class DeliveryPageController implements Initializable {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-
     @FXML
     void clickBtnBrowseCatalog(ActionEvent event) {
-
+        //TODO combine.
     }
 
+    /**
+     * view Customer's Cart.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnViewCart(ActionEvent event) throws IOException {
-        initDeliveryPage();
+        initCurrentOrder();
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage primaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
@@ -231,13 +225,16 @@ public class DeliveryPageController implements Initializable {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-
     }
 
-
+    /**
+     * Cancel order and return to cart (CartPage).
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnCancelOrder(ActionEvent event) throws IOException {
-        initDeliveryPage();
+        initCurrentOrder();
         ((Node) event.getSource()).getScene().getWindow().hide();
         Stage primaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
@@ -248,9 +245,53 @@ public class DeliveryPageController implements Initializable {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-    private void initDeliveryPage() {//TODO
+
+    /**
+     * Set order object in order controller to a new Order.
+     */
+    private void initCurrentOrder() {//TODO
         Client.orderController.setCurrentOrder(new Order());
     }
+
+    /**
+     * If the user clicked on the delivery button then he will need to entered delivery data.
+     * and a delivery price will be added to his total order price.
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioDelivery(ActionEvent event) {
+        btnRadioSelfPickup.setSelected(false);
+        lblCity.setDisable(false);
+        lblAddress.setDisable(false);
+        cbCity.setDisable(false);
+        addressField.setDisable(false);
+        lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
+        lblTotal.setText("Total: " + (Client.orderController.sumOfCart()+Client.orderController.DELIVERY_PRICE) + " \u20AA");
+
+    }
+
+    /**
+     * If the user clicked on self pick-up button
+     * then he will not need to enter delivery data or pay a delivery fee.
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioSelfPickup(ActionEvent event) {
+        btnRadioDelivery.setSelected(false);
+        lblCity.setDisable(true);
+        lblAddress.setDisable(true);
+        cbCity.setDisable(true);
+        addressField.setDisable(true);
+        lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
+        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
+    }
+
+    /**
+     * This method checks if all the data that was entered for the order are correct.
+     * if tes, it will proceed to the next page in the order process (RecipientPage).
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnProceed(ActionEvent event) throws IOException {
             if(validateInput()){
@@ -264,7 +305,6 @@ public class DeliveryPageController implements Initializable {
                 }
                 Timestamp timestamp = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
                 Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);    //setDeliveryDate need to be change? omer
-                //System.out.println(Client.orderController.getCurrentOrder());
                 ((Node) event.getSource()).getScene().getWindow().hide();
                 Stage primaryStage = new Stage();
                 Parent root = FXMLLoader.load(getClass().getResource("RecipientPage.fxml"));
@@ -277,6 +317,11 @@ public class DeliveryPageController implements Initializable {
             }
 
     }
+
+    /**
+     * This method checks if all the data that was entered for the order are correct.
+     * @return true if yes, else false.
+     */
     private boolean validateInput(){
         int invalidFields = 0;
         if(cbBranch.getSelectionModel().isEmpty()){
@@ -306,27 +351,6 @@ public class DeliveryPageController implements Initializable {
         }
         return  invalidFields == 0 ? true: false;
     }
-    @FXML
-    void clickBtnRadioDelivery(ActionEvent event) {
-        btnRadioSelfPickup.setSelected(false);
-        lblCity.setDisable(false);
-        lblAddress.setDisable(false);
-        cbCity.setDisable(false);
-        addressField.setDisable(false);
-        lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
-        lblTotal.setText("Total: " + (Client.orderController.sumOfCart()+Client.orderController.DELIVERY_PRICE) + " \u20AA");
 
-    }
-
-    @FXML
-    void clickBtnRadioSelfPickup(ActionEvent event) {
-        btnRadioDelivery.setSelected(false);
-        lblCity.setDisable(true);
-        lblAddress.setDisable(true);
-        cbCity.setDisable(true);
-        addressField.setDisable(true);
-        lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
-        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
-    }
 
 }

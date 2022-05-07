@@ -19,85 +19,112 @@ import java.util.ResourceBundle;
 
 public class RecipientPageController implements Initializable {
 
-
     @FXML
     private TextArea GreetingField;
-
-    @FXML
-    private Label GreetingLable;
-
     @FXML
     private Label GreetingLableIfYes;
-
     @FXML
     private Label PhoneLabel;
-
-    @FXML
-    private Label RecipientLable;
-
     @FXML
     private RadioButton btnAddGreeting;
-
     @FXML
     private Button btnBack;
-
     @FXML
     private Button btnBrowseCatalog;
-
     @FXML
     private Button btnBrowseOrders;
-
-    @FXML
-    private Button btnDeliveryData;
-
     @FXML
     private RadioButton btnIamNotTheRecipient;
-
     @FXML
     private RadioButton btnIamTheRecipient;
-
     @FXML
     private RadioButton btnNoAddGreeting;
-
-    @FXML
-    private Button btnPayment;
-
     @FXML
     private Button btnProceed;
-
-    @FXML
-    private Button btnRecipientInfo;
-
     @FXML
     private Button btnViewCart;
-
     @FXML
     private Label lblGreetingError;
-
     @FXML
     private Label lblNoGreetingChooseError;
-
     @FXML
     private Label lblNoNameError;
-
     @FXML
     private Label lblNoPhoneError;
-
     @FXML
     private Label lblNoRecipientError;
-
     @FXML
     private TextField nameField;
-
     @FXML
     private Label nameLabel;
-
     @FXML
     private TextField phoneField;
 
-    @FXML
-    private ProgressBar progressBar;
+    /**
+     *
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        GreetingField.setDisable(true);
+        GreetingLableIfYes.setDisable(true);
+    }
 
+    /**
+     * If selected, there is a need to fill recipient information.
+     * @param event
+     */
+    @FXML
+    void clickBtnIamNotTheRecipient(ActionEvent event) {
+        btnIamTheRecipient.setSelected(false);
+        nameField.setDisable(false);
+        phoneField.setDisable(false);
+        nameLabel.setDisable(false);
+        PhoneLabel.setDisable(false);
+    }
+
+    /**
+     * If selected, there is no need to fill recipient information.
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioIAmTheRecipient(ActionEvent event) {
+        btnIamNotTheRecipient.setSelected(false);
+        nameField.setDisable(true);
+        phoneField.setDisable(true);
+        nameLabel.setDisable(true);
+        PhoneLabel.setDisable(true);
+
+    }
+
+    /**
+     * If selected, there is an option to add a greeting card
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioAddGreeting(ActionEvent event) {
+        btnNoAddGreeting.setSelected(false);
+        GreetingField.setDisable(false);
+        GreetingLableIfYes.setDisable(false);
+    }
+
+    /**
+     * If selected, there is no option to add a greeting card
+     * @param event
+     */
+    @FXML
+    void clickBtnRadioNoAddGreeting(ActionEvent event) {
+        btnAddGreeting.setSelected(false);
+        GreetingField.setDisable(true);
+        GreetingLableIfYes.setDisable(true);
+    }
+
+    /**
+     * Returns to payment page that contains all filled data.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnBack(ActionEvent event) throws IOException {
         ((Node) event.getSource()).getScene().getWindow().hide();
@@ -112,44 +139,11 @@ public class RecipientPageController implements Initializable {
 
     }
 
-    @FXML
-    void clickBtnBrowseCatalog(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-    }
-
-    @FXML
-    void clickBtnDeliveryData(ActionEvent event) throws IOException {
-
-    }
-
-    @FXML
-    void clickBtnIamNotTheRecipient(ActionEvent event) {
-        btnIamTheRecipient.setSelected(false);
-        nameField.setDisable(false);
-        phoneField.setDisable(false);
-        nameLabel.setDisable(false);
-        PhoneLabel.setDisable(false);
-    }
-
-    @FXML
-    void clickBtnPayment(ActionEvent event) {
-
-    }
-
+    /**
+     * Validate all data in current page and proceeds to payment page.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnProceed(ActionEvent event) throws IOException {
         if(validateInput()) {
@@ -175,6 +169,10 @@ public class RecipientPageController implements Initializable {
 
     }
 
+    /**
+     * Checks if all the data in the field entered correctly.
+     * @return
+     */
     private boolean validateInput() {
         int invalidFields = 0;
         if(!btnIamTheRecipient.isSelected() && !btnIamNotTheRecipient.isSelected()){
@@ -203,35 +201,11 @@ public class RecipientPageController implements Initializable {
         return true;
     }
 
-    @FXML
-    void clickBtnRadioAddGreeting(ActionEvent event) {
-        btnNoAddGreeting.setSelected(false);
-        GreetingField.setDisable(false);
-        GreetingLableIfYes.setDisable(false);
-    }
-
-    @FXML
-    void clickBtnRadioNoAddGreeting(ActionEvent event) {
-        btnAddGreeting.setSelected(false);
-        GreetingField.setDisable(true);
-        GreetingLableIfYes.setDisable(true);
-    }
-
-    @FXML
-    void clickBtnRadioIAmTheRecipient(ActionEvent event) {
-        btnIamNotTheRecipient.setSelected(false);
-        nameField.setDisable(true);
-        phoneField.setDisable(true);
-        nameLabel.setDisable(true);
-        PhoneLabel.setDisable(true);
-
-    }
-
-    @FXML
-    void clickBtnRecipientInfo(ActionEvent event) {
-
-    }
-
+    /**
+     * View customer's cart.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnViewCart(ActionEvent event) throws IOException {
         ((Node) event.getSource()).getScene().getWindow().hide();
@@ -245,11 +219,34 @@ public class RecipientPageController implements Initializable {
         primaryStage.show();
 
     }
+    /**
+     * view order list
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
+        Scene scene = new Scene(root);
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        GreetingField.setDisable(true);
-        GreetingLableIfYes.setDisable(true);
+        primaryStage.setTitle("Zerli Client");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
     }
+
+    /**
+     * View catalog page.
+     * @param event
+     */
+    @FXML
+    void clickBtnBrowseCatalog(ActionEvent event) {
+
+    }
+
+
 
 }
