@@ -31,45 +31,52 @@ public class CompletedOrderPageController implements Initializable {
     @FXML
     private Label lblOrderId;
 
-    @FXML
-    void clickBtnBrowseCatalog(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-
-    @FXML
-    void clickBtnViewCart(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-//TODO browse catalog
-    @FXML
-    void clickBtnContinueShopping(ActionEvent event) throws IOException {
-
-    }
+    /**
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources){
         lblOrderId.setText(String.valueOf((int)Client.orderController.getResponse().getData()));
         lblOrderId.setUnderline(true);
+    }
+
+    /**
+     *  GOTO Catalog page
+     * @param event
+     */
+    @FXML
+    void clickBtnBrowseCatalog(ActionEvent event) {
 
     }
+    /** View customer`s orders
+     *
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
+        Client.setScene(event, getClass().getResource("OrdersPage.fxml"));
+    }
+    /** View customer`s cart
+     *
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnViewCart(ActionEvent event) throws IOException {
+        Client.setScene(event, getClass().getResource("CartPage.fxml"));
+    }
+
+    @FXML
+    void clickBtnContinueShopping(ActionEvent event) throws IOException {
+        //TODO as browse catalog
+    }
+
 }

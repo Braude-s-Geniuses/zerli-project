@@ -1,5 +1,6 @@
 package client;
 
+import clientgui.DeliveryPageController;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import communication.Message;
 import communication.MessageFromClient;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 public class OrderController {
+
     public final float DELIVERY_PRICE = 20;
     /**
      * Used to store Products inserted into the cart.
@@ -31,8 +33,8 @@ public class OrderController {
     }
 
     public ArrayList<OrderProduct> getCart() {
-        Product product1 = new Product(1,"Rose Flower for Itzhak Efraimov" ,20, 0, null, true,"red");
-        Product product2 = new Product(2,"Flower" ,25, 0, null, false,"pink");
+        Product product1 = new Product(1,"Rose Flower for Itzhak Efraimov" ,20, 20, null, true,"red");
+        Product product2 = new Product(2,"Flower" ,25, 20, null, false,"pink");
         product1.addFlowersToProduct(new Item(1, "Rose", "flower","red",10) ,2);
         product2.addFlowersToProduct(new Item(2, "Flower", "flower","pink",10) ,2);
         OrderProduct op2 = new OrderProduct(product2,5);

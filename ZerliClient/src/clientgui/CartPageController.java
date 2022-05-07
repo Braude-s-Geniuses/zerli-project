@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;;
+import order.Order;
 import order.OrderProduct;
 import javafx.scene.control.ListView;
 
@@ -63,9 +64,19 @@ public class CartPageController implements Initializable {
         ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
         initHandler();
         for (OrderProduct op : arrivedList) {
-            Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
-            Label priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString() , null);
 
+            Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
+            Label priceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getProductPrice()) + " \u20AA");
+            Label discountPriceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getDiscountPrice()) + " \u20AA");
+            if(op.getProduct().getProductPrice() > op.getProduct().getDiscountPrice()){
+                priceLabel.getStyleClass().add("order-label");
+                discountPriceLabel.setStyle("-fx-text-fill: red");
+                discountPriceLabel.setFont(new Font(18));
+                discountPriceLabel.setPrefWidth(80);
+            }
+            else {
+                discountPriceLabel.setVisible(false);
+            }
             Image img = new Image("/../ZerliCommon/images.png");
             ImageView view = new ImageView(img);
             view.setFitHeight(80);
@@ -79,8 +90,7 @@ public class CartPageController implements Initializable {
             nameLabel.setWrapText(true);
 
             priceLabel.setFont(new Font(18));
-            priceLabel.setPrefWidth(100);
-            priceLabel.setAlignment(Pos.CENTER);
+            priceLabel.setPrefWidth(80);
             priceLabel.setStyle("-fx-text-fill: #77385a");
 
             ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
@@ -88,9 +98,10 @@ public class CartPageController implements Initializable {
             comboBoxQuantity.getSelectionModel().select(op.getQuantity());
             comboBoxQuantity.setBackground(Background.EMPTY);
 
-            HBox h = new HBox( 60, nameLabel, comboBoxQuantity, priceLabel);
+            HBox h = new HBox( 30, nameLabel, comboBoxQuantity, priceLabel, discountPriceLabel);
             HBox.setHgrow(nameLabel, Priority.max(Priority.ALWAYS, Priority.ALWAYS));
-            h.setAlignment(Pos.CENTER);
+            h.setAlignment(Pos.CENTER_LEFT);
+            //h.setAlignment(Pos.CENTER);
             cartAsListView.getItems().addAll(h);
             comboBoxQuantityArray.add(comboBoxQuantity);
 
@@ -100,7 +111,7 @@ public class CartPageController implements Initializable {
     }
 
     /**
-     *change the amount of product in cart
+     * Change the amount of product in cart
      */
     public void initHandler(){
          handler = new EventHandler<ActionEvent>() {
@@ -124,28 +135,6 @@ public class CartPageController implements Initializable {
             }
         };
     }
-
-    /**
-     * view order list
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-    @FXML
-    void clickBtnBrowseCatalog(ActionEvent event) {
-
-    }
-
     /**
      * starting place order process, passing into delivery page
      * @param event
@@ -153,14 +142,33 @@ public class CartPageController implements Initializable {
      */
     @FXML
     void clickBtnCheckOut(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("DeliveryPage.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Client.setScene(event, getClass().getResource("DeliveryPage.fxml"));
+    }
+    /**
+     * View customer`s orders
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
+        initCurrentOrder();
+        Client.setScene(event, getClass().getResource("OrdersPage.fxml"));
+    }
+
+    /**
+     * Browse catalog page
+     * @param event
+     */
+    @FXML
+    void clickBtnBrowseCatalog(ActionEvent event) {
+        initCurrentOrder();
+        //TODO combine.
+    }
+    /**
+     * Set order object in order controller to a new Order.
+     */
+    private void initCurrentOrder() {//TODO
+        Client.orderController.setCurrentOrder(new Order());
     }
 }
 
