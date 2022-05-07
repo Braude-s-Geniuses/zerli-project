@@ -101,6 +101,8 @@ public class ZerliClient extends AbstractClient {
                 Client.catalogController.receivedFromCatalog(messageFromServer);
                 break;
             case IMPORT_BRANCHES_SUCCEDD:
+            case ADDED_ORDER_SUCCESSFULLY:
+            case ADDED_ORDER_NOT_SUCCESSFULLY:
                 Client.orderController.setResponse((Message) msg);
                 break;
         }

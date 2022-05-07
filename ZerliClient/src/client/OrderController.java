@@ -3,6 +3,7 @@ package client;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import communication.Message;
 import communication.MessageFromClient;
+import communication.MessageFromServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import order.Item;
@@ -85,4 +86,12 @@ public class OrderController {
     }
 
 
+    public boolean sendNewOrder() {
+        Message msg = new Message(getCurrentOrder(), MessageFromClient.ADD_NEW_ORDER);
+        Client.clientController.getClient().handleMessageFromUI(msg, true);
+        if(response.getAnswer() == MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY){
+           return false;
+        }
+        return true;
+    }
 }

@@ -16,25 +16,14 @@ public class OrderController {
     public static Connection connection = Server.databaseController.getConnection();
 
 
-
     public static Message getAllOrdersFromServer(int userId) {
 
         List<Order> orders = new ArrayList<Order>();
         ResultSet resultSet = null;
-        System.out.println("userId in  getAllOrdersFromServer "+  userId);
-
         try {
-            System.out.println("test before preparedStatement" );
-
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE `customer_id`=?;");
-            System.out.println("test after preparedStatement" );
-
             preparedStatement.setInt(1, userId);
-            System.out.println("test before executeQuery" );
-
             resultSet = preparedStatement.executeQuery();
-            System.out.println("test after executeQuery" );
-
 
             while (resultSet.next()) {
                 Order order = new Order();
@@ -55,7 +44,7 @@ public class OrderController {
                 orders.add(order);
             }
             System.out.println("orders form DB " + orders);
-             resultSet.close();
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return new Message(null, MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED);
@@ -66,20 +55,52 @@ public class OrderController {
     }
 
     public static Message getAllBranches() {
-            ArrayList<String> branches = new ArrayList<>();
-            Statement stmt;
-            try {
-                stmt = connection.createStatement();
-                System.out.println("before execute");
-                ResultSet resultSet = stmt.executeQuery("SELECT branch FROM branch;");
-                System.out.println("after execute");
-                while (resultSet.next()) {
-                    branches.add(resultSet.getString("branch"));
-                }
-            } catch (SQLException e) {
-               e.printStackTrace();
-                return new Message(null, MessageFromServer.IMPORT_BRANCHES_NOT_SUCCEDD);
+        ArrayList<String> branches = new ArrayList<>();
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT branch FROM branch;");
+            while (resultSet.next()) {
+                branches.add(resultSet.getString("branch"));
             }
-            return new Message(branches, MessageFromServer.IMPORT_BRANCHES_SUCCEDD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.IMPORT_BRANCHES_NOT_SUCCEDD);
         }
+        return new Message(branches, MessageFromServer.IMPORT_BRANCHES_SUCCEDD);
     }
+
+    public static Message AddNewOrder(Order order) {
+        int orderId =0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `order` (order_id, customer_id, branch, order_status, greeting_card, price, discount_price, order_date, delivery_date, delivery_address, recipient_name, recipient_phone, cancel_time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, order.getOrderId());
+            preparedStatement.setInt(2, order.getCustomerId());
+            preparedStatement.setString(3, order.getBranch());
+            preparedStatement.setString(4, order.getOrderStatus().name());
+            preparedStatement.setString(5, order.getGreetingCard());
+            preparedStatement.setFloat(6, order.getPrice());
+            preparedStatement.setFloat(7, order.getDiscountPrice());
+            preparedStatement.setTimestamp(8, order.getOrderDate());
+            preparedStatement.setTimestamp(9, order.getDeliveryDate());
+            preparedStatement.setString(10, order.getDeliveryAddress());
+            preparedStatement.setString(11, order.getRecipientName());
+            preparedStatement.setString(12, order.getRecipientPhone());
+            preparedStatement.setTimestamp(13, order.getCancelTime());
+            preparedStatement.executeUpdate();
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                 orderId = generatedKeys.getInt(1);
+                }
+                else {
+                    throw new SQLException("Creating order failed, no ID obtained.");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY);
+        }
+        return new Message(orderId, MessageFromServer.ADDED_ORDER_SUCCESSFULLY);
+    }
+}
