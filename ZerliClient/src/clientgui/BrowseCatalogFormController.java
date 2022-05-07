@@ -33,10 +33,12 @@ public class BrowseCatalogFormController implements Initializable {
 
     @FXML
     private AnchorPane baseAnchor;
+    @FXML
+    private Button cartBtn;
     ObservableList<String> quantityPicker =
             FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
-
+    private float sum =0;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -47,6 +49,10 @@ public class BrowseCatalogFormController implements Initializable {
             fadeTransition.setCycleCount(1);
             fadeTransition.play();
         }).start();
+
+
+        cartBtn.getStyleClass().add("cart-btn");
+        cartBtn.setGraphic(new ImageView(new Image("cart.png")));
 
         Client.catalogController.getProducts();
 
@@ -115,6 +121,9 @@ public class BrowseCatalogFormController implements Initializable {
                 currentPrice = (product.getPrice() * (100 - product.getDiscountPrice())) / 100;
             }
 
+            sum = sum + Float.parseFloat(valueOfQuantity);
+            cartBtn.setText((int)sum + "");
+
             //testing communication server and client
             System.out.println("Hi there! Client sending: " + valueOfQuantity + " ," + currentPrice + ", " + name + ", " + color);
 
@@ -124,7 +133,7 @@ public class BrowseCatalogFormController implements Initializable {
             sendAddToCartItems.add(name);
             sendAddToCartItems.add(color);
             Client.catalogController.orderFromCatalog(sendAddToCartItems);
-            System.out.println(Client.catalogController.getRecievedFromCatalog().getData());
+            System.out.println(Client.catalogController.getReceivedFromCatalog().getData());
             //**************************************
         });
 
@@ -139,4 +148,7 @@ public class BrowseCatalogFormController implements Initializable {
     }
 
 
+    public void clickCartBtn(ActionEvent actionEvent) {
+        //This function will call the new form cart for Gal and Omer and will reference "cart.fxml"
+    }
 }
