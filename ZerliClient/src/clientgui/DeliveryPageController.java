@@ -132,7 +132,7 @@ public class DeliveryPageController implements Initializable {
             Label priceLabel;
             Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
             priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString(), null);
-            if(op.getProduct().getProductPrice() == op.getProduct().getDiscountPrice()) {
+            if(op.getProduct().getPrice() == op.getProduct().getDiscountPrice()) {
                 priceLabel.setStyle("-fx-text-fill: #77385a");
             }
             else{

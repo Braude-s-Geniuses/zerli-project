@@ -1,6 +1,6 @@
 package branch;
 
-import communication.order.Product;
+import order.Product;
 
 import java.io.Serializable;
 

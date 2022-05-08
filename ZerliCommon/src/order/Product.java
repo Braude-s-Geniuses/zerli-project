@@ -1,7 +1,5 @@
+package order;
 
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -53,6 +51,10 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    public String priceToString(){
+        return String.valueOf(price) + " \u20AA";
+    }
+
     public float getDiscountPrice() {
         return discountPrice;
     }
@@ -91,6 +93,10 @@ public class Product implements Serializable {
 
     public void setCustomMade(boolean customMade) {
         this.customMade = customMade;
+    }
+
+    public String customMadeToString(){
+        return customMade == false ? "Premade" : "Custom Made";
     }
 
     @Override

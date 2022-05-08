@@ -112,7 +112,7 @@ public class PaymentPageController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        customer = (Customer) Client.clientController.getClient().getLoggedInUser();
+        customer = (Customer) Client.clientController.getClient().getUser();
 
         List<String> monthList = new ArrayList<String>();       //Set value of months.
         for (int i = 1; i <= 12; i++) {

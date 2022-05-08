@@ -1,8 +1,6 @@
 package clientgui;
 
 import client.Client;
-import communication.order.Order;
-import communication.order.OrderProduct;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +18,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
+
+import order.Order;
+import order.OrderProduct;
 
 import java.io.IOException;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package communication.order;
+package order;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
