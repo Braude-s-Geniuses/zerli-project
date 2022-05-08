@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import order.Order;
-import user.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -101,11 +100,13 @@ public class RecipientPageController implements Initializable {
      */
     @FXML
     void clickBtnIamNotTheRecipient(ActionEvent event) {
-        btnIamTheRecipient.setSelected(false);
-        nameField.setDisable(false);
-        phoneField.setDisable(false);
-        nameLabel.setDisable(false);
-        PhoneLabel.setDisable(false);
+        if(btnIamNotTheRecipient.isSelected()) {
+            btnIamTheRecipient.setSelected(false);
+            setRecipientInfo(false);
+        }
+        else{
+            setRecipientInfo(true);
+        }
     }
 
     /**
@@ -114,23 +115,37 @@ public class RecipientPageController implements Initializable {
      */
     @FXML
     void clickBtnRadioIAmTheRecipient(ActionEvent event) {
-        btnIamNotTheRecipient.setSelected(false);
-        nameField.setDisable(true);
-        phoneField.setDisable(true);
-        nameLabel.setDisable(true);
-        PhoneLabel.setDisable(true);
-
+        if(btnIamTheRecipient.isSelected()) {
+            btnIamNotTheRecipient.setSelected(false);
+            setRecipientInfo(true);
+        }
+        else{
+            setRecipientInfo(false);
+        }
     }
-
+    /**
+     * Disable/enables the recipient fields in according to customer`s choice
+     * @param toDisable
+     */
+    private void setRecipientInfo(boolean toDisable){
+        nameField.setDisable(toDisable);
+        phoneField.setDisable(toDisable);
+        nameLabel.setDisable(toDisable);
+        PhoneLabel.setDisable(toDisable);
+    }
     /**
      * If selected, there is an option to add a greeting card
      * @param event
      */
     @FXML
     void clickBtnRadioAddGreeting(ActionEvent event) {
-        btnNoAddGreeting.setSelected(false);
-        greetingField.setDisable(false);
-        GreetingLabelIfYes.setDisable(false);
+        if(btnAddGreeting.isSelected()) {
+            btnNoAddGreeting.setSelected(false);
+            setGreetingCardInfo(false);
+        }
+        else{
+            setGreetingCardInfo(true);
+        }
     }
 
     /**
@@ -139,9 +154,48 @@ public class RecipientPageController implements Initializable {
      */
     @FXML
     void clickBtnRadioNoAddGreeting(ActionEvent event) {
-        btnAddGreeting.setSelected(false);
-        greetingField.setDisable(true);
-        GreetingLabelIfYes.setDisable(true);
+        if(btnNoAddGreeting.isSelected()) {
+            btnAddGreeting.setSelected(false);
+            setGreetingCardInfo(true);
+        }
+        else{
+            setGreetingCardInfo(false);
+        }
+    }
+
+    /**
+     * Disable/enables the greeting card fields in according to customer`s choice
+     * @param toDisable
+     */
+    private void setGreetingCardInfo(boolean toDisable){
+        greetingField.setDisable(toDisable);
+        GreetingLabelIfYes.setDisable(toDisable);
+    }
+
+    /**
+     * Store filled data of recipient page in current order
+     * @return true- if all fields were filled correctly
+     */
+    private boolean storeDataInCurrOrder(){
+        if(validateInput()) {
+            if (btnIamNotTheRecipient.isSelected()) {
+                Client.orderController.getCurrentOrder().setRecipientName(nameField.getText());
+                Client.orderController.getCurrentOrder().setRecipientPhone(phoneField.getText());
+            } else {
+                Client.orderController.getCurrentOrder().setRecipientName(null);
+                Client.orderController.getCurrentOrder().setRecipientPhone(null);
+            }
+
+            if (btnAddGreeting.isSelected()) {
+                Client.orderController.getCurrentOrder().setGreetingCard(greetingField.getText());
+            } else {
+                Client.orderController.getCurrentOrder().setGreetingCard(null);
+            }
+        }
+        else {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -151,17 +205,8 @@ public class RecipientPageController implements Initializable {
      */
     @FXML
     void clickBtnBack(ActionEvent event) throws IOException {
-
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("DeliveryPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
+        storeDataInCurrOrder();
+        Client.setScene(event, getClass().getResource("DeliveryPage.fxml"));
     }
 
     /**
@@ -171,31 +216,8 @@ public class RecipientPageController implements Initializable {
      */
     @FXML
     void clickBtnProceed(ActionEvent event) throws IOException {
-        if(validateInput()) {
-            if (btnIamNotTheRecipient.isSelected()){
-                Client.orderController.getCurrentOrder().setRecipientName(nameField.getText());
-                Client.orderController.getCurrentOrder().setRecipientPhone(phoneField.getText());
-            }
-            else{
-                Client.orderController.getCurrentOrder().setRecipientName(null);
-                Client.orderController.getCurrentOrder().setRecipientPhone(null);
-            }
-            if (btnAddGreeting.isSelected()){
-                Client.orderController.getCurrentOrder().setGreetingCard(greetingField.getText());
-            }
-            else{
-                Client.orderController.getCurrentOrder().setGreetingCard(null);
-            }
-            //System.out.println(Client.orderController.getCurrentOrder());
-            ((Node) event.getSource()).getScene().getWindow().hide();
-            Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("PaymentPage.fxml"));
-            Scene scene = new Scene(root);
-
-            primaryStage.setTitle("Zerli Client");
-            primaryStage.setScene(scene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
+        if(storeDataInCurrOrder()) {
+            Client.setScene(event, getClass().getResource("PaymentPage.fxml"));
         }
     }
 

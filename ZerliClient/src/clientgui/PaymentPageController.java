@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 import static java.lang.Thread.sleep;
 
 public class PaymentPageController implements Initializable {
-    private float total;
+    private float total, balance;
     @FXML
     private TextField CardField1;
     @FXML
@@ -168,13 +168,18 @@ public class PaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnSavedCreditCard(ActionEvent event) {
-        lblPaymentError.setVisible(false);
-        lblCardNumberError.setVisible(false);
-        lblCVVError.setVisible(false);
-        lblIDError.setVisible(false);
-        lblExpDateError.setVisible(false);
-        btnUseAnotherCreditCard.setSelected(false);
-        setCreditCardLabels(true);
+        if(btnSavedCreditCard.isPressed()) {
+            lblPaymentError.setVisible(false);
+            lblCardNumberError.setVisible(false);
+            lblCVVError.setVisible(false);
+            lblIDError.setVisible(false);
+            lblExpDateError.setVisible(false);
+            btnUseAnotherCreditCard.setSelected(false);
+            setCreditCardLabels(true);
+        }
+        else{
+            setCreditCardLabels(false);
+        }
     }
 
     /**
@@ -183,9 +188,16 @@ public class PaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnUseAnotherCreditCard(ActionEvent event) {
-        lblPaymentError.setVisible(false);
-        btnSavedCreditCard.setSelected(false);
-        setCreditCardLabels(false);
+        if(btnUseAnotherCreditCard.isPressed()) {
+            lblPaymentError.setVisible(false);
+            btnSavedCreditCard.setSelected(false);
+            setCreditCardLabels(false);
+        }
+        else{
+            lblPaymentError.setVisible(true);
+            btnSavedCreditCard.setSelected(true);
+            setCreditCardLabels(true);
+        }
     }
     /**
      * Finishes order process, update order in DB
@@ -195,36 +207,40 @@ public class PaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnPlaceOrder(ActionEvent event) throws IOException, InterruptedException {
-        if(validateInput()){
+        if(validateInput()){ //TODO- update in DB after combine
             if (btnUpdateCreditCard.isPressed()) {
                 customer.setCreditCard(CardField1.getText() + CardField2.getText() + CardField3.getText() + CardField4.getText());
                 customer.setId(idField.getText());
                 customer.setExpDate(comboBoxMonth.getSelectionModel().getSelectedItem() +"/"+ comboBoxYear.getSelectionModel().getSelectedItem());
                 customer.setCvv(cvvField.getText());
             }
+            if(btnUseBalance.isPressed()){ //TODO- update in DB after combine
+                customer.setBalance(balance);
+            }
             Client.orderController.getCurrentOrder().setPrice(total);
             Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.NORMAL_PENDING);
             Client.orderController.getCurrentOrder().setCustomerId(customer.getUserId());
             Client.orderController.getCurrentOrder().setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
+
             if(Client.orderController.sendNewOrder()) {
-                progressBar.setProgress(1.0);
-                btnPayment.setStyle("-fx-text-fill: #309639" );
-                sleep(1000);
+//                new Thread(() -> {
+//                    btnPayment.setStyle("-fx-text-fill: #309639");
+//                    for (double i = 0.9; i < 1.0; i+=0.01){
+//                        progressBar.setProgress(i);
+//                        try {
+//                            sleep(1500);
+//                        } catch(InterruptedException ex) {
+//                            Thread.currentThread().interrupt();
+//                        }
+//                    }
+//                }).start();
 
-                ((Node) event.getSource()).getScene().getWindow().hide();
-                Stage primaryStage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("CompletedOrderPage.fxml"));
-                Scene scene = new Scene(root);
 
-                primaryStage.setTitle("Zerli Client");
-                primaryStage.setScene(scene);
-                primaryStage.setResizable(false);
-                primaryStage.show();
+                Client.setScene(event, getClass().getResource("CompletedOrderPage.fxml"));
+
             }else{
-                System.out.println("not succeed");
+                System.out.println("not succeed"); //TODO
             }
-
-            System.out.println(Client.orderController.getCurrentOrder().toString());
         }
     }
 
@@ -301,10 +317,12 @@ public class PaymentPageController implements Initializable {
                 setCreditCardLabels(true);
                 btnUseAnotherCreditCard.setDisable(true);
                 total = 0;
+                balance = customer.getBalance() - Client.orderController.getCurrentOrder().getPrice();
             }
             else{
                 lblTotal.setText("Total: " + ( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance()) + " \u20AA");
                 total = ( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance());
+                balance = 0;
             }
         }
         else {
@@ -382,4 +400,6 @@ public class PaymentPageController implements Initializable {
     private void initCurrentOrder() {
         Client.orderController.setCurrentOrder(new Order());
     }
+
+
 }

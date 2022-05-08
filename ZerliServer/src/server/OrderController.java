@@ -4,6 +4,8 @@ import com.mysql.cj.xdevapi.Client;
 import communication.Message;
 import communication.MessageFromServer;
 import order.Order;
+import order.OrderProduct;
+import order.Product;
 import user.User;
 
 import java.sql.*;
@@ -71,7 +73,7 @@ public class OrderController {
     }
 
     public static Message AddNewOrder(Order order) {
-        int orderId =0;
+        int orderId = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `order` (order_id, customer_id, branch, order_status, greeting_card, price, discount_price, order_date, delivery_date, delivery_address, recipient_name, recipient_phone, cancel_time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, order.getOrderId());
@@ -90,10 +92,10 @@ public class OrderController {
             preparedStatement.executeUpdate();
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                 orderId = generatedKeys.getInt(1);
-                }
-                else {
-                    throw new SQLException("Creating order failed, no ID obtained.");
+                    orderId = generatedKeys.getInt(1);
+                    updateOrderProductsInDB(order.getProductList(), orderId);
+                } else {
+                    return new Message(null, MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY);
                 }
             }
 
@@ -102,5 +104,19 @@ public class OrderController {
             return new Message(null, MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY);
         }
         return new Message(orderId, MessageFromServer.ADDED_ORDER_SUCCESSFULLY);
+    }
+
+    private static void updateOrderProductsInDB(ArrayList<OrderProduct> productList, int orderId) {
+        for (OrderProduct p : productList) {
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `order_product` (order_id,product_id, quantity) VALUES (?,?,?);");
+                preparedStatement.setInt(1, orderId);
+                preparedStatement.setInt(2, p.getProduct().getProductId());
+                preparedStatement.setInt(3, p.getQuantity());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

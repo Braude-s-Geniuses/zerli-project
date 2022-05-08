@@ -172,6 +172,11 @@
                   <Font name="Calibri" size="20.0" />
                </font>
             </Label>
+            <Label fx:id="lblExpressOrderError" layoutX="14.0" layoutY="427.0" prefHeight="18.0" prefWidth="255.0" text="You must choose an express order option!" textFill="#d71515" visible="false">
+               <font>
+                  <Font name="Calibri Bold" size="14.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
     </children>

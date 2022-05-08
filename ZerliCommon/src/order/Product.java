@@ -42,7 +42,7 @@ public class Product implements Serializable {
         this.productPrice = productPrice;
     }
     public String priceToString(){
-       return String.valueOf(productPrice) + " \u20AA";
+       return String.valueOf(discountPrice) + " \u20AA";
     }
 
     public float getDiscountPrice() {

@@ -142,6 +142,8 @@ public class CartPageController implements Initializable {
      */
     @FXML
     void clickBtnCheckOut(ActionEvent event) throws IOException {
+        Client.orderController.setCurrentOrder(new Order());
+        Client.orderController.getCurrentOrder().setProductList(Client.orderController.getCart());
         Client.setScene(event, getClass().getResource("DeliveryPage.fxml"));
     }
     /**
@@ -151,7 +153,6 @@ public class CartPageController implements Initializable {
      */
     @FXML
     void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        initCurrentOrder();
         Client.setScene(event, getClass().getResource("OrdersPage.fxml"));
     }
 
@@ -161,14 +162,8 @@ public class CartPageController implements Initializable {
      */
     @FXML
     void clickBtnBrowseCatalog(ActionEvent event) {
-        initCurrentOrder();
         //TODO combine.
     }
-    /**
-     * Set order object in order controller to a new Order.
-     */
-    private void initCurrentOrder() {//TODO
-        Client.orderController.setCurrentOrder(new Order());
-    }
+
 }
 

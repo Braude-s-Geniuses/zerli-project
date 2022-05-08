@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,6 +54,8 @@ public class DeliveryPageController implements Initializable {
     private Label lblCityAndAddressError;
     @FXML
     private Label lblDateTimeError;
+    @FXML
+    private Label lblExpressOrderError;
     @FXML
     private Label lblTotal;
     @FXML
@@ -87,6 +90,7 @@ public class DeliveryPageController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         if(Client.orderController.getCurrentOrder() != null && Client.orderController.getCurrentOrder().getBranch() != null) {
             restoreDeliveryData();
         }
@@ -126,15 +130,21 @@ public class DeliveryPageController implements Initializable {
         cbBranch.getItems().addAll(branches);
         cbCity.getItems().addAll(branches);
         ArrayList<OrderProduct> cart = Client.orderController.getCart();
-        Client.orderController.setCurrentOrder(new Order());
+
 
         /**
          * For each product order product in the cart - presented in the list
          */
         for (OrderProduct op : cart) {
+            Label priceLabel;
             Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
-            Label priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString() , null);
-
+            priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString(), null);
+            if(op.getProduct().getProductPrice() == op.getProduct().getDiscountPrice()) {
+                priceLabel.setStyle("-fx-text-fill: #77385a");
+            }
+            else{
+                priceLabel.setStyle("-fx-text-fill: red");
+            }
             Image img = new Image("/../ZerliCommon/images.png");
             ImageView view = new ImageView(img);
             view.setFitHeight(100);
@@ -148,7 +158,7 @@ public class DeliveryPageController implements Initializable {
 
             priceLabel.setFont(new Font(14));
             priceLabel.setPrefWidth(120);
-            priceLabel.setStyle("-fx-text-fill: #77385a");
+
             priceLabel.setWrapText(true);
 
             HBox h = new HBox(nameLabel, priceLabel);
@@ -204,11 +214,12 @@ public class DeliveryPageController implements Initializable {
      */
     @FXML
     void clickBtnRadioDelivery(ActionEvent event) {
-        btnRadioSelfPickup.setSelected(false);
-        setDeliveryDisable(false);
-        lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
-        lblTotal.setText("Total: " + (Client.orderController.sumOfCart()+Client.orderController.DELIVERY_PRICE) + " \u20AA");
-
+        if(btnRadioDelivery.isSelected()) {
+            btnRadioSelfPickup.setSelected(false);
+            setDeliveryDisable(false);
+            lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
+            lblTotal.setText("Total: " + (Client.orderController.sumOfCart() + Client.orderController.DELIVERY_PRICE) + " \u20AA");
+        }
     }
 
     /**
@@ -218,10 +229,15 @@ public class DeliveryPageController implements Initializable {
      */
     @FXML
     void clickBtnRadioSelfPickup(ActionEvent event) {
-        btnRadioDelivery.setSelected(false);
-        setDeliveryDisable(true);
-        lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
-        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
+        if(btnRadioSelfPickup.isSelected()){
+            btnRadioDelivery.setSelected(false);
+            setDeliveryDisable(true);
+            lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
+            lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
+        }
+        else{
+            setDeliveryDisable(false);
+        }
     }
 
     /**
@@ -241,8 +257,16 @@ public class DeliveryPageController implements Initializable {
      */
     @FXML
     void clickBTNRadioNo(ActionEvent event) {
-        btnRadioYes.setSelected(false);
-        setTimeDateDisable(false);
+        if(btnRadioNo.isSelected()) {
+            btnRadioYes.setSelected(false);
+            setTimeDateDisable(false);
+            lblExpressOrderError.setVisible(false);
+        }
+        else{
+            datePicker.setValue(null);
+            cbTime.setValue(null);
+            setTimeDateDisable(true);
+        }
     }
 
     /**
@@ -251,10 +275,24 @@ public class DeliveryPageController implements Initializable {
      */
     @FXML
     void clickBtnRadioYes(ActionEvent event) {
-        btnRadioNo.setSelected(false);
-        setTimeDateDisable(true);
-        datePicker.setValue(LocalDate.now());
-        cbTime.setValue(LocalTime.now().toString().substring(0,3) + "00");
+        if(btnRadioYes.isSelected()) {
+            lblExpressOrderError.setVisible(false);
+            btnRadioNo.setSelected(false);
+            setTimeDateDisable(true);
+            if (LocalTime.now().compareTo(LocalTime.of(18, 30)) <= 0){
+                datePicker.setValue(LocalDate.now());
+                cbTime.setValue(LocalTime.now().toString().substring(0, 5));
+            }
+            else {
+                datePicker.setValue(LocalDate.now().plusDays(1));
+                cbTime.setValue("08:00");
+            }
+        }
+        else{
+            datePicker.setValue(null);
+            cbTime.setValue(null);
+            setTimeDateDisable(false);
+        }
     }
 
     /**
@@ -286,17 +324,14 @@ public class DeliveryPageController implements Initializable {
                 }
                 Timestamp timestamp = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
                 Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);
-                Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.EXPRESS_PENDING);
+                if(btnRadioYes.isSelected()){
+                    Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.EXPRESS_PENDING);
+                }
+                else {
+                    Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.NORMAL_PENDING);
+                }
+                Client.setScene(event, getClass().getResource("RecipientPage.fxml"));
             }
-                ((Node) event.getSource()).getScene().getWindow().hide();
-                Stage primaryStage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("RecipientPage.fxml"));
-                Scene scene = new Scene(root);
-
-                primaryStage.setTitle("Zerli Client");
-                primaryStage.setScene(scene);
-                primaryStage.setResizable(false);
-                primaryStage.show();
 
     }
 
@@ -322,6 +357,10 @@ public class DeliveryPageController implements Initializable {
             lblCityAndAddressError.setVisible(true);
             invalidFields++;
         }
+        if(!btnRadioYes.isSelected() && !btnRadioNo.isSelected()){
+            lblExpressOrderError.setVisible(true);
+            invalidFields++;
+        }
         if(btnRadioNo.isSelected()) {
             if (datePicker.getValue() == null) {
                 lblDateTimeError.setVisible(true);
@@ -343,14 +382,7 @@ public class DeliveryPageController implements Initializable {
     @FXML
     void clickBtnBrowseOrders(ActionEvent event) throws IOException {
         initCurrentOrder();
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("OrdersPage.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Client.setScene(event, getClass().getResource("OrdersPage.fxml"));
     }
     @FXML
     void clickBtnBrowseCatalog(ActionEvent event) {
@@ -366,14 +398,7 @@ public class DeliveryPageController implements Initializable {
     @FXML
     void clickBtnViewCart(ActionEvent event) throws IOException {
         initCurrentOrder();
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Client.setScene(event, getClass().getResource("CartPage.fxml"));
     }
 
     /**
@@ -384,21 +409,13 @@ public class DeliveryPageController implements Initializable {
     @FXML
     void clickBtnCancelOrder(ActionEvent event) throws IOException {
         initCurrentOrder();
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Client.setScene(event, getClass().getResource("CartPage.fxml"));
     }
 
     /**
      * Set order object in order controller to a new Order.
      */
-    private void initCurrentOrder() {//TODO
+    private void initCurrentOrder() {
         Client.orderController.setCurrentOrder(new Order());
     }
 
