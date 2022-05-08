@@ -1,19 +1,10 @@
 package client;
 
-import clientgui.DeliveryPageController;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import order.Item;
-import order.Order;
-import order.OrderProduct;
-import order.Product;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 public class OrderController {
 
@@ -24,14 +15,16 @@ public class OrderController {
     private ArrayList<OrderProduct> cart ;
     private  Message response;
     private Order currentOrder;
-    public OrderController() {this.cart = new ArrayList<>();
-        Product product1 = new Product(1,"Rose Flower for Itzhak Efraimov" ,20, 20, null, true,"red");
-        Product product2 = new Product(2,"Flower" ,25, 20, null, false,"pink");
-        product1.addFlowersToProduct(new Item(1, "Rose", "flower","red",10) ,2);
-        product2.addFlowersToProduct(new Item(2, "Flower", "flower","pink",10) ,2);
-        OrderProduct op2 = new OrderProduct(product2,5);
-        cart.add(new OrderProduct(product1,2));
-        cart.add(new OrderProduct(product2,5));}
+    public OrderController() {
+        this.cart = new ArrayList<>();
+//        Product product1 = new Product(1,"Rose Flower for Itzhak Efraimov" ,20, 20, null, true,"red");
+//        Product product2 = new Product(2,"Flower" ,25, 20, null, false,"pink");
+//        product1.addFlowersToProduct(new Item(1, "Rose", "flower","red",10) ,2);
+//        product2.addFlowersToProduct(new Item(2, "Flower", "flower","pink",10) ,2);
+//        OrderProduct op2 = new OrderProduct(product2,5);
+//        cart.add(new OrderProduct(product1,2));
+//        cart.add(new OrderProduct(product2,5));
+    }
 
     public void addToCart(OrderProduct orderProduct){ //TODO return message that adding to cart was successful.
          cart.add(orderProduct);

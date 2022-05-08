@@ -1,8 +1,6 @@
 package client;
 
-import clientgui.CartPageController;
 import clientgui.InputHostnameFormController;
-import communication.Message;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,10 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import user.User;
-import order.Order;
-
-import static communication.MessageFromClient.LOGIN_REQUEST;
 
 /**
  * Client represents the main ZerliClient Runnable

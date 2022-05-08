@@ -10,10 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import user.User;
-import javafx.event.ActionEvent;
-
-import java.io.IOException;
 
 public class BranchEmployeeHomePageController {
 

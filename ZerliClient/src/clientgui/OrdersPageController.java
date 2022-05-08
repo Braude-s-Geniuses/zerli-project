@@ -1,8 +1,6 @@
 package clientgui;
 
 import client.Client;
-import communication.Message;
-import communication.MessageFromServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

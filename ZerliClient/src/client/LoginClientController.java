@@ -3,8 +3,6 @@ package client;
 import communication.Message;
 import user.User;
 
-import java.io.IOException;
-
 import static communication.MessageFromClient.LOGIN_REQUEST;
 import static communication.MessageFromClient.LOGOUT_REQUEST;
 

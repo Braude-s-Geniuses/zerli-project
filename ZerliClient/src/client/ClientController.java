@@ -1,14 +1,8 @@
 package client;
 
-import communication.Message;
-import communication.MessageFromClient;
-import communication.MessageFromServer;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /** Client represents the Client Controller which manages <code>ZerliClient</code>,
  * the controller is used by the GUI to communicate with the server.

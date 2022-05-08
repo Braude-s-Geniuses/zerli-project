@@ -3,12 +3,10 @@ package client;
 import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
-import order.Order;
 import ocsf.client.AbstractClient;
+import order.Order;
 import order.Product;
-import user.Customer;
 import user.User;
-import user.UserType;
 
 import java.util.ArrayList;
 

@@ -1,29 +1,25 @@
 package clientgui;
 
 import client.Client;
-
+import communication.order.Order;
+import communication.order.OrderProduct;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;;
-import order.Order;
-import order.OrderProduct;
-import javafx.scene.control.ListView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -66,9 +62,9 @@ public class CartPageController implements Initializable {
         for (OrderProduct op : arrivedList) {
 
             Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
-            Label priceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getProductPrice()) + " \u20AA");
+            Label priceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getPrice()) + " \u20AA");
             Label discountPriceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getDiscountPrice()) + " \u20AA");
-            if(op.getProduct().getProductPrice() > op.getProduct().getDiscountPrice()){
+            if(op.getProduct().getPrice() > op.getProduct().getDiscountPrice()){
                 priceLabel.getStyleClass().add("order-label");
                 discountPriceLabel.setStyle("-fx-text-fill: red");
                 discountPriceLabel.setFont(new Font(18));

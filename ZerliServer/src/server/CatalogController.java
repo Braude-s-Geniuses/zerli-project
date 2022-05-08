@@ -12,9 +12,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public  class CatalogController {
-
-
-
     public static Connection connection = Server.databaseController.getConnection();
 
     public static Message getProductsFromDataBase() {
