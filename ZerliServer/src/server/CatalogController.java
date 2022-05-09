@@ -43,6 +43,7 @@ public  class CatalogController {
                 product.setImage(nameOfImage);
                 i++;
                 products.add(product);
+                System.out.println(product);
             }
         }catch (SQLException e) {
 

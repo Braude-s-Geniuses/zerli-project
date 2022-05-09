@@ -16,10 +16,6 @@ import java.util.ArrayList;
 public class ZerliClient extends AbstractClient {
 
     /**
-     * Used to store orders fetched from the server once <code>ClientController.requestOrders()</code> is called.
-     */
-    private ArrayList<Order> orders = null;
-    /**
      *  Used to store user fetched from the server once <code>loginClientController.tryToLogin()</code> is called.
      */
     private User loggedInUser = null;
@@ -55,14 +51,6 @@ public class ZerliClient extends AbstractClient {
         Message messageFromServer = (Message) msg;
 
         switch (messageFromServer.getAnswer()) {
-            case IMPORT_ORDERS_TABLE_SUCCEED:
-                orders = (ArrayList<Order>) messageFromServer.getData();
-                message = MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED;
-                break;
-            case IMPORT_ORDERS_TABLE_NOT_SUCCEED:
-                orders = null;
-                message = MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED;
-                break;
             case UPDATE_SUCCEED:
                 message = MessageFromServer.UPDATE_SUCCEED;
                 break;
@@ -98,6 +86,8 @@ public class ZerliClient extends AbstractClient {
             case SEND_ORDER_CATALOG:
                 Client.catalogController.receivedFromCatalog(messageFromServer);
                 break;
+            case IMPORT_ORDERS_TABLE_SUCCEED:
+            case IMPORT_ORDERS_TABLE_NOT_SUCCEED:
             case IMPORT_BRANCHES_SUCCEDD:
             case ADDED_ORDER_SUCCESSFULLY:
             case ADDED_ORDER_NOT_SUCCESSFULLY:

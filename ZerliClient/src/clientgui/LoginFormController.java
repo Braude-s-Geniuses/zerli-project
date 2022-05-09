@@ -185,8 +185,6 @@ public class LoginFormController {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-
-        Client.clientController.attachExitEventToStage(primaryStage);
     }
 
     private void showErrorMessage(String err) {

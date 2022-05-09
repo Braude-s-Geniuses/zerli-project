@@ -3,8 +3,13 @@ package clientgui;
 import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import order.Order;
 
 import java.io.IOException;
@@ -212,7 +217,17 @@ public class RecipientPageController implements Initializable {
     @FXML
     void clickBtnProceed(ActionEvent event) throws IOException {
         if(storeDataInCurrOrder()) {
-            Client.setScene(event, getClass().getResource("PaymentPage.fxml"));
+            ((Node) event.getSource()).getScene().getWindow().hide();
+
+            Stage primaryStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("PaymentPage.fxml"));
+            Scene scene = new Scene(root);
+
+            primaryStage.setTitle("Zerli Client");
+            primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
+            primaryStage.show();
+//            Client.setScene(event, getClass().getResource("PaymentPage.fxml"));
         }
     }
 

@@ -21,6 +21,8 @@ public class Client extends Application {
      */
     public static ClientController clientController;
 
+    public static LoginClientController loginClientController;
+
     public static CatalogController catalogController;
 
     /**
@@ -55,7 +57,7 @@ public class Client extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         inputHostnameFormController = new InputHostnameFormController();
-        inputHostnameFormController.start(primaryStage);
+        inputHostnameFormController.start();
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -71,6 +73,7 @@ public class Client extends Application {
      */
     public static void initController(String hostname) {
         clientController = new ClientController(hostname);
+        loginClientController = new LoginClientController();
         catalogController = new CatalogController();
         orderController = new OrderController();
     }

@@ -16,13 +16,25 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(int productId, String name, float price, float discountPrice, String image,HashMap<Item,Integer> items, boolean customMade,String dominantColor) {
+
+
+    public Product(int productId, String name, float price, float discountPrice, String image, HashMap<Item,Integer> items, boolean customMade,String dominantColor) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.discountPrice = discountPrice;
         this.image = image;
         this.items = items;
+        this.customMade = customMade;
+        this.dominantColor = dominantColor;
+    }
+
+    public Product(int productId, String name, float price, float discountPrice, String image, boolean customMade, String dominantColor) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.image = image;
         this.customMade = customMade;
         this.dominantColor = dominantColor;
     }
@@ -97,6 +109,10 @@ public class Product implements Serializable {
 
     public String customMadeToString(){
         return customMade == false ? "Premade" : "Custom Made";
+    }
+
+    public void addFlowersToProduct(Item item , Integer quantity){
+        this.items.put(item, quantity);
     }
 
     @Override

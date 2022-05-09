@@ -9,9 +9,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -23,9 +26,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import order.Product;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -42,6 +47,10 @@ public class BrowseCatalogFormController implements Initializable {
     private AnchorPane baseAnchor;
     @FXML
     private Button cartBtn;
+
+    @FXML
+    private Button btnLogin;
+
     ObservableList<String> quantityPicker =
             FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
@@ -64,6 +73,7 @@ public class BrowseCatalogFormController implements Initializable {
 
         Client.catalogController.getProducts();
         ArrayList<Product> arrivedList = Client.catalogController.getList();
+        System.out.println(arrivedList);
 
         for (Product product : arrivedList) {
             tilePane.getChildren().add(createProductTile(product));
@@ -150,12 +160,30 @@ public class BrowseCatalogFormController implements Initializable {
     /**
      * @param actionEvent will open the login form
      */
-    public void clickLoginBtn(ActionEvent actionEvent) {
-        //This function will call the new form login for Haim and Marom and will reference "login.fxml"
+    public void clickBtnLogin(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Zerli Login");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
 
-    public void clickCartBtn(ActionEvent actionEvent) {
-        //This function will call the new form cart for Gal and Omer and will reference "cart.fxml"
+    public void clickCartBtn(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Zerli Client - Cart");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 }
