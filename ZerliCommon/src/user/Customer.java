@@ -11,6 +11,11 @@ public class Customer extends User {
         super(userId, username, password, userType, loggedIn, firstName, lastName, id, email, phone);
     }
 
+    public Customer(User user) {
+        super(user.getUserId(),user.getUsername(),user.getPassword(),user.getUserType(),user.isLoggedIn(),
+                user.getFirstName(),user.getLastName(),user.getId(),user.getEmail(),user.getPhone());
+    }
+
     public boolean isBlocked() {
         return blocked;
     }

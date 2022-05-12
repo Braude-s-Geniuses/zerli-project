@@ -11,12 +11,11 @@ import static communication.MessageFromClient.LOGOUT_REQUEST;
  * By filtering, associating and documenting customers entry.
  */
 
-public class LoginClientController {
-    private static ZerliClient client;
-
-    public LoginClientController(){
-        client = Client.clientController.getClient();
-    }
+public class UserController {
+    /**
+     *  Used to store user fetched from the server once <code>userController.tryToLogin()</code> is called.
+     */
+    private User loggedInUser = null;
 
     /**
      * This function getting username and password from the client and check if it exists in DB,
@@ -27,28 +26,38 @@ public class LoginClientController {
      * @param password, password from the client.
      * @return user-appropriate permission.
      */
-
-    public User tryToLogin(String username, String password){
-
+    public User login(String username, String password){
         User newUser = new User(0,username,password,null,false,null,null,null,null,null);
         Message requestLogin = new Message();
         requestLogin.setTask(LOGIN_REQUEST);
         requestLogin.setData(newUser);
 
-        client.handleMessageFromUI(requestLogin,true);
+        Client.clientController.getClient().handleMessageFromUI(requestLogin,true);
 
-        newUser = client.getUser();
-
-        return newUser;
+        return getLoggedInUser();
     }
 
-    public void tryToLogOut(int id){
-
+    public void logout(int id){
         Message requestLogout = new Message();
         requestLogout.setTask(LOGOUT_REQUEST);
         requestLogout.setData(id);
-        client.handleMessageFromUI(requestLogout,true);
-        return;
+        Client.clientController.getClient().handleMessageFromUI(requestLogout,true);
     }
 
+    /**
+     *  Getter for <code>loggedInUser</code>.
+     *
+     * @return <code>loggedInUser</code>.
+     */
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    /**
+     * Setter for <code>loggedInUser</code>
+     * @param loggedInUser
+     */
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
 }

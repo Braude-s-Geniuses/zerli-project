@@ -2,6 +2,7 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
+import user.Customer;
 import user.User;
 import user.UserType;
 import java.sql.Connection;
@@ -52,6 +53,14 @@ public class LoginServerController {
                 data.setId(resultSet.getString(8));
                 data.setEmail(resultSet.getString(9));
                 data.setPhone(resultSet.getString(10));
+
+                if(data.getUserType() ==UserType.CUSTOMER){
+                    Customer newCustomer= new Customer(data);
+                    addCustomerDetails(newCustomer);
+                    if(newCustomer.isBlocked())
+                        return new Message(newCustomer, MessageFromServer.CUSTOMER_IS_BLOCKED);
+                    return new Message(newCustomer, MessageFromServer.LOGIN_SUCCEED);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,5 +123,21 @@ public class LoginServerController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void addCustomerDetails(Customer data) throws SQLException{ // TODO
+        Statement stmt;
+        stmt = con.createStatement();
+        String queryToExecute = "select * FROM customer where customer_id = \"" + data.getUserId() + "\";";
+        ResultSet resultSet = stmt.executeQuery(queryToExecute);
+        resultSet.next();
+        data.setUserId(resultSet.getInt(1));
+        data.setBlocked(resultSet.getBoolean(2));
+        data.setCreditCard(resultSet.getString(3));
+        data.setExpDate(resultSet.getString(4));
+        data.setCvv(resultSet.getString(5));
+        data.setBalance(resultSet.getFloat(6));
+
+        return;
     }
 }

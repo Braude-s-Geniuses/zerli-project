@@ -28,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import order.OrderProduct;
 import order.Product;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class BrowseCatalogFormController implements Initializable {
+public class BrowseCatalogPageController implements Initializable {
 
     @FXML
     private TilePane tilePane;
@@ -45,35 +46,24 @@ public class BrowseCatalogFormController implements Initializable {
 
     @FXML
     private AnchorPane baseAnchor;
-    @FXML
-    private Button cartBtn;
-
-    @FXML
-    private Button btnLogin;
 
     ObservableList<String> quantityPicker =
             FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
-    private float sum =0;
+    private float sum = Client.orderController.getCart().size();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        new Thread(() -> {
-            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(3), baseAnchor);
-            fadeTransition.setFromValue(0.0);
-            fadeTransition.setToValue(1.0);
-            fadeTransition.setCycleCount(1);
-            fadeTransition.play();
-        }).start();
-
-
-        cartBtn.getStyleClass().add("cart-btn");
-        cartBtn.setGraphic(new ImageView(new Image("cart.png")));
-        cartBtn.setText((int)sum + "");
+//        new Thread(() -> {
+//            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), baseAnchor);
+//            fadeTransition.setFromValue(0.0);
+//            fadeTransition.setToValue(1.0);
+//            fadeTransition.setCycleCount(1);
+//            fadeTransition.play();
+//        }).start();
 
         Client.catalogController.getProducts();
         ArrayList<Product> arrivedList = Client.catalogController.getList();
-        System.out.println(arrivedList);
 
         for (Product product : arrivedList) {
             tilePane.getChildren().add(createProductTile(product));
@@ -92,14 +82,16 @@ public class BrowseCatalogFormController implements Initializable {
         HBox hBox = new HBox();
         VBox vBox = new VBox();
         ImageView iv = new ImageView();
+        iv.setFitHeight(250.0);
+        iv.setFitWidth(150.0);
         Button addBtn = new Button("Add to cart");
         Label nameLabel = new Label(product.getName());
-        Text priceLabel = new Text("Price: " + product.getPrice() + " $");
         Text newPrice = new Text();
         ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
+        Text priceLabel = new Text("Price: " + product.priceToString());
 
-        nameLabel.getStyleClass().add("name-label");
         priceLabel.getStyleClass().add("price-label");
+        nameLabel.getStyleClass().add("name-label");
         addBtn.getStyleClass().add("btn");
         comboBoxQuantity.getStyleClass().add("combo-color");
         comboBoxQuantity.getSelectionModel().selectFirst();
@@ -107,20 +99,20 @@ public class BrowseCatalogFormController implements Initializable {
         if (product.getImage() != null)
             iv.setImage(new Image(product.getImage()));
 
-
-        if (product.getDiscountPrice() != 0) {
+        if(product.getPrice() != product.getDiscountPrice()) {
             priceLabel.setStrikethrough(true);
-            float onlyPriceDiscount = (product.getPrice() * (100 - product.getDiscountPrice())) / 100;
-            newPrice.setText("Discount price: " + onlyPriceDiscount + " $");
+            newPrice.setText("Discount Price: " + product.getDiscountPrice() + " \u20AA");
             newPrice.getStyleClass().add("new-price-label");
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.0), evt -> newPrice.setVisible(false)),
-                    new KeyFrame(Duration.seconds(0.2), evt -> newPrice.setVisible(true)));
-            timeline.setCycleCount(Animation.INDEFINITE);
-            timeline.play();
-
         }
+//            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.0), evt -> newPrice.setVisible(false)),
+//                    new KeyFrame(Duration.seconds(0.2), evt -> newPrice.setVisible(true)));
+//            timeline.setCycleCount(Animation.INDEFINITE);
+//            timeline.play();
 
-        vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn);
+        if(Client.userController.getLoggedInUser() != null)
+            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn);
+        else
+            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()));
         hBox.getChildren().addAll(iv, vBox);
         vBox.setSpacing(15);
         iv.setTranslateY(50);
@@ -139,51 +131,12 @@ public class BrowseCatalogFormController implements Initializable {
             }
 
             sum = sum + Float.parseFloat(valueOfQuantity);
-            cartBtn.setText((int)sum + "");
 
-            //testing communication server and client
-            System.out.println("Hi there! Client sending: " + valueOfQuantity + " ," + currentPrice + ", " + name + ", " + color);
-
-            ArrayList<Object> sendAddToCartItems = new ArrayList<>();
-            sendAddToCartItems.add(valueOfQuantity);
-            sendAddToCartItems.add(currentPrice);
-            sendAddToCartItems.add(name);
-            sendAddToCartItems.add(color);
-            Client.catalogController.orderFromCatalog(sendAddToCartItems);
-            System.out.println(Client.catalogController.getReceivedFromCatalog().getData());
-            //**************************************
+            Client.orderController.addToCart(new OrderProduct(product, Integer.valueOf(valueOfQuantity)));
+            MainDashboardController.refreshCartCounter();
+            System.out.println(Client.orderController.getCart());
         });
 
         return hBox;
-    }
-
-    /**
-     * @param actionEvent will open the login form
-     */
-    public void clickBtnLogin(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Login");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
-
-
-    public void clickCartBtn(ActionEvent event) throws IOException {
-        ((Node) event.getSource()).getScene().getWindow().hide();
-
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("CartPage.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli Client - Cart");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
 }

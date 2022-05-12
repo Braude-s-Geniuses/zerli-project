@@ -1,6 +1,9 @@
 .sidenav-button {
 	-fx-background-radius: 0;
-	-fx-background-color: transparent;	
+	-fx-background-color: transparent;
+	-fx-font-family: "Calibri";
+	-fx-font-size: 18;
+	-fx-text-fill: #77385a;
 }
 
 .sidenav-button:hover {
@@ -42,12 +45,47 @@
 	
 }
 
+.btn-red {
+	-fx-background-color: white;
+	-fx-text-fill: indianred;
+	-fx-border-color: transparent;
+	-fx-effect:  dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5)
+}
+
+.btn-secondary {
+	-fx-background-color: white;
+	-fx-text-fill: #77385a;
+	-fx-border-color: transparent;
+	-fx-effect:  dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5)
+}
+
+.btn-secondary:pressed {
+	-fx-background-color: #77385a;
+	-fx-text-fill: white;
+	-fx-effect: innershadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 15.0, 0.7, 0.0, 1.5)
+}
+
+.btn-secondary:hover{
+	-fx-background-color: #77385a;
+	-fx-text-fill: white;
+
+}
+
+.btn-red:pressed {
+	-fx-background-color: indianred;
+	-fx-text-fill: white;
+	-fx-effect: innershadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 15.0, 0.7, 0.0, 1.5)
+}
+
+.btn-red:hover{
+	-fx-background-color: indianred;
+	-fx-text-fill: white;
+
+}
+
 .order-btn {
     -fx-background-color: transparent;
 }
-
-
-
 
 .table-column {
   -fx-alignment: CENTER;

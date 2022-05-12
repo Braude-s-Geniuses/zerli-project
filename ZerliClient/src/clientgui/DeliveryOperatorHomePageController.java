@@ -26,7 +26,7 @@ public class DeliveryOperatorHomePageController {
     private Label CustomerNameLabel;
 
     @FXML
-    private Button Logout;
+    private Button btnLogout;
 
     public void startNewScene(ActionEvent event) throws Exception{
             ((Node) event.getSource()).getScene().getWindow().hide();
@@ -41,11 +41,7 @@ public class DeliveryOperatorHomePageController {
             Client.clientController.attachExitEventToStage(primaryStage);
     }
 
-    public void LogoutUser (ActionEvent event) throws Exception {
-        LoginFormController loginController = new LoginFormController();
-        loginController.logoutClick(event,Client.clientController.getClient().getUser());
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        loginController.start();
+    public void clickBtnLogout (ActionEvent event) throws Exception {
     }
 
 }

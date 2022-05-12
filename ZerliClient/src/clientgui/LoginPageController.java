@@ -5,10 +5,11 @@
 package clientgui;
 
 import client.Client;
-import client.LoginClientController;
+import client.UserController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,11 +26,10 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginFormController {
+public class LoginPageController {
 
-   private static LoginClientController loginClientController;
-      // private static CustomerController customerControllerController; omer and gal
-     private static BranchEmployeeHomePageController branchEmployeeHomePageController;
+    // private static CustomerController customerControllerController; omer and gal
+    private static BranchEmployeeHomePageController branchEmployeeHomePageController;
     private static BranchManagerHomePageController branchManagerController;
     private static ServiceEmployeeHomePageController serviceEmployeeController;
     private static ExpertServiceEmployeeHomePageController expertServiceEmployeeController;
@@ -37,7 +37,7 @@ public class LoginFormController {
 
     private static DeliveryOperatorHomePageController deliveryOperatorController;
 
-   private Border border;
+    private Border border;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -65,8 +65,17 @@ public class LoginFormController {
      *
      * @param event
      */
-    public void backClick(ActionEvent event) {
-        //browseCatalogPage.start();
+    public void backClick(ActionEvent event) throws IOException {
+        ((Node) event.getSource()).getScene().getWindow().hide();
+
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("BrowseCatalogForm.fxml"));
+        Scene scene = new Scene(root);
+
+        primaryStage.setTitle("Zerli Client");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
     }
 
 
@@ -80,21 +89,14 @@ public class LoginFormController {
 
     public void loginClick(ActionEvent event) throws Exception {
         border = new Border(new BorderStroke(Color.INDIANRED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-        loginClientController = new LoginClientController();
 
         if (fldUsername.getText().isEmpty() || fldPassword.getText().isEmpty()) {
             showErrorMessage("You typed the wrong username or password. Please try again.");
             return;
         }
 
-        User newUser = loginClientController.tryToLogin(fldUsername.getText(), fldPassword.getText());
+        User newUser = Client.userController.login(fldUsername.getText(), fldPassword.getText());
         moveToUserSceneByUserType(event, newUser);
-    }
-
-    public void logoutClick(ActionEvent event, User userOut) throws Exception {
-        loginClientController = new LoginClientController();
-        loginClientController.tryToLogOut(userOut.getUserId());
-        return;
     }
 
     private void moveToUserSceneByUserType(ActionEvent event,User newUser) throws Exception {
@@ -132,15 +134,17 @@ public class LoginFormController {
                 }
                 break;
 
-//            case CUSTOMER:
-//                //customerControllerController= new CustomerControllerController();
-//                try {
-//                    //customerControllerController.startNewScene(event, "Customer");
-//                }catch(ConnectException e) {
-//                    showErrorMessage("You typed the wrong username or password. Please try again.");
-//                }
-//                break;
-//
+            case CUSTOMER:
+                try {
+                    Node node = (Node)FXMLLoader.load(getClass().getResource("BrowseCatalogPage.fxml"));
+                    MainDashboardController.getContentBox().getChildren().setAll(node);
+                    MainDashboardController.buildCustomerNavigation();
+                    MainDashboardController.swapToLoginButton(false);
+                }catch(ConnectException e) {
+                    showErrorMessage("You typed the wrong username or password. Please try again.");
+                }
+                break;
+
             case BRANCH_EMPLOYEE:
                 branchEmployeeHomePageController= new BranchEmployeeHomePageController();
                 try {
@@ -153,7 +157,7 @@ public class LoginFormController {
             case BRANCH_MANAGER:
                 branchManagerController= new BranchManagerHomePageController();
                 try {
-                branchManagerController.startNewScene(event);
+                    branchManagerController.startNewScene(event);
                 }catch(ConnectException e) {
                     showErrorMessage("You typed the wrong username or password. Please try again.");
                 }
@@ -168,23 +172,6 @@ public class LoginFormController {
                 }
                 break;
         }
-    }
-
-    /**
-     * This method will open the relevant scene for the client - according the privilege.
-     *
-     * @throws IOException
-     */
-    public void start() throws IOException {
-
-        Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Zerli login");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
 
     private void showErrorMessage(String err) {

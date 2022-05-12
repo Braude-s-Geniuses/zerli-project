@@ -6,7 +6,9 @@ import communication.MessageFromServer;
 import ocsf.client.AbstractClient;
 import order.Order;
 import order.Product;
+import user.Customer;
 import user.User;
+import user.UserType;
 
 import java.util.ArrayList;
 
@@ -14,11 +16,6 @@ import java.util.ArrayList;
  *
  */
 public class ZerliClient extends AbstractClient {
-
-    /**
-     *  Used to store user fetched from the server once <code>loginClientController.tryToLogin()</code> is called.
-     */
-    private User loggedInUser = null;
 
     /**
      * Used to restore the response from the server to a <code>Message</code> sent by the <code>ZerliClient</code>.
@@ -58,30 +55,37 @@ public class ZerliClient extends AbstractClient {
                 message = MessageFromServer.UPDATE_NOT_SUCCEED;
                 break;
             case LOGIN_NOT_SUCCEED:
-                loggedInUser = null;
+                Client.userController.setLoggedInUser(null);
                 message = MessageFromServer.LOGIN_NOT_SUCCEED;
                 break;
             case LOGIN_SUCCEED:
-                loggedInUser = (User)messageFromServer.getData();
+                Client.userController.setLoggedInUser((User)messageFromServer.getData());
+
+                if(Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER)
+                    Client.userController.setLoggedInUser((Customer)messageFromServer.getData());
                 message = MessageFromServer.LOGIN_SUCCEED;
                 break;
             case LOGIN_NOT_REGISTERED:
-                loggedInUser = (User)messageFromServer.getData();
+                Client.userController.setLoggedInUser((User)messageFromServer.getData());
                 message = MessageFromServer.LOGIN_NOT_REGISTERED;
                 break;
             case ALREADY_LOGGED_IN:
-                loggedInUser = (User)messageFromServer.getData();
+                Client.userController.setLoggedInUser((User)messageFromServer.getData());
                 message = MessageFromServer.ALREADY_LOGGED_IN;
                 break;
             case LOGOUT_SUCCEED:
-                loggedInUser = null;
+                Client.userController.setLoggedInUser(null);
                 message = MessageFromServer.LOGOUT_SUCCEED;
                 break;
             case LOGOUT_NOT_SUCCEED:
-                loggedInUser = null;
+                Client.userController.setLoggedInUser(null);
                 message = MessageFromServer.LOGOUT_NOT_SUCCEED;
             case IMPORTED_PRODUCTS_SUCCEED:
                 Client.catalogController.setProducts((ArrayList<Product>) messageFromServer.getData());
+                break;
+            case CUSTOMER_IS_BLOCKED:
+                Client.userController.setLoggedInUser(null);
+                message = MessageFromServer.CUSTOMER_IS_BLOCKED;
                 break;
             case SEND_ORDER_CATALOG:
                 Client.catalogController.receivedFromCatalog(messageFromServer);
@@ -118,15 +122,6 @@ public class ZerliClient extends AbstractClient {
         } catch (Exception e) {
             quit(false);
         }
-    }
-
-    /**
-     *  Getter for <code>users</code>.
-     *
-     * @return <code>loggedInUser</code>.
-     */
-    public User getUser() {
-        return loggedInUser;
     }
 
     /** Getter for <code>message</code>

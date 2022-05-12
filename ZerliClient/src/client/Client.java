@@ -1,6 +1,7 @@
 package client;
 
 import clientgui.InputHostnameFormController;
+import clientgui.MainDashboardController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,20 +9,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
+import java.io.IOException;
 
 /**
  * Client represents the main ZerliClient Runnable
  */
 public class Client extends Application {
 
+    public static MainDashboardController mainDashboardController;
+
     /**
      * represents the only (static) instance of a client.
      */
     public static ClientController clientController;
 
-    public static LoginClientController loginClientController;
+    public static UserController userController;
 
     public static CatalogController catalogController;
 
@@ -72,8 +78,9 @@ public class Client extends Application {
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname) {
+        mainDashboardController = new MainDashboardController();
         clientController = new ClientController(hostname);
-        loginClientController = new LoginClientController();
+        userController = new UserController();
         catalogController = new CatalogController();
         orderController = new OrderController();
     }
@@ -99,4 +106,10 @@ public class Client extends Application {
         }
     }
 
+    public static ScrollPane loadContentScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setController(mainDashboardController);
+        ScrollPane contentPane = (ScrollPane) loader.load(Client.class.getClassLoader().getResourceAsStream("clientgui/MainDashboard.fxml"));
+        return contentPane;
+    }
 }

@@ -51,7 +51,6 @@ public class InputHostnameFormController {
      */
     public void clickBtnConnect(ActionEvent event) throws Exception {
         Border border = new Border(new BorderStroke(Color.INDIANRED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-        LoginFormController loginController = new LoginFormController();
 
         if (fldHostname.getText().isEmpty()) {
             fldHostname.setBorder(border);
@@ -66,13 +65,16 @@ public class InputHostnameFormController {
             ((Node) event.getSource()).getScene().getWindow().hide();
 
             Stage primaryStage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("BrowseCatalogForm.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
             Scene scene = new Scene(root);
 
-            primaryStage.setTitle("Zerli login");
+            primaryStage.setTitle("Zerli Client");
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.show();
+
+            Node node = (Node)FXMLLoader.load(getClass().getResource("BrowseCatalogPage.fxml"));
+            MainDashboardController.getContentBox().getChildren().setAll(node);
 
         } catch (ConnectException e) {
             fldHostname.setBorder(border);

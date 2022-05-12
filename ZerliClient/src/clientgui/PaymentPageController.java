@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import order.Order;
 import order.OrderStatus;
 import user.Customer;
+import user.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -112,7 +113,7 @@ public class PaymentPageController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        customer = (Customer) Client.clientController.getClient().getUser();
+        customer = (Customer) Client.userController.getLoggedInUser();
 
         List<String> monthList = new ArrayList<String>();       //Set value of months.
         for (int i = 1; i <= 12; i++) {

@@ -16,34 +16,30 @@ public class OrderController {
     /**
      * Used to store Products inserted into the cart.
      */
-    private ArrayList<OrderProduct> cart ;
+    private ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
     private  Message response;
     private Order currentOrder;
-    public OrderController() {
-        this.cart = new ArrayList<>();
+    public OrderController() {}
 
-        Product product1 = new Product(1,"Rose Flower for Itzhak Efraimov" ,20.0f, 20.0f, "", true,"red");
-        Product product2 = new Product(2,"Flower" ,25, 20, "", false,"pink");
-        product1.addFlowersToProduct(new Item(1, "Rose", "flower","red",10) ,2);
-        product2.addFlowersToProduct(new Item(2, "Flower", "flower","pink",10) ,2);
-        OrderProduct op2 = new OrderProduct(product2,5);
-        cart.add(new OrderProduct(product1,2));
-        cart.add(new OrderProduct(product2,5));
-    }
+    public void addToCart(OrderProduct orderProduct){
+        // if added order already exists in cart - adds quantity to existing OrderProduct
+        for(OrderProduct op : cart) {
+            if(orderProduct.getProduct().equals(op.getProduct())) {
+                op.setQuantity(op.getQuantity() + orderProduct.getQuantity());
+                return;
+            }
+        }
 
-    public void addToCart(OrderProduct orderProduct){ //TODO return message that adding to cart was successful.
-         cart.add(orderProduct);
+        // orderProduct doesn't exist - create it
+        cart.add(orderProduct);
     }
 
     public ArrayList<OrderProduct> getCart() {
         return cart;
     }
-
-
+    public void setCart(ArrayList<OrderProduct> newCart){ this.cart = newCart; };
     public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
     public Order getCurrentOrder() { return currentOrder; }
-
-    public void setCart(ArrayList<OrderProduct> newCart){ this.cart = newCart; };
 
     public Message getResponse() {return response;}
 

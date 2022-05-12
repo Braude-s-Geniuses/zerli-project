@@ -51,10 +51,7 @@ public class CEOHomePageController {
     }
 
     public void LogoutUser (ActionEvent event) throws Exception {
-        LoginFormController loginController = new LoginFormController();
-        loginController.logoutClick(event,Client.clientController.getClient().getUser());
-        ((Node) event.getSource()).getScene().getWindow().hide();
-        loginController.start();
+
     }
 
 }

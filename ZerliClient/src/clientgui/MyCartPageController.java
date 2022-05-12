@@ -27,14 +27,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class CartPageController implements Initializable {
+public class MyCartPageController implements Initializable {
     ObservableList<String> quantityPicker = FXCollections.observableArrayList("0", "1", "2", "3","4","5","6","7","8","9","10");
-    @FXML
-    private Button btnBrowseCatalog;
-    @FXML
-    private Button btnBrowseOrders;
-    @FXML
-    private Button btnViewCart;
+
     @FXML
     private Button btnCheckOut;
     @FXML
@@ -57,8 +52,11 @@ public class CartPageController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnViewCart.getStyleClass().add("sidenav-button-active");
         ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
+
+        if(arrivedList.isEmpty())
+            btnCheckOut.setDisable(true);
+
         initHandler();
         for (OrderProduct op : arrivedList) {
 
@@ -111,11 +109,11 @@ public class CartPageController implements Initializable {
      * Change the amount of product in cart
      */
     public void initHandler(){
-         handler = new EventHandler<ActionEvent>() {
+        handler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-               ComboBox comboBox = (ComboBox)event.getSource();
-               int rowNumber = comboBoxQuantityArray.indexOf(comboBox);
+                ComboBox comboBox = (ComboBox)event.getSource();
+                int rowNumber = comboBoxQuantityArray.indexOf(comboBox);
                 cartAsListView.getSelectionModel().select(rowNumber);
                 HBox h = (HBox) cartAsListView.getSelectionModel().getSelectedItem();
                 Label l = (Label) h.getChildren().get(0);
@@ -142,24 +140,6 @@ public class CartPageController implements Initializable {
         Client.orderController.setCurrentOrder(new Order());
         Client.orderController.getCurrentOrder().setProductList(Client.orderController.getCart());
         Client.setScene(event, getClass().getResource("DeliveryPage.fxml"));
-    }
-    /**
-     * View customer`s orders
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    void clickBtnBrowseOrders(ActionEvent event) throws IOException {
-        Client.setScene(event, getClass().getResource("OrdersPage.fxml"));
-    }
-
-    /**
-     * Browse catalog page
-     * @param event
-     */
-    @FXML
-    void clickBtnBrowseCatalog(ActionEvent event) {
-        //TODO combine.
     }
 
 }
