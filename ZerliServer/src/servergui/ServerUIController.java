@@ -144,11 +144,12 @@ public class ServerUIController implements Initializable {
     }
 
     public void updateClientInTable(ConnectionToClient client, User user) {
+        System.out.println(clients);
         for(ClientInfo clientInTable : clients)
             if(client.getInetAddress().getHostAddress().equals(clientInTable.getIpAddress()) && client.getInetAddress().getCanonicalHostName().equals(clientInTable.getHostname())) {
-                clientInTable.setStatus("Logged In (" + user.getUsername() + ")");
+                //clientInTable.setStatus("Logged In (" + user.getUsername() + ")");
+                break;
             }
-        //tableClients.refresh();
     }
 
     /** The method is used to update the gui server console log.

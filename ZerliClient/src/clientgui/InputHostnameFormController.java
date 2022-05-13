@@ -73,6 +73,9 @@ public class InputHostnameFormController {
             primaryStage.setResizable(false);
             primaryStage.show();
 
+            /* Adds the functionality of logging out user and disconnecting client connection before exiting */
+            Client.clientController.attachExitEventToStage(primaryStage);
+
             MainDashboardController.setContentFromFXML("BrowseCatalogPage.fxml");
 
         } catch (ConnectException e) {

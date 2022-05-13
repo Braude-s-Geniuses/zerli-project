@@ -32,6 +32,8 @@ public class ClientController {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
+                if(Client.userController.getLoggedInUser() != null)
+                    Client.userController.logout(Client.userController.getLoggedInUser().getUserId());
                 getClient().quit(true);
             }
         });

@@ -79,7 +79,7 @@ public class UserController {
     public void setUserAsLoggedIn(int id) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("SELECT * FROM user SET logged_in=1 WHERE user_id=?");
+            preparedStatement = con.prepareStatement("UPDATE user SET logged_in=1 WHERE user_id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -90,7 +90,7 @@ public class UserController {
     public boolean setUserAsLoggedOut(int id) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("SELECT * FROM user SET logged_in=0 WHERE user_id=?");
+            preparedStatement = con.prepareStatement("UPDATE user SET logged_in=0 WHERE user_id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             return true;
