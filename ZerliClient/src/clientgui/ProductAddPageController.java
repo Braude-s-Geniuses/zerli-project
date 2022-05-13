@@ -30,7 +30,6 @@ import java.util.ResourceBundle;
 public class ProductAddPageController implements Initializable {
 
     private ArrayList<Item> availableItems;
-
     private SerialBlob uploadedImage;
     private ObservableList<Item> items = FXCollections.observableArrayList();
     private ObservableList<Item> itemsAdded = FXCollections.observableArrayList();
