@@ -93,9 +93,12 @@ public class Server extends Application {
         if (resultSQL.contains("SQL connection succeed")) {
             try {
                 serverController.getServer().listen();
+                ServerUIController.printToServerConsoleUI("Connected to Server!");
+                ServerUIController.printToServerConsoleUI("Server listening for connections on port " + serverController.getServer().getPort());
                 result += "\nConnected to Server!";
                 result += "\nServer listening for connections on port " + serverController.getServer().getPort();
             } catch (Exception e) {
+                ServerUIController.printToServerConsoleUI("[ERROR] Failed to start Server");
                 result = "[ERROR] Failed to start Server";
             }
         }

@@ -1,6 +1,7 @@
 package servergui;
 
 import communication.ClientInfo;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,8 +15,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import ocsf.server.ConnectionToClient;
 import server.Server;
+import user.User;
 
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /** represents the GUI Controller of the server.
@@ -27,6 +32,7 @@ public class ServerUIController implements Initializable {
      * on the table in the gui.
      */
     public static ObservableList<ClientInfo> clients = FXCollections.observableArrayList();
+    public static TextArea serverConsoleBox;
 
     @FXML
     private TextField fldDbName;
@@ -64,6 +70,7 @@ public class ServerUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        serverConsoleBox = txtServerConsole;
         columnIP.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("ipAddress"));
         columnClient.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("hostname"));
         columnStatus.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("status"));
@@ -90,7 +97,6 @@ public class ServerUIController implements Initializable {
         String output = Server.startServer(fldDbName.getText(), fldDbUser.getText(), fldDbPassword.getText());
 
         txtServerConsole.setDisable(false);
-        printToServerConsoleUI(output);
 
         btnStart.setDisable(true);
         btnStop.setDisable(false);
@@ -137,12 +143,24 @@ public class ServerUIController implements Initializable {
                 clients.remove(clientInTable);
     }
 
+    public void updateClientInTable(ConnectionToClient client, User user) {
+        for(ClientInfo clientInTable : clients)
+            if(client.getInetAddress().getHostAddress().equals(clientInTable.getIpAddress()) && client.getInetAddress().getCanonicalHostName().equals(clientInTable.getHostname())) {
+                clientInTable.setStatus("Logged In (" + user.getUsername() + ")");
+            }
+        //tableClients.refresh();
+    }
+
     /** The method is used to update the gui server console log.
      *
      * @param text to be added.
      */
-    public void printToServerConsoleUI(String text) {
-        txtServerConsole.setText(txtServerConsole.getText() + "\n" + text);
+    public static void printToServerConsoleUI(String text) {
+        Platform.runLater(() -> {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String timestamp = "[" + dateTimeFormatter.format(LocalTime.now()) + "] ";
+            serverConsoleBox.setText(serverConsoleBox.getText() + "\n" + timestamp + text);
+        });
     }
 
 }

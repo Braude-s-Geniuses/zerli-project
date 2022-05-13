@@ -1,14 +1,13 @@
 package server;
 
 import communication.Message;
-import communication.MessageFromServer;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import servergui.ServerUIController;
 import user.User;
 import order.Order;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import static communication.MessageFromServer.LOGIN_SUCCEED;
 
@@ -49,7 +48,6 @@ public class ZerliServer extends AbstractServer {
      */
     @Override
     public void handleMessageFromClient(Object message, ConnectionToClient client) {
-        System.out.println("handle message server test 1");
         Message messageFromClient = (Message) message;
         Message messageFromServer = null;
 
@@ -59,18 +57,19 @@ public class ZerliServer extends AbstractServer {
                 Server.serverUIController.removeClientFromTable(client);
                 break;
             case LOGIN_REQUEST:
-                LoginServerController loginController= new LoginServerController();
-                messageFromServer = loginController.tryToLogin((User)messageFromClient.getData());
+                UserController loginController= new UserController();
+                messageFromServer = loginController.login((User)messageFromClient.getData());
+
+                if(messageFromServer.getAnswer() == LOGIN_SUCCEED)
+                    Server.serverUIController.updateClientInTable(client, (User) messageFromServer.getData());
                 break;
             case LOGOUT_REQUEST:
-                loginController= new LoginServerController();
-                messageFromServer = loginController.tryToLogout((int)messageFromClient.getData());
+                loginController= new UserController();
+                messageFromServer = loginController.logout((int)messageFromClient.getData());
                 break;
-
             case GET_PRODUCT:
                 messageFromServer = CatalogController.getProductsFromDataBase();
                 break;
-
             case SEND_ORDER_TO_SERVER:
                 messageFromServer =CatalogController.getOrderFromCatalog(messageFromClient);
                 break;
@@ -81,7 +80,6 @@ public class ZerliServer extends AbstractServer {
                 messageFromServer = OrderController.getAllBranches();
                 break;
             case ADD_NEW_ORDER:
-                System.out.println("handle message in server test 2");
                 messageFromServer = OrderController.AddNewOrder((Order) messageFromClient.getData());
             default:
                 break;
@@ -98,6 +96,7 @@ public class ZerliServer extends AbstractServer {
     @Override
     protected void clientConnected(ConnectionToClient client) {
         Server.serverUIController.addClientToTable(client);
+        ServerUIController.printToServerConsoleUI(client.toString());
     }
 
 }

@@ -84,32 +84,4 @@ public class Client extends Application {
         catalogController = new CatalogController();
         orderController = new OrderController();
     }
-
-    /** Creates and passes to a given scene
-     *
-     * @param event
-     * @param fxml
-     */
-    public static void setScene(ActionEvent event, java.net.URL fxml) {
-        Stage currentStage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        Parent root = null;
-        try {
-            FXMLLoader loader = new FXMLLoader(fxml);
-            root = (Parent) loader.load();
-            Scene scene = new Scene(root);
-
-
-            currentStage.setScene(scene);
-            currentStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static ScrollPane loadContentScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setController(mainDashboardController);
-        ScrollPane contentPane = (ScrollPane) loader.load(Client.class.getClassLoader().getResourceAsStream("clientgui/MainDashboard.fxml"));
-        return contentPane;
-    }
 }

@@ -25,7 +25,7 @@ public class InputHostnameFormController {
     private TextField fldHostname;
 
     @FXML
-    private Button btnConnect = null;
+    private Button btnConnect;
 
     @FXML
     private Label lblErrorMessage;
@@ -73,8 +73,7 @@ public class InputHostnameFormController {
             primaryStage.setResizable(false);
             primaryStage.show();
 
-            Node node = (Node)FXMLLoader.load(getClass().getResource("BrowseCatalogPage.fxml"));
-            MainDashboardController.getContentBox().getChildren().setAll(node);
+            MainDashboardController.setContentFromFXML("BrowseCatalogPage.fxml");
 
         } catch (ConnectException e) {
             fldHostname.setBorder(border);

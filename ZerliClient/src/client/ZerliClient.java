@@ -48,38 +48,14 @@ public class ZerliClient extends AbstractClient {
         Message messageFromServer = (Message) msg;
 
         switch (messageFromServer.getAnswer()) {
-            case UPDATE_SUCCEED:
-                message = MessageFromServer.UPDATE_SUCCEED;
-                break;
-            case UPDATE_NOT_SUCCEED:
-                message = MessageFromServer.UPDATE_NOT_SUCCEED;
-                break;
-            case LOGIN_NOT_SUCCEED:
-                Client.userController.setLoggedInUser(null);
-                message = MessageFromServer.LOGIN_NOT_SUCCEED;
-                break;
             case LOGIN_SUCCEED:
-                Client.userController.setLoggedInUser((User)messageFromServer.getData());
-
-                if(Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER)
-                    Client.userController.setLoggedInUser((Customer)messageFromServer.getData());
-                message = MessageFromServer.LOGIN_SUCCEED;
-                break;
-            case LOGIN_NOT_REGISTERED:
-                Client.userController.setLoggedInUser((User)messageFromServer.getData());
-                message = MessageFromServer.LOGIN_NOT_REGISTERED;
-                break;
+            case LOGIN_NOT_SUCCEED:
             case ALREADY_LOGGED_IN:
-                Client.userController.setLoggedInUser((User)messageFromServer.getData());
-                message = MessageFromServer.ALREADY_LOGGED_IN;
-                break;
             case LOGOUT_SUCCEED:
-                Client.userController.setLoggedInUser(null);
-                message = MessageFromServer.LOGOUT_SUCCEED;
-                break;
             case LOGOUT_NOT_SUCCEED:
-                Client.userController.setLoggedInUser(null);
-                message = MessageFromServer.LOGOUT_NOT_SUCCEED;
+                Client.userController.setLoggedInUser((User)messageFromServer.getData());
+                Client.userController.setResponse(messageFromServer);
+                break;
             case IMPORTED_PRODUCTS_SUCCEED:
                 Client.catalogController.setProducts((ArrayList<Product>) messageFromServer.getData());
                 break;

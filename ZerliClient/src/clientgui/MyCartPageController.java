@@ -136,10 +136,10 @@ public class MyCartPageController implements Initializable {
      * @throws IOException
      */
     @FXML
-    void clickBtnCheckOut(ActionEvent event) throws IOException {
+    void clickBtnCheckOut(ActionEvent event) {
         Client.orderController.setCurrentOrder(new Order());
         Client.orderController.getCurrentOrder().setProductList(Client.orderController.getCart());
-        Client.setScene(event, getClass().getResource("DeliveryPage.fxml"));
+        MainDashboardController.setContentFromFXML("OrderDeliveryPage.fxml");
     }
 
 }

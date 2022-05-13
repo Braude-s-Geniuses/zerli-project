@@ -38,57 +38,77 @@ public class MainDashboardController implements Initializable {
         contentBox = contentPane;
         sideNavigationBox = sideNavigation;
         topNavigationBox = topNavigation;
-        buildCustomerNavigation();
+        buildUserNavigation();
     }
 
-    public static void buildCustomerNavigation() {
+    public static void buildUserNavigation() {
         /* Clear all previously add buttons except the logo */
         sideNavigationBox.getChildren().remove(1, (int)sideNavigationBox.getChildren().stream().count());
         /* Clear all previously add buttons */
         topNavigationBox.getChildren().remove(0, (int)topNavigationBox.getChildren().stream().count());
 
         Button buttonBrowseCatalog = new Button("Browse Catalog");
-        buttonBrowseCatalog.setOnAction(event -> buttonLoadFXMLOnAction("BrowseCatalogPage.fxml"));
-        addSideNavButton(buttonBrowseCatalog);
+        buttonBrowseCatalog.setOnAction(event -> setContentFromFXML("BrowseCatalogPage.fxml"));
 
+        /* If current Client is a guest, shows only Browse Catalog in side-menu */
+        if(Client.userController.getLoggedInUser() == null) {
+            addSideNavButton(buttonBrowseCatalog);
+        }
+        else {
+            switch (Client.userController.getLoggedInUser().getUserType()) {
+                case CUSTOMER:
+                    btnCart = new Button();
+                    btnCart.setLayoutX(770.0);
+                    btnCart.setMinWidth(150.0);
+                    btnCart.getStyleClass().add("cart-btn");
+                    btnCart.setGraphic(new ImageView(new Image("cart.png")));
+                    btnCart.setText("My Cart");
+                    btnCart.setOnAction(event -> setContentFromFXML("MyCartPage.fxml"));
+                    addTopNavButton(btnCart);
+
+                    addSideNavButton(buttonBrowseCatalog);
+
+                    Button buttonMyOrders = new Button("My Orders");
+                    buttonMyOrders.setOnAction(event -> setContentFromFXML("MyOrdersPage.fxml"));
+                    addSideNavButton(buttonMyOrders);
+                    break;
+                case BRANCH_EMPLOYEE:
+                    break;
+                case BRANCH_MANAGER:
+                    break;
+                case SERVICE_EMPLOYEE:
+                    break;
+                case EXPERT_SERVICE_EMPLOYEE:
+                    break;
+                case DELIVERY_OPERATOR:
+                    break;
+                case CEO:
+            }
+        }
+        /* All user types see the relevant login/out button */
         btnLogInOrOut = new Button();
         btnLogInOrOut.setLayoutX(933.0);
         btnLogInOrOut.setPrefWidth(80.0);
-        swapToLoginButton(true);
+
+        refreshLoginButton();
         addTopNavButton(btnLogInOrOut);
-
-        /* If used is logged in as Customer, adds all relevant buttons */
-        if(Client.userController.getLoggedInUser() != null && Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER) {
-            Button buttonMyOrders = new Button("My Orders");
-            buttonMyOrders.setOnAction(event -> buttonLoadFXMLOnAction("MyOrdersPage.fxml"));
-            addSideNavButton(buttonMyOrders);
-
-            btnCart = new Button();
-            btnCart.setLayoutX(770.0);
-            btnCart.setMinWidth(150.0);
-            btnCart.getStyleClass().add("cart-btn");
-            btnCart.setGraphic(new ImageView(new Image("cart.png")));
-            btnCart.setText("My Cart");
-            btnCart.setOnAction(event -> buttonLoadFXMLOnAction("MyCartPage.fxml"));
-            addTopNavButton(btnCart);
-        }
     }
 
-    public static void swapToLoginButton(boolean swap) {
-        if(swap) {
+    public static void refreshLoginButton() {
+        if(Client.userController.getLoggedInUser() == null) {
             btnLogInOrOut.setText("Login");
             btnLogInOrOut.getStyleClass().remove("btn-red");
             btnLogInOrOut.getStyleClass().add("btn");
-            btnLogInOrOut.setOnAction(event -> buttonLoadFXMLOnAction("LoginPage.fxml"));
+            btnLogInOrOut.setOnAction(event -> setContentFromFXML("LoginPage.fxml"));
         } else {
             btnLogInOrOut.setText("Logout");
             btnLogInOrOut.getStyleClass().remove("btn");
             btnLogInOrOut.getStyleClass().add("btn-red");
             btnLogInOrOut.setOnAction(event -> {
                 Client.userController.logout(Client.userController.getLoggedInUser().getUserId());
-                buttonLoadFXMLOnAction("BrowseCatalogPage.fxml");
-                swapToLoginButton(true);
-                buildCustomerNavigation();
+                setContentFromFXML("BrowseCatalogPage.fxml");
+                buildUserNavigation();
+                refreshLoginButton();
             });
         }
     }
@@ -109,7 +129,7 @@ public class MainDashboardController implements Initializable {
         sideNavigationBox.getChildren().add(button);
     }
 
-    public static void buttonLoadFXMLOnAction(String fxml) {
+    public static void setContentFromFXML(String fxml) {
         Node node = null;
         try {
             node = (Node) FXMLLoader.load(MainDashboardController.class.getResource(fxml));

@@ -2,6 +2,7 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
+import servergui.ServerUIController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -59,17 +60,23 @@ public class DatabaseController {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            ServerUIController.printToServerConsoleUI("Driver definition succeed");
             result += "\nDriver definition succeed";
         } catch (Exception ex) {
             /* handle the error*/
+            ServerUIController.printToServerConsoleUI("Driver definition failed");
             result += "\nDriver definition failed";
         }
 
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + "?serverTimezone=Asia/Jerusalem", dbUser, dbPassword);
+            ServerUIController.printToServerConsoleUI("SQL connection succeed");
             result += "\nSQL connection succeed";
 
         } catch (SQLException ex) {/* handle any erroresultSet*/
+            ServerUIController.printToServerConsoleUI("SQLException: " + ex.getMessage());
+            ServerUIController.printToServerConsoleUI("SQLState: " + ex.getSQLState());
+            ServerUIController.printToServerConsoleUI("VendorError: " + ex.getErrorCode());
             result += "\nSQLException: " + ex.getMessage();
             result += "\nSQLState: " + ex.getSQLState();
             result += "\nVendorError: " + ex.getErrorCode();

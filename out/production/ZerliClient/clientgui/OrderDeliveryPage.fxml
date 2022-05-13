@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.OrderDeliveryPageController">
+    <children>
+          <Label alignment="CENTER" layoutX="-5.0" prefHeight="75.0" prefWidth="990.0" text="Delivery Information" textFill="#77385a">
+              <font>
+                  <Font name="Calibri" size="64.0" />
+              </font>
+          </Label>
+          <ListView fx:id="cartAsListView" editable="true" layoutX="612.0" layoutY="160.0" prefHeight="387.0" prefWidth="370.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" />
+          <Button fx:id="btnProceed" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="845.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnProceed" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Proceed" textAlignment="JUSTIFY" textFill="#77385a">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Button>
+      <Label fx:id="lblTotal" layoutX="623.0" layoutY="583.0" prefHeight="37.0" prefWidth="300.0" text="Total: " textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="26.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="progressBar" layoutX="340.0" layoutY="75.0" prefHeight="20.0" prefWidth="300.0" progress="0.0" />
+      <Button fx:id="btnDeliveryData" layoutX="293.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Delivery Details" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnRecipientInfo" layoutX="419.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Recipient Information" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnPayment" layoutX="583.0" layoutY="97.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="74.0" styleClass="order-btn" text="Payment " textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblDateTime" layoutX="5.0" layoutY="478.0" prefHeight="37.0" prefWidth="178.0" text="Date &amp; Time" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="datePicker" layoutX="199.0" layoutY="483.0" />
+      <ComboBox fx:id="cbTime" layoutX="199.0" layoutY="529.0" prefHeight="27.0" prefWidth="92.0" promptText="Time" />
+      <Label layoutX="4.0" layoutY="187.0" prefHeight="37.0" prefWidth="137.0" text="Select Branch: " textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbBranch" layoutX="185.0" layoutY="192.0" prefHeight="27.0" prefWidth="187.0" promptText="Branch" />
+      <Label layoutX="4.0" layoutY="251.0" prefHeight="37.0" prefWidth="207.0" text="Delivery Method:" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="btnRadioSelfPickup" layoutX="219.0" layoutY="260.0" mnemonicParsing="false" onAction="#clickBtnRadioSelfPickup" text="Self pickup" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="btnRadioDelivery" layoutX="337.0" layoutY="260.0" mnemonicParsing="false" onAction="#clickBtnRadioDelivery" prefHeight="20.0" prefWidth="92.0" text="Delivery" textFill="#77385a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Label fx:id="lblDelivery" layoutX="623.0" layoutY="556.0" prefHeight="37.0" prefWidth="300.0" text="Delivery:" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="17.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbCity" layoutX="185.0" layoutY="305.0" prefHeight="27.0" prefWidth="187.0" promptText="City" />
+      <Label fx:id="lblCity" layoutX="82.0" layoutY="300.0" prefHeight="37.0" prefWidth="50.0" text="City: " textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAddress" layoutX="82.0" layoutY="361.0" prefHeight="37.0" prefWidth="74.0" text="Address:" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="addressField" layoutX="185.0" layoutY="366.0" prefHeight="27.0" prefWidth="378.0" />
+      <Label fx:id="lblDeliveryError" layoutX="1.0" layoutY="234.0" prefHeight="18.0" prefWidth="216.0" text="You Must Choose Delivery Method!" textFill="#d71515" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblBranchError" layoutY="169.0" prefHeight="18.0" prefWidth="216.0" text="You Must Choose Branch!" textFill="#d71515" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCityAndAddressError" layoutX="1.0" layoutY="279.0" prefHeight="18.0" prefWidth="216.0" text="You Must fill City &amp; Address!" textFill="#d71515" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDateTimeError" layoutX="-1.0" layoutY="469.0" prefHeight="18.0" prefWidth="187.0" text="You Must fill Date &amp; Time!" textFill="#d71515" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="cancelOrder" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnCancelOrder" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Cancel Order" textAlignment="JUSTIFY" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <RadioButton fx:id="btnRadioYes" layoutX="212.0" layoutY="439.0" mnemonicParsing="false" onAction="#clickBtnRadioYes" prefHeight="27.0" prefWidth="67.0" text="Yes" textFill="#77385a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="btnRadioNo" layoutX="337.0" layoutY="437.0" mnemonicParsing="false" onAction="#clickBTNRadioNo" prefHeight="27.0" prefWidth="67.0" text="No" textFill="#77385a">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="6.0" layoutY="432.0" prefHeight="37.0" prefWidth="178.0" text="Express Order?" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblExpressOrderError" layoutX="1.0" layoutY="414.0" prefHeight="18.0" prefWidth="255.0" text="You must choose an express order option!" textFill="#d71515" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>
