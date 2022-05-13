@@ -32,6 +32,7 @@ public class ServerUIController implements Initializable {
      * on the table in the gui.
      */
     public static ObservableList<ClientInfo> clients = FXCollections.observableArrayList();
+    public static TableView tableClientsBox;
     public static TextArea serverConsoleBox;
 
     @FXML
@@ -71,6 +72,7 @@ public class ServerUIController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serverConsoleBox = txtServerConsole;
+        tableClientsBox = tableClients;
         columnIP.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("ipAddress"));
         columnClient.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("hostname"));
         columnStatus.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("status"));
@@ -137,17 +139,29 @@ public class ServerUIController implements Initializable {
      *
      * @param client to be removed.
      */
-    public void removeClientFromTable(ConnectionToClient client) {
+    public static void removeClientFromTable(ConnectionToClient client) {
         for(ClientInfo clientInTable : clients)
             if(client.getInetAddress().getHostAddress().equals(clientInTable.getIpAddress()) && client.getInetAddress().getCanonicalHostName().equals(clientInTable.getHostname()))
                 clients.remove(clientInTable);
     }
 
-    public void updateClientInTable(ConnectionToClient client, User user) {
-        System.out.println(clients);
+    public static void setClientLoggedInTable(ConnectionToClient client, User user) {
         for(ClientInfo clientInTable : clients)
             if(client.getInetAddress().getHostAddress().equals(clientInTable.getIpAddress()) && client.getInetAddress().getCanonicalHostName().equals(clientInTable.getHostname())) {
-                //clientInTable.setStatus("Logged In (" + user.getUsername() + ")");
+                clientInTable.setStatus("Logged In (" + user.getUsername() + ")");
+                tableClientsBox.refresh();
+                printToServerConsoleUI(clientInTable.getHostname() + " is now logged in as " + user.getUsername());
+                break;
+            }
+    }
+
+    public static void setClientLoggedOutTable(ConnectionToClient client) {
+        for(ClientInfo clientInTable : clients)
+            if(client.getInetAddress().getHostAddress().equals(clientInTable.getIpAddress()) && client.getInetAddress().getCanonicalHostName().equals(clientInTable.getHostname())) {
+                String clientUsername = clientInTable.getStatus().substring(11, clientInTable.getStatus().length() - 1);
+                clientInTable.setStatus("Connected (Guest)");
+                tableClientsBox.refresh();
+                printToServerConsoleUI(clientInTable.getHostname() + " (" + clientUsername + ") has logged out");
                 break;
             }
     }

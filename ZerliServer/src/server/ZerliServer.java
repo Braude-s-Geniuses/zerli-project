@@ -10,6 +10,7 @@ import order.Order;
 import java.io.IOException;
 
 import static communication.MessageFromServer.LOGIN_SUCCEED;
+import static communication.MessageFromServer.LOGOUT_SUCCEED;
 
 
 /** ZerliClient represents the implementation of <code>OCSF.AbstractServer</code>
@@ -55,17 +56,21 @@ public class ZerliServer extends AbstractServer {
         switch (messageFromClient.getTask()) {
             case DISCONNECT_CLIENT:
                 Server.serverUIController.removeClientFromTable(client);
+                ServerUIController.printToServerConsoleUI(client.getInetAddress().getHostAddress() + " (" + client.getInetAddress() + ") has disconnected");
                 break;
             case LOGIN_REQUEST:
                 UserController loginController= new UserController();
                 messageFromServer = loginController.login((User)messageFromClient.getData());
 
                 if(messageFromServer.getAnswer() == LOGIN_SUCCEED)
-                    Server.serverUIController.updateClientInTable(client, (User) messageFromServer.getData());
+                  ServerUIController.setClientLoggedInTable(client, (User) messageFromServer.getData());
                 break;
             case LOGOUT_REQUEST:
                 loginController= new UserController();
                 messageFromServer = loginController.logout((int)messageFromClient.getData());
+
+                if(messageFromServer.getAnswer() == LOGOUT_SUCCEED)
+                    ServerUIController.setClientLoggedOutTable(client);
                 break;
             case GET_PRODUCT:
                 messageFromServer = CatalogController.getProductsFromDataBase();
@@ -96,7 +101,7 @@ public class ZerliServer extends AbstractServer {
     @Override
     protected void clientConnected(ConnectionToClient client) {
         Server.serverUIController.addClientToTable(client);
-        ServerUIController.printToServerConsoleUI(client.toString());
+        ServerUIController.printToServerConsoleUI("Incoming connection from: " + client.getInetAddress().getHostAddress() + " (" + client.getInetAddress().getCanonicalHostName() + ")");
     }
 
 }

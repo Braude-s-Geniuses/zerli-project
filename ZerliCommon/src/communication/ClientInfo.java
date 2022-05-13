@@ -11,7 +11,13 @@ public class ClientInfo {
     public ClientInfo(String ipAddress, String hostname) {
         this.ipAddress = ipAddress;
         this.hostname = hostname;
-        this.status = "Connected";
+        this.status = "Connected (Guest)";
+    }
+
+    public ClientInfo(String ipAddress, String hostname, String status) {
+        this.ipAddress = ipAddress;
+        this.hostname = hostname;
+        this.status = status;
     }
 
     public String getIpAddress() {
