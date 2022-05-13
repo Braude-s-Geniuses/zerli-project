@@ -3,10 +3,8 @@ package client;
 import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
-import order.Item;
 import order.Order;
 import order.OrderProduct;
-import order.Product;
 
 import java.util.ArrayList;
 

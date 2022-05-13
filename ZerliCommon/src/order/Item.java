@@ -8,10 +8,17 @@ public class Item implements Serializable {
     private String name;
     private String type;
     private String color;
-    private int price;
+    private float price;
 
-    public Item(int itemId, String name, String type, String color, int price) {
+    public Item(int itemId, String name, String type, String color, float price) {
         this.itemId = itemId;
+        this.name = name;
+        this.type = type;
+        this.color = color;
+        this.price = price;
+    }
+
+    public Item(String name, String type, String color, float price) {
         this.name = name;
         this.type = type;
         this.color = color;
@@ -50,17 +57,17 @@ public class Item implements Serializable {
         this.color = color;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "itemId=" + itemId +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", color='" + color + '\'' +
-                '}';
+        return getName();
     }
+
 }

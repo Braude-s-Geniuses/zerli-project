@@ -1,7 +1,5 @@
 package server;
 
-import communication.Message;
-
 public class ServerController {
 
     private static ZerliServer server;

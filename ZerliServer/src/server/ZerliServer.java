@@ -3,9 +3,9 @@ package server;
 import communication.Message;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import order.Order;
 import servergui.ServerUIController;
 import user.User;
-import order.Order;
 
 import java.io.IOException;
 
@@ -72,9 +72,9 @@ public class ZerliServer extends AbstractServer {
                 if(messageFromServer.getAnswer() == LOGOUT_SUCCEED)
                     ServerUIController.setClientLoggedOutTable(client);
                 break;
-            case GET_PRODUCT:
-                messageFromServer = CatalogController.getProductsFromDataBase();
-                break;
+//            case GET_PRODUCT:
+//                messageFromServer = CatalogController.getProductsFromDataBase();
+//                break;
             case SEND_ORDER_TO_SERVER:
                 messageFromServer =CatalogController.getOrderFromCatalog(messageFromClient);
                 break;
@@ -86,6 +86,24 @@ public class ZerliServer extends AbstractServer {
                 break;
             case ADD_NEW_ORDER:
                 messageFromServer = OrderController.AddNewOrder((Order) messageFromClient.getData());
+            case ITEM_ADD:
+                messageFromServer = ItemController.addItem(messageFromClient);
+                break;
+            case ITEMS_GET:
+                messageFromServer = ItemController.getAllItems();
+                break;
+            case ITEM_UPDATE:
+                messageFromServer = ItemController.updateItem(messageFromClient);
+                break;
+            case ITEM_DELETE:
+                messageFromServer = ItemController.deleteItem(messageFromClient);
+                break;
+            case PRODUCT_ADD:
+                messageFromServer = ProductController.addProduct(messageFromClient);
+                break;
+            case PRODUCTS_GET:
+                messageFromServer = ProductController.getAllProducts();
+                break;
             default:
                 break;
         }
@@ -93,6 +111,7 @@ public class ZerliServer extends AbstractServer {
             if(messageFromServer != null)
                 client.sendToClient(messageFromServer);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
 

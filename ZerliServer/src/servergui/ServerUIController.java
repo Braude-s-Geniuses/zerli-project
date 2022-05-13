@@ -20,7 +20,6 @@ import user.User;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /** represents the GUI Controller of the server.

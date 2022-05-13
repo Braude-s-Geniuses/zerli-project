@@ -1,35 +1,34 @@
 package order;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
 import java.util.HashMap;
 
 public class Product implements Serializable {
     private int productId;
     private String name;
+    private HashMap<Item, Integer> items = new HashMap<Item, Integer>();
     private float price;
     private float discountPrice;
-    private String image;
-    private HashMap<Item,Integer> items = new HashMap<>();
+    private SerialBlob image;
     private boolean customMade;
     private String dominantColor;
 
     public Product() {
+
     }
 
-
-
-    public Product(int productId, String name, float price, float discountPrice, String image, HashMap<Item,Integer> items, boolean customMade,String dominantColor) {
-        this.productId = productId;
+    public Product(String name, HashMap<Item, Integer> items, float price, float discountPrice, SerialBlob image, boolean customMade, String dominantColor) {
         this.name = name;
+        this.items = items;
         this.price = price;
         this.discountPrice = discountPrice;
         this.image = image;
-        this.items = items;
         this.customMade = customMade;
         this.dominantColor = dominantColor;
     }
 
-    public Product(int productId, String name, float price, float discountPrice, String image, boolean customMade, String dominantColor) {
+    public Product(int productId, String name, float price, float discountPrice, SerialBlob image, boolean customMade, String dominantColor) {
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -55,6 +54,14 @@ public class Product implements Serializable {
         this.name = name;
     }
 
+    public HashMap<Item, Integer> getItems() {
+        return items;
+    }
+
+    public void setItems(HashMap<Item, Integer> items) {
+        this.items = items;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -63,8 +70,8 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public String priceToString(){
-        return String.valueOf(price) + " \u20AA";
+    public String priceToString() {
+        return price + " \u20AA";
     }
 
     public float getDiscountPrice() {
@@ -75,31 +82,15 @@ public class Product implements Serializable {
         this.discountPrice = discountPrice;
     }
 
-    public String getImage() {
+    public SerialBlob getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(SerialBlob image) {
         this.image = image;
     }
 
-    public HashMap<Item, Integer> getItems() {
-        return items;
-    }
-
-    public void setItems(HashMap<Item, Integer> items) {
-        this.items = items;
-    }
-
-    public String getDominantColor() {
-        return dominantColor;
-    }
-
-    public void setDominantColor(String dominantColor) {
-        this.dominantColor = dominantColor;
-    }
-
-    public boolean getCustomMade(){
+    public boolean isCustomMade() {
         return customMade;
     }
 
@@ -111,32 +102,26 @@ public class Product implements Serializable {
         return customMade == false ? "Premade" : "Custom Made";
     }
 
-    public void addFlowersToProduct(Item item , Integer quantity){
-        this.items.put(item, quantity);
+    public String getDominantColor() {
+        return dominantColor;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Product product = (Product) o;
-
-        if (getProductId() != product.getProductId()) return false;
-        return getName().equals(product.getName());
+    public void setDominantColor(String dominantColor) {
+        this.dominantColor = dominantColor;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", name=" + name +
+                ", name='" + name + '\'' +
+                ", items=" + items +
                 ", price=" + price +
                 ", discountPrice=" + discountPrice +
                 ", image=" + image +
-                ", items=" + items +
-                ", dominantColor=" + dominantColor +
                 ", customMade=" + customMade +
+                ", dominantColor='" + dominantColor + '\'' +
                 '}';
     }
+
 }

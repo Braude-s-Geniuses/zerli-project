@@ -13,7 +13,8 @@ public class CatalogController {
 
 
     public void getProducts() {
-        Client.clientController.getClient().handleMessageFromUI(new Message(null, MessageFromClient.GET_PRODUCT), true);
+        Client.productController.getProducts();
+        //Client.clientController.getClient().handleMessageFromUI(new Message(null, MessageFromClient.GET_PRODUCT), true);
     }
 
     public void setProducts(ArrayList<Product> list) {

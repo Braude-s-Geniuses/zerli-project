@@ -1,12 +1,9 @@
 package server;
 
-import com.mysql.cj.xdevapi.Client;
 import communication.Message;
 import communication.MessageFromServer;
 import order.Order;
 import order.OrderProduct;
-import order.Product;
-import user.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -45,7 +42,6 @@ public class OrderController {
 
                 orders.add(order);
             }
-            System.out.println("orders form DB " + orders);
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,12 +1,10 @@
 package server;
 
-import communication.Message;
-import communication.MessageFromServer;
 import servergui.ServerUIController;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /** DatabaseController represents the controller used to interact with the MySQL database.
  *

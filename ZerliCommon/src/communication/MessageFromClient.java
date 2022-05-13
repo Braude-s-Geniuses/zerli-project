@@ -13,5 +13,13 @@ public enum MessageFromClient implements Serializable {
     SEND_ORDER_TO_SERVER,
     REQUEST_ORDERS_TABLE,
     REQUEST_BRANCHES,
-    ADD_NEW_ORDER
+    ADD_NEW_ORDER,
+    ITEM_ADD,
+    ITEMS_GET,
+    ITEM_UPDATE,
+    ITEM_DELETE,
+    PRODUCT_ADD,
+    PRODUCTS_GET,
+    PRODUCT_UPDATE,
+    PRODUCT_DELETE,
 }

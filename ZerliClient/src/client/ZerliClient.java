@@ -4,11 +4,8 @@ import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
 import ocsf.client.AbstractClient;
-import order.Order;
 import order.Product;
-import user.Customer;
 import user.User;
-import user.UserType;
 
 import java.util.ArrayList;
 
@@ -72,6 +69,26 @@ public class ZerliClient extends AbstractClient {
             case ADDED_ORDER_SUCCESSFULLY:
             case ADDED_ORDER_NOT_SUCCESSFULLY:
                 Client.orderController.setResponse((Message) msg);
+                break;
+            case ITEM_ADD_SUCCESS:
+            case ITEM_ADD_FAIL:
+            case ITEMS_GET_SUCCESS:
+            case ITEMS_GET_FAIL:
+            case ITEM_UPDATE_SUCCESS:
+            case ITEM_UPDATE_FAIL:
+            case ITEM_DELETE_SUCCESS:
+            case ITEM_DELETE_FAIL:
+                Client.itemController.setResponse(messageFromServer);
+                break;
+            case PRODUCT_ADD_SUCCESS:
+            case PRODUCT_ADD_FAIL:
+            case PRODUCTS_GET_SUCCESS:
+            case PRODUCTS_GET_FAIL:
+            case PRODUCT_UPDATE_SUCCESS:
+            case PRODUCT_UPDATE_FAIL:
+            case PRODUCT_DELETE_SUCCESS:
+            case PRODUCT_DELETE_FAIL:
+                Client.productController.setResponse(messageFromServer);
                 break;
         }
 

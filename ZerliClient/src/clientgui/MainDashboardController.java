@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import user.UserType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,6 +49,15 @@ public class MainDashboardController implements Initializable {
         Button buttonBrowseCatalog = new Button("Browse Catalog");
         buttonBrowseCatalog.setOnAction(event -> setContentFromFXML("BrowseCatalogPage.fxml"));
 
+        Button buttonAddItem = new Button("Add Item");
+        buttonAddItem.setOnAction(event -> setContentFromFXML("ItemAddPage.fxml"));
+
+        Button buttonManageItems = new Button("Manage Items");
+        buttonManageItems.setOnAction(event -> setContentFromFXML("ItemsManagePage.fxml"));
+
+        Button buttonAddProduct = new Button("Add Product");
+        buttonAddProduct.setOnAction(event -> setContentFromFXML("ProductAddPage.fxml"));
+
         /* If current Client is a guest, shows only Browse Catalog in side-menu */
         if(Client.userController.getLoggedInUser() == null) {
             addSideNavButton(buttonBrowseCatalog);
@@ -75,6 +83,9 @@ public class MainDashboardController implements Initializable {
                 case BRANCH_EMPLOYEE:
                     break;
                 case BRANCH_MANAGER:
+                    addSideNavButton(buttonAddItem);
+                    addSideNavButton(buttonManageItems);
+                    addSideNavButton(buttonAddProduct);
                     break;
                 case SERVICE_EMPLOYEE:
                     break;
@@ -83,6 +94,9 @@ public class MainDashboardController implements Initializable {
                 case DELIVERY_OPERATOR:
                     break;
                 case CEO:
+                    addSideNavButton(buttonAddItem);
+                    addSideNavButton(buttonManageItems);
+                    addSideNavButton(buttonAddProduct);
             }
         }
         /* All user types see the relevant login/out button */

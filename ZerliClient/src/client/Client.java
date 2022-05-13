@@ -3,17 +3,9 @@ package client;
 import clientgui.InputHostnameFormController;
 import clientgui.MainDashboardController;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.io.IOException;
 
 /**
  * Client represents the main ZerliClient Runnable
@@ -30,6 +22,9 @@ public class Client extends Application {
     public static UserController userController;
 
     public static CatalogController catalogController;
+
+    public static ItemController itemController;
+    public static ProductController productController;
 
     /**
      * represents the controller instance of the hostname form gui.
@@ -83,5 +78,7 @@ public class Client extends Application {
         userController = new UserController();
         catalogController = new CatalogController();
         orderController = new OrderController();
+        itemController = new ItemController();
+        productController = new ProductController();
     }
 }

@@ -18,7 +18,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
-
 import order.Order;
 import order.OrderProduct;
 

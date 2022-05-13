@@ -1,10 +1,7 @@
 package client;
 
 import communication.Message;
-import communication.MessageFromServer;
-import user.Customer;
 import user.User;
-import user.UserType;
 
 import static communication.MessageFromClient.LOGIN_REQUEST;
 import static communication.MessageFromClient.LOGOUT_REQUEST;
