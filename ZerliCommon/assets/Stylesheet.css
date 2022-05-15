@@ -2,7 +2,7 @@
 	-fx-background-radius: 0;
 	-fx-background-color: transparent;
 	-fx-font-family: "Calibri";
-	-fx-font-size: 24;
+	-fx-font-size: 20;
 	-fx-text-fill: #77385a;
 }
 
@@ -170,17 +170,74 @@
     -fx-font-size: 16;
 }
 
-.new-price-label{
+.new-price-label {
     -fx-fill: #77385a;
     -fx-font-weight: bold;
     -fx-font-size: 17;
     -fx-font-family: 'Calibri';
 }
 
-.cart-btn{
+.cart-btn {
     -fx-background-color: transparent;
     -fx-text-fill: #77385a;
     -fx-font-weight: bold;
     -fx-graphic-text-gap: 10;
 
+}
+
+.text-flow {
+    -fx-pref-width: 640;
+    -fx-pref-height: 25;
+    -fx-font-size: 14;
+    -fx-padding: 5 5 5 5;
+    -fx-text-alignment: center;
+    -fx-border-radius: 0.5;
+}
+
+.text-flow-primary {
+    -fx-text-fill: #084298;
+    -fx-background-color: #cfe2ff;
+    -fx-border-color: #b6d4fe;
+}
+
+.text-flow-secondary {
+    -fx-text-fill: #41464b;
+    -fx-background-color: #e2e3e5;
+    -fx-border-color: #d3d6d8;
+}
+
+.text-flow-success {
+    -fx-text-fill: #0f5132;
+    -fx-background-color: #d1e7dd;
+    -fx-border-color: #badbcc;
+}
+
+.text-flow-danger {
+    -fx-text-fill: #842029;
+    -fx-background-color: #f8d7da;
+    -fx-border-color: #f5c2c7;
+}
+
+.text-flow-warning {
+    -fx-text-fill: #664d03;
+    -fx-background-color: #fff3cd;
+    -fx-border-color: #ffecb5;
+}
+
+.text-flow-info {
+    -fx-text-fill: #055160;
+    -fx-background-color: #cff4fc;
+    -fx-border-color: #b6effb;
+}
+
+.text-flow-light {
+    -fx-text-fill: #636464;
+    -fx-background-color: #fefefe;
+    -fx-border-color: #fdfdfe;
+}
+
+.text-flow-dark {
+    -fx-text-fill: #141619;
+    -fx-background-color: #d3d3d4;
+    -fx-border-color: #bcbebf;
 }

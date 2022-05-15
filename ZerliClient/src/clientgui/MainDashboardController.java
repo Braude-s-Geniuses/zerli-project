@@ -1,6 +1,9 @@
 package clientgui;
 
 import client.Client;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +14,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
+import util.Alert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +45,46 @@ public class MainDashboardController implements Initializable {
         sideNavigationBox = sideNavigation;
         topNavigationBox = topNavigation;
         buildUserNavigation();
+    }
+
+    public void clickLogo() {
+        setContentFromFXML(
+                Client.userController.getLoggedInUser() != null ?
+                        "UserHomePage.fxml" :
+                        "BrowseCatalogPage.fxml"
+        );
+    }
+
+    /** Displays a custom alert message inside the dashboard's content AnchorPane for a specified duration.
+     *
+     * @param message - The alert message to show
+     * @param alert - Which type of alert (Refer to <code>util.Alert</code>). The only difference between each type
+     *              is the colors used.
+     * @param duration - For how long to show the already (e.g. Duration.seconds(2), Duration.minutes(1), etc...)
+     * @param layoutX - X position in the AnchorPane to place the alert.
+     * @param layoutY - Y position in the AnchorPane to place the alert.
+     */
+    public static void createAlert(String message, Alert alert, Duration duration, double layoutX, double layoutY) {
+        TextFlow textFlow = new TextFlow();
+        Text text = new Text(message);
+        textFlow.getChildren().add(text);
+        textFlow.getStyleClass().add("text-flow");
+        textFlow.getStyleClass().add("text-flow-" + alert);
+        textFlow.setLayoutX(layoutX);
+        textFlow.setLayoutY(layoutY);
+
+        MainDashboardController.getContentBox().getChildren().add(textFlow);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        duration,
+                        event -> {
+                            MainDashboardController.getContentBox().getChildren().remove(textFlow);
+                        }
+                )
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     public static void buildUserNavigation() {
@@ -150,7 +197,7 @@ public class MainDashboardController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        MainDashboardController.getContentBox().getChildren().setAll(node);
+        getContentBox().getChildren().setAll(node);
     }
 
     public static AnchorPane getContentBox(){

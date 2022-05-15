@@ -36,7 +36,7 @@
                   <Font name="Calibri" size="18.0" />
               </font>
           </Button>
-          <Label fx:id="lblMessage" layoutX="286.0" layoutY="379.0" prefHeight="22.0" prefWidth="220.0">
+          <Label fx:id="lblNameMessage" layoutX="155.0" layoutY="149.0" prefHeight="22.0" prefWidth="183.0" text="Name cannot be empty" textFill="INDIANRED">
               <font>
                   <Font name="Calibri" size="18.0" />
               </font>
@@ -83,13 +83,13 @@
             <Font name="Calibri" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="lblName112" layoutX="484.0" layoutY="535.0" text="Color:">
+      <Label fx:id="lblColor" layoutX="484.0" layoutY="535.0" text="Color:">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
       </Label>
       <ComboBox fx:id="cbColor" layoutX="556.0" layoutY="526.0" prefHeight="40.0" prefWidth="220.0" promptText="Dominant Color" styleClass="combo" />
-      <Label fx:id="lblPictureName" layoutX="136.0" layoutY="566.0" prefHeight="22.0" prefWidth="220.0">
+      <Label fx:id="lblPictureName" layoutX="361.0" layoutY="535.0" prefHeight="22.0" prefWidth="107.0">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
@@ -102,6 +102,26 @@
       <Label fx:id="lblCalculatedPrice" layoutX="361.0" layoutY="471.0" prefHeight="17.0" prefWidth="155.0" textFill="#77385a">
          <font>
             <Font name="Calibri" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblItemsMessage" layoutX="550.0" layoutY="429.0" prefHeight="22.0" prefWidth="233.0" text="Product items cannot be empty" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPriceMessage" layoutX="164.0" layoutY="499.0" prefHeight="22.0" prefWidth="165.0" text="Invalid product price" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblColorMessage" layoutX="584.0" layoutY="566.0" prefHeight="22.0" prefWidth="165.0" text="Select product color" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblImageMessage" layoutX="164.0" layoutY="566.0" prefHeight="22.0" prefWidth="165.0" text="Upload product image" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
          </font>
       </Label>
     </children>

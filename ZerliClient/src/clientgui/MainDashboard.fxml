@@ -11,7 +11,7 @@
          <children>
             <Pane prefHeight="189.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="158.0" fitWidth="158.0" layoutX="21.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="158.0" fitWidth="158.0" layoutX="21.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#clickLogo">
                      <image>
                         <Image url="@/logo.png" />
                      </image>

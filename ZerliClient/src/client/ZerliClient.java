@@ -113,7 +113,7 @@ public class ZerliClient extends AbstractClient {
                 }
             }
         } catch (Exception e) {
-            quit(false);
+            e.printStackTrace();
         }
     }
 

@@ -331,7 +331,7 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnBack(ActionEvent event) throws IOException {
-       MainDashboardController.setContentFromFXML("OrderRecipientPage.fxml");
+        MainDashboardController.setContentFromFXML("OrderRecipientPage.fxml");
     }
 
     /**

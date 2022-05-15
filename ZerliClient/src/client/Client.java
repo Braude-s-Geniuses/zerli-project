@@ -3,7 +3,10 @@ package client;
 import clientgui.InputHostnameFormController;
 import clientgui.MainDashboardController;
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -11,8 +14,6 @@ import javafx.stage.WindowEvent;
  * Client represents the main ZerliClient Runnable
  */
 public class Client extends Application {
-
-    public static MainDashboardController mainDashboardController;
 
     /**
      * represents the only (static) instance of a client.
@@ -43,7 +44,6 @@ public class Client extends Application {
      */
     public static OrderController orderController;
 
-
     public static void main(String args[]) throws Exception {
         launch(args);
     }
@@ -73,7 +73,6 @@ public class Client extends Application {
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname) {
-        mainDashboardController = new MainDashboardController();
         clientController = new ClientController(hostname);
         userController = new UserController();
         catalogController = new CatalogController();

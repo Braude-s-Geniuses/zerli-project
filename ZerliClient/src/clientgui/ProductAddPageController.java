@@ -1,16 +1,24 @@
 package clientgui;
 
 import client.Client;
+import communication.MessageFromServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import order.Item;
 import order.Product;
+import sun.applet.Main;
+import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -44,7 +52,7 @@ public class ProductAddPageController implements Initializable {
     private Button btnAddProduct;
 
     @FXML
-    private Label lblMessage;
+    private Label lblNameMessage;
 
     @FXML
     private Button btnBack;
@@ -77,7 +85,7 @@ public class ProductAddPageController implements Initializable {
     private Button btnUploadImage;
 
     @FXML
-    private Label lblName112;
+    private Label lblColor;
 
     @FXML
     private ComboBox<?> cbColor;
@@ -86,16 +94,27 @@ public class ProductAddPageController implements Initializable {
     private Label lblPictureName;
 
     @FXML
-    private ImageView imgProduct;
-
-    @FXML
     private Label lblAddMessage;
 
     @FXML
     private Label lblCalculatedPrice;
 
+    @FXML
+    private Label lblItemsMessage;
+
+    @FXML
+    private Label lblPriceMessage;
+
+    @FXML
+    private Label lblColorMessage;
+
+    @FXML
+    private Label lblImageMessage;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        hideErrorsLabels();
+
         List<String> colorList = new ArrayList<String>();
 
         colorList.add("Black");
@@ -160,18 +179,24 @@ public class ProductAddPageController implements Initializable {
 
     @FXML
     void clickBtnAddProduct(ActionEvent event) throws IOException, SerialException {
+        hideErrorsLabels();
 
-        HashMap<Item, Integer> items = new HashMap<>();
-        boolean customMade = false;
+        if(validateBeforeSubmit()) {
+            HashMap<Item, Integer> items = new HashMap<>();
+            boolean customMade = false;
 
-        for(Item item : availableItems)
-            items.put(item, 1);
+            for (Item item : availableItems)
+                items.put(item, 1);
 
-        if(availableItems.size() == 1)
-            customMade = true;
+            if (availableItems.size() == 1)
+                customMade = true;
 
-        Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
-        Client.productController.addProduct(product);
+            Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
+            Client.productController.addProduct(product);
+            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
+                MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
+            }
+        }
     }
 
     @FXML
@@ -207,5 +232,53 @@ public class ProductAddPageController implements Initializable {
             lblCalculatedPrice.setVisible(true);
         } else
             lblCalculatedPrice.setVisible(false);
+    }
+
+    private boolean validateBeforeSubmit() {
+        boolean validated = true;
+        if(fldName.getText().isEmpty()) {
+            lblNameMessage.setVisible(true);
+            validated = false;
+        }
+
+        if(itemsAdded.isEmpty()) {
+            lblItemsMessage.setVisible(true);
+            validated = false;
+        }
+
+        if(fldPrice.getText().isEmpty()) {
+            lblPriceMessage.setVisible(true);
+            validated = false;
+        }
+
+        try {
+            Float.parseFloat(fldPrice.getText());
+        } catch (NumberFormatException e) {
+            lblPriceMessage.setVisible(true);
+            validated = false;
+        }
+
+        if(uploadedImage == null) {
+            lblImageMessage.setVisible(true);
+            validated = false;
+        }
+
+        if(cbColor.getSelectionModel().isEmpty()) {
+            lblColorMessage.setVisible(true);
+            validated = false;
+        }
+
+        if(validated)
+            return true;
+
+        return false;
+    }
+
+    private void hideErrorsLabels() {
+        lblNameMessage.setVisible(false);
+        lblItemsMessage.setVisible(false);
+        lblPriceMessage.setVisible(false);
+        lblImageMessage.setVisible(false);
+        lblColorMessage.setVisible(false);
     }
 }
