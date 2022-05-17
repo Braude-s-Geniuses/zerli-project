@@ -195,49 +195,41 @@
 }
 
 .text-flow-primary {
-    -fx-text-fill: #084298;
     -fx-background-color: #cfe2ff;
     -fx-border-color: #b6d4fe;
 }
 
 .text-flow-secondary {
-    -fx-text-fill: #41464b;
     -fx-background-color: #e2e3e5;
     -fx-border-color: #d3d6d8;
 }
 
 .text-flow-success {
-    -fx-text-fill: #0f5132;
     -fx-background-color: #d1e7dd;
     -fx-border-color: #badbcc;
 }
 
 .text-flow-danger {
-    -fx-text-fill: #842029;
     -fx-background-color: #f8d7da;
     -fx-border-color: #f5c2c7;
 }
 
 .text-flow-warning {
-    -fx-text-fill: #664d03;
     -fx-background-color: #fff3cd;
     -fx-border-color: #ffecb5;
 }
 
 .text-flow-info {
-    -fx-text-fill: #055160;
     -fx-background-color: #cff4fc;
     -fx-border-color: #b6effb;
 }
 
 .text-flow-light {
-    -fx-text-fill: #636464;
     -fx-background-color: #fefefe;
     -fx-border-color: #fdfdfe;
 }
 
 .text-flow-dark {
-    -fx-text-fill: #141619;
     -fx-background-color: #d3d3d4;
     -fx-border-color: #bcbebf;
 }

@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -67,6 +69,33 @@ public class MainDashboardController implements Initializable {
     public static void createAlert(String message, Alert alert, Duration duration, double layoutX, double layoutY) {
         TextFlow textFlow = new TextFlow();
         Text text = new Text(message);
+
+        switch(alert) {
+            case PRIMARY:
+                text.setFill(Color.web("#084298"));
+                break;
+            case SECONDARY:
+                text.setFill(Color.web("#41464b"));
+                break;
+            case SUCCESS:
+                text.setFill(Color.web("#0f5132"));
+                break;
+            case DANGER:
+                text.setFill(Color.web("#842029"));
+                break;
+            case WARNING:
+                text.setFill(Color.web("#664d03"));
+                break;
+            case INFO:
+                text.setFill(Color.web("#055160"));
+                break;
+            case LIGHT:
+                text.setFill(Color.web("#636464"));
+                break;
+            case DARK:
+                text.setFill(Color.web("#141619"));
+                break;
+        }
         textFlow.getChildren().add(text);
         textFlow.getStyleClass().add("text-flow");
         textFlow.getStyleClass().add("text-flow-" + alert);
@@ -141,6 +170,10 @@ public class MainDashboardController implements Initializable {
                 case DELIVERY_OPERATOR:
                     break;
                 case CEO:
+                    Button buttonAlerts = new Button("Alerts Test");
+                    buttonAlerts.setOnAction(event -> setContentFromFXML("AlertTest.fxml"));
+                    addSideNavButton(buttonAlerts);
+
                     addSideNavButton(buttonAddItem);
                     addSideNavButton(buttonManageItems);
                     addSideNavButton(buttonAddProduct);

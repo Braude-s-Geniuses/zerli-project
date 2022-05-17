@@ -2,11 +2,13 @@ package server;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import servergui.ServerUIController;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /** Server represents the main ZerliServer Runnable
  *
@@ -57,6 +59,7 @@ public class Server extends Application {
         serverUIController.start(primaryStage);
 
         serverController = new ServerController();
+
         /** Once the server window is closed, close the server connection safely.
          *
          */

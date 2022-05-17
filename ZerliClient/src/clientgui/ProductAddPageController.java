@@ -7,17 +7,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import order.Item;
 import order.Product;
-import sun.applet.Main;
 import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -27,10 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * TODO: Add page validation.
@@ -40,7 +31,8 @@ public class ProductAddPageController implements Initializable {
     private ArrayList<Item> availableItems;
     private SerialBlob uploadedImage;
     private ObservableList<Item> items = FXCollections.observableArrayList();
-    private ObservableList<Item> itemsAdded = FXCollections.observableArrayList();
+    private ObservableList<ItemWithQuantity> itemsAdded = FXCollections.observableArrayList();
+    private List<Integer> choices = new ArrayList<>();
 
     @FXML
     private TextField fldName;
@@ -61,7 +53,7 @@ public class ProductAddPageController implements Initializable {
     private ListView<Item> listItems;
 
     @FXML
-    private ListView<Item> listProduct;
+    private ListView<ItemWithQuantity> listProduct;
 
     @FXML
     private Button btnAdd;
@@ -115,6 +107,9 @@ public class ProductAddPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         hideErrorsLabels();
 
+        for (int i = 1; i <= 20; i++)
+            choices.add(i);
+
         List<String> colorList = new ArrayList<String>();
 
         colorList.add("Black");
@@ -157,9 +152,30 @@ public class ProductAddPageController implements Initializable {
 
         lblAddMessage.setVisible(false);
         Item selectedItem = listItems.getSelectionModel().getSelectedItem();
-        items.remove(selectedItem);
-        itemsAdded.add(selectedItem);
-        updateCalculatedPrice();
+
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1, choices);
+        dialog.setTitle("Zerli Client");
+        dialog.setHeaderText("Select quantity of " + selectedItem.getName() + " you wish you add.");
+        dialog.setContentText("Quantity:");
+
+        Optional<Integer> result = dialog.showAndWait();
+        result.ifPresent(selectedQuantity -> {
+            boolean done = false;
+            for(ItemWithQuantity itemWithQuantity : itemsAdded) {
+                if (itemWithQuantity.item == selectedItem) {
+                    itemWithQuantity.quantity += result.get();
+                    done = true;
+                    listProduct.refresh();
+                    break;
+                }
+            }
+
+            if(!done) {
+                itemsAdded.add(new ItemWithQuantity(selectedItem, result.get()));
+            }
+
+            updateCalculatedPrice();
+        });
     }
 
     @FXML
@@ -171,9 +187,9 @@ public class ProductAddPageController implements Initializable {
         }
 
         lblAddMessage.setVisible(false);
-        Item selectedItem = listProduct.getSelectionModel().getSelectedItem();
+        ItemWithQuantity selectedItem = listProduct.getSelectionModel().getSelectedItem();
         itemsAdded.remove(selectedItem);
-        items.add(selectedItem);
+        items.add(selectedItem.item);
         updateCalculatedPrice();
     }
 
@@ -185,14 +201,16 @@ public class ProductAddPageController implements Initializable {
             HashMap<Item, Integer> items = new HashMap<>();
             boolean customMade = false;
 
-            for (Item item : availableItems)
-                items.put(item, 1);
+            for(ItemWithQuantity itemWithQuantity : itemsAdded)
+                items.put(itemWithQuantity.item, itemWithQuantity.quantity);
 
-            if (availableItems.size() == 1)
+            if(itemsAdded.size() == 1 && itemsAdded.get(0).quantity == 1)
                 customMade = true;
+            System.out.println(customMade);
 
             Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
             Client.productController.addProduct(product);
+
             if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
                 MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
             }
@@ -224,8 +242,8 @@ public class ProductAddPageController implements Initializable {
     public void updateCalculatedPrice() {
         float price = 0.0f;
 
-        for(Item item : itemsAdded) {
-            price += item.getPrice();
+        for(ItemWithQuantity itemWithQuantity : itemsAdded) {
+            price += itemWithQuantity.item.getPrice() * itemWithQuantity.quantity;
         }
         if(price != 0.0f) {
             lblCalculatedPrice.setText("(Calculated Price: " + price + ")");
@@ -280,5 +298,20 @@ public class ProductAddPageController implements Initializable {
         lblPriceMessage.setVisible(false);
         lblImageMessage.setVisible(false);
         lblColorMessage.setVisible(false);
+    }
+
+    private class ItemWithQuantity {
+        Item item;
+        int quantity;
+
+        ItemWithQuantity(Item item, int quantity) {
+            this.item = item;
+            this.quantity = quantity;
+        }
+
+        @Override
+        public String toString() {
+            return item.getName() + " (" + quantity + ")";
+        }
     }
 }

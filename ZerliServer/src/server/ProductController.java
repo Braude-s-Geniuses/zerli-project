@@ -2,13 +2,11 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
+import order.Item;
 import order.Product;
 
 import javax.sql.rowset.serial.SerialBlob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class ProductController {
 
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("INSERT INTO product (name, price, discount_price, image, custom_made, dominant_color) VALUES (?, ?, ?, ?, ?, ?)");
+            preparedStatement = con.prepareStatement("INSERT INTO product (name, price, discount_price, image, custom_made, dominant_color) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, productToAdd.getName());
             preparedStatement.setFloat(2, productToAdd.getPrice());
             preparedStatement.setFloat(3, productToAdd.getDiscountPrice());
@@ -28,6 +26,21 @@ public class ProductController {
             preparedStatement.setBoolean(5, productToAdd.isCustomMade());
             preparedStatement.setString(6, productToAdd.getDominantColor());
             preparedStatement.executeUpdate();
+
+            try(ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if(generatedKeys.next()) {
+                    productToAdd.setProductId(generatedKeys.getInt(1));
+                }
+            }
+
+            for(Item item : productToAdd.getItems().keySet()) {
+                preparedStatement = con.prepareStatement("INSERT INTO product_item (product_id, item_id, quantity) VALUES (?, ?, ?)");
+                preparedStatement.setInt(1, productToAdd.getProductId());
+                preparedStatement.setInt(2, item.getItemId());
+                preparedStatement.setInt(3, productToAdd.getItems().get(item));
+
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return new Message(null, MessageFromServer.PRODUCT_ADD_FAIL);

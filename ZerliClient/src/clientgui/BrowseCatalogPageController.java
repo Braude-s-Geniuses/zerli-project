@@ -18,8 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import order.OrderProduct;
 import order.Product;
+import util.Alert;
 
 import javax.sql.rowset.serial.SerialException;
 import java.io.File;
@@ -132,6 +134,7 @@ public class BrowseCatalogPageController implements Initializable {
             String valueOfQuantity = comboBoxQuantity.getValue();
 
             Client.orderController.addToCart(new OrderProduct(product, Integer.valueOf(valueOfQuantity)));
+            MainDashboardController.createAlert(product.getName() + " was added to cart", Alert.SUCCESS, Duration.seconds(2), 135, 67);
             MainDashboardController.refreshCartCounter();
         });
 
