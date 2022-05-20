@@ -134,6 +134,9 @@ public class MainDashboardController implements Initializable {
         Button buttonAddProduct = new Button("Add Product");
         buttonAddProduct.setOnAction(event -> setContentFromFXML("ProductAddPage.fxml"));
 
+        Button buttonManageProducts = new Button("Manage Products");
+        buttonManageProducts.setOnAction(event -> setContentFromFXML("ProductsManagePage.fxml"));
+
         /* If current Client is a guest, shows only Browse Catalog in side-menu */
         if(Client.userController.getLoggedInUser() == null) {
             addSideNavButton(buttonBrowseCatalog);
@@ -157,13 +160,16 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonMyOrders);
                     break;
                 case BRANCH_EMPLOYEE:
+                    addSideNavButton(buttonManageProducts);
                     break;
                 case BRANCH_MANAGER:
                     addSideNavButton(buttonAddItem);
                     addSideNavButton(buttonManageItems);
                     addSideNavButton(buttonAddProduct);
+                    addSideNavButton(buttonManageProducts);
                     break;
                 case SERVICE_EMPLOYEE:
+
                     break;
                 case EXPERT_SERVICE_EMPLOYEE:
                     break;
@@ -177,6 +183,7 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonAddItem);
                     addSideNavButton(buttonManageItems);
                     addSideNavButton(buttonAddProduct);
+                    addSideNavButton(buttonManageProducts);
             }
         }
         /* All user types see the relevant login/out button */

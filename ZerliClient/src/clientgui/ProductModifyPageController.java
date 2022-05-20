@@ -6,27 +6,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import javafx.util.Duration;
 import order.Item;
 import order.Product;
-import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * TODO: Add page validation.
- */
-public class ProductAddPageController implements Initializable {
+public class ProductModifyPageController {
+
+    private static Product currentProduct;
 
     private ArrayList<Item> availableItems;
     private SerialBlob uploadedImage;
@@ -41,7 +39,7 @@ public class ProductAddPageController implements Initializable {
     private Label lblName;
 
     @FXML
-    private Button btnAddProduct;
+    private Button btnModifyProduct;
 
     @FXML
     private Label lblNameMessage;
@@ -98,49 +96,13 @@ public class ProductAddPageController implements Initializable {
     private Label lblPriceMessage;
 
     @FXML
+    private Label lblDiscountPriceMessage;
+
+    @FXML
     private Label lblColorMessage;
 
     @FXML
-    private Label lblImageMessage;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        hideErrorsLabels();
-
-        for (int i = 1; i <= 20; i++)
-            choices.add(i);
-
-        List<String> colorList = new ArrayList<String>();
-
-        colorList.add("Black");
-        colorList.add("White");
-        colorList.add("Gray");
-        colorList.add("Silver");
-        colorList.add("Maroon");
-        colorList.add("Red");
-        colorList.add("Purple");
-        colorList.add("Pink");
-        colorList.add("Green");
-        colorList.add("Lime");
-        colorList.add("Olive");
-        colorList.add("Yellow");
-        colorList.add("Navy");
-        colorList.add("Blue");
-        colorList.add("Teal");
-        colorList.add("Aqua");
-
-        ObservableList observableList = FXCollections.observableList(colorList);
-        cbColor.setItems(observableList);
-
-        Client.itemController.getItems();
-        availableItems = (ArrayList<Item>) Client.itemController.getResponse().getData();
-
-        for (Item item : (ArrayList<Item>) Client.itemController.getResponse().getData())
-            items.add(item);
-
-        listItems.setItems(items);
-        listProduct.setItems(itemsAdded);
-    }
+    private TextField fldDiscountPrice;
 
     @FXML
     void clickBtnAdd(ActionEvent event) {
@@ -179,6 +141,11 @@ public class ProductAddPageController implements Initializable {
     }
 
     @FXML
+    void clickBtnBack(ActionEvent event) {
+        MainDashboardController.setContentFromFXML("ProductsManagePage.fxml");
+    }
+
+    @FXML
     void clickBtnRemove(ActionEvent event) {
         if(listProduct.getSelectionModel().getSelectedItem() == null) {
             lblAddMessage.setVisible(true);
@@ -191,35 +158,6 @@ public class ProductAddPageController implements Initializable {
         itemsAdded.remove(selectedItem);
         items.add(selectedItem.item);
         updateCalculatedPrice();
-    }
-
-    @FXML
-    void clickBtnAddProduct(ActionEvent event) throws IOException, SerialException {
-        hideErrorsLabels();
-
-        if(validateBeforeSubmit()) {
-            HashMap<Item, Integer> items = new HashMap<>();
-            boolean customMade = false;
-
-            for(ItemWithQuantity itemWithQuantity : itemsAdded)
-                items.put(itemWithQuantity.item, itemWithQuantity.quantity);
-
-            if(itemsAdded.size() == 1 && itemsAdded.get(0).quantity == 1)
-                customMade = true;
-            System.out.println(customMade);
-
-            Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
-            Client.productController.addProduct(product);
-
-            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
-                MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
-            }
-        }
-    }
-
-    @FXML
-    void clickBtnBack(ActionEvent event) {
-        MainDashboardController.setContentFromFXML("UserHomePage.fxml");
     }
 
     @FXML
@@ -237,6 +175,29 @@ public class ProductAddPageController implements Initializable {
 
         lblPictureName.setText(file.getName());
         lblPictureName.setVisible(true);
+    }
+
+    @FXML
+    void clickBtnModifyProduct(ActionEvent event) throws IOException, SerialException {
+        hideErrorsLabels();
+
+        if(validateBeforeSubmit()) {
+            HashMap<Item, Integer> items = new HashMap<>();
+            boolean customMade = false;
+
+            for(ItemWithQuantity itemWithQuantity : itemsAdded)
+                items.put(itemWithQuantity.item, itemWithQuantity.quantity);
+
+            if(itemsAdded.size() == 1 && itemsAdded.get(0).quantity == 1)
+                customMade = true;
+
+//            Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
+//            Client.productController.addProduct(product);
+//
+//            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
+//                MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
+//            }
+        }
     }
 
     private void updateCalculatedPrice() {
@@ -276,11 +237,6 @@ public class ProductAddPageController implements Initializable {
             validated = false;
         }
 
-        if(uploadedImage == null) {
-            lblImageMessage.setVisible(true);
-            validated = false;
-        }
-
         if(cbColor.getSelectionModel().isEmpty()) {
             lblColorMessage.setVisible(true);
             validated = false;
@@ -296,8 +252,12 @@ public class ProductAddPageController implements Initializable {
         lblNameMessage.setVisible(false);
         lblItemsMessage.setVisible(false);
         lblPriceMessage.setVisible(false);
-        lblImageMessage.setVisible(false);
+        lblDiscountPriceMessage.setVisible(false);
         lblColorMessage.setVisible(false);
+    }
+
+    public static void setCurrentProduct(Product product) {
+        currentProduct = product;
     }
 
     private class ItemWithQuantity {
