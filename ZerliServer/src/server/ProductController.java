@@ -8,6 +8,7 @@ import order.Product;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductController {
@@ -51,6 +52,35 @@ public class ProductController {
 
     public static Message updateProduct(Message messageFromClient) {
         Product productToUpdate = (Product) messageFromClient.getData();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = con.prepareStatement("UPDATE product SET name=?, price=?, discount_price=?, image=?, custom_made=?, in_catalog=? WHERE product_id=?");
+            preparedStatement.setString(1, productToUpdate.getName());
+            preparedStatement.setFloat(2, productToUpdate.getPrice());
+            preparedStatement.setFloat(3, productToUpdate.getDiscountPrice());
+            preparedStatement.setBlob(4, productToUpdate.getImage());
+            preparedStatement.setBoolean(5, productToUpdate.isCustomMade());
+            preparedStatement.setBoolean(6, productToUpdate.isInCatalog());
+            preparedStatement.setInt(7, productToUpdate.getProductId());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = con.prepareStatement("DELETE FROM product_item WHERE product_id=?");
+            preparedStatement.setInt(1, productToUpdate.getProductId());
+            preparedStatement.executeUpdate();
+
+            for(Item item : productToUpdate.getItems().keySet()) {
+                preparedStatement = con.prepareStatement("INSERT INTO product_item (product_id, item_id, quantity) VALUES (?, ?, ?)");
+                preparedStatement.setInt(1, productToUpdate.getProductId());
+                preparedStatement.setInt(2, item.getItemId());
+                preparedStatement.setInt(3, productToUpdate.getItems().get(item));
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.PRODUCT_UPDATE_FAIL);
+        }
 
         return new Message(null, MessageFromServer.PRODUCT_UPDATE_SUCCESS);
     }
@@ -79,7 +109,8 @@ public class ProductController {
                         resultSet.getFloat("discount_price"),
                         serialBlob,
                         resultSet.getBoolean("custom_made"),
-                        resultSet.getString("dominant_color")
+                        resultSet.getString("dominant_color"),
+                        resultSet.getBoolean("in_catalog")
                 ));
             }
         } catch (SQLException e) {
@@ -88,5 +119,26 @@ public class ProductController {
         }
 
         return new Message(products, MessageFromServer.PRODUCTS_GET_SUCCESS);
+    }
+
+    public static Message getProductItems(Message messageFromClient) {
+        int productId = (int) messageFromClient.getData();
+
+        HashMap<Integer, Integer> productItems = new HashMap<>();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = con.prepareStatement("SELECT * FROM product_item WHERE product_id = ?");
+            preparedStatement.setInt(1, productId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                productItems.put(resultSet.getInt("item_id"), resultSet.getInt("quantity"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.PRODUCT_GET_ITEMS_FAIL);
+        }
+        return new Message(productItems, MessageFromServer.PRODUCT_GET_ITEMS_SUCCEED);
     }
 }

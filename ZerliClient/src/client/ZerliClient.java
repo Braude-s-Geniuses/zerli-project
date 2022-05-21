@@ -84,6 +84,8 @@ public class ZerliClient extends AbstractClient {
             case PRODUCT_ADD_FAIL:
             case PRODUCTS_GET_SUCCESS:
             case PRODUCTS_GET_FAIL:
+            case PRODUCT_GET_ITEMS_SUCCEED:
+            case PRODUCT_GET_ITEMS_FAIL:
             case PRODUCT_UPDATE_SUCCESS:
             case PRODUCT_UPDATE_FAIL:
             case PRODUCT_DELETE_SUCCESS:

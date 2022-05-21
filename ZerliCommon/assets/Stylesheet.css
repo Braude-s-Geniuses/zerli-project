@@ -185,6 +185,10 @@
 
 }
 
+.cart-btn:hover {
+    -fx-underline: true;
+}
+
 .text-flow {
     -fx-pref-width: 640;
     -fx-pref-height: 25;

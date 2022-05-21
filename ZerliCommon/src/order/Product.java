@@ -13,6 +13,7 @@ public class Product implements Serializable {
     private SerialBlob image;
     private boolean customMade;
     private String dominantColor;
+    private boolean inCatalog;
 
     public Product() {
 
@@ -28,7 +29,7 @@ public class Product implements Serializable {
         this.dominantColor = dominantColor;
     }
 
-    public Product(int productId, String name, float price, float discountPrice, SerialBlob image, boolean customMade, String dominantColor) {
+    public Product(int productId, String name, float price, float discountPrice, SerialBlob image, boolean customMade, String dominantColor, boolean inCatalog) {
         this.productId = productId;
         this.name = name;
         this.price = price;
@@ -36,6 +37,7 @@ public class Product implements Serializable {
         this.image = image;
         this.customMade = customMade;
         this.dominantColor = dominantColor;
+        this.inCatalog = inCatalog;
     }
 
     public int getProductId() {
@@ -108,6 +110,24 @@ public class Product implements Serializable {
 
     public void setDominantColor(String dominantColor) {
         this.dominantColor = dominantColor;
+    }
+
+    public boolean isInCatalog() {
+        return inCatalog;
+    }
+
+    public void setInCatalog(boolean inCatalog) {
+        this.inCatalog = inCatalog;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        return getProductId() == product.getProductId();
     }
 
     @Override

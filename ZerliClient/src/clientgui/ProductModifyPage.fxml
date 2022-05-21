@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -134,6 +135,11 @@
             <Font name="Calibri" size="18.0" />
          </font>
       </Label>
+      <CheckBox fx:id="cbInCatalog" layoutX="557.0" layoutY="108.0" mnemonicParsing="false" text="Show in Catalog">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </CheckBox>
     </children>
     <stylesheets>
         <URL value="@/Stylesheet.css" />

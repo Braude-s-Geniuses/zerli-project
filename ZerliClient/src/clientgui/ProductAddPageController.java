@@ -189,7 +189,6 @@ public class ProductAddPageController implements Initializable {
         lblAddMessage.setVisible(false);
         ItemWithQuantity selectedItem = listProduct.getSelectionModel().getSelectedItem();
         itemsAdded.remove(selectedItem);
-        items.add(selectedItem.item);
         updateCalculatedPrice();
     }
 

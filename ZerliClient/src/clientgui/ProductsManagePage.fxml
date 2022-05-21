@@ -16,11 +16,12 @@
         </Label>
         <TableView fx:id="tableProducts" layoutX="29.0" layoutY="124.0" prefHeight="508.0" prefWidth="930.0">
             <columns>
-                <TableColumn fx:id="columnName" prefWidth="248.0" text="Name" />
-                <TableColumn fx:id="columnCustom" prefWidth="127.0" text="Custom" />
-                <TableColumn fx:id="columnColor" minWidth="0.0" prefWidth="143.0" text="Color" />
-                <TableColumn fx:id="columnPrice" editable="false" minWidth="0.0" prefWidth="167.0" sortable="false" text="Price" />
-                <TableColumn fx:id="columnAction" editable="false" prefWidth="244.0" sortable="false" text="Action" />
+                <TableColumn fx:id="columnName" prefWidth="229.0" text="Name" />
+                <TableColumn fx:id="columnCustom" prefWidth="101.0" text="Custom" />
+                <TableColumn fx:id="columnColor" minWidth="0.0" prefWidth="94.0" text="Color" />
+                <TableColumn fx:id="columnPrice" editable="false" minWidth="0.0" prefWidth="187.0" sortable="false" text="Price" />
+            <TableColumn fx:id="columnInCatalog" prefWidth="149.0" text="In Catalog" />
+                <TableColumn fx:id="columnAction" editable="false" prefWidth="168.0" sortable="false" text="Action" />
             </columns>
         </TableView>
         <Button fx:id="btnAddProduct" layoutX="29.0" layoutY="74.0" mnemonicParsing="false" onAction="#clickBtnAddProduct" prefHeight="34.0" prefWidth="120.0" styleClass="btn" text="Add Product" textFill="#77385a">

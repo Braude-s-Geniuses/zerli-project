@@ -44,6 +44,9 @@ public class ProductsManagePageController implements Initializable {
     private TableColumn<Product, String> columnPrice;
 
     @FXML
+    private TableColumn<Product, Boolean> columnInCatalog;
+
+    @FXML
     private TableColumn<Product, Boolean> columnAction;
 
     @FXML
@@ -55,6 +58,7 @@ public class ProductsManagePageController implements Initializable {
         columnCustom.setCellValueFactory(new PropertyValueFactory<Product, Boolean>("customMade"));
         columnColor.setCellValueFactory(new PropertyValueFactory<Product, String>("dominantColor"));
         columnPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+        columnInCatalog.setCellValueFactory(new PropertyValueFactory<Product, Boolean>("inCatalog"));
         columnAction.setSortable(false);
 
         Client.productController.getProducts();
@@ -103,7 +107,8 @@ public class ProductsManagePageController implements Initializable {
             modifyButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    // TODO: Add modify action
+                    ProductModifyPageController.setCurrentProduct((Product) table.getItems().get(getTableRow().getIndex()));
+                    MainDashboardController.setContentFromFXML("ProductModifyPage.fxml");
                 }
             });
         }

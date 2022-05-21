@@ -6,23 +6,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import order.Item;
 import order.Product;
+import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class ProductModifyPageController {
+public class ProductModifyPageController implements Initializable {
 
     private static Product currentProduct;
 
@@ -78,7 +79,7 @@ public class ProductModifyPageController {
     private Label lblColor;
 
     @FXML
-    private ComboBox<?> cbColor;
+    private ComboBox<String> cbColor;
 
     @FXML
     private Label lblPictureName;
@@ -103,6 +104,79 @@ public class ProductModifyPageController {
 
     @FXML
     private TextField fldDiscountPrice;
+
+    @FXML
+    private CheckBox cbInCatalog;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        hideErrorsLabels();
+
+        for (int i = 1; i <= 20; i++)
+            choices.add(i);
+
+        List<String> colorList = new ArrayList<String>();
+
+        colorList.add("Black");
+        colorList.add("White");
+        colorList.add("Gray");
+        colorList.add("Silver");
+        colorList.add("Maroon");
+        colorList.add("Red");
+        colorList.add("Purple");
+        colorList.add("Pink");
+        colorList.add("Green");
+        colorList.add("Lime");
+        colorList.add("Olive");
+        colorList.add("Yellow");
+        colorList.add("Navy");
+        colorList.add("Blue");
+        colorList.add("Teal");
+        colorList.add("Aqua");
+
+        ObservableList observableList = FXCollections.observableList(colorList);
+        cbColor.setItems(observableList);
+
+        Client.itemController.getItems();
+        availableItems = (ArrayList<Item>) Client.itemController.getResponse().getData();
+
+        for (Item item : (ArrayList<Item>) Client.itemController.getResponse().getData())
+            items.add(item);
+
+        listItems.setItems(items);
+        listProduct.setItems(itemsAdded);
+
+        if(currentProduct != null) {
+            fldName.setText(currentProduct.getName());
+            cbInCatalog.setSelected(currentProduct.isInCatalog());
+            fldPrice.setText(String.valueOf(currentProduct.getPrice()));
+            fldDiscountPrice.setText(String.valueOf(currentProduct.getDiscountPrice()));
+            cbColor.setValue(currentProduct.getDominantColor());
+
+            Client.productController.getProductItems(currentProduct.getProductId());
+
+            HashMap<Integer, Integer> result = (HashMap<Integer, Integer>) Client.productController.getResponse().getData();
+            HashMap<Item, Integer> productItems = new HashMap<>();
+
+            if(!result.isEmpty()) {
+                for(int itemId : result.keySet()) {
+                    Item item = getItemById(itemId);
+                    if(item != null)
+                        productItems.put(item, result.get(itemId));
+                }
+            }
+
+            currentProduct.setItems(productItems);
+
+            for(Item itemInProduct : currentProduct.getItems().keySet()) {
+                ItemWithQuantity itemWithQuantity = new ItemWithQuantity(itemInProduct, currentProduct.getItems().get(itemInProduct));
+                itemsAdded.add(itemWithQuantity);
+            }
+
+            listProduct.refresh();
+            updateCalculatedPrice();
+        }
+    }
 
     @FXML
     void clickBtnAdd(ActionEvent event) {
@@ -156,7 +230,6 @@ public class ProductModifyPageController {
         lblAddMessage.setVisible(false);
         ItemWithQuantity selectedItem = listProduct.getSelectionModel().getSelectedItem();
         itemsAdded.remove(selectedItem);
-        items.add(selectedItem.item);
         updateCalculatedPrice();
     }
 
@@ -191,12 +264,23 @@ public class ProductModifyPageController {
             if(itemsAdded.size() == 1 && itemsAdded.get(0).quantity == 1)
                 customMade = true;
 
-//            Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
-//            Client.productController.addProduct(product);
-//
-//            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
-//                MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
-//            }
+            currentProduct.setName(fldName.getText());
+            currentProduct.setItems(items);
+            currentProduct.setPrice(Float.valueOf(fldPrice.getText()));
+            currentProduct.setDiscountPrice(Float.valueOf(fldDiscountPrice.getText()));
+            currentProduct.setCustomMade(customMade);
+            currentProduct.setDominantColor(cbColor.getValue());
+            currentProduct.setInCatalog(cbInCatalog.isSelected());
+            if(uploadedImage != null)
+                currentProduct.setImage(uploadedImage);
+
+            Client.productController.updateProduct(currentProduct);
+
+            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_UPDATE_SUCCESS) {
+                MainDashboardController.createAlert("Product updated successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
+            } else {
+                MainDashboardController.createAlert("Failed to update product.", Alert.DANGER, Duration.seconds(3), 135, 67);
+            }
         }
     }
 
@@ -232,8 +316,24 @@ public class ProductModifyPageController {
 
         try {
             Float.parseFloat(fldPrice.getText());
+
         } catch (NumberFormatException e) {
             lblPriceMessage.setVisible(true);
+            validated = false;
+        }
+
+        if(fldDiscountPrice.getText().isEmpty()) {
+            lblDiscountPriceMessage.setVisible(true);
+            validated = false;
+        }
+
+        try {
+            Float.parseFloat(fldDiscountPrice.getText());
+
+            if(Float.parseFloat(fldDiscountPrice.getText()) > Float.parseFloat(fldPrice.getText()))
+                throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            lblDiscountPriceMessage.setVisible(true);
             validated = false;
         }
 
@@ -273,5 +373,14 @@ public class ProductModifyPageController {
         public String toString() {
             return item.getName() + " (" + quantity + ")";
         }
+    }
+
+    private Item getItemById(int itemId) {
+        for(Item item : availableItems) {
+            if(item.getItemId() == itemId)
+                return item;
+        }
+
+        return null;
     }
 }

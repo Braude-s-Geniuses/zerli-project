@@ -1,6 +1,7 @@
 package server;
 
 import communication.Message;
+import communication.MessageFromClient;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import order.Order;
@@ -103,6 +104,12 @@ public class ZerliServer extends AbstractServer {
                 break;
             case PRODUCTS_GET:
                 messageFromServer = ProductController.getAllProducts();
+                break;
+            case PRODUCT_GET_ITEMS:
+                messageFromServer = ProductController.getProductItems(messageFromClient);
+                break;
+            case PRODUCT_UPDATE:
+                messageFromServer = ProductController.updateProduct(messageFromClient);
                 break;
             default:
                 break;

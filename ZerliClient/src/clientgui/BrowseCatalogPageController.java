@@ -84,7 +84,6 @@ public class BrowseCatalogPageController implements Initializable {
         Text newPrice = new Text();
         ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
         Text priceLabel = new Text("Price: " + product.priceToString());
-        File fileImage = null;
 
         priceLabel.getStyleClass().add("price-label");
         nameLabel.getStyleClass().add("name-label");
@@ -92,22 +91,8 @@ public class BrowseCatalogPageController implements Initializable {
         comboBoxQuantity.getStyleClass().add("combo-color");
         comboBoxQuantity.getSelectionModel().selectFirst();
 
-        if (product.getImage() != null) {
-            try {
-                fileImage = File.createTempFile("zerli", "product");
-                fileImage.deleteOnExit();
-                FileOutputStream fileOutputStream = new FileOutputStream(fileImage);
-                byte b[] = product.getImage().getBytes(1L, (int) product.getImage().length());
-
-                fileOutputStream.write(b);
-                fileOutputStream.close();
-
-                Image image = new Image(fileImage.toURI().toString());
-                iv.setImage(image);
-            } catch (SerialException | IOException e) {
-                e.printStackTrace();
-            }
-        }
+        Client.productController.createProductImage(product);
+        iv.setImage(Client.productController.getProductImages().get(product.getProductId()));
 
         if(product.getPrice() != product.getDiscountPrice()) {
             priceLabel.setStrikethrough(true);
