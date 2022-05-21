@@ -105,7 +105,7 @@ public class OrderPaymentPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         customer = (Customer) Client.userController.getLoggedInUser();
-
+        setCreditCardLabels(true);
         List<String> monthList = new ArrayList<String>();       //Set value of months.
         for (int i = 1; i <= 12; i++) {
             if (i<10){
@@ -124,15 +124,13 @@ public class OrderPaymentPageController implements Initializable {
         ObservableList<String> years = FXCollections.observableArrayList(yearList);
         comboBoxYear.getItems().addAll(years);
 
-        lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
-
-
+        lblTotal.setText("Total: " + Client.orderController.getCurrentOrder().getDiscountPrice() + " \u20AA");
 
         if(customer.getCreditCard() == null){         //How to get a costomer.
             btnSavedCreditCard.setDisable(true);
         }
         else{
-            btnSavedCreditCard.setText(btnSavedCreditCard.getText() + "  (***" + customer.getCreditCard().substring(15) + ")");
+            btnSavedCreditCard.setText(btnSavedCreditCard.getText() + "  (***" + customer.getCreditCard().substring(12) + ")");
         }
         if(customer.getBalance() == 0){
             btnUseBalance.setDisable(true);     //what if there is a bit of balance?
@@ -152,7 +150,7 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnSavedCreditCard(ActionEvent event) {
-        if(btnSavedCreditCard.isPressed()) {
+        if(btnSavedCreditCard.isSelected()) {
             lblPaymentError.setVisible(false);
             lblCardNumberError.setVisible(false);
             lblCVVError.setVisible(false);
@@ -160,9 +158,6 @@ public class OrderPaymentPageController implements Initializable {
             lblExpDateError.setVisible(false);
             btnUseAnotherCreditCard.setSelected(false);
             setCreditCardLabels(true);
-        }
-        else{
-            setCreditCardLabels(false);
         }
     }
 
@@ -172,14 +167,12 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnUseAnotherCreditCard(ActionEvent event) {
-        if(btnUseAnotherCreditCard.isPressed()) {
+        if(btnUseAnotherCreditCard.isSelected()) {
             lblPaymentError.setVisible(false);
             btnSavedCreditCard.setSelected(false);
             setCreditCardLabels(false);
         }
         else{
-            lblPaymentError.setVisible(true);
-            btnSavedCreditCard.setSelected(true);
             setCreditCardLabels(true);
         }
     }
@@ -190,7 +183,7 @@ public class OrderPaymentPageController implements Initializable {
      * @throws InterruptedException
      */
     @FXML
-    void clickBtnPlaceOrder(ActionEvent event) throws IOException, InterruptedException {
+    void clickBtnPlaceOrder(ActionEvent event) {
         if(validateInput()){ //TODO- update in DB after combine
             if (btnUpdateCreditCard.isPressed()) {
                 customer.setCreditCard(CardField1.getText() + CardField2.getText() + CardField3.getText() + CardField4.getText());
@@ -201,16 +194,16 @@ public class OrderPaymentPageController implements Initializable {
             if(btnUseBalance.isPressed()){ //TODO- update in DB after combine
                 customer.setBalance(balance);
             }
-            Client.orderController.getCurrentOrder().setPrice(total);
-            Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.NORMAL_PENDING);
-            Client.orderController.getCurrentOrder().setCustomerId(customer.getUserId());
+
             Client.orderController.getCurrentOrder().setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
 
             if(Client.orderController.sendNewOrder()) {
                 MainDashboardController.setContentFromFXML("OrderCompletePage.fxml");
+                MainDashboardController.refreshCartCounter();
             }else{
-                System.out.println("not succeed"); //TODO
+                System.out.println("not succeed"); //TODO from Itshak
             }
+
         }
     }
 
@@ -219,7 +212,7 @@ public class OrderPaymentPageController implements Initializable {
      * @return true if all details are verified
      */
     private boolean validateInput() {
-        if ((Client.orderController.sumOfCart() - customer.getBalance()) <= 0 && btnUseBalance.isSelected()){
+        if ((Client.orderController.getOrderPrice(true) - customer.getBalance()) <= 0 && btnUseBalance.isSelected()){
             return true; // If balance is enough and was also selected.
         }
         int invalidFields = 0;
@@ -227,7 +220,7 @@ public class OrderPaymentPageController implements Initializable {
             lblPaymentError.setVisible(true);
             invalidFields++;
         }
-        if (btnUseBalance.isSelected() && (Client.orderController.sumOfCart() - customer.getBalance()) > 0 && !btnSavedCreditCard.isSelected() && !btnUseAnotherCreditCard.isSelected()) {
+        if (btnUseBalance.isSelected() && (Client.orderController.getOrderPrice(true) - customer.getBalance()) > 0 && !btnSavedCreditCard.isSelected() && !btnUseAnotherCreditCard.isSelected()) {
             lblPaymentError.setVisible(true);                       //If balance was selected but not enough
             invalidFields++;                                      // and no other payment method was selected
         }
@@ -282,7 +275,7 @@ public class OrderPaymentPageController implements Initializable {
     @FXML
     void clickBtnUseBalance(ActionEvent event) {
         if(btnUseBalance.isSelected()){
-            if (( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance()) <= 0){ //If balance is more than total price.
+            if (( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance()) <= 0){ //balance is more than total price.
                 lblTotal.setText("Total: 0" + " \u20AA");
                 setCreditCardLabels(true);
                 btnUseAnotherCreditCard.setDisable(true);

@@ -20,7 +20,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import order.Order;
 import order.OrderProduct;
+import order.Product;
 
+import javax.sql.rowset.serial.SerialException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ public class MyCartPageController implements Initializable {
     private ArrayList<ComboBox> comboBoxQuantityArray = new ArrayList<>();
     private EventHandler<ActionEvent> handler;
 
+    private float totalPrice;
 
     /**
      *
@@ -55,13 +60,20 @@ public class MyCartPageController implements Initializable {
 
         if(arrivedList.isEmpty())
             btnCheckOut.setDisable(true);
+        else
+            btnCheckOut.setDisable(false);
 
         initHandler();
         for (OrderProduct op : arrivedList) {
-
-            Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
-            Label priceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getPrice()) + " \u20AA");
-            Label discountPriceLabel = new Label(String.valueOf(op.getQuantity()* op.getProduct().getDiscountPrice()) + " \u20AA");
+            ImageView iv = new ImageView();
+            iv.setFitHeight(150);
+            iv.setFitWidth(130);
+            Client.productController.createProductImage(op.getProduct());
+            iv.setImage(Client.productController.getProductImages().get(op.getProduct().getProductId()));
+            Label imageLabel = new Label(null,iv);
+            Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString());
+            Label priceLabel = new Label(op.getQuantity() * op.getProduct().getPrice() + " \u20AA");
+            Label discountPriceLabel = new Label(op.getQuantity() * op.getProduct().getDiscountPrice() + " \u20AA");
             if(op.getProduct().getPrice() > op.getProduct().getDiscountPrice()){
                 priceLabel.getStyleClass().add("order-label");
                 discountPriceLabel.setStyle("-fx-text-fill: red");
@@ -71,16 +83,10 @@ public class MyCartPageController implements Initializable {
             else {
                 discountPriceLabel.setVisible(false);
             }
-            Image img = new Image("/../ZerliCommon/images.png");
-            ImageView view = new ImageView(img);
-            view.setFitHeight(80);
-            view.setPreserveRatio(true);
-            nameLabel.setGraphic(view);
-
             nameLabel.setFont(new Font(18));
             nameLabel.setAlignment(Pos.CENTER_LEFT);
             nameLabel.setStyle("-fx-text-fill: #77385a");
-            nameLabel.setPrefWidth(300);
+            nameLabel.setPrefWidth(200);
             nameLabel.setWrapText(true);
 
             priceLabel.setFont(new Font(18));
@@ -92,15 +98,21 @@ public class MyCartPageController implements Initializable {
             comboBoxQuantity.getSelectionModel().select(op.getQuantity());
             comboBoxQuantity.setBackground(Background.EMPTY);
 
-            HBox h = new HBox( 30, nameLabel, comboBoxQuantity, priceLabel, discountPriceLabel);
+            HBox h = new HBox( 30, imageLabel,nameLabel, comboBoxQuantity, priceLabel, discountPriceLabel);
             HBox.setHgrow(nameLabel, Priority.max(Priority.ALWAYS, Priority.ALWAYS));
             h.setAlignment(Pos.CENTER_LEFT);
-            //h.setAlignment(Pos.CENTER);
             cartAsListView.getItems().addAll(h);
             comboBoxQuantityArray.add(comboBoxQuantity);
 
         }
-        totalLabel.setText(totalLabel.getText() + " " + Client.orderController.sumOfCart() + " \u20AA");
+        editTotalLabel();
+
+
+    }
+
+    private void editTotalLabel() {
+        totalPrice = Client.orderController.getOrderPrice(true);
+        totalLabel.setText("Total: " + totalPrice + " \u20AA");
 
     }
 
@@ -114,18 +126,30 @@ public class MyCartPageController implements Initializable {
                 ComboBox comboBox = (ComboBox)event.getSource();
                 int rowNumber = comboBoxQuantityArray.indexOf(comboBox);
                 cartAsListView.getSelectionModel().select(rowNumber);
-                HBox h = (HBox) cartAsListView.getSelectionModel().getSelectedItem();
-                Label l = (Label) h.getChildren().get(0);
-                String productName = l.getText();
-                String  i = (String) comboBox.getValue();
-                int newAmount = Integer.parseInt(i);
+                HBox productHBox = (HBox) cartAsListView.getSelectionModel().getSelectedItem();
+                Label nameLabel = (Label) productHBox.getChildren().get(1); //get name label
+                String productName = nameLabel.getText();
+                String  productAmount = (String) comboBox.getValue();
+                int newAmount = Integer.parseInt(productAmount);
+                String[] splitNameLabelString = productName.split("\n");
+                OrderProduct op = Client.orderController.getProductByName(splitNameLabelString[0]);
                 if(newAmount == 0){
-                    cartAsListView.getItems().remove(h);
+                    cartAsListView.getItems().remove(productHBox);
+                    Client.orderController.getCart().remove(Client.orderController.getCart().indexOf(op));
+                    if(Client.orderController.getCart().isEmpty()){
+                        btnCheckOut.setDisable(true);
+                    }
                 }
-                if (Client.orderController.changeAmountOfProduct(productName, newAmount)){//if cart is empty
-                    btnCheckOut.setDisable(true);
-                }
+                else {
+                    Client.orderController.getCart().get( Client.orderController.getCart().indexOf(op)).setQuantity(newAmount);
+                    if (op == null) {//if cart is empty
+                        return;
+                    }
+                    ((Label) productHBox.getChildren().get(3)).setText(op.getQuantity() * op.getProduct().getPrice() + " \u20AA");
+                    ((Label) productHBox.getChildren().get(4)).setText(op.getQuantity() * op.getProduct().getDiscountPrice() + " \u20AA");
 
+                    editTotalLabel();
+                }
             }
         };
     }
@@ -138,8 +162,12 @@ public class MyCartPageController implements Initializable {
     void clickBtnCheckOut(ActionEvent event) {
         Client.orderController.setCurrentOrder(new Order());
         Client.orderController.getCurrentOrder().setProductList(Client.orderController.getCart());
+        Client.orderController.getCurrentOrder().setDiscountPrice(totalPrice);
+        Client.orderController.getCurrentOrder().setPrice(Client.orderController.getOrderPrice(false));
+        Client.orderController.getCurrentOrder().setCustomerId(Client.userController.getLoggedInUser().getUserId());
         MainDashboardController.setContentFromFXML("OrderDeliveryPage.fxml");
+
+
     }
 
 }
-

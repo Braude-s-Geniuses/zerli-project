@@ -87,6 +87,7 @@ public class ZerliServer extends AbstractServer {
                 break;
             case ADD_NEW_ORDER:
                 messageFromServer = OrderController.AddNewOrder((Order) messageFromClient.getData());
+                break;
             case ITEM_ADD:
                 messageFromServer = ItemController.addItem(messageFromClient);
                 break;
@@ -110,6 +111,9 @@ public class ZerliServer extends AbstractServer {
                 break;
             case PRODUCT_UPDATE:
                 messageFromServer = ProductController.updateProduct(messageFromClient);
+                break;
+            case REQUEST_ORDER_PRODUCTS:
+                messageFromServer = OrderController.getOrderDetails((Integer)messageFromClient.getData());
                 break;
             default:
                 break;

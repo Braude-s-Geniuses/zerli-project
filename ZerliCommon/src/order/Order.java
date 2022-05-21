@@ -2,6 +2,7 @@ package order;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
@@ -104,11 +105,17 @@ public class Order implements Serializable {
         this.discountPrice = discountPrice;
     }
 
+    public String discountPriceToString(){ return discountPrice + " \u20AA";}
+
     public Timestamp getOrderDate() {
         return orderDate;
     }
 
     public void setOrderDate(Timestamp orderDate) { this.orderDate = orderDate; }
+
+    public String orderDateToString() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(orderDate);
+    }
 
     public Timestamp getDeliveryDate() {
         return deliveryDate;
@@ -174,7 +181,6 @@ public class Order implements Serializable {
                 ", branch='" + branch + '\'' +
                 ", orderStatus=" + orderStatus +
                 ", greetingCard='" + greetingCard + '\'' +
-//                ", customMade=" + customMade +
                 ", price=" + price +
                 ", discountPrice=" + discountPrice +
                 ", orderDate=" + orderDate +

@@ -45,24 +45,34 @@ public class OrderController {
 
     /**
      * Changing the amount of specific product in cart
+     *
      * @param productName
-     * @param newAmount
      * @return
      */
-    public boolean changeAmountOfProduct(String productName, int newAmount){
+    public OrderProduct getProductByName(String productName){
         for (OrderProduct op : cart){
             if (op.getProduct().getName().equals(productName)){
-                if (newAmount == 0){
-                    cart.remove(op);
-                    return cart.isEmpty();
-                }
-                else {
-                    op.setQuantity(newAmount);
-                }
+                return op;
             }
         }
-        return cart.isEmpty();
+        return null;
     }
+
+    /**
+     * Calculates the price or discount price of the current order
+     * @return
+     */
+    public float getOrderPrice(boolean discount){
+        float total = 0;
+        for (OrderProduct op : cart){
+            if(discount)
+                total += op.getProduct().getDiscountPrice() * op.getQuantity();
+            else
+                total += op.getProduct().getPrice() * op.getQuantity();
+        }
+        return total;
+    }
+
     /**
      * Calculates the price of all the cart includes discounts
      * @return
@@ -102,5 +112,14 @@ public class OrderController {
            return false;
         }
         return true;
+    }
+
+    /**
+     * Get Order Products
+     * @param orderId
+     */
+    public void getOrderProducts(int orderId) {
+        Message msg = new Message(orderId, MessageFromClient.REQUEST_ORDER_PRODUCTS);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 }

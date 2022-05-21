@@ -75,6 +75,9 @@ public class Product implements Serializable {
     public String priceToString() {
         return price + " \u20AA";
     }
+    public String discountPriceToString() {
+        return discountPrice + " \u20AA";
+    }
 
     public float getDiscountPrice() {
         return discountPrice;

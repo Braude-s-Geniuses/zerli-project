@@ -158,6 +158,21 @@
     -fx-background-color: white;
 }
 
+.combo {
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 13;
+    -fx-border-color: #77385a;
+    -fx-border-radius: 1;
+    -fx-background-color: white;
+}
+
+.details-label{
+    -fx-text-fill: #77385a;
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+
+}
+
 .name-label{
     -fx-fill: #77385a;
     -fx-font-weight: bold;
@@ -170,11 +185,15 @@
     -fx-font-size: 16;
 }
 
-.new-price-label {
+.new-price-label{
     -fx-fill: #77385a;
     -fx-font-weight: bold;
     -fx-font-size: 17;
     -fx-font-family: 'Calibri';
+}
+
+.progressBar{
+    -fx-accent: pink;
 }
 
 .cart-btn {
@@ -183,6 +202,10 @@
     -fx-font-weight: bold;
     -fx-graphic-text-gap: 10;
 
+}
+
+.cart-btn:hover {
+    -fx-underline: true;
 }
 
 .text-flow {

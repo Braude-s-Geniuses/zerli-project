@@ -5,57 +5,94 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import order.Order;
-import order.OrderStatus;
 
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MyOrdersPageController implements Initializable {
+
     @FXML
     private AnchorPane baseAnchor;
-    @FXML
-    private TableView<Order> ordersTable;
-
-    @FXML
-    private TableColumn<Order, Integer> orderIdColumn;
-
-    @FXML
-    private TableColumn<Order, String> branchColumn;
-
-    @FXML
-    private TableColumn<Order, Float> priceColumn;
-
-    @FXML
-    private TableColumn<Order, Timestamp> dateTimeColumn;
-
-    @FXML
-    private TableColumn<Order, OrderStatus> statusColumn;
 
     @FXML
     private Button btsShowOrderDetails;
 
+    @FXML
+    private ListView<Object> orderList;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderIdColumn.setCellValueFactory(new PropertyValueFactory<Order, Integer>("orderId"));
-        branchColumn.setCellValueFactory(new PropertyValueFactory<Order, String>("branch"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Order, Float>("discountPrice"));
-        dateTimeColumn.setCellValueFactory(new PropertyValueFactory<Order, Timestamp>("orderDate"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<Order, OrderStatus>("orderStatus"));
         Client.orderController.requestOrders();
         ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getResponse().getData();
         if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
-            ordersTable.setItems(orders);
+            for (Order order : result) {
+                Button button = new Button("View Details");
+                button.setPrefWidth(160);
+                button.setAlignment(Pos.CENTER);
+                button.getStyleClass().add("btn");
 
+                setActionForButton(button, order);
+                Label lblOrderNumber = new Label("#" + order.getOrderId(), null);
+                Label lblOrderDetails = new Label("Ordered On:  " + order.orderDateToString() +"\nFrom Branch:  " + order.getBranch(), null);
+                Label lblOrderPrices = new Label( "Total Paid:\n" + order.discountPriceToString() ,null);
+                Label lblOrderStatus = new Label( order.getOrderStatus().toString(), null);
+
+                switch (order.getOrderStatus()){
+                    case CANCEL_PENDING:
+                    case CANCEL_CONFIRMED:
+                        lblOrderStatus.setTextFill(Color.web("#bf2d39"));
+                        break;
+                    case NORMAL_PENDING:
+                    case EXPRESS_PENDING:
+                        lblOrderStatus.setTextFill(Color.web("#e0921d"));
+                        break;
+                    case NORMAL_COMPLETED:
+                    case EXPRESS_COMPLETED:
+                        lblOrderStatus.setTextFill(Color.web("#77385a"));
+                        break;
+                    default:
+                        break;
+                }
+                lblOrderDetails.setPrefWidth(170);
+                setLabels(lblOrderDetails);
+                lblOrderPrices.setPrefWidth(170);
+                setLabels(lblOrderStatus);
+                lblOrderStatus.setPrefWidth(200);
+                setLabels(lblOrderNumber);
+                lblOrderNumber.setPrefWidth(40);
+                setLabels(lblOrderPrices);
+
+                HBox h = new HBox(30,lblOrderNumber ,lblOrderDetails,lblOrderPrices, lblOrderStatus, button);
+                h.setPrefWidth(940);
+                h.setAlignment(Pos.CENTER);
+                orderList.getItems().addAll(h);
+
+            }
         }
     }
+    private void setLabels(Label lbl){
+        lbl.setFont(Font.font ("Calibri", 16));
+        lbl.setWrapText(true);
+        lbl.setAlignment(Pos.BASELINE_LEFT);
 
+    }
+    private void setActionForButton(Button button, Order order) {
+        button.setOnAction(e->{
+            OrderDetailsPageController.order = order;
+            MainDashboardController.setContentFromFXML("OrderDetailsPage.fxml");
+        });
+    }
 }
+

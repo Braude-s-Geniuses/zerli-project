@@ -16,6 +16,10 @@ public class OrderCompletePageController implements Initializable {
     private Button btnContinueShopping;
     @FXML
     private Label lblOrderId;
+    @FXML
+    private Label lblOrderDiscount;
+    @FXML
+    private Label lblDiscount;
 
     /**
      *
@@ -31,6 +35,13 @@ public class OrderCompletePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources){
         lblOrderId.setText(String.valueOf((int)Client.orderController.getResponse().getData()));
         lblOrderId.setUnderline(true);
+        float discount = Client.orderController.getCurrentOrder().getPrice()  - Client.orderController.getCurrentOrder().getDiscountPrice();
+        if(discount > 0)
+            lblOrderDiscount.setText(String.valueOf(discount) + " \u20AA");
+        else{
+            lblDiscount.setVisible(false);
+        }
+        Client.orderController.getCart().clear();
     }
 
     @FXML

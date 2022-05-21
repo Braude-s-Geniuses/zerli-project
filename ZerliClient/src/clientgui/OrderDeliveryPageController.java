@@ -17,6 +17,9 @@ import order.Order;
 import order.OrderProduct;
 import order.OrderStatus;
 
+import javax.sql.rowset.serial.SerialException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -64,31 +67,35 @@ public class OrderDeliveryPageController implements Initializable {
     @FXML
     private TextField addressField;
     @FXML
-    private RadioButton btnRadioYes;
+    private RadioButton btnRadioExpressYes;
 
     @FXML
-    private RadioButton btnRadioNo;
+    private RadioButton btnRadioExpressNo;
+
+    private float discountPrice, price;
 
     /**
      *
      *  @param location
-      * The location used to resolve relative paths for the root object, or
-      * <tt>null</tt> if the location is not known.
-      *
-      * @param resources
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
      * The resources used to localize the root object, or <tt>null</tt> if
      * the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        setDeliveryDisable(true);
+        setTimeDateDisable(true);
         if(Client.orderController.getCurrentOrder() != null && Client.orderController.getCurrentOrder().getBranch() != null) {
             restoreDeliveryData();
         }
         List<String> timeList = new ArrayList<String>();
 
         Client.orderController.getBranches();
-
+        discountPrice = Client.orderController.getOrderPrice(true);
+        price = Client.orderController.getOrderPrice(false);
         /**
          * Add hours to Time ComboBox.
          */
@@ -126,23 +133,24 @@ public class OrderDeliveryPageController implements Initializable {
          * For each product order product in the cart - presented in the list
          */
         for (OrderProduct op : cart) {
+            ImageView iv = new ImageView();
+            iv.setFitHeight(130);
+            iv.setFitWidth(110);
+            Client.productController.createProductImage(op.getProduct());
+            iv.setImage(Client.productController.getProductImages().get(op.getProduct().getProductId()));
             Label priceLabel;
+            Label imageLabel = new Label(null,iv);
             Label nameLabel = new Label(op.getProduct().getName() + "\n"  + op.getProduct().getDominantColor() + "\n" + op.getProduct().customMadeToString(), null);
-            priceLabel = new Label(String.valueOf(op.getQuantity()) + "X " + op.getProduct().priceToString(), null);
+            priceLabel = new Label(op.getQuantity() + "X " + op.getProduct().discountPriceToString(), null);
             if(op.getProduct().getPrice() == op.getProduct().getDiscountPrice()) {
                 priceLabel.setStyle("-fx-text-fill: #77385a");
             }
             else{
                 priceLabel.setStyle("-fx-text-fill: red");
             }
-            Image img = new Image("/../ZerliCommon/images.png");
-            ImageView view = new ImageView(img);
-            view.setFitHeight(100);
-            view.setPreserveRatio(true);
-            nameLabel.setGraphic(view);
 
             nameLabel.setFont(new Font(14));
-            nameLabel.setPrefWidth(260);
+            nameLabel.setPrefWidth(150);
             nameLabel.setStyle("-fx-text-fill: #77385a");
             nameLabel.setWrapText(true);
 
@@ -151,16 +159,15 @@ public class OrderDeliveryPageController implements Initializable {
 
             priceLabel.setWrapText(true);
 
-            HBox h = new HBox(nameLabel, priceLabel);
+            HBox h = new HBox(10,imageLabel,nameLabel, priceLabel);
 
             HBox.setHgrow(nameLabel, Priority.max(Priority.ALWAYS, Priority.ALWAYS));
 
-            h.setAlignment(Pos.BASELINE_CENTER);
+            h.setAlignment(Pos.CENTER_LEFT);
             cartAsListView.getItems().addAll(h);
 
         }
-        Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart()) ;
-        lblTotal.setText(lblTotal.getText() + " " +   Client.orderController.getCurrentOrder().getPrice() + " \u20AA");
+        lblTotal.setText("Total: " +   Client.orderController.getCurrentOrder().getDiscountPrice() + " \u20AA");
         lblTotal.setWrapText(true);
 
     }
@@ -179,24 +186,31 @@ public class OrderDeliveryPageController implements Initializable {
         cbTime.setValue(fullTime.substring(11, 16));             //set time
 
         cbBranch.setValue(Client.orderController.getCurrentOrder().getBranch());
+        cbBranch.fireEvent(new ActionEvent());
         if ((fullAddress = Client.orderController.getCurrentOrder().getDeliveryAddress()) != null) {
             btnRadioDelivery.setSelected(true);
-            cbCity.setValue(fullAddress.substring(0, fullAddress.indexOf(' ')));
-            addressField.setText(fullAddress.substring(fullAddress.indexOf(' ') + 1, fullAddress.length()));
+            addressField.setText(fullAddress.substring(Client.orderController.getCurrentOrder().getBranch().length()+1));
+            setDeliveryDisable(false);
+            lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
         }
         else{
             btnRadioSelfPickup.setSelected(true);
             setDeliveryDisable(true);
         }
-        if(Client.orderController.getCurrentOrder().getOrderStatus() == OrderStatus.EXPRESS_PENDING){
-            btnRadioYes.setSelected(true);
+        if(Client.orderController.getCurrentOrder().getOrderStatus().equals(OrderStatus.EXPRESS_PENDING) ){
+            btnRadioExpressYes.setSelected(true);
             setTimeDateDisable(true);
         }
         else {
-            btnRadioNo.setSelected(true);
+            btnRadioExpressNo.setSelected(true);
+            setTimeDateDisable(false);
         }
     }
-
+    @FXML
+    void chooseCbBranch(ActionEvent event) {
+        cbCity.setValue(cbBranch.getSelectionModel().getSelectedItem());
+        cbCity.setDisable(true);
+    }
     /**
      * If the user clicked on the delivery button then he will need to entered delivery data.
      * and a delivery price will be added to his total order price.
@@ -208,7 +222,11 @@ public class OrderDeliveryPageController implements Initializable {
             btnRadioSelfPickup.setSelected(false);
             setDeliveryDisable(false);
             lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
-            lblTotal.setText("Total: " + (Client.orderController.sumOfCart() + Client.orderController.DELIVERY_PRICE) + " \u20AA");
+            lblTotal.setText("Total: " + (discountPrice + Client.orderController.DELIVERY_PRICE) + " \u20AA");
+        }
+        else {
+            setDeliveryDisable(true);
+            lblTotal.setText("Total: " + (discountPrice - Client.orderController.DELIVERY_PRICE) + " \u20AA");
         }
     }
 
@@ -223,10 +241,7 @@ public class OrderDeliveryPageController implements Initializable {
             btnRadioDelivery.setSelected(false);
             setDeliveryDisable(true);
             lblDelivery.setText("Delivery: " + 0.0 + " \u20AA");
-            lblTotal.setText("Total: " + Client.orderController.sumOfCart() + " \u20AA");
-        }
-        else{
-            setDeliveryDisable(false);
+            lblTotal.setText("Total: " + discountPrice + " \u20AA");
         }
     }
 
@@ -237,7 +252,7 @@ public class OrderDeliveryPageController implements Initializable {
     private void setDeliveryDisable(boolean toDisable){
         lblCity.setDisable(toDisable);
         lblAddress.setDisable(toDisable);
-        cbCity.setDisable(toDisable);
+//        cbCity.setDisable(toDisable);
         addressField.setDisable(toDisable);
     }
 
@@ -246,9 +261,9 @@ public class OrderDeliveryPageController implements Initializable {
      * @param event
      */
     @FXML
-    void clickBTNRadioNo(ActionEvent event) {
-        if(btnRadioNo.isSelected()) {
-            btnRadioYes.setSelected(false);
+    void clickBTNRadioExpressNo(ActionEvent event) {
+        if(btnRadioExpressNo.isSelected()) {
+            btnRadioExpressYes.setSelected(false);
             setTimeDateDisable(false);
             lblExpressOrderError.setVisible(false);
         }
@@ -265,9 +280,9 @@ public class OrderDeliveryPageController implements Initializable {
      */
     @FXML
     void clickBtnRadioYes(ActionEvent event) {
-        if(btnRadioYes.isSelected()) {
+        if(btnRadioExpressYes.isSelected()) {
             lblExpressOrderError.setVisible(false);
-            btnRadioNo.setSelected(false);
+            btnRadioExpressNo.setSelected(false);
             setTimeDateDisable(true);
             if (LocalTime.now().compareTo(LocalTime.of(18, 30)) <= 0){
                 datePicker.setValue(LocalDate.now());
@@ -303,25 +318,27 @@ public class OrderDeliveryPageController implements Initializable {
      */
     @FXML
     void clickBtnProceed(ActionEvent event) throws IOException {
-            if(validateInput()) {
-                Client.orderController.getCurrentOrder().setBranch(cbBranch.getSelectionModel().getSelectedItem());
-                if (btnRadioDelivery.isSelected()) {
-                    Client.orderController.getCurrentOrder().setDeliveryAddress(cbCity.getSelectionModel().getSelectedItem() + " " + addressField.getText());
-                    Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart() + Client.orderController.DELIVERY_PRICE);
-                } else {
-                    Client.orderController.getCurrentOrder().setPrice(Client.orderController.sumOfCart());
-                    Client.orderController.getCurrentOrder().setDeliveryAddress(null);
-                }
-                Timestamp timestamp = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
-                Client.orderController.getCurrentOrder().setDeliveryDate(timestamp);
-                if(btnRadioYes.isSelected()){
-                    Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.EXPRESS_PENDING);
-                }
-                else {
-                    Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.NORMAL_PENDING);
-                }
-                MainDashboardController.setContentFromFXML("OrderRecipientPage.fxml");
+        if(validateInput()) {
+            Client.orderController.getCurrentOrder().setBranch(cbBranch.getSelectionModel().getSelectedItem());
+            if (btnRadioDelivery.isSelected()) {
+                Client.orderController.getCurrentOrder().setDeliveryAddress(cbCity.getSelectionModel().getSelectedItem() + " " + addressField.getText());
+                Client.orderController.getCurrentOrder().setPrice(Client.orderController.getCurrentOrder().getPrice() + Client.orderController.DELIVERY_PRICE);
+                Client.orderController.getCurrentOrder().setDiscountPrice(Client.orderController.getCurrentOrder().getDiscountPrice() + Client.orderController.DELIVERY_PRICE);
+            } else {
+                Client.orderController.getCurrentOrder().setPrice(price);
+                Client.orderController.getCurrentOrder().setDiscountPrice(discountPrice);
+                Client.orderController.getCurrentOrder().setDeliveryAddress(null);
             }
+            Timestamp deliveryDateTime = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
+            Client.orderController.getCurrentOrder().setDeliveryDate(deliveryDateTime);
+            if(btnRadioExpressYes.isSelected()){
+                Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.EXPRESS_PENDING);
+            }
+            else {
+                Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.NORMAL_PENDING);
+            }
+            MainDashboardController.setContentFromFXML("OrderRecipientPage.fxml");
+        }
 
     }
 
@@ -331,7 +348,7 @@ public class OrderDeliveryPageController implements Initializable {
      */
     private boolean validateInput(){
         int invalidFields = 0;
-        if(cbBranch.getSelectionModel().isEmpty()){
+        if(cbBranch.getValue() == null){
             lblBranchError.setVisible(true);
             invalidFields++;
         }
@@ -343,20 +360,20 @@ public class OrderDeliveryPageController implements Initializable {
             lblCityAndAddressError.setVisible(true);
             invalidFields++;
         }
-        if(btnRadioDelivery.isSelected() && addressField.getText() == null){
+        if(btnRadioDelivery.isSelected() && addressField.getText().isEmpty()){
             lblCityAndAddressError.setVisible(true);
             invalidFields++;
         }
-        if(!btnRadioYes.isSelected() && !btnRadioNo.isSelected()){
+        if(!btnRadioExpressYes.isSelected() && !btnRadioExpressNo.isSelected()){
             lblExpressOrderError.setVisible(true);
             invalidFields++;
         }
-        if(btnRadioNo.isSelected()) {
+        if(btnRadioExpressNo.isSelected()) {
             if (datePicker.getValue() == null) {
                 lblDateTimeError.setVisible(true);
                 invalidFields++;
             }
-            if (cbTime.getSelectionModel().isEmpty()) {
+            if (cbTime.getValue() == null) {
                 lblDateTimeError.setVisible(true);
                 invalidFields++;
             }

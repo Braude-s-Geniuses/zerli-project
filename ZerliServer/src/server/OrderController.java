@@ -4,7 +4,9 @@ import communication.Message;
 import communication.MessageFromServer;
 import order.Order;
 import order.OrderProduct;
+import order.Product;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class OrderController {
             e.printStackTrace();
             return new Message(null, MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED);
         }
-        // want to return ArrayList of orders.add(null) if not successes;
+
         return new Message(orders, MessageFromServer.IMPORT_ORDERS_TABLE_SUCCEED);
 
     }
@@ -114,5 +116,36 @@ public class OrderController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Message getOrderDetails(Integer orderId) {
+        ArrayList<OrderProduct> op = new ArrayList<>();
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT p.*, op.quantity\n" +
+                    "FROM `product` p, `order_product` op \n" +
+                    "WHERE p.product_id = op.product_id AND op.order_id = ? ;");
+            preparedStatement.setInt(1, orderId);
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                Product product = new Product();
+                OrderProduct orderProduct = new OrderProduct();
+                product.setProductId(resultSet.getInt("product_id"));
+                product.setName(resultSet.getString("name"));
+                product.setPrice(resultSet.getInt("price"));
+                product.setDiscountPrice(resultSet.getInt("discount_price"));
+                SerialBlob blob = new SerialBlob(resultSet.getBlob ("image"));
+                product.setImage(blob);
+                product.setCustomMade(resultSet.getBoolean("custom_made"));
+                product.setDominantColor(resultSet.getString("dominant_color"));
+                orderProduct.setProduct(product);
+                orderProduct.setQuantity(resultSet.getInt("quantity"));
+                op.add(orderProduct);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Message(op, MessageFromServer.ORDER_PRODUCTS_DELIVERED_SUCCESSFULLY);
     }
 }
