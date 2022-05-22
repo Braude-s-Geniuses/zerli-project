@@ -1,5 +1,7 @@
 package user;
 
+import java.util.ArrayList;
+
 public class Customer extends User {
     private boolean blocked;
     private String creditCard;
@@ -54,6 +56,13 @@ public class Customer extends User {
 
     public void setBalance(float balance) {
         this.balance = balance;
+    }
+    public ArrayList<String> getCardDetails(){
+        ArrayList<String> cardDetails = new ArrayList<>();
+        cardDetails.add(creditCard);
+        cardDetails.add(expDate);
+        cardDetails.add(cvv);
+        return cardDetails;
     }
 
     @Override

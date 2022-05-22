@@ -169,7 +169,6 @@ public class OrderDeliveryPageController implements Initializable {
         }
         lblTotal.setText("Total: " +   Client.orderController.getCurrentOrder().getDiscountPrice() + " \u20AA");
         lblTotal.setWrapText(true);
-
     }
 
     /**
@@ -223,6 +222,7 @@ public class OrderDeliveryPageController implements Initializable {
             setDeliveryDisable(false);
             lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
             lblTotal.setText("Total: " + (discountPrice + Client.orderController.DELIVERY_PRICE) + " \u20AA");
+            addressField.requestFocus();
         }
         else {
             setDeliveryDisable(true);
@@ -266,6 +266,7 @@ public class OrderDeliveryPageController implements Initializable {
             btnRadioExpressYes.setSelected(false);
             setTimeDateDisable(false);
             lblExpressOrderError.setVisible(false);
+            datePicker.requestFocus();
         }
         else{
             datePicker.setValue(null);

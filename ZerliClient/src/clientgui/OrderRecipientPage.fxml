@@ -28,7 +28,7 @@
             </effect>
         </ProgressBar>
         <Button layoutX="297.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Delivery Details" textFill="#b82297" />
-        <Button layoutX="419.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Recipient Information" textFill="#77385a" />
+        <Button layoutX="419.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Recipient Information" textFill="#b82297" />
         <Button layoutX="583.0" layoutY="97.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="83.0" styleClass="order-btn" text="Payment " textFill="#77385a" />
         <Label fx:id="RecipientLable" layoutX="31.0" layoutY="198.0" prefHeight="37.0" prefWidth="216.0" text="Recipient Information: " textFill="#77385a">
             <font>

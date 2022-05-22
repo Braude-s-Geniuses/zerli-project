@@ -37,7 +37,7 @@ public class OrderCompletePageController implements Initializable {
         lblOrderId.setUnderline(true);
         float discount = Client.orderController.getCurrentOrder().getPrice()  - Client.orderController.getCurrentOrder().getDiscountPrice();
         if(discount > 0)
-            lblOrderDiscount.setText(String.valueOf(discount) + " \u20AA");
+            lblOrderDiscount.setText(discount + " \u20AA");
         else{
             lblDiscount.setVisible(false);
         }

@@ -122,4 +122,20 @@ public class OrderController {
         Message msg = new Message(orderId, MessageFromClient.REQUEST_ORDER_PRODUCTS);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
+
+    public void updateBalance(int userId, float balance) {
+        ArrayList<Object> msgList = new ArrayList<>();
+        msgList.add(userId);
+        msgList.add(balance);
+        Message msg = new Message(msgList, MessageFromClient.UPDATE_BALANCE_FOR_CUSTOMER);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+    }
+
+    public void updateCreditCard(int userId, ArrayList<String> cardDetails) {
+        ArrayList<Object> msgList = new ArrayList<>();
+        msgList.add(userId);
+        msgList.add(cardDetails);
+        Message msg = new Message(msgList, MessageFromClient.UPDATE_CARD_FOR_CUSTOMER);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+    }
 }

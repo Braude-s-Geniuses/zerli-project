@@ -41,7 +41,7 @@
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <TextField fx:id="idField" layoutX="183.0" layoutY="326.0" prefHeight="27.0" prefWidth="200.0" />
+        <TextField fx:id="idField" layoutX="183.0" layoutY="326.0" onKeyTyped="#idFieldEvent" prefHeight="27.0" prefWidth="200.0" />
         <Label fx:id="lblCardNumberError" layoutX="56.0" layoutY="254.0" prefHeight="18.0" prefWidth="216.0" text="You Must Enter A Valid Card Number" textFill="#d71515" visible="false">
             <font>
                 <Font name="Calibri Bold" size="14.0" />
@@ -62,13 +62,13 @@
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <TextField fx:id="CardField1" layoutX="185.0" layoutY="273.0" prefHeight="27.0" prefWidth="92.0" />
+        <TextField fx:id="cardField1" layoutX="185.0" layoutY="273.0" onKeyTyped="#cardField1Event" prefHeight="27.0" prefWidth="92.0" />
         <Label fx:id="lblCVV" layoutX="57.0" layoutY="437.0" prefHeight="37.0" prefWidth="92.0" text="CVV:" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <Label fx:id="expLable" layoutX="57.0" layoutY="385.0" prefHeight="37.0" prefWidth="113.0" text="Exp. Date:" textFill="#77385a">
+        <Label fx:id="expLable" layoutX="57.0" layoutY="368.0" prefHeight="37.0" prefWidth="113.0" text="Exp. Date:" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
@@ -83,16 +83,16 @@
                 <Font name="Calibri Bold" size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="CardField2" layoutX="283.0" layoutY="273.0" prefHeight="27.0" prefWidth="92.0" />
-        <TextField fx:id="CardField3" layoutX="380.0" layoutY="273.0" prefHeight="27.0" prefWidth="92.0" />
-        <TextField fx:id="CardField4" layoutX="479.0" layoutY="273.0" prefHeight="27.0" prefWidth="92.0" />
-        <Label fx:id="lblForSideLine" layoutX="272.0" layoutY="390.0" prefHeight="37.0" prefWidth="23.0" text="/" textFill="#77385a">
+        <TextField fx:id="cardField2" layoutX="283.0" layoutY="273.0" onKeyTyped="#cardField2Event" prefHeight="27.0" prefWidth="92.0" />
+        <TextField fx:id="cardField3" layoutX="380.0" layoutY="273.0" onKeyTyped="#cardField3Event" prefHeight="27.0" prefWidth="92.0" />
+        <TextField fx:id="cardField4" layoutX="479.0" layoutY="273.0" onKeyTyped="#cardField4Event" prefHeight="27.0" prefWidth="92.0" />
+        <Label fx:id="lblForSideLine" layoutX="272.0" layoutY="373.0" prefHeight="37.0" prefWidth="23.0" text="/" textFill="#77385a">
             <font>
                 <Font size="27.0" />
             </font>
         </Label>
-        <TextField fx:id="cvvField" layoutX="183.0" layoutY="442.0" prefHeight="27.0" prefWidth="74.0" promptText="123" />
-        <Label fx:id="lblTotal" layoutX="28.0" layoutY="514.0" prefHeight="37.0" prefWidth="200.0" text="Total:" textFill="#77385a">
+        <TextField fx:id="cvvField" layoutX="183.0" layoutY="442.0" onKeyTyped="#cvvFieldEvent" prefHeight="27.0" prefWidth="74.0" promptText="123" />
+        <Label fx:id="lblTotal" layoutX="31.0" layoutY="522.0" prefHeight="37.0" prefWidth="200.0" text="Total:" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="22.0" />
             </font>
@@ -112,20 +112,25 @@
                 <Font name="Calibri" size="14.0" />
             </font>
         </CheckBox>
-        <ComboBox fx:id="comboBoxMonth" layoutX="173.0" layoutY="391.0" prefHeight="35.0" prefWidth="92.0" promptText="Month">
+        <ComboBox fx:id="comboBoxMonth" layoutX="173.0" layoutY="374.0" onAction="#selectCbMonth" prefHeight="35.0" prefWidth="92.0" promptText="Month">
             <styleClass>
                 <String fx:value="combo" />
                 <String fx:value="combo-time" />
             </styleClass></ComboBox>
-        <ComboBox fx:id="comboBoxYear" layoutX="283.0" layoutY="391.0" prefHeight="35.0" prefWidth="92.0" promptText="Year">
+        <ComboBox fx:id="comboBoxYear" layoutX="283.0" layoutY="374.0" onAction="#selectCbYear" prefHeight="35.0" prefWidth="92.0" promptText="Year">
             <styleClass>
                 <String fx:value="combo" />
                 <String fx:value="combo-time" />
             </styleClass></ComboBox>
-        <CheckBox fx:id="btnUpdateCreditCard" layoutX="57.0" layoutY="486.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="339.0" text="Save Credit Card Information for future purchases" textFill="#77385a">
+        <CheckBox fx:id="btnUpdateCreditCard" layoutX="57.0" layoutY="495.0" mnemonicParsing="false" onAction="#checkButtonUpdateCard" prefHeight="19.0" prefWidth="339.0" text="Save Credit Card Information for future purchases" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="14.0" />
             </font>
         </CheckBox>
+      <Label fx:id="lblSaveCardWithDifferentIdError" layoutX="56.0" layoutY="474.0" prefHeight="18.0" prefWidth="428.0" text="You can't save credit card with different id! Please uncheck ths button:" textFill="#d71515" visible="false">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

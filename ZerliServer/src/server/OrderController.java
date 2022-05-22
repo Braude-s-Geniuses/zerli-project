@@ -128,14 +128,14 @@ public class OrderController {
             preparedStatement.setInt(1, orderId);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Product product = new Product();
                 OrderProduct orderProduct = new OrderProduct();
                 product.setProductId(resultSet.getInt("product_id"));
                 product.setName(resultSet.getString("name"));
                 product.setPrice(resultSet.getInt("price"));
                 product.setDiscountPrice(resultSet.getInt("discount_price"));
-                SerialBlob blob = new SerialBlob(resultSet.getBlob ("image"));
+                SerialBlob blob = new SerialBlob(resultSet.getBlob("image"));
                 product.setImage(blob);
                 product.setCustomMade(resultSet.getBoolean("custom_made"));
                 product.setDominantColor(resultSet.getString("dominant_color"));
@@ -147,5 +147,42 @@ public class OrderController {
             e.printStackTrace();
         }
         return new Message(op, MessageFromServer.ORDER_PRODUCTS_DELIVERED_SUCCESSFULLY);
+    }
+
+    public static Message updateBalance(ArrayList<Object> data) {
+        int customerId = (int) data.get(0);
+        float balance = (float) data.get(1);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `customer`\n" +
+                    "SET balance = ? \n" +
+                    "WHERE customer_id = ? ;");
+            preparedStatement.setFloat(1, balance);
+            preparedStatement.setInt(2, customerId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.UPDATE_BALANCE_FAILED);
+        }
+        return new Message(null, MessageFromServer.UPDATE_BALANCE_SUCCEED);
+    }
+
+    public static Message updateCreditCard(ArrayList<Object> data) {
+        int customerId = (int) data.get(0);
+        ArrayList<String> cardDetails = (ArrayList<String>)data.get(1);
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `customer`\n" +
+                    "SET credit_card = ?, exp_date = ? ,cvv = ?  \n" +
+                    "WHERE customer_id = ? ;");
+            preparedStatement.setString(1, cardDetails.get(0));
+            preparedStatement.setString(2, cardDetails.get(1));
+            preparedStatement.setString(3, cardDetails.get(2));
+            preparedStatement.setInt(4, customerId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            return new Message(null, MessageFromServer.UPDATE_CARD_FAILED);
+        }
+        return new Message(null, MessageFromServer.UPDATE_CARD_SUCCEED);
     }
 }

@@ -7,8 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import order.Order;
-import order.OrderStatus;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import user.Customer;
 
 import java.io.IOException;
@@ -22,13 +22,13 @@ import java.util.ResourceBundle;
 public class OrderPaymentPageController implements Initializable {
     private float total, balance;
     @FXML
-    private TextField CardField1;
+    private TextField cardField1;
     @FXML
-    private TextField CardField2;
+    private TextField cardField2;
     @FXML
-    private TextField CardField3;
+    private TextField cardField3;
     @FXML
-    private TextField CardField4;
+    private TextField cardField4;
     @FXML
     private CheckBox btnUseAnotherCreditCard;
     @FXML
@@ -84,6 +84,9 @@ public class OrderPaymentPageController implements Initializable {
     private Label lblPaymentError;
 
     @FXML
+    private Label lblSaveCardWithDifferentIdError;
+
+    @FXML
     private Label lblTotal;
 
     @FXML
@@ -133,7 +136,7 @@ public class OrderPaymentPageController implements Initializable {
             btnSavedCreditCard.setText(btnSavedCreditCard.getText() + "  (***" + customer.getCreditCard().substring(12) + ")");
         }
         if(customer.getBalance() == 0){
-            btnUseBalance.setDisable(true);     //what if there is a bit of balance?
+            btnUseBalance.setDisable(true);
         }
         else{
             btnUseBalance.setText(btnUseBalance.getText() + "  (" + customer.getBalance() + " \u20AA" + ")");
@@ -142,6 +145,47 @@ public class OrderPaymentPageController implements Initializable {
             btnUseAnotherCreditCard.setSelected(true);
             btnUseAnotherCreditCard.setDisable(true);
         }
+        cardField1.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 4 && newText.length() >= 4)
+                cardField2.requestFocus();
+        });
+
+        cardField2.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() <4  && newText.length() >= 4)
+                cardField3.requestFocus();
+        });
+
+        cardField3.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 4 && newText.length() >= 4)
+                cardField4.requestFocus();
+        });
+
+        cardField4.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 4 && newText.length() >= 4)
+                idField.requestFocus();
+        });
+
+        idField.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 9 && newText.length() >= 9)
+                expLable.requestFocus();
+        });
+
+        cvvField.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 3 && newText.length() >= 3)
+                btnUpdateCreditCard.requestFocus();
+        });
+
+        btnUpdateCreditCard.setOnKeyPressed( evt ->{
+            if(evt.getCode().equals(KeyCode.TAB)){
+                btnPlaceOrder.requestFocus();
+            }
+        });
+
+        btnPlaceOrder.setOnKeyPressed( evt ->{
+            if(evt.getCode().equals(KeyCode.TAB)){
+                btnPlaceOrder.fire();
+            }
+        });
     }
 
     /**
@@ -150,7 +194,7 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnSavedCreditCard(ActionEvent event) {
-        if(btnSavedCreditCard.isSelected()) {
+            btnSavedCreditCard.setSelected(true);
             lblPaymentError.setVisible(false);
             lblCardNumberError.setVisible(false);
             lblCVVError.setVisible(false);
@@ -158,7 +202,6 @@ public class OrderPaymentPageController implements Initializable {
             lblExpDateError.setVisible(false);
             btnUseAnotherCreditCard.setSelected(false);
             setCreditCardLabels(true);
-        }
     }
 
     /**
@@ -167,15 +210,12 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnUseAnotherCreditCard(ActionEvent event) {
-        if(btnUseAnotherCreditCard.isSelected()) {
-            lblPaymentError.setVisible(false);
-            btnSavedCreditCard.setSelected(false);
-            setCreditCardLabels(false);
-        }
-        else{
-            setCreditCardLabels(true);
-        }
+        btnUseAnotherCreditCard.setSelected(true);
+        lblPaymentError.setVisible(false);
+        btnSavedCreditCard.setSelected(false);
+        setCreditCardLabels(false);
     }
+
     /**
      * Finishes order process, update order in DB
      * @param event
@@ -184,15 +224,16 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnPlaceOrder(ActionEvent event) {
-        if(validateInput()){ //TODO- update in DB after combine
-            if (btnUpdateCreditCard.isPressed()) {
-                customer.setCreditCard(CardField1.getText() + CardField2.getText() + CardField3.getText() + CardField4.getText());
-                customer.setId(idField.getText());
+        if(validateInput()){ //TODO- in case of fail
+            if (btnUpdateCreditCard.isSelected()) {
+                customer.setCreditCard(cardField1.getText() + cardField2.getText() + cardField3.getText() + cardField4.getText());
                 customer.setExpDate(comboBoxMonth.getSelectionModel().getSelectedItem() +"/"+ comboBoxYear.getSelectionModel().getSelectedItem());
                 customer.setCvv(cvvField.getText());
+                Client.orderController.updateCreditCard(customer.getUserId(),customer.getCardDetails());
             }
-            if(btnUseBalance.isPressed()){ //TODO- update in DB after combine
+            if(btnUseBalance.isSelected()){ //TODO- in case of fail
                 customer.setBalance(balance);
+                Client.orderController.updateBalance(customer.getUserId(),balance);
             }
 
             Client.orderController.getCurrentOrder().setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
@@ -228,20 +269,26 @@ public class OrderPaymentPageController implements Initializable {
             lblCardNumberError.setVisible(true);
             invalidFields++;
         }
-        if (btnUseAnotherCreditCard.isSelected() && idField.getText().trim().isEmpty() && !idField.getText().contains("[0-9]+")){
+        if (btnUseAnotherCreditCard.isSelected() && idField.getText().trim().isEmpty() && !idField.getText().contains("[0-9]+") && idField.getText().length() != 9 ){
             lblIDError.setVisible(true);
             invalidFields++;
         }
 
-        if (btnUseAnotherCreditCard.isSelected() && comboBoxYear.getSelectionModel().isEmpty()){ //add check
+        if (btnUseAnotherCreditCard.isSelected() && comboBoxYear.getSelectionModel().isEmpty()){
             lblExpDateError.setVisible(true);
             invalidFields++;
+        }
+        if (btnUseAnotherCreditCard.isSelected() && btnUpdateCreditCard.isSelected()){
+            if(!customer.getId().equals(idField.getText())) {
+                lblSaveCardWithDifferentIdError.setVisible(true);
+                invalidFields++;
+            }
         }
         if (btnUseAnotherCreditCard.isSelected() && comboBoxMonth.getSelectionModel().isEmpty()){
             lblExpDateError.setVisible(true);
             invalidFields++;
         }
-        if (btnUseAnotherCreditCard.isSelected() && cvvField.getText().trim().isEmpty()){
+        if (btnUseAnotherCreditCard.isSelected() && cvvField.getText().trim().isEmpty()  && cvvField.getText().length() != 3){
             lblCVVError.setVisible(true);
             invalidFields++;
         }
@@ -253,16 +300,16 @@ public class OrderPaymentPageController implements Initializable {
      * @return true if the number card inserted is valid
      */
     private boolean validCardNumber() {
-        if (CardField1.getText().length() != 4 && !CardField1.getText().contains("[0-9]+")){
+        if (cardField1.getText().length() != 4 && !cardField1.getText().contains("[0-9]+")){
             return false;
         }
-        if (CardField2.getText().length() != 4 && !CardField2.getText().contains("[0-9]+")){
+        if (cardField2.getText().length() != 4 && !cardField2.getText().contains("[0-9]+")){
             return false;
         }
-        if (CardField3.getText().length() != 4 && !CardField3.getText().contains("[0-9]+")){
+        if (cardField3.getText().length() != 4 && !cardField3.getText().contains("[0-9]+")){
             return false;
         }
-        if (CardField4.getText().length() != 4 && !CardField4.getText().contains("[0-9]+")){
+        if (cardField4.getText().length() != 4 && !cardField4.getText().contains("[0-9]+")){
             return false;
         }
         return true;
@@ -279,6 +326,7 @@ public class OrderPaymentPageController implements Initializable {
                 lblTotal.setText("Total: 0" + " \u20AA");
                 setCreditCardLabels(true);
                 btnUseAnotherCreditCard.setDisable(true);
+               btnSavedCreditCard.setDisable(true);
                 total = 0;
                 balance = customer.getBalance() - Client.orderController.getCurrentOrder().getPrice();
             }
@@ -291,10 +339,67 @@ public class OrderPaymentPageController implements Initializable {
         else {
             lblTotal.setText("Total: " +  Client.orderController.getCurrentOrder().getPrice() + " \u20AA");
             setCreditCardLabels(false);
-            btnUseAnotherCreditCard.setDisable(false);
             total =  Client.orderController.getCurrentOrder().getPrice();
+            btnUseAnotherCreditCard.setDisable(false);
+            btnSavedCreditCard.setDisable(false);
+        }
+
+    }
+    @FXML
+    void checkButtonUpdateCard(ActionEvent event) {
+        if(btnSavedCreditCard.isSelected()){
+            if(customer.getId().equals(idField.getText())) {
+              lblSaveCardWithDifferentIdError.setVisible(false);
+             }
+            else{
+                lblSaveCardWithDifferentIdError.setVisible(true);
+            }
+            btnPlaceOrder.requestFocus();
+        }
+        else{
+            lblSaveCardWithDifferentIdError.setVisible(false);
         }
     }
+
+
+    @FXML
+    void cvvFieldEvent(KeyEvent event) {
+        lblCVVError.setVisible(false);
+    }
+    @FXML
+    void idFieldEvent(KeyEvent event) {
+        lblIDError.setVisible(false);
+    }
+    @FXML
+    void selectCbMonth(ActionEvent event) {
+        lblExpDateError.setVisible(false);
+    }
+
+    @FXML
+    void selectCbYear(ActionEvent event) {
+        if(comboBoxYear.getValue() != null)
+            cvvField.requestFocus();
+    }
+    @FXML
+    void cardField1Event(KeyEvent event) {
+        lblCardNumberError.setVisible(false);
+    }
+
+    @FXML
+    void cardField2Event(KeyEvent event) {
+        lblCardNumberError.setVisible(false);
+    }
+
+    @FXML
+    void cardField3Event(KeyEvent event) {
+        lblCardNumberError.setVisible(false);
+    }
+
+    @FXML
+    void cardField4Event(KeyEvent event) {
+        lblCardNumberError.setVisible(false);
+    }
+
 
     /**
      * Set credit card fields disable/ enable
@@ -302,10 +407,10 @@ public class OrderPaymentPageController implements Initializable {
      */
     private void setCreditCardLabels(boolean isDisabled) {
         creditLabel.setDisable(isDisabled);
-        CardField1.setDisable(isDisabled);
-        CardField2.setDisable(isDisabled);
-        CardField3.setDisable(isDisabled);
-        CardField4.setDisable(isDisabled);
+        cardField1.setDisable(isDisabled);
+        cardField2.setDisable(isDisabled);
+        cardField3.setDisable(isDisabled);
+        cardField4.setDisable(isDisabled);
         idLabel.setDisable(isDisabled);
         idField.setDisable(isDisabled);
         expLable.setDisable(isDisabled);
@@ -327,11 +432,5 @@ public class OrderPaymentPageController implements Initializable {
         MainDashboardController.setContentFromFXML("OrderRecipientPage.fxml");
     }
 
-    /**
-     * Set order object in order controller to a new Order.
-     */
-    private void initCurrentOrder() {
-        Client.orderController.setCurrentOrder(new Order());
-    }
 
 }

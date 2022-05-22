@@ -4,10 +4,12 @@ import client.Client;
 import communication.MessageFromServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginPageController {
+public class LoginPageController implements Initializable {
     private Border border;
 
     @FXML
@@ -87,5 +89,27 @@ public class LoginPageController {
         fldPassword.setBorder(border);
         error_Lab.setText(err);
         error_Lab.setVisible(true);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        fldUsername.requestFocus();
+        fldUsername.setOnKeyPressed( evt ->{
+            if(evt.getCode().equals(KeyCode.ENTER) || evt.getCode().equals(KeyCode.TAB) ){
+                fldPassword.requestFocus();
+            }
+        });
+
+        fldPassword.setOnKeyPressed( evt ->{
+            if(evt.getCode().equals(KeyCode.ENTER) || evt.getCode().equals(KeyCode.TAB)){
+                login_Button.requestFocus();
+            }
+        });
+
+        login_Button.setOnKeyPressed( evt ->{
+            if(evt.getCode().equals(KeyCode.ENTER)){
+                login_Button.fire();
+            }
+        });
     }
 }

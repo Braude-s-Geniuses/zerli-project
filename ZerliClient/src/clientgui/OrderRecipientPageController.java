@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +56,12 @@ public class OrderRecipientPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         restoreRecipientData();
+        nameField.setOnKeyPressed( evt ->{
+            if(evt.getCode().equals(KeyCode.ENTER) || evt.getCode().equals(KeyCode.TAB))
+            {
+                phoneField.requestFocus();
+           }
+       });
     }
     private void restoreRecipientData() {
         if(Client.orderController.getCurrentOrder().getRecipientName() != null){
@@ -91,6 +98,7 @@ public class OrderRecipientPageController implements Initializable {
         if(btnIamNotTheRecipient.isSelected()) {
             btnIamTheRecipient.setSelected(false);
             setRecipientInfo(false);
+            nameField.requestFocus();
         }
         else{
             setRecipientInfo(true);
@@ -130,6 +138,7 @@ public class OrderRecipientPageController implements Initializable {
         if(btnAddGreeting.isSelected()) {
             btnNoAddGreeting.setSelected(false);
             setGreetingCardInfo(false);
+            greetingField.requestFocus();
         }
         else{
             setGreetingCardInfo(true);
@@ -145,6 +154,7 @@ public class OrderRecipientPageController implements Initializable {
         if(btnNoAddGreeting.isSelected()) {
             btnAddGreeting.setSelected(false);
             setGreetingCardInfo(true);
+            greetingField.requestFocus();
         }
         else{
             setGreetingCardInfo(false);

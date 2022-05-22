@@ -9,6 +9,7 @@ import servergui.ServerUIController;
 import user.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static communication.MessageFromServer.LOGIN_SUCCEED;
 import static communication.MessageFromServer.LOGOUT_SUCCEED;
@@ -114,6 +115,12 @@ public class ZerliServer extends AbstractServer {
                 break;
             case REQUEST_ORDER_PRODUCTS:
                 messageFromServer = OrderController.getOrderDetails((Integer)messageFromClient.getData());
+                break;
+            case UPDATE_BALANCE_FOR_CUSTOMER:
+                messageFromServer = OrderController.updateBalance((ArrayList<Object>)messageFromClient.getData());
+                break;
+            case UPDATE_CARD_FOR_CUSTOMER:
+                messageFromServer = OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
                 break;
             default:
                 break;
