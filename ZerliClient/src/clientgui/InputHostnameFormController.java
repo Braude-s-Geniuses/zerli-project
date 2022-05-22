@@ -1,11 +1,6 @@
 package clientgui;
 
 import client.Client;
-import javafx.application.Platform;
-import javafx.application.Preloader;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,18 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sun.applet.Main;
 
-import java.io.IOException;
 import java.net.ConnectException;
-import java.util.Objects;
-
-import static com.sun.javafx.application.LauncherImpl.notifyPreloader;
 
 /** represents the GUI Controller of the client hostname input form.
  *

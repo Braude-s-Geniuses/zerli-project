@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -137,6 +136,9 @@ public class MainDashboardController implements Initializable {
         Button buttonManageProducts = new Button("Manage Products");
         buttonManageProducts.setOnAction(event -> setContentFromFXML("ProductsManagePage.fxml"));
 
+        Button buttonSurveyAnswers = new Button("Submit Survey Answers");
+        buttonSurveyAnswers.setOnAction(event -> setContentFromFXML("SurveyAnswerSubmitPage.fxml"));
+
         /* If current Client is a guest, shows only Browse Catalog in side-menu */
         if(Client.userController.getLoggedInUser() == null) {
             addSideNavButton(buttonBrowseCatalog);
@@ -161,17 +163,26 @@ public class MainDashboardController implements Initializable {
                     break;
                 case BRANCH_EMPLOYEE:
                     addSideNavButton(buttonManageProducts);
+                    addSideNavButton(buttonSurveyAnswers);
                     break;
                 case BRANCH_MANAGER:
                     addSideNavButton(buttonAddItem);
                     addSideNavButton(buttonManageItems);
                     addSideNavButton(buttonAddProduct);
                     addSideNavButton(buttonManageProducts);
+                    addSideNavButton(buttonSurveyAnswers);
                     break;
                 case SERVICE_EMPLOYEE:
 
                     break;
                 case EXPERT_SERVICE_EMPLOYEE:
+                    Button buttonSurveyDataView = new Button("View Survey Data");
+                    buttonSurveyDataView.setOnAction(event -> setContentFromFXML("SurveySelectPage.fxml"));
+                    addSideNavButton(buttonSurveyDataView);
+
+                    Button buttonSurveySummaryUpload = new Button("Upload Survey Summary");
+                    buttonSurveySummaryUpload.setOnAction(event -> setContentFromFXML("SurveySummaryUploadPage.fxml"));
+                    addSideNavButton(buttonSurveySummaryUpload);
                     break;
                 case DELIVERY_OPERATOR:
                     break;

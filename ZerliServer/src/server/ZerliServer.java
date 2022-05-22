@@ -6,6 +6,8 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import order.Order;
 import servergui.ServerUIController;
+import survey.Survey;
+import survey.SurveyAnswers;
 import user.User;
 
 import java.io.IOException;
@@ -121,6 +123,30 @@ public class ZerliServer extends AbstractServer {
                 break;
             case UPDATE_CARD_FOR_CUSTOMER:
                 messageFromServer = OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
+                break;
+            case SURVEY_IDS_REQUEST:
+                SurveyController surveyServerController= new SurveyController();
+                messageFromServer = surveyServerController.tryToGetIDsOfSurveys();
+                break;
+            case SURVEY_SEND:
+                surveyServerController= new SurveyController();
+                messageFromServer = surveyServerController.tryToInsertSurvey((SurveyAnswers)messageFromClient.getData());
+                break;
+            case REQUEST_ALL_SURVEY_NAMES_BY_EXPERT:
+                surveyServerController= new SurveyController();
+                messageFromServer = surveyServerController.tryToGetSurveyNames((int)messageFromClient.getData());
+                break;
+            case REQUEST_ALL_SURVEY_ANSWERS:
+                surveyServerController= new SurveyController();
+                messageFromServer = surveyServerController.tryToGetSurveyAnswers((String)messageFromClient.getData());
+                break;
+            case REQUEST_UPLOAD_SURVEY_SUMMARY:
+                surveyServerController= new SurveyController();
+                messageFromServer = surveyServerController.tryToUploadFile((Survey)messageFromClient.getData());
+                break;
+            case REQUEST_SURVEY_ID:
+                surveyServerController= new SurveyController();
+                messageFromServer = surveyServerController.tryToGetSurveyID((String)messageFromClient.getData());
                 break;
             default:
                 break;

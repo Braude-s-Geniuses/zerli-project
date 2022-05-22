@@ -5,9 +5,11 @@ import communication.MessageFromClient;
 import communication.MessageFromServer;
 import ocsf.client.AbstractClient;
 import order.Product;
+import survey.SurveyAnswers;
 import user.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /** ZerliClient represents the implementation of <code>OCSF.AbstractClient</code>
  *
@@ -92,6 +94,44 @@ public class ZerliClient extends AbstractClient {
             case PRODUCT_DELETE_SUCCESS:
             case PRODUCT_DELETE_FAIL:
                 Client.productController.setResponse(messageFromServer);
+                break;
+            case SURVEY_NAMES_SUCCESSFULLY:
+                Client.surveyController.setSurveyNames((ArrayList<String>) messageFromServer.getData());
+                break;
+            case SURVEY_ANSWERS_SUCCESSFULLY:
+                Client.surveyController.setSurveyAnswersList((List<SurveyAnswers>) messageFromServer.getData());
+                break;
+            case UPLOAD_SURVEY_SUMMARY_SUCCESSFULLY:
+                Client.surveyController.setUploadStatus(true);
+                break;
+            case GET_SURVEY_ID_SUCCESSFULLY:
+                Client.surveyController.setSurveyID((int)messageFromServer.getData());
+                break;
+            case SURVEY_IDS_SUCCESSFUL:
+                Client.surveyController.setCurrSurveys((ArrayList<List>)messageFromServer.getData());
+                message = MessageFromServer.SURVEY_IDS_SUCCESSFUL;
+                break;
+            case SURVEY_IDS_CUSTOMER_SUCCESSFUL:
+                Client.surveyController.setCurrCustomers((ArrayList<Integer>)messageFromServer.getData());
+                message = MessageFromServer.SURVEY_IDS_CUSTOMER_SUCCESSFUL;
+                break;
+            case SURVER_ALREADY_FILLED:
+                message = MessageFromServer.SURVER_ALREADY_FILLED;
+                break;
+            case SURVEY_IDS_NOT_SUCCESSFULLY:
+                message = MessageFromServer.SURVEY_IDS_NOT_SUCCESSFULLY;
+                break;
+            case SURVEY_HAS_BEEN_COMPLETED:
+                message = MessageFromServer.SURVEY_HAS_BEEN_COMPLETED;
+                break;
+            case SURVER_INSERT_NOT_SUCCESSFULLY:
+                message = MessageFromServer.SURVER_INSERT_NOT_SUCCESSFULLY;
+                break;
+            case SURVER_INSERT_SUCCEED:
+                message = MessageFromServer.SURVER_INSERT_SUCCEED;
+                break;
+            case UNAUTHORIZED_CUSTOMER:
+                message = MessageFromServer.UNAUTHORIZED_CUSTOMER;
                 break;
         }
 

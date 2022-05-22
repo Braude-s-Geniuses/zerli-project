@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.SurveySummaryUploadPageController">
+    <children>
+        <Label layoutX="303.0" layoutY="162.0" prefHeight="82.0" prefWidth="158.0" text="Choose Survey" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="25.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="36.0" prefHeight="82.0" prefWidth="963.0" text="Upload Survey Summary" textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="55.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="surveyComboBox" editable="true" layoutX="538.0" layoutY="188.0" prefWidth="150.0" />
+        <Button fx:id="browseButton" layoutX="546.0" layoutY="275.0" mnemonicParsing="false" onAction="#browseButtonClick" styleClass="btn-secondary" text="Browse.." textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="25.0" />
+            </font>
+        </Button>
+        <Label layoutX="303.0" layoutY="258.0" prefHeight="82.0" prefWidth="182.0" text="Choose Summary" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="25.0" />
+            </font>
+        </Label>
+        <Button fx:id="confirmButton" layoutX="443.0" layoutY="444.0" mnemonicParsing="false" onAction="#confirmButtonClick" styleClass="btn" text="Submit" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="25.0" />
+            </font>
+        </Button>
+        <Label fx:id="messageLabel" contentDisplay="CENTER" layoutX="176.0" layoutY="526.0" prefHeight="28.0" prefWidth="612.0" text="Error" textAlignment="CENTER" textFill="RED" visible="false">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="fileNameLabel" contentDisplay="CENTER" layoutX="187.0" layoutY="409.0" prefHeight="28.0" prefWidth="612.0" text="File" textAlignment="CENTER" visible="false">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

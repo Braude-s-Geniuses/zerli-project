@@ -1,12 +1,8 @@
 package client;
 
 import clientgui.InputHostnameFormController;
-import clientgui.MainDashboardController;
 import javafx.application.Application;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -26,6 +22,7 @@ public class Client extends Application {
 
     public static ItemController itemController;
     public static ProductController productController;
+    public static SurveyController surveyController;
 
     /**
      * represents the controller instance of the hostname form gui.
@@ -79,5 +76,6 @@ public class Client extends Application {
         orderController = new OrderController();
         itemController = new ItemController();
         productController = new ProductController();
+        surveyController = new SurveyController();
     }
 }
