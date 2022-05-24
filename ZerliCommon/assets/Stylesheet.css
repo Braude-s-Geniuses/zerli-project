@@ -2,8 +2,9 @@
 	-fx-background-radius: 0;
 	-fx-background-color: transparent;
 	-fx-font-family: "Calibri";
-	-fx-font-size: 20;
+	-fx-font-size: 18;
 	-fx-text-fill: #77385a;
+	-fx-pref-width: 210;
 }
 
 .sidenav-button:hover {

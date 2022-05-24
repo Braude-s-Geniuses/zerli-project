@@ -2,12 +2,9 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import survey.Survey;
 import survey.SurveyAnswers;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,8 +66,8 @@ public class SurveyController {
             stmt = con.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM survey;");
             while (resultSet.next()) {
-                surveysIDs.add(resultSet.getInt(1));
-                surveysNames.add(resultSet.getString(4));
+                surveysIDs.add(resultSet.getInt("survey_id"));
+                surveysNames.add(resultSet.getString("survey_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,7 +116,7 @@ public class SurveyController {
             stmt = con.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM survey WHERE expert_id = "+ expertID+";"); //get all surveys names by expert
             while (resultSet.next()) {
-                String surveyName = resultSet.getString(4);
+                String surveyName = resultSet.getString("survey_name");
                 surveyName.replace('_', ' ');
                 if(!surveys.contains(surveyName))
                     surveys.add(surveyName);
@@ -144,7 +141,7 @@ public class SurveyController {
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            int id = resultSet.getInt(1);
+            int id = resultSet.getInt("survey_id");
             preparedStatement=  con.prepareStatement("SELECT * FROM survey_result WHERE survey_id=? ;", Statement.RETURN_GENERATED_KEYS);// get all survey results
             preparedStatement.setInt(1,id);
             resultSet = preparedStatement.executeQuery();
@@ -190,7 +187,7 @@ public class SurveyController {
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return new Message(resultSet.getInt(1), MessageFromServer.GET_SURVEY_ID_SUCCESSFULLY);
+            return new Message(resultSet.getInt("survey_id"), MessageFromServer.GET_SURVEY_ID_SUCCESSFULLY);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
