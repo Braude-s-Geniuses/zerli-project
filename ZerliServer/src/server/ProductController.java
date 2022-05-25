@@ -120,25 +120,4 @@ public class ProductController {
 
         return new Message(products, MessageFromServer.PRODUCTS_GET_SUCCESS);
     }
-
-    public static Message getProductItems(Message messageFromClient) {
-        int productId = (int) messageFromClient.getData();
-
-        HashMap<Integer, Integer> productItems = new HashMap<>();
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = con.prepareStatement("SELECT * FROM product_item WHERE product_id = ?");
-            preparedStatement.setInt(1, productId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                productItems.put(resultSet.getInt("item_id"), resultSet.getInt("quantity"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new Message(null, MessageFromServer.PRODUCT_GET_ITEMS_FAIL);
-        }
-        return new Message(productItems, MessageFromServer.PRODUCT_GET_ITEMS_SUCCEED);
-    }
 }

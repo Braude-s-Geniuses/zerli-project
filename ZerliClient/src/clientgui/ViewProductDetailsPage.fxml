@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="baseAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.ViewProductDetailsPageController">
+    <children>
+        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="318.0" text="Product Details" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="41.0" />
+            </font>
+        </Label>
+
+        <Button fx:id="backBtn" layoutX="14.0" layoutY="606.0" mnemonicParsing="false" onAction="#backBtnClick" prefHeight="40.0" prefWidth="106.0" styleClass="btn-secondary" text="Back" />
+        <ImageView fx:id="productImage" fitHeight="310.0" fitWidth="194.0" layoutX="425.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="priceLabel" layoutX="666.0" layoutY="213.0">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="productID" layoutX="772.0" layoutY="163.0">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Label>
+        <Label fx:id="productName" layoutX="425.0" layoutY="67.0">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Label>
+        <Label fx:id="productColor" layoutX="675.0" layoutY="271.0">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Label>
+        <Label layoutX="619.0" layoutY="163.0" text="Product Num.">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Label>
+        <Label layoutX="619.0" layoutY="216.0" text="Price">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Label>
+        <Label layoutX="619.0" layoutY="271.0" text="Color">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Label>
+      <Label fx:id="productItems" layoutX="618.0" layoutY="330.0">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+
+    </children>
+</AnchorPane>

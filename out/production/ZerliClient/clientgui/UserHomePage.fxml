@@ -12,14 +12,14 @@
             <Font size="96.0" />
          </font>
       </Label>
-      <Label fx:id="lblUserRole" layoutX="58.0" layoutY="384.0" prefHeight="82.0" prefWidth="562.0" textFill="#77385a">
+      <Label fx:id="lblUserRole" layoutX="58.0" layoutY="384.0" prefHeight="82.0" prefWidth="528.0" textFill="#77385a">
          <font>
-            <Font name="Calibri" size="48.0" />
+            <Font name="Calibri" size="36.0" />
          </font>
       </Label>
       <Label fx:id="lbluserFullname" layoutX="99.0" layoutY="474.0" prefHeight="82.0" prefWidth="480.0" textFill="#77385a">
          <font>
-            <Font name="Calibri" size="48.0" />
+            <Font name="Calibri" size="36.0" />
          </font>
       </Label>
       <AnchorPane fx:id="picturePane" layoutX="592.0" layoutY="125.0" prefHeight="447.0" prefWidth="395.0">

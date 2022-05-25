@@ -21,6 +21,7 @@ public class Complaint implements Serializable {
         this.createdAt = createdAt;
         this.description = description;
     }
+    public Complaint(){}
 
 
     public int getComplaintId() {

@@ -1,5 +1,6 @@
 package server;
 
+import branch.Complaint;
 import communication.Message;
 import communication.MessageFromClient;
 import ocsf.server.AbstractServer;
@@ -79,9 +80,6 @@ public class ZerliServer extends AbstractServer {
 //            case GET_PRODUCT:
 //                messageFromServer = CatalogController.getProductsFromDataBase();
 //                break;
-            case SEND_ORDER_TO_SERVER:
-                messageFromServer =CatalogController.getOrderFromCatalog(messageFromClient);
-                break;
             case REQUEST_ORDERS_TABLE:
                 messageFromServer = OrderController.getAllOrdersFromServer((int) messageFromClient.getData());
                 break;
@@ -108,9 +106,6 @@ public class ZerliServer extends AbstractServer {
                 break;
             case PRODUCTS_GET:
                 messageFromServer = ProductController.getAllProducts();
-                break;
-            case PRODUCT_GET_ITEMS:
-                messageFromServer = ProductController.getProductItems(messageFromClient);
                 break;
             case PRODUCT_UPDATE:
                 messageFromServer = ProductController.updateProduct(messageFromClient);
@@ -147,6 +142,21 @@ public class ZerliServer extends AbstractServer {
             case REQUEST_SURVEY_ID:
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToGetSurveyID((String)messageFromClient.getData());
+                break;
+            case CATALOG_GET_PRODUCT_ITEMS:
+                messageFromServer = CatalogController.getProductItems(messageFromClient);
+                break;
+            case ADD_NEW_COMPLAINT:
+                messageFromServer = ComplaintController.setComplaintToDataBase((Complaint) messageFromClient.getData());
+                break;
+            case VALIDATE_CUSTOMER_AND_ORDER:
+                messageFromServer = ComplaintController.validateCustomerAndOrderDatabase(messageFromClient.getData());
+                break;
+            case REQUEST_COMPLAINTS_TABLE:
+                messageFromServer = ComplaintController.getAllComplaintsFromDatabase();
+                break;
+            case CLOSE_STATUS:
+                messageFromServer = ComplaintController.closeStatus((ArrayList<Object>) messageFromClient.getData());
                 break;
             default:
                 break;

@@ -23,6 +23,7 @@ public class Client extends Application {
     public static ItemController itemController;
     public static ProductController productController;
     public static SurveyController surveyController;
+    public static ComplaintController complaintController;
 
     /**
      * represents the controller instance of the hostname form gui.
@@ -77,5 +78,6 @@ public class Client extends Application {
         itemController = new ItemController();
         productController = new ProductController();
         surveyController = new SurveyController();
+        complaintController = new ComplaintController();
     }
 }

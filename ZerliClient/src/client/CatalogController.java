@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class CatalogController {
 
     public ArrayList<Product> list = new ArrayList<>();
-    public Message messageForOrders = new Message();
+    public Message response;
 
 
     public void getProducts() {
@@ -21,20 +21,20 @@ public class CatalogController {
         this.list = list;
     }
 
+    public void getProductItems(int productId) {
+        Message message = new Message(productId, MessageFromClient.CATALOG_GET_PRODUCT_ITEMS);
+        Client.clientController.getClient().handleMessageFromUI(message, true);
+    }
+
     public ArrayList<Product> getList() {
         return list;
     }
 
-    public void orderFromCatalog(ArrayList<Object> obj){
-        Client.clientController.getClient().handleMessageFromUI(new Message(obj, MessageFromClient.SEND_ORDER_TO_SERVER), true);
+    public Message getResponse() {
+        return response;
     }
 
-    public void receivedFromCatalog(Message msg){
-        this.messageForOrders = msg;
+    public void setResponse(Message response) {
+        this.response = response;
     }
-
-    public Message getReceivedFromCatalog(){
-       return messageForOrders;
-    }
-
 }

@@ -1,5 +1,6 @@
 package client;
 
+import branch.Complaint;
 import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
@@ -62,9 +63,6 @@ public class ZerliClient extends AbstractClient {
                 Client.userController.setLoggedInUser(null);
                 message = MessageFromServer.CUSTOMER_IS_BLOCKED;
                 break;
-            case SEND_ORDER_CATALOG:
-                Client.catalogController.receivedFromCatalog(messageFromServer);
-                break;
             case IMPORT_ORDERS_TABLE_SUCCEED:
             case IMPORT_ORDERS_TABLE_NOT_SUCCEED:
             case IMPORT_BRANCHES_SUCCEDD:
@@ -87,8 +85,6 @@ public class ZerliClient extends AbstractClient {
             case PRODUCT_ADD_FAIL:
             case PRODUCTS_GET_SUCCESS:
             case PRODUCTS_GET_FAIL:
-            case PRODUCT_GET_ITEMS_SUCCEED:
-            case PRODUCT_GET_ITEMS_FAIL:
             case PRODUCT_UPDATE_SUCCESS:
             case PRODUCT_UPDATE_FAIL:
             case PRODUCT_DELETE_SUCCESS:
@@ -132,6 +128,22 @@ public class ZerliClient extends AbstractClient {
                 break;
             case UNAUTHORIZED_CUSTOMER:
                 message = MessageFromServer.UNAUTHORIZED_CUSTOMER;
+                break;
+            case ADDED_COMPLAINT_SUCCESSFULLY:
+                Client.complaintController.setComplaintStatusReceived(messageFromServer);
+                break;
+            case RESULT_OF_VALIDATION:
+                Client.complaintController.setValidationResult(messageFromServer);
+                break;
+            case IMPORTED_COMPLAINTS_SUCCEED:
+                Client.complaintController.setAllComplaints((ArrayList<Complaint>) messageFromServer.getData());
+                break;
+            case STATUS_CLOSED_SUCCESSFULLY:
+                Client.complaintController.setStatusClosed((String)messageFromServer.getData());
+                break;
+            case CATALOG_GET_PRODUCT_ITEMS_FAIL:
+            case CATALOG_GET_PRODUCT_ITEMS_SUCCEED:
+                Client.catalogController.setResponse(messageFromServer);
                 break;
         }
 

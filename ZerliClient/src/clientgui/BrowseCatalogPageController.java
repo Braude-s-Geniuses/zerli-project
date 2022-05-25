@@ -7,12 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -28,37 +24,37 @@ import java.util.ResourceBundle;
 
 public class BrowseCatalogPageController implements Initializable {
 
+    public static Product currentProduct;
+
     @FXML
     private TilePane tilePane;
+    @FXML
+    private TilePane tilePaneSingle;
 
     @FXML
     private ScrollPane sPane;
+    @FXML
+    private ScrollPane sPaneSingle;
 
     @FXML
-    private AnchorPane baseAnchor;
-
+    private TabPane tabPane;
     ObservableList<String> quantityPicker =
             FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
-    private float sum = Client.orderController.getCart().size();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-//        new Thread(() -> {
-//            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), baseAnchor);
-//            fadeTransition.setFromValue(0.0);
-//            fadeTransition.setToValue(1.0);
-//            fadeTransition.setCycleCount(1);
-//            fadeTransition.play();
-//        }).start();
-
+        tabPane.getStyleClass().add("tab-pane");
         Client.catalogController.getProducts();
         ArrayList<Product> arrivedList = (ArrayList<Product>) Client.productController.getResponse().getData();
 
         for (Product product : arrivedList) {
-            tilePane.getChildren().add(createProductTile(product));
+            if(!product.isCustomMade())
+                tilePane.getChildren().add(createProductTile(product));
+            else
+                tilePaneSingle.getChildren().add(createProductTile(product));
         }
         sPane.setFitToWidth(true);
+        sPaneSingle.setFitToWidth(true);
 
     }
 
@@ -71,10 +67,14 @@ public class BrowseCatalogPageController implements Initializable {
 
         HBox hBox = new HBox();
         VBox vBox = new VBox();
+
         ImageView iv = new ImageView();
         iv.setFitHeight(250.0);
         iv.setFitWidth(150.0);
+
         Button addBtn = new Button("Add to cart");
+        Button viewDetails = new Button("View details");
+
         Label nameLabel = new Label(product.getName());
         Text newPrice = new Text();
         ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
@@ -83,6 +83,7 @@ public class BrowseCatalogPageController implements Initializable {
         priceLabel.getStyleClass().add("price-label");
         nameLabel.getStyleClass().add("name-label");
         addBtn.getStyleClass().add("btn");
+        viewDetails.getStyleClass().add("btn-secondary");
         comboBoxQuantity.getStyleClass().add("combo-color");
         comboBoxQuantity.getSelectionModel().selectFirst();
 
@@ -94,16 +95,12 @@ public class BrowseCatalogPageController implements Initializable {
             newPrice.setText("Discount Price: " + product.getDiscountPrice() + " \u20AA");
             newPrice.getStyleClass().add("new-price-label");
         }
-//            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.0), evt -> newPrice.setVisible(false)),
-//                    new KeyFrame(Duration.seconds(0.2), evt -> newPrice.setVisible(true)));
-//            timeline.setCycleCount(Animation.INDEFINITE);
-//            timeline.play();
 
         if(Client.userController.getLoggedInUser() != null)
             vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn);
         else
             vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()));
-        hBox.getChildren().addAll(iv, vBox);
+        hBox.getChildren().addAll(new VBox(iv,viewDetails), vBox);
         vBox.setSpacing(15);
         iv.setTranslateY(50);
         hBox.setPadding(new Insets(50, 30, 50, 70));
@@ -116,6 +113,11 @@ public class BrowseCatalogPageController implements Initializable {
             Client.orderController.addToCart(new OrderProduct(product, Integer.valueOf(valueOfQuantity)));
             MainDashboardController.createAlert(product.getName() + " was added to cart", Alert.SUCCESS, Duration.seconds(2), 135, 67);
             MainDashboardController.refreshCartCounter();
+        });
+
+        viewDetails.setOnAction(event -> {
+            currentProduct = product;
+            MainDashboardController.setContentFromFXML("ViewProductDetailsPage.fxml");
         });
 
         return hBox;
