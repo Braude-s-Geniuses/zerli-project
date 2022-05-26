@@ -2,7 +2,6 @@ package server;
 
 import branch.Complaint;
 import communication.Message;
-import communication.MessageFromClient;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import order.Order;
@@ -157,6 +156,11 @@ public class ZerliServer extends AbstractServer {
                 break;
             case CLOSE_STATUS:
                 messageFromServer = ComplaintController.closeStatus((ArrayList<Object>) messageFromClient.getData());
+                break;
+            case VIEW_ORDER_REPORT:
+            case VIEW_REVENUE_REPORT:
+            case VIEW_COMPLAINTS_REPORT:
+                messageFromServer = ReportController.viewReport((ArrayList<String>) messageFromClient.getData());
                 break;
             default:
                 break;

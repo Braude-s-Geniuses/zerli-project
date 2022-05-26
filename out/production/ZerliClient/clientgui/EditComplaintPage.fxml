@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="baseAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.EditComplaintPageController">
+    <children>
+        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="318.0" text="Complaint editor" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="41.0" />
+            </font>
+        </Label>
+        <Label layoutX="126.0" layoutY="138.0" text="Order ID: " />
+        <Label layoutX="126.0" layoutY="238.0" prefHeight="31.0" prefWidth="185.0" text="Customer's issue:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="25.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="complaintText" layoutX="127.0" layoutY="282.0" prefHeight="107.0" prefWidth="760.0" promptText="Edit.." />
+        <Label layoutX="126.0" layoutY="95.0" text="Servicer ID:" />
+        <Label fx:id="servicerID" layoutX="212.0" layoutY="95.0" />
+        <Label layoutX="126.0" layoutY="183.0" text="Customer ID: " />
+        <Button fx:id="closeBtn" layoutX="732.0" layoutY="529.0" mnemonicParsing="false" onAction="#closeBtnClick" prefHeight="53.0" prefWidth="144.0" text="Close issue" />
+        <Button fx:id="backBtn" layoutX="67.0" layoutY="535.0" mnemonicParsing="false" onAction="#backBtnClick" prefHeight="40.0" prefWidth="106.0" text="Back" />
+        <Label layoutX="120.0" layoutY="411.0" prefHeight="31.0" prefWidth="273.0" text="Optional compinsation:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="25.0" />
+            </font>
+        </Label>
+        <Label layoutX="119.0" layoutY="473.0" text="Please enter amount of compinsation:">
+            <font>
+                <Font size="14.0" />
+            </font></Label>
+        <TextField fx:id="amount" layoutX="379.0" layoutY="471.0" prefHeight="31.0" prefWidth="106.0" promptText="Enter amount.." />
+        <Label fx:id="orderID" layoutX="212.0" layoutY="137.0" />
+        <Label fx:id="customerID" layoutX="212.0" layoutY="184.0" />
+        <Label fx:id="closeIssue" layoutX="674.0" layoutY="601.0" />
+    </children>
+</AnchorPane>

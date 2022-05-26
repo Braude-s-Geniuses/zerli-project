@@ -8,7 +8,6 @@ import order.Product;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ProductController {

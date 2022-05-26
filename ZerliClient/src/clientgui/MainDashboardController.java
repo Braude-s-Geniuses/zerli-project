@@ -197,6 +197,10 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonManageItems);
                     addSideNavButton(buttonAddProduct);
                     addSideNavButton(buttonManageProducts);
+
+                    Button buttonViewReports = new Button("View Reports");
+                    buttonViewReports.setOnAction(event -> setContentFromFXML("MonthlyReportPageCEO.fxml"));
+                    addSideNavButton(buttonViewReports);
             }
         }
         /* All user types see the relevant login/out button */

@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="baseAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.BrowseCatalogPageController">
     <children>
-        <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="403.0" text="Catalog" textFill="#77385a">
+        <TabPane fx:id="tabPane" layoutY="71.0" prefHeight="589.0" prefWidth="990.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Pre-built items">
+                    <content>
+                        <ScrollPane fx:id="sPane" prefHeight="600.0" prefWidth="990.0" style="-fx-background-color: white;">
+                            <content>
+                                <TilePane fx:id="tilePane" prefHeight="550.0" prefWidth="990.0" style="-fx-background-color: white;" />
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Single items">
+                    <content>
+                        <ScrollPane fx:id="sPaneSingle" prefHeight="200.0" prefWidth="200.0">
+                            <content>
+                                <TilePane fx:id="tilePaneSingle" prefHeight="550.0" prefWidth="990.0" style="-fx-background-color: white;" />
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Label layoutX="403.0" layoutY="14.0" prefHeight="53.0" prefWidth="132.0" text="Catalog" textFill="#77385a">
             <font>
                 <Font name="Calibri Bold" size="41.0" />
             </font>
         </Label>
-        <ScrollPane fx:id="sPane" layoutY="67.0" prefHeight="600.0" prefWidth="990.0" style="-fx-background-color: white;">
-            <content>
-                <TilePane fx:id="tilePane" prefHeight="600.0" prefWidth="990.0" style="-fx-background-color: white;" />
-            </content>
-        </ScrollPane>
     </children>
 </AnchorPane>

@@ -13,9 +13,7 @@ import java.util.List;
 
 
 public class OrderController {
-
     public static Connection connection = Server.databaseController.getConnection();
-
 
     public static Message getAllOrdersFromServer(int userId) {
 
@@ -184,5 +182,22 @@ public class OrderController {
             return new Message(null, MessageFromServer.UPDATE_CARD_FAILED);
         }
         return new Message(null, MessageFromServer.UPDATE_CARD_SUCCEED);
+    }
+
+    public static Message getLastReport() {
+        String lastReport = null;
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT name FROM report WHERE report_id = (select MAX(report_id) FROM report);");
+            while (resultSet.next()) {
+                lastReport = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.IMPORT_LAST_REPORT_NOT_SUCCEDD);
+        }
+        return new Message(lastReport, MessageFromServer.IMPORT_LAST_REPORT_SUCCEDD);
+
     }
 }
