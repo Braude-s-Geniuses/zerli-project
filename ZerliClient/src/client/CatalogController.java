@@ -5,12 +5,28 @@ import communication.MessageFromClient;
 import order.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CatalogController {
 
     public ArrayList<Product> list = new ArrayList<>();
     public Message response;
 
+    public boolean isCreateProduct = false;
+    private HashMap<Product, Integer> createProduct = new HashMap<>();
+
+    public HashMap<Product, Integer> getCreateProduct() {
+        return createProduct;
+    }
+
+    public void addProductToCustomProduct(Product product, int quantity) {
+        int currentQuantity = 0;
+
+        if(createProduct.containsKey(product))
+            currentQuantity = createProduct.get(product);
+
+        createProduct.put(product, currentQuantity + quantity);
+    }
 
     public void getProducts() {
         Client.productController.getProducts();

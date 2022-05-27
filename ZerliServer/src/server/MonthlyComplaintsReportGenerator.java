@@ -46,9 +46,14 @@ public class MonthlyComplaintsReportGenerator extends MonthlyReportGenerator{
         try {
             generateReportTitle();
             complaintsReportDataForDB = ReportController.extractComplaintsInfoForReport(branch,month,month ,year);
-            addHistogram(complaintsReportDataForDB, 45f, 220f);
-            endOfReport();
-            closeDocument(ReportType.MONTHLY_COMPLAINTS_REPORT);
+            if (complaintsReportDataForDB.isEmpty()) {
+                noDataForReport();
+                closeDocument(ReportType.MONTHLY_COMPLAINTS_REPORT);
+            } else {
+                addHistogram(complaintsReportDataForDB, 45f, 220f);
+                endOfReport();
+                closeDocument(ReportType.MONTHLY_COMPLAINTS_REPORT);
+            }
         } catch (DocumentException e) {
             throw new RuntimeException(e);
         }

@@ -30,14 +30,26 @@ public class QuarterlyComplaintsReportGenerator extends QuarterlyReportGenerator
             ArrayList<Integer> ordersReportDataFromDB;
             generateReportTitle();
             ordersReportDataFromDB = ReportController.extractComplaintsInfoForReport(branch, quarters.get(quarter).substring(0,2), quarters.get(quarter).substring(3), year);
-            addHistogram(ordersReportDataFromDB, 45f, 220f);
-            endOfReport();
-            closeDocument(ReportType.QUARTERLY_COMPLAINTS_REPORT);
+
+            if (isDataEmpty(ordersReportDataFromDB)) {
+                noDataForReport();
+                closeDocument(ReportType.QUARTERLY_COMPLAINTS_REPORT);
+            } else {
+                addHistogram(ordersReportDataFromDB, 45f, 220f);
+                endOfReport();
+                closeDocument(ReportType.QUARTERLY_COMPLAINTS_REPORT);
+            }
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        //Gal, if you got up to this point it means you are right TOP LEVEL Program engineer.
-        // now, the next stage in your journey will be to understand my messed up code. good luck//
+    }
+
+    private boolean isDataEmpty(ArrayList<Integer> ordersReportDataFromDB) {
+        int sum = 0;
+        for (int i : ordersReportDataFromDB) {
+            sum += i;
+        }
+        return sum == 0 ? true : false;
     }
 
     @Override

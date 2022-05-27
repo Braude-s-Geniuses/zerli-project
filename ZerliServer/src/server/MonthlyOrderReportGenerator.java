@@ -27,17 +27,23 @@ public class MonthlyOrderReportGenerator extends MonthlyReportGenerator{
     public ArrayList<String> getOrderColumns() {return orderColumns;}
 
     public void setOrderColumns(ArrayList<String> orderColumns) {this.orderColumns = orderColumns;}
+
     @Override
     public void generate(String branch) {
         try {
             generateReportTitle();
-            generateColumns(getOrderColumns());
             ArrayList<Object> ordersReportDataFromDB = ReportController.extractOrderInfoForReport(branch,month, month,year);
-            fillColumns(ordersReportDataFromDB);
-            endOfReport();
+            if (ordersReportDataFromDB.isEmpty()){
+                noDataForReport();
+            }
+            else{
+                generateColumns(getOrderColumns());
+                fillColumns(ordersReportDataFromDB);
+                endOfReport();
+            }
             closeDocument(ReportType.MONTHLY_ORDER_REPORT);
         } catch (DocumentException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

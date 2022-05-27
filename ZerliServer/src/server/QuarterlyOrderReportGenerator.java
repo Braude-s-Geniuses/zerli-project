@@ -52,12 +52,18 @@ public class QuarterlyOrderReportGenerator extends QuarterlyReportGenerator{
     public void generate(String branch) {
         try{
             generateReportTitle();
-            generateColumns(getOrderColumns());
 
             ArrayList<Object> ordersReportDataFromDB;
             ordersReportDataFromDB = (ReportController.extractOrderInfoForReport(branch,quarters.get(quarter).substring(0,2),quarters.get(quarter).substring(3) ,year));
-            fillColumns(ordersReportDataFromDB);
-            endOfReport();  //TODO
+
+            if (ordersReportDataFromDB.isEmpty()) {
+                noDataForReport();
+            } else {
+                generateColumns(getOrderColumns());
+                fillColumns(ordersReportDataFromDB);
+                endOfReport();
+            }
+
             closeDocument(ReportType.QUARTERLY_ORDER_REPORT);
         }
         catch (DocumentException e) {

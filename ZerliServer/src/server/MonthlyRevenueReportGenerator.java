@@ -36,13 +36,17 @@ public class MonthlyRevenueReportGenerator extends MonthlyReportGenerator {
     public void generate(String branch) {
         try {
             generateReportTitle();
-            generateColumns(revenueColumns);
             ArrayList<Object> revenueReportDataFromDB = ReportController.extractRevenueInfoForReport(branch,month, year);
-            fillColumns(revenueReportDataFromDB);
-            endOfReport();
+            if (revenueReportDataFromDB.isEmpty()) {
+                noDataForReport();
+            } else {
+                generateColumns(revenueColumns);
+                fillColumns(revenueReportDataFromDB);
+                endOfReport();
+            }
             closeDocument(ReportType.MONTHLY_REVENUE_REPORT);
         } catch (DocumentException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

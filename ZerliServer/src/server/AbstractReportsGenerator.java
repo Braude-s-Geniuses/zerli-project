@@ -1,10 +1,8 @@
 package server;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.PageSize;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import report.ReportType;
 
@@ -58,4 +56,19 @@ public abstract class AbstractReportsGenerator {
         cell.setBorder(0);
     }
 
+    protected void noDataForReport(){
+        try {
+            float col = 600f;
+            float columnWidth[] = {col};
+            PdfPTable table = new PdfPTable(columnWidth);
+
+            PdfPCell cell = new PdfPCell(new Phrase("\n\n\n\nNo Data to show", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 30, new BaseColor(119, 56, 90))));
+            setCell(cell);
+            table.addCell(cell);
+            document.add(table);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

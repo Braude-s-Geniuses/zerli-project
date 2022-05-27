@@ -35,13 +35,26 @@ public class QuarterlyRevenueReportGenerator extends QuarterlyReportGenerator{
         try{
             generateReportTitle();
             HashMap<String,Float> revenueReportDataFromDB = ReportController.extractRevenueInfoForReportQuarterly(branch,quarters.get(quarter),year);
-            addHistogram(revenueReportDataFromDB,45f,230f);
-            endOfReport();
+
+            if (isDataEmpty(revenueReportDataFromDB)) {
+                noDataForReport();
+            } else {
+                addHistogram(revenueReportDataFromDB,45f,230f);
+                endOfReport();
+            }
+
             closeDocument(ReportType.QUARTERLY_REVENUE_REPORT);
+        } catch (DocumentException e) {
+            e.printStackTrace();
         }
-        catch (DocumentException e) {
-            throw new RuntimeException(e);
+    }
+
+    private boolean isDataEmpty(HashMap<String, Float> ordersReportDataFromDB) {
+        int sum = 0;
+        for (Map.Entry<String, Float> entry : ordersReportDataFromDB.entrySet()) {
+            sum += entry.getValue();
         }
+        return sum == 0 ? true : false;
     }
 
     @Override

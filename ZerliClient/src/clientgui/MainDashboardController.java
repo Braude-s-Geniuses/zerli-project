@@ -203,6 +203,7 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonViewReports);
             }
         }
+
         /* All user types see the relevant login/out button */
         btnLogInOrOut = new Button();
         btnLogInOrOut.setLayoutX(933.0);
