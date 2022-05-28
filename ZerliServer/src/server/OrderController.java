@@ -246,4 +246,52 @@ public class OrderController {
         }
         return new Message(lastReport, MessageFromServer.IMPORT_LAST_REPORT_SUCCEDD);
     }
+
+    public static Message UpdateOrderStatus(Order order) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `order` SET order_status = ? WHERE order_id = ?");
+            preparedStatement.setString(1,order.getOrderStatus().name());
+            preparedStatement.setInt(2,order.getOrderId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ORDER_STATUS_NOT_SUCCESSFULLY);
+        }
+
+        return new Message(null, MessageFromServer.ORDER_STATUS_SUCCESS);
+    }
+
+    public static Message UpdateOrderCancel(Order order) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `order` SET cancel_time = ? WHERE order_id = ?");
+            preparedStatement.setTimestamp(1,order.getCancelTime());
+            preparedStatement.setInt(2,order.getOrderId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ORDER_CANCEL_TIME_NOT_SUCCESSFULLY);
+        }
+
+        return new Message(null, MessageFromServer.ORDER_CANCEL_TIME_SUCCESS);
+    }
+
+
+    public static Message getBalance(int customerID) {
+        float balance =0;
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT balance FROM customer where customer_id = ?;");
+            preparedStatement.setInt(1, customerID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                balance = resultSet.getFloat(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ORDER_GET_BALANCE_NOT_SUCCESSFULLY);
+        }
+        return new Message(balance, MessageFromServer.ORDER_GET_BALANCE_SUCCESS);
+    }
 }

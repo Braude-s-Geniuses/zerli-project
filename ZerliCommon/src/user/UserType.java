@@ -6,6 +6,10 @@ import java.io.Serializable;
  *  Type of users in the application.
  */
 public enum UserType implements Serializable {
+    UNREGISTERED {
+        @Override
+        public String toString() { return "Unauthorized"; }
+    },
     CUSTOMER {
         @Override
         public String toString() {

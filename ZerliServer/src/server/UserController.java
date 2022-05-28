@@ -2,6 +2,7 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
+import user.BranchEmployee;
 import user.Customer;
 import user.User;
 import user.UserType;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserController {
 
@@ -117,5 +119,123 @@ public class UserController {
         data.setCvv(resultSet.getString(5));
         data.setBalance(resultSet.getFloat(6));
         data.setNewCustomer(resultSet.getBoolean(7));
+    }
+
+    public Message getUserInformation(List<String> userIdAndManagerId) {
+        User user = new User();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user WHERE id=?");
+            preparedStatement.setString(1, userIdAndManagerId.get(0));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(!resultSet.next())
+                return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+            user.setUserType(UserType.valueOf(resultSet.getString("user_type")));
+            user.setUserId(resultSet.getInt("user_id"));
+            if(user.getUserType()==UserType.UNREGISTERED) {
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setId(userIdAndManagerId.get(0));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhone(resultSet.getString("phone"));
+                return new Message(user, MessageFromServer.GET_USER_INFORMATION_SUCCEED);
+            }
+            else if(user.getUserType()==UserType.CUSTOMER) {
+                Customer customer = new Customer(user);
+                preparedStatement = con.prepareStatement("SELECT * FROM customer WHERE customer_id=?");
+                preparedStatement.setInt(1, user.getUserId());
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.next())
+                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                customer.setBalance(resultSet.getFloat("balance"));
+                customer.setBlocked(resultSet.getBoolean("blocked"));
+                return new Message(customer, MessageFromServer.GET_USER_INFORMATION_SUCCEED);
+            }
+            else if (user.getUserType()==UserType.BRANCH_EMPLOYEE) {
+                BranchEmployee branchEmployee = new BranchEmployee(user);
+                preparedStatement = con.prepareStatement("SELECT * FROM user WHERE id=?");
+                preparedStatement.setString(1, userIdAndManagerId.get(1));
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.next())
+                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                int userID = resultSet.getInt("user_id");
+                preparedStatement = con.prepareStatement("SELECT * FROM branch WHERE manager_id=?");
+                preparedStatement.setInt(1, userID);
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.next())
+                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                String branch = resultSet.getString("branch");
+                preparedStatement = con.prepareStatement("SELECT * FROM branch_employee WHERE user_id=? AND" +
+                        " branch=?");
+                preparedStatement.setInt(1, user.getUserId());
+                preparedStatement.setString(2, branch);
+                resultSet = preparedStatement.executeQuery();
+                if(!resultSet.next())
+                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                branchEmployee.setSurvey(resultSet.getBoolean("survey"));
+                branchEmployee.setCatalogue(resultSet.getBoolean("catalogue"));
+                branchEmployee.setDiscount(resultSet.getBoolean("discount"));
+                return new Message(branchEmployee, MessageFromServer.GET_USER_INFORMATION_SUCCEED);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+    }
+
+    public Message changeBranchEmployeePermission(BranchEmployee branchEmployee)
+    {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement("UPDATE branch_employee SET survey=?, discount=?" +
+                    ", catalogue=? WHERE user_id= ? ;");
+            preparedStatement.setBoolean(1, branchEmployee.isSurvey());
+            preparedStatement.setBoolean(2, branchEmployee.isDiscount());
+            preparedStatement.setBoolean(3, branchEmployee.isCatalogue());
+            preparedStatement.setInt(4, branchEmployee.getUserId());
+            boolean result =preparedStatement.execute();
+            return new Message(true, MessageFromServer.CHANGE_PERMISSION);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Message(false, MessageFromServer.CHANGE_PERMISSION);
+    }
+
+    public Message createNewUser(Customer data) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement("INSERT INTO customer VALUES (?,?,?,?,?,?,?);");
+            preparedStatement.setInt(1,data.getUserId());
+            preparedStatement.setBoolean(2,data.isBlocked());
+            preparedStatement.setString(3,data.getCreditCard());
+            preparedStatement.setString(4,data.getExpDate());
+            preparedStatement.setString(5,data.getCvv());
+            preparedStatement.setDouble(6,data.getBalance());
+            preparedStatement.setBoolean(7,true);//new customer
+            boolean result = preparedStatement.execute();
+            preparedStatement = con.prepareStatement("UPDATE user SET user_type=? WHERE user_id=?");
+            preparedStatement.setString(1, UserType.CUSTOMER.toString());
+            preparedStatement.setInt(2, data.getUserId());
+            result = preparedStatement.execute();
+            return new Message(true, MessageFromServer.CREATE_NEW_CUSTOMER);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Message(false, MessageFromServer.CREATE_NEW_CUSTOMER);
+
+    }
+
+    public Message FreezeCustomer(Customer customer) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement("UPDATE customer SET blocked=? WHERE customer_id=?");
+            preparedStatement.setBoolean(1,customer.isBlocked());
+            preparedStatement.setInt(2,customer.getUserId());
+            boolean result = preparedStatement.execute();
+            return new Message(true, MessageFromServer.FREEZE_CUSTOMER);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Message(false, MessageFromServer.FREEZE_CUSTOMER);
     }
 }

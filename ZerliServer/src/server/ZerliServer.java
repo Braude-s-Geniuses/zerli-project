@@ -2,19 +2,22 @@ package server;
 
 import branch.Complaint;
 import communication.Message;
+import communication.MessageFromServer;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import order.Order;
+import order.Product;
 import servergui.ServerUIController;
 import survey.Survey;
 import survey.SurveyAnswers;
+import user.BranchEmployee;
+import user.Customer;
 import user.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static communication.MessageFromServer.LOGIN_SUCCEED;
-import static communication.MessageFromServer.LOGOUT_SUCCEED;
+import java.util.List;
+import java.util.Objects;
 
 
 /** ZerliClient represents the implementation of <code>OCSF.AbstractServer</code>
@@ -38,7 +41,9 @@ public class ZerliServer extends AbstractServer {
         try {
             this.close();
             System.out.println("Server has stopped listening for connections.");
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /** The method is triggered by <code>AbstractServer</code> once the <code>ZerliClient</code>
@@ -59,21 +64,21 @@ public class ZerliServer extends AbstractServer {
 
         switch (messageFromClient.getTask()) {
             case DISCONNECT_CLIENT:
-                Server.serverUIController.removeClientFromTable(client);
-                ServerUIController.printToServerConsoleUI(client.getInetAddress().getHostAddress() + " (" + client.getInetAddress() + ") has disconnected");
+                ServerUIController.removeClientFromTable(client);
+                ServerUIController.printToServerConsoleUI(Objects.requireNonNull(client.getInetAddress()).getHostAddress() + " (" + client.getInetAddress() + ") has disconnected");
                 break;
             case LOGIN_REQUEST:
                 UserController loginController= new UserController();
                 messageFromServer = loginController.login((User)messageFromClient.getData());
 
-                if(messageFromServer.getAnswer() == LOGIN_SUCCEED)
+                if(messageFromServer.getAnswer() == MessageFromServer.LOGIN_SUCCEED)
                     ServerUIController.setClientLoggedInTable(client, (User) messageFromServer.getData());
                 break;
             case LOGOUT_REQUEST:
                 loginController= new UserController();
                 messageFromServer = loginController.logout((int)messageFromClient.getData());
 
-                if(messageFromServer.getAnswer() == LOGOUT_SUCCEED)
+                if(messageFromServer.getAnswer() == MessageFromServer.LOGOUT_SUCCEED)
                     ServerUIController.setClientLoggedOutTable(client);
                 break;
 //            case GET_PRODUCT:
@@ -105,6 +110,9 @@ public class ZerliServer extends AbstractServer {
                 break;
             case PRODUCTS_GET:
                 messageFromServer = ProductController.getAllProducts();
+                break;
+            case PRODUCT_GET_ITEMS:
+                messageFromServer = ProductController.getProductItems(messageFromClient);
                 break;
             case PRODUCT_UPDATE:
                 messageFromServer = ProductController.updateProduct(messageFromClient);
@@ -165,6 +173,40 @@ public class ZerliServer extends AbstractServer {
             case VIEW_COMPLAINTS_REPORT:
                 messageFromServer = ReportController.viewReport((ArrayList<String>) messageFromClient.getData());
                 break;
+            case REQUEST_DELIVERIES_TABLE:
+                messageFromServer = DeliveryController.getPreDeliveredOrdersFromServer();
+                break;
+            case SEND_DELIVERY:
+                messageFromServer = DeliveryController.sendDelivery((Order) messageFromClient.getData());
+                break;
+            case REQUEST_DELIVERIES_HISTORY_TABLE:
+                messageFromServer = DeliveryController.getHistoryDeliveredOrdersFromServer();
+                break;
+            case CHANGE_PERMISSION:
+                UserController userController = new UserController();
+                messageFromServer = userController.changeBranchEmployeePermission((BranchEmployee) messageFromClient.getData());
+                break;
+            case GET_USER_INFORMATION:
+                UserController userController1 = new UserController();
+                messageFromServer = userController1.getUserInformation((List<String>)messageFromClient.getData());
+                break;
+            case CREATE_NEW_CUSTOMER:
+                UserController userController2 = new UserController();
+                messageFromServer = userController2.createNewUser((Customer)messageFromClient.getData());
+                break;
+            case FREEZE_CUSTOMER:
+                UserController userController3 = new UserController();
+                messageFromServer = userController3.FreezeCustomer((Customer)messageFromClient.getData());
+                break;
+            case ORDER_CHANGE_STATUS:
+                messageFromServer = OrderController.UpdateOrderStatus((Order)messageFromClient.getData());
+                break;
+            case ORDER_CANCEL_TIME:
+                messageFromServer = OrderController.UpdateOrderCancel((Order)messageFromClient.getData());
+                break;
+            case ORDER_GET_BALANCE:
+                messageFromServer = OrderController.getBalance((int)messageFromClient.getData());
+                break;
             default:
                 break;
         }
@@ -181,7 +223,7 @@ public class ZerliServer extends AbstractServer {
     @Override
     protected void clientConnected(ConnectionToClient client) {
         Server.serverUIController.addClientToTable(client);
-        ServerUIController.printToServerConsoleUI("Incoming connection from: " + client.getInetAddress().getHostAddress() + " (" + client.getInetAddress().getCanonicalHostName() + ")");
+        ServerUIController.printToServerConsoleUI("Incoming connection from: " + Objects.requireNonNull(client.getInetAddress()).getHostAddress() + " (" + client.getInetAddress().getCanonicalHostName() + ")");
     }
 
 }

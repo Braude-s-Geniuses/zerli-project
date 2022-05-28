@@ -1,10 +1,13 @@
 package client;
 
 import communication.Message;
+import user.BranchEmployee;
+import user.Customer;
 import user.User;
 
-import static communication.MessageFromClient.LOGIN_REQUEST;
-import static communication.MessageFromClient.LOGOUT_REQUEST;
+import java.util.List;
+
+import static communication.MessageFromClient.*;
 
 /**
  * The role of this class is to present to provide a secure connectivity to the app.
@@ -19,6 +22,9 @@ public class UserController {
      *  Used to store user fetched from the server once <code>userController.tryToLogin()</code> is called.
      */
     private User loggedInUser = null;
+    private User userForInformation;
+    private Customer customerForInformation;
+    private BranchEmployee branchEmployeeForInformation;
 
     /**
      * This function getting username and password from the client and check if it exists in DB,
@@ -45,6 +51,85 @@ public class UserController {
         Client.clientController.getClient().handleMessageFromUI(requestLogout,true);
 
         loggedInUser = null;
+    }
+
+    public boolean changeBranchEmployeePermissions(BranchEmployee branchEmployee)
+    {
+        Message requestChangePermission = new Message();
+        requestChangePermission.setTask(CHANGE_PERMISSION);
+        requestChangePermission.setData(branchEmployee);
+
+        Client.clientController.getClient().handleMessageFromUI(requestChangePermission,true);
+
+        return  (boolean) response.getData();
+    }
+
+    public User getUserInformation(List<String> userIdAndManagerId) {
+        Message getUserInformation = new Message();
+        getUserInformation.setTask(GET_USER_INFORMATION);
+        getUserInformation.setData(userIdAndManagerId);
+
+        Client.clientController.getClient().handleMessageFromUI(getUserInformation,true);
+
+        return userForInformation;
+    }
+
+    public boolean createNewCustomer(Customer newCustomer) {
+        Message requestCreateNewCustomer = new Message();
+        requestCreateNewCustomer.setTask(CREATE_NEW_CUSTOMER);
+        requestCreateNewCustomer.setData(newCustomer);
+
+        Client.clientController.getClient().handleMessageFromUI(requestCreateNewCustomer,true);
+
+        return  (boolean) response.getData();
+    }
+
+    public boolean FreezeCustomer(Customer customerToFreeze) {
+        Message requestFreezeCustomer = new Message();
+        requestFreezeCustomer.setTask(FREEZE_CUSTOMER);
+        requestFreezeCustomer.setData(customerToFreeze);
+
+        Client.clientController.getClient().handleMessageFromUI(requestFreezeCustomer,true);
+
+        return  (boolean) response.getData();
+    }
+
+    public User getUserForInformation() {
+        return userForInformation;
+    }
+
+    public void setUserForInformation(User userForInformation) {
+        this.userForInformation = userForInformation;
+    }
+
+    public Customer getCustomerForInformation() {
+        return customerForInformation;
+    }
+
+    public void setCustomerForInformation(Customer customerForInformation) {
+        this.customerForInformation = customerForInformation;
+    }
+
+    public BranchEmployee getBranchEmployeeForInformation() {
+        return branchEmployeeForInformation;
+    }
+
+    public void setBranchEmployeeForInformation(BranchEmployee branchEmployeeForInformation) {
+        this.branchEmployeeForInformation = branchEmployeeForInformation;
+    }
+
+    public void setUserTypeForInformation(Object data) {
+        userForInformation = (User) data;
+        if(userForInformation != null) {
+            switch (userForInformation.getUserType()) {
+                case CUSTOMER:
+                    customerForInformation = (Customer) data;
+                    break;
+                case BRANCH_EMPLOYEE:
+                    branchEmployeeForInformation = (BranchEmployee) data;
+                    break;
+            }
+        }
     }
 
     public Message getResponse() {

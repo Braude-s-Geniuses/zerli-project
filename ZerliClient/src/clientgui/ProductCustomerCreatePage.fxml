@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.ProductCustomerCreatePageController">
+    <children>
+        <Label alignment="CENTER" layoutX="14.0" prefHeight="75.0" prefWidth="990.0" text="Product Builder" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="64.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

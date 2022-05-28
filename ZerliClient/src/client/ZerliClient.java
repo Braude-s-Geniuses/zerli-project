@@ -56,6 +56,19 @@ public class ZerliClient extends AbstractClient {
                 Client.userController.setLoggedInUser((User)messageFromServer.getData());
                 Client.userController.setResponse(messageFromServer);
                 break;
+            case GET_USER_INFORMATION_SUCCEED:
+                Client.userController.setUserTypeForInformation(messageFromServer.getData());
+                Client.userController.setResponse(messageFromServer);
+                break;
+            case GET_USER_INFORMATION_NOT_SUCCEED:
+                Client.userController.setUserTypeForInformation(null);
+                Client.userController.setResponse(null);
+                break;
+            case CREATE_NEW_CUSTOMER:
+            case FREEZE_CUSTOMER:
+            case CHANGE_PERMISSION:
+                Client.userController.setResponse(messageFromServer);
+                break;
             case IMPORTED_PRODUCTS_SUCCEED:
                 Client.catalogController.setProducts((ArrayList<Product>) messageFromServer.getData());
                 break;
@@ -89,6 +102,8 @@ public class ZerliClient extends AbstractClient {
             case PRODUCT_UPDATE_FAIL:
             case PRODUCT_DELETE_SUCCESS:
             case PRODUCT_DELETE_FAIL:
+            case PRODUCT_GET_ITEMS_SUCCEED:
+            case PRODUCT_GET_ITEMS_FAIL:
                 Client.productController.setResponse(messageFromServer);
                 break;
             case SURVEY_NAMES_SUCCESSFULLY:
@@ -148,6 +163,12 @@ public class ZerliClient extends AbstractClient {
             case ORDER_REPORT_IMPORTED_SUCCESSFULLY:
             case ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY:
                 Client.reportController.setResponse((Message) msg);
+                break;
+            case IMPORT_DELIVERY_TABLE_NOT_SUCCEED:
+            case IMPORT_DELIVERY_TABLE_SUCCEED:
+            case DELIVERY_UPDATE_FAIL:
+            case DELIVERY_UPDATE_SUCCESS:
+                Client.deliveryController.setResponse((Message)messageFromServer);
                 break;
         }
 

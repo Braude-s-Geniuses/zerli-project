@@ -8,6 +8,7 @@ import order.Product;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductController {
@@ -118,5 +119,39 @@ public class ProductController {
         }
 
         return new Message(products, MessageFromServer.PRODUCTS_GET_SUCCESS);
+    }
+
+    /**
+     * Get the items of specific product
+     * @param messageFromClient contains wanted product id
+     * @return
+     */
+    public static Message getProductItems(Message messageFromClient) {
+        int productId = (int) messageFromClient.getData();
+        HashMap<Item,Integer> items = new HashMap<>();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = con.prepareStatement("SELECT i.*, pi.quantity FROM item i INNER JOIN product_item pi ON i.item_id = pi.item_id WHERE pi.product_id = ?");
+            preparedStatement.setInt(1, productId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                items.put(new Item(
+                                resultSet.getInt("item_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("type"),
+                                resultSet.getString("color"),
+                                resultSet.getFloat("price")),
+                        resultSet.getInt("quantity")
+
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.PRODUCT_GET_ITEMS_FAIL);
+        }
+
+        return new Message(items, MessageFromServer.PRODUCT_GET_ITEMS_SUCCEED);
     }
 }

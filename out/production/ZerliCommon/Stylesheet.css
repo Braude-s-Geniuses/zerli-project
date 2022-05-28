@@ -1,3 +1,10 @@
+
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding:-7;
+}
+
+
 .sidenav-button {
 	-fx-background-radius: 0;
 	-fx-background-color: transparent;
@@ -23,7 +30,7 @@
 
 .topnav-button {
 	-fx-background-radius: 0;
-	-fx-background-color: transparent;		
+	-fx-background-color: transparent;
 }
 .order-label .text{
     -fx-strikethrough: true;
@@ -43,7 +50,7 @@
 
 .btn:hover{
 	-fx-background-color: #974874;
-	
+
 }
 
 .btn-red {
@@ -120,7 +127,7 @@
     -fx-background-color: #f2e6ec;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
-    
+
 }
 .table-row-cell:even {
     -fx-background-color: #fbf7f9;
@@ -128,11 +135,11 @@
     -fx-padding: 0.0em;
 }
 
-.table-row-cell:selected { 
+.table-row-cell:selected {
 	-fx-background-color: #77385a;
 }
 
-.table-row-cell:selected:hover { 
+.table-row-cell:selected:hover {
 	-fx-text-background-color: #ffffff;
 }
 
@@ -176,7 +183,7 @@
 
 .name-label{
     -fx-fill: #77385a;
-    -fx-font-weight: bold;
+    -fx-font-width: bold;
     -fx-font-size: 18 ;
     -fx-underline: true;
 }

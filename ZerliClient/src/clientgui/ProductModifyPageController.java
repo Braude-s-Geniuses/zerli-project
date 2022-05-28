@@ -155,16 +155,7 @@ public class ProductModifyPageController implements Initializable {
 
             Client.productController.getProductItems(currentProduct.getProductId());
 
-            HashMap<Integer, Integer> result = (HashMap<Integer, Integer>) Client.productController.getResponse().getData();
-            HashMap<Item, Integer> productItems = new HashMap<>();
-
-            if(!result.isEmpty()) {
-                for(int itemId : result.keySet()) {
-                    Item item = getItemById(itemId);
-                    if(item != null)
-                        productItems.put(item, result.get(itemId));
-                }
-            }
+            HashMap<Item, Integer> productItems = (HashMap<Item, Integer>) Client.productController.getResponse().getData();
 
             currentProduct.setItems(productItems);
 

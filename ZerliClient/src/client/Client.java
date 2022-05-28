@@ -15,32 +15,14 @@ public class Client extends Application {
      * represents the only (static) instance of a client.
      */
     public static ClientController clientController;
-
     public static UserController userController;
-
+    public static DeliveryController deliveryController;
     public static CatalogController catalogController;
-
     public static ItemController itemController;
     public static ProductController productController;
     public static SurveyController surveyController;
     public static ComplaintController complaintController;
     public static ReportController reportController;
-
-    /**
-     * represents the controller instance of the hostname form gui.
-     */
-    public InputHostnameFormController inputHostnameFormController;
-
-    /**
-     * main method invoked once the Application starts.
-     *
-     * @param args
-     * @throws Exception
-     */
-
-    /** represents instance of Order Controller.
-     *
-     */
     public static OrderController orderController;
 
     public static void main(String args[]) throws Exception {
@@ -56,7 +38,7 @@ public class Client extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        inputHostnameFormController = new InputHostnameFormController();
+        InputHostnameFormController inputHostnameFormController = new InputHostnameFormController();
         inputHostnameFormController.start();
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -68,12 +50,13 @@ public class Client extends Application {
     }
 
     /**
-     * Initializes the Client Controller once the Client clicks connect with a valid hostname.
+     * Initializes the Controllers once the Client clicks connect with a valid hostname.
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname) {
         clientController = new ClientController(hostname);
         userController = new UserController();
+        deliveryController = new DeliveryController();
         catalogController = new CatalogController();
         orderController = new OrderController();
         itemController = new ItemController();

@@ -11,12 +11,15 @@ import java.util.ArrayList;
 public class OrderController {
 
     public final float DELIVERY_PRICE = 20;
+
     /**
      * Used to store Products inserted into the cart.
      */
     private ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
+    private float currBalance = -1;
     private Message response;
     private Order currentOrder;
+
     public OrderController() {}
 
     public void addToCart(OrderProduct orderProduct){
@@ -160,5 +163,30 @@ public class OrderController {
     public void updateNemCustomer(int userId) {
         Message msg = new Message(userId, MessageFromClient.UPDATE_NEW_CUSTOMER);
         Client.clientController.getClient().handleMessageFromUI(msg,false);
+    }
+
+    public void setStatusOrder(Order order){
+        Message msg = new Message(order, MessageFromClient.ORDER_CHANGE_STATUS);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+    }
+    public void setCancelTime(Order order){
+        Message msg = new Message(order, MessageFromClient.ORDER_CANCEL_TIME);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+    }
+
+    public float getBalance(int customerId) {
+        Message msg = new Message(customerId, MessageFromClient.ORDER_GET_BALANCE);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        setBalanceCustomer((float)response.getData());
+
+        return getBalanceCustomer();
+    }
+
+    public float getBalanceCustomer() {
+        return currBalance;
+    }
+
+    public void setBalanceCustomer(float currBalance) {
+        this.currBalance = currBalance;
     }
 }

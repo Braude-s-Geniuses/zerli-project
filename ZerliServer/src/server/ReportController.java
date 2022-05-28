@@ -9,6 +9,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 public class ReportController {
 
@@ -41,7 +42,11 @@ public class ReportController {
                         }
                     }
                     try {
-                        generateReport("0" + String.valueOf(j), String.valueOf(i));
+                        if(j < 10){
+                            generateReport("0" + j, String.valueOf(i));
+                        }
+                        else
+                            generateReport(String.valueOf(j), String.valueOf(i));
                     } catch (DocumentException e) {
                         e.printStackTrace();
                     }
@@ -56,7 +61,11 @@ public class ReportController {
                     }
                 }
                 try {
-                    generateReport("0" + String.valueOf(i), String.valueOf(currentYear));
+                    if(i < 10) {
+                        generateReport("0" + i, String.valueOf(currentYear));
+                    }
+                    else
+                        generateReport(String.valueOf(i), String.valueOf(currentYear));
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
@@ -82,7 +91,11 @@ public class ReportController {
                             }
                         }
                         try {
-                            generateReport("0" + String.valueOf(j), String.valueOf(i));
+                            if( j < 10) {
+                                generateReport("0" + j, String.valueOf(i));
+                            }
+                            else
+                                generateReport(String.valueOf(j), String.valueOf(i));
                         } catch (DocumentException e) {
                             e.printStackTrace();
                         }
@@ -97,7 +110,11 @@ public class ReportController {
                             }
                         }
                         try {
-                            generateReport("0" + String.valueOf(j), String.valueOf(i));
+                            if( j < 10) {
+                                generateReport("0" + j, String.valueOf(i));
+                            }
+                            else
+                                generateReport(String.valueOf(j), String.valueOf(i));
                         } catch (DocumentException e) {
                             e.printStackTrace();
                         }
@@ -113,7 +130,11 @@ public class ReportController {
                     }
                 }
                 try {
-                    generateReport("0" + String.valueOf(i), String.valueOf(currentYear));
+                    if(i < 10) {
+                        generateReport("0" + i, String.valueOf(currentYear));
+                    }
+                    else
+                        generateReport(String.valueOf(i), String.valueOf(currentYear));
                 } catch (DocumentException e) {
                     e.printStackTrace();
                 }
@@ -130,15 +151,15 @@ public class ReportController {
         for (String branch : branchList) {
 
             //monthly order report
-            reportsGenerator = new MonthlyOrderReportGenerator(branch, month, year, "Order");
+            reportsGenerator = new ReportOrderMonthlyGenerator(branch, month, year, "Order");
             reportsGenerator.generate(branch);
 
             //monthly revenue report
-            reportsGenerator = new MonthlyRevenueReportGenerator(branch, month, year, "Revenue");
+            reportsGenerator = new ReportRevenueMonthlyGenerator(branch, month, year, "Revenue");
             reportsGenerator.generate(branch);
 
             //monthly complaints report
-            reportsGenerator = new MonthlyComplaintsReportGenerator(branch, month, year, "Complaints");
+            reportsGenerator = new ReportComplaintsMonthlyGenerator(branch, month, year, "Complaints");
             reportsGenerator.generate(branch);
 
         }
@@ -152,15 +173,15 @@ public class ReportController {
 
         for (String branch : branchList) {
             //Quarterly revenue report
-            reportsGenerator = new QuarterlyRevenueReportGenerator(branch, quarter, year, "Revenue");
+            reportsGenerator = new ReportQuarterlyRevenueGenerator(branch, quarter, year, "Revenue");
             reportsGenerator.generate(branch);
 
             //Quarterly Order report
-            reportsGenerator = new QuarterlyOrderReportGenerator(branch, quarter, year, "Order");
+            reportsGenerator = new ReportQuarterlyOrderGenerator(branch, quarter, year, "Order");
             reportsGenerator.generate(branch);
 
             //Quarterly Complaints report
-            reportsGenerator = new QuarterlyComplaintsReportGenerator(branch, quarter, year, "Complaints");
+            reportsGenerator = new ReportQuarterlyComplaintsGenerator(branch, quarter, year, "Complaints");
             reportsGenerator.generate(branch);
         }
     }
@@ -191,46 +212,49 @@ public class ReportController {
             preparedStatement.setString(3, toMonth);
             preparedStatement.setString(4, year);
             rs = preparedStatement.executeQuery();
-
-            if (fromMonth.equals(toMonth)) {
-                while (rs.next()) {
-                    dataForCells.add(rs.getInt("product_id"));
-                    dataForCells.add(rs.getString("name"));
-                    dataForCells.add(rs.getInt("quantity"));
-                }
-            } else {
-                int[] quantitys = {0, 0, 0};
-                int productid = -1;
-
-                while (rs.next()) {
-                    if (productid != rs.getInt("product_id")) {      //if new product.
-                        if (productid != -1) {                                  //if first time getting a product.
-                            int sum = 0;
-                            for (int quantity : quantitys) {
-                                dataForCells.add(quantity);
-                                sum += quantity;
-                            }
-                            dataForCells.add(sum);
-                            quantitys = new int[]{0, 0, 0};
-                        }
+            if(rs.next() == true) {
+                if (fromMonth.equals(toMonth)) {
+                    do {
                         dataForCells.add(rs.getInt("product_id"));
                         dataForCells.add(rs.getString("name"));
+                        dataForCells.add(rs.getInt("quantity"));
+                    }while (rs.next());
+                } else {
+                    int[] quantitys = {0, 0, 0};
+                    int productId = -1;
 
-                        productid = rs.getInt("product_id");
+                    do {
+                        if (productId != rs.getInt("product_id")) {      //if new product.
+                            if (productId != -1) {                                  //if first time getting a new product.
+                                int sum = 0;
+                                for (int quantity : quantitys) {
+                                    dataForCells.add(quantity);
+                                    sum += quantity;
+                                }
+                                dataForCells.add(sum);
+                                quantitys = new int[]{0, 0, 0};
+                            }
+                            dataForCells.add(rs.getInt("product_id"));
+                            dataForCells.add(rs.getString("name"));
 
-                        quantitys[0] = rs.getInt("quantity");
-                    } else {
-                        if (quantitys[1] == 0) {
-                            quantitys[1] = rs.getInt("quantity");
+                            productId = rs.getInt("product_id");
+
+                            quantitys[0] = rs.getInt("quantity");
                         } else {
-                            quantitys[2] = rs.getInt("quantity");
+                            if (quantitys[1] == 0) {
+                                quantitys[1] = rs.getInt("quantity");
+                            } else {
+                                quantitys[2] = rs.getInt("quantity");
+                            }
                         }
+                    }while (rs.next());
+                    //last result
+                    for (int quantity : quantitys) {
+                        dataForCells.add(quantity);
                     }
-
+                    dataForCells.add(quantitys[0] + quantitys[1] + quantitys[2]);   //sum
                 }
             }
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -283,9 +307,6 @@ public class ReportController {
     }
 
     private static int monthData(String branch, String month, String year) {
-        //      SELECT COUNT(distinct complaint_id) AS quantity FROM zerli.Complaint
-        //      WHERE `order_id` IN
-        //      (SELECT order_id FROM zerli.order WHERE branch = 'Karmiel' AND YEAR(order_date) = '2022' AND MONTH(order_date) between '01' AND '03');
         int complaintsCount = 0;
         ResultSet rs = null;
         try {

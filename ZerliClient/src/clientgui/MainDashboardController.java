@@ -166,6 +166,14 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonSurveyAnswers);
                     break;
                 case BRANCH_MANAGER:
+                    Button buttonManageOrders = new Button("Manage Orders");
+                    buttonManageOrders.setOnAction(event -> setContentFromFXML("OrderManagerPage.fxml"));
+
+                    Button buttonUserManagement = new Button("User Management");
+                    buttonUserManagement.setOnAction(event -> setContentFromFXML("BranchManagerCustomerManagementPage.fxml"));
+
+                    addSideNavButton(buttonUserManagement);
+                    addSideNavButton(buttonManageOrders);
                     addSideNavButton(buttonAddItem);
                     addSideNavButton(buttonManageItems);
                     addSideNavButton(buttonAddProduct);
@@ -187,20 +195,21 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonSurveySummaryUpload);
                     break;
                 case DELIVERY_OPERATOR:
+                    Button buttonMyDeliveries = new Button("Available Deliveries");
+                    buttonMyDeliveries.setOnAction(event -> setContentFromFXML("MyDeliveriesPage.fxml"));
+                    addSideNavButton(buttonMyDeliveries);
+                    Button buttonMyHistory = new Button("My Delivery History");
+                    buttonMyHistory.setOnAction(event -> setContentFromFXML("MyDeliveryHistoryPage.fxml"));
+                    addSideNavButton(buttonMyHistory);
                     break;
                 case CEO:
-                    Button buttonAlerts = new Button("Alerts Test");
-                    buttonAlerts.setOnAction(event -> setContentFromFXML("AlertTest.fxml"));
-                    addSideNavButton(buttonAlerts);
-
-                    addSideNavButton(buttonAddItem);
-                    addSideNavButton(buttonManageItems);
+                    Button buttonViewReports = new Button("View Reports");
+                    buttonViewReports.setOnAction(event -> setContentFromFXML("ReportPageCEO.fxml"));
+                    addSideNavButton(buttonViewReports);
                     addSideNavButton(buttonAddProduct);
                     addSideNavButton(buttonManageProducts);
-
-                    Button buttonViewReports = new Button("View Reports");
-                    buttonViewReports.setOnAction(event -> setContentFromFXML("MonthlyReportPageCEO.fxml"));
-                    addSideNavButton(buttonViewReports);
+                    addSideNavButton(buttonAddItem);
+                    addSideNavButton(buttonManageItems);
             }
         }
 
