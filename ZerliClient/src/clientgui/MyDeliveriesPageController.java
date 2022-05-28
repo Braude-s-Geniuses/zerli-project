@@ -41,7 +41,8 @@ public class MyDeliveriesPageController implements Initializable {
                 setActionForButton(button, order);
                 Label lblOrderNumber = new Label("#" + order.getOrderId(), null);
                 Label lblOrderDetails = new Label("Ordered On:  " + order.orderDateToString() +"\nFrom Branch:  " + order.getBranch(), null);
-                Label lblOrderPrices = new Label( "Total Paid:\n" + order.discountPriceToString() ,null);
+                Label lblOrderAddress = new Label( "Delivery Address:\n" + order.getDeliveryAddress() ,null);
+                Label lblOrderRecipient = new Label( "Recipient:\n" + order.getRecipientName() + "\n" + order.getRecipientPhone(),null);
                 Label lblOrderStatus = new Label( order.getOrderStatus().toString(), null);
 
                 switch (order.getOrderStatus()){
@@ -56,21 +57,21 @@ public class MyDeliveriesPageController implements Initializable {
                 }
                 lblOrderDetails.setPrefWidth(170);
                 setLabels(lblOrderDetails);
-                lblOrderPrices.setPrefWidth(170);
+                lblOrderAddress.setPrefWidth(150);
                 setLabels(lblOrderStatus);
-                lblOrderStatus.setPrefWidth(200);
+                lblOrderStatus.setPrefWidth(100);
                 setLabels(lblOrderNumber);
                 lblOrderNumber.setPrefWidth(40);
-                setLabels(lblOrderPrices);
+                setLabels(lblOrderAddress);
+                lblOrderRecipient.setPrefWidth(120);
+                setLabels(lblOrderRecipient);
 
-                HBox h = new HBox(30,lblOrderNumber ,lblOrderDetails,lblOrderPrices, lblOrderStatus, button);
+                HBox h = new HBox(30,lblOrderNumber ,lblOrderDetails,lblOrderAddress,lblOrderRecipient ,lblOrderStatus, button);
                 h.setPrefWidth(940);
                 h.setAlignment(Pos.CENTER);
                 deliveryList.getItems().addAll(h);
 
             }
-        }else {
-            System.out.println("else " + result);
         }
     }
 

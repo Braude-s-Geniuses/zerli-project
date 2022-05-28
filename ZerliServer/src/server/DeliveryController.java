@@ -19,7 +19,7 @@ public class DeliveryController {
         ResultSet resultSet = null;
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE (order_status = 'NORMAL_CONFIRMED' OR order_status = 'EXPRESS_CONFIRMED');");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE (order_status = 'NORMAL_CONFIRMED' OR order_status = 'EXPRESS_CONFIRMED') AND delivery_address IS NOT NULL;");
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
