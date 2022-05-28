@@ -116,5 +116,6 @@ public class UserController {
         data.setExpDate(resultSet.getString(4));
         data.setCvv(resultSet.getString(5));
         data.setBalance(resultSet.getFloat(6));
+        data.setNewCustomer(resultSet.getBoolean(7));
     }
 }

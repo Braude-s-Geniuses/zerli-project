@@ -5,42 +5,42 @@ import java.io.Serializable;
 public enum OrderStatus implements Serializable {
     NORMAL_PENDING{
         public String toString(){
-            return "Pending";
+            return "Type: Normal\nStatus: Pending";
         }
     },
     NORMAL_CONFIRMED{
         public String toString(){
-            return "Confirmed";
+            return "Type: Normal\nStatus: Confirmed";
         }
     },
     NORMAL_COMPLETED{
         public String toString(){
-            return "Completed";
+            return "Type: Normal\nStatus: Completed";
         }
     },
     EXPRESS_PENDING{
         public String toString(){
-            return "Express Pending";
+            return "Type: Express\nStatus: Pending";
         }
     },
     EXPRESS_CONFIRMED{
         public String toString(){
-            return "Express Confirmed";
+            return "Type: Express\nStatus: Confirmed";
         }
     },
     EXPRESS_COMPLETED{
         public String toString(){
-            return "Express Completed";
+            return "Type: Express\nStatus: Completed";
         }
     },
     CANCEL_PENDING{
         public String toString(){
-            return "Cancel Pending";
+            return "Type: Canceled\nStatus: Pending";
         }
     },
     CANCEL_CONFIRMED{
         public String toString(){
-            return "Cancel Confirmed";
+            return "Type: Canceled\nStatus: Confirmed";
         }
     };
 

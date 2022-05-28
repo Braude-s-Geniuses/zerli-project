@@ -15,6 +15,11 @@ import java.util.List;
 public class OrderController {
     public static Connection connection = Server.databaseController.getConnection();
 
+    /**
+     * Get all order of specific customer from DB
+     * @param userId - customer id
+     * @return list of orders
+     */
     public static Message getAllOrdersFromServer(int userId) {
 
         List<Order> orders = new ArrayList<Order>();
@@ -52,6 +57,10 @@ public class OrderController {
 
     }
 
+    /**
+     * get all branches for combo box
+     * @return list of all branches
+     */
     public static Message getAllBranches() {
         ArrayList<String> branches = new ArrayList<>();
         Statement stmt;
@@ -68,6 +77,11 @@ public class OrderController {
         return new Message(branches, MessageFromServer.IMPORT_BRANCHES_SUCCEDD);
     }
 
+    /**
+     * Add new completed order to DB
+     * @param order
+     * @return message of success\fail
+     */
     public static Message AddNewOrder(Order order) {
         int orderId = 0;
         try {
@@ -102,6 +116,11 @@ public class OrderController {
         return new Message(orderId, MessageFromServer.ADDED_ORDER_SUCCESSFULLY);
     }
 
+    /**
+     * Insert product to completed order in DB
+     * @param productList - the products that were purchased in the order
+     * @param orderId
+     */
     private static void updateOrderProductsInDB(ArrayList<OrderProduct> productList, int orderId) {
         for (OrderProduct p : productList) {
             try {
@@ -116,6 +135,11 @@ public class OrderController {
         }
     }
 
+    /**
+     * Gets the products of a specific order
+     * @param orderId - wanted order id
+     * @return
+     */
     public static Message getOrderDetails(Integer orderId) {
         ArrayList<OrderProduct> op = new ArrayList<>();
         ResultSet resultSet = null;
@@ -147,7 +171,11 @@ public class OrderController {
         return new Message(op, MessageFromServer.ORDER_PRODUCTS_DELIVERED_SUCCESSFULLY);
     }
 
-    public static Message updateBalance(ArrayList<Object> data) {
+    /**
+     * Update customer balance in DB
+     * @param data - contains wanted customer id, new balance
+     */
+    public static void updateBalance(ArrayList<Object> data) {
         int customerId = (int) data.get(0);
         float balance = (float) data.get(1);
         try {
@@ -160,12 +188,14 @@ public class OrderController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.UPDATE_BALANCE_FAILED);
         }
-        return new Message(null, MessageFromServer.UPDATE_BALANCE_SUCCEED);
     }
 
-    public static Message updateCreditCard(ArrayList<Object> data) {
+    /**
+     * Update customer's credit card in DB
+     * @param data- contains customer id, new credit card details
+     */
+    public static void updateCreditCard(ArrayList<Object> data) {
         int customerId = (int) data.get(0);
         ArrayList<String> cardDetails = (ArrayList<String>)data.get(1);
         try {
@@ -179,9 +209,26 @@ public class OrderController {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            return new Message(null, MessageFromServer.UPDATE_CARD_FAILED);
+            e.printStackTrace();
         }
-        return new Message(null, MessageFromServer.UPDATE_CARD_SUCCEED);
+    }
+
+    /**
+     * Customer is no longer a new customer' updates it in DB
+     * @param data - contains customer id
+     */
+    public static void updateNewCustomer(Integer data) {
+        int customerId = (int) data;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `customer`\n" +
+                    "SET new_customer = 0  \n" +
+                    "WHERE customer_id = ? ;");
+            preparedStatement.setInt(1, customerId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Message getLastReport() {
@@ -198,6 +245,5 @@ public class OrderController {
             return new Message(null, MessageFromServer.IMPORT_LAST_REPORT_NOT_SUCCEDD);
         }
         return new Message(lastReport, MessageFromServer.IMPORT_LAST_REPORT_SUCCEDD);
-
     }
 }

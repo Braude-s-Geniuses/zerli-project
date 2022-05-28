@@ -9,6 +9,8 @@ public class Customer extends User {
     private String cvv;
     private float balance = 0;
 
+    private boolean newCustomer;
+
     public Customer(int userId, String username, String password, UserType userType, boolean loggedIn, String firstName, String lastName, String id, String email, String phone) {
         super(userId, username, password, userType, loggedIn, firstName, lastName, id, email, phone);
     }
@@ -64,7 +66,13 @@ public class Customer extends User {
         cardDetails.add(cvv);
         return cardDetails;
     }
+    public boolean getNewCustomer() {
+        return newCustomer;
+    }
 
+    public void setNewCustomer(boolean newCustomer) {
+        this.newCustomer = newCustomer;
+    }
     @Override
     public String toString() {
         return "Customer{" +

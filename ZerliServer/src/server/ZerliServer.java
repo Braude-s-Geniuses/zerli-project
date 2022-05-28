@@ -67,7 +67,7 @@ public class ZerliServer extends AbstractServer {
                 messageFromServer = loginController.login((User)messageFromClient.getData());
 
                 if(messageFromServer.getAnswer() == LOGIN_SUCCEED)
-                  ServerUIController.setClientLoggedInTable(client, (User) messageFromServer.getData());
+                    ServerUIController.setClientLoggedInTable(client, (User) messageFromServer.getData());
                 break;
             case LOGOUT_REQUEST:
                 loginController= new UserController();
@@ -113,10 +113,13 @@ public class ZerliServer extends AbstractServer {
                 messageFromServer = OrderController.getOrderDetails((Integer)messageFromClient.getData());
                 break;
             case UPDATE_BALANCE_FOR_CUSTOMER:
-                messageFromServer = OrderController.updateBalance((ArrayList<Object>)messageFromClient.getData());
+                OrderController.updateBalance((ArrayList<Object>)messageFromClient.getData());
                 break;
             case UPDATE_CARD_FOR_CUSTOMER:
-                messageFromServer = OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
+                OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
+                break;
+            case UPDATE_NEW_CUSTOMER:
+                OrderController.updateNewCustomer((Integer)messageFromClient.getData());
                 break;
             case SURVEY_IDS_REQUEST:
                 SurveyController surveyServerController= new SurveyController();

@@ -194,14 +194,14 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnSavedCreditCard(ActionEvent event) {
-            btnSavedCreditCard.setSelected(true);
-            lblPaymentError.setVisible(false);
-            lblCardNumberError.setVisible(false);
-            lblCVVError.setVisible(false);
-            lblIDError.setVisible(false);
-            lblExpDateError.setVisible(false);
-            btnUseAnotherCreditCard.setSelected(false);
-            setCreditCardLabels(true);
+        btnSavedCreditCard.setSelected(true);
+        lblPaymentError.setVisible(false);
+        lblCardNumberError.setVisible(false);
+        lblCVVError.setVisible(false);
+        lblIDError.setVisible(false);
+        lblExpDateError.setVisible(false);
+        btnUseAnotherCreditCard.setSelected(false);
+        setCreditCardLabels(true);
     }
 
     /**
@@ -235,7 +235,10 @@ public class OrderPaymentPageController implements Initializable {
                 customer.setBalance(balance);
                 Client.orderController.updateBalance(customer.getUserId(),balance);
             }
-
+            if(customer.getNewCustomer()){
+                customer.setNewCustomer(false);
+                Client.orderController.updateNemCustomer(customer.getUserId());
+            }
             Client.orderController.getCurrentOrder().setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
 
             if(Client.orderController.sendNewOrder()) {
@@ -326,7 +329,7 @@ public class OrderPaymentPageController implements Initializable {
                 lblTotal.setText("Total: 0" + " \u20AA");
                 setCreditCardLabels(true);
                 btnUseAnotherCreditCard.setDisable(true);
-               btnSavedCreditCard.setDisable(true);
+                btnSavedCreditCard.setDisable(true);
                 total = 0;
                 balance = customer.getBalance() - Client.orderController.getCurrentOrder().getPrice();
             }
@@ -343,14 +346,18 @@ public class OrderPaymentPageController implements Initializable {
             btnUseAnotherCreditCard.setDisable(false);
             btnSavedCreditCard.setDisable(false);
         }
-
     }
+
+    /**
+     * Customer can update his credit card
+     * @param event
+     */
     @FXML
     void checkButtonUpdateCard(ActionEvent event) {
         if(btnSavedCreditCard.isSelected()){
             if(customer.getId().equals(idField.getText())) {
-              lblSaveCardWithDifferentIdError.setVisible(false);
-             }
+                lblSaveCardWithDifferentIdError.setVisible(false);
+            }
             else{
                 lblSaveCardWithDifferentIdError.setVisible(true);
             }
@@ -360,7 +367,6 @@ public class OrderPaymentPageController implements Initializable {
             lblSaveCardWithDifferentIdError.setVisible(false);
         }
     }
-
 
     @FXML
     void cvvFieldEvent(KeyEvent event) {
@@ -400,7 +406,6 @@ public class OrderPaymentPageController implements Initializable {
         lblCardNumberError.setVisible(false);
     }
 
-
     /**
      * Set credit card fields disable/ enable
      * @param isDisabled
@@ -431,6 +436,4 @@ public class OrderPaymentPageController implements Initializable {
     void clickBtnBack(ActionEvent event) throws IOException {
         MainDashboardController.setContentFromFXML("OrderRecipientPage.fxml");
     }
-
-
 }

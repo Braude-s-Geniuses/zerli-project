@@ -15,7 +15,7 @@ public class OrderController {
      * Used to store Products inserted into the cart.
      */
     private ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
-    private  Message response;
+    private Message response;
     private Order currentOrder;
     public OrderController() {}
 
@@ -35,8 +35,9 @@ public class OrderController {
     public ArrayList<OrderProduct> getCart() {
         return cart;
     }
-    public void setCart(ArrayList<OrderProduct> newCart){ this.cart = newCart; };
+
     public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
+
     public Order getCurrentOrder() { return currentOrder; }
 
     public Message getResponse() {return response;}
@@ -60,6 +61,7 @@ public class OrderController {
 
     /**
      * Calculates the price or discount price of the current order
+     * @param discount - calculates discounted price or not
      * @return
      */
     public float getOrderPrice(boolean discount){
@@ -123,6 +125,11 @@ public class OrderController {
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
+    /**
+     * Updates the balance of customer after he used it
+     * @param userId - the id of the current customer
+     * @param balance - new balance
+     */
     public void updateBalance(int userId, float balance) {
         ArrayList<Object> msgList = new ArrayList<>();
         msgList.add(userId);
@@ -131,11 +138,27 @@ public class OrderController {
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
+    /**
+     * Update customer credit card in DB
+     * @param userId - current customer id
+     * @param cardDetails -new credit card details
+     */
     public void updateCreditCard(int userId, ArrayList<String> cardDetails) {
         ArrayList<Object> msgList = new ArrayList<>();
         msgList.add(userId);
         msgList.add(cardDetails);
         Message msg = new Message(msgList, MessageFromClient.UPDATE_CARD_FOR_CUSTOMER);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        Client.clientController.getClient().handleMessageFromUI(msg,false);
+
+    }
+
+    /**
+     * After customer used his first order with 20% discount he is no longer a new customer
+     * Updates in DB
+     * @param userId the id of the current customer
+     */
+    public void updateNemCustomer(int userId) {
+        Message msg = new Message(userId, MessageFromClient.UPDATE_NEW_CUSTOMER);
+        Client.clientController.getClient().handleMessageFromUI(msg,false);
     }
 }

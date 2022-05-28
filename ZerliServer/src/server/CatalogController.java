@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class CatalogController {
@@ -73,24 +74,30 @@ public class CatalogController {
 //        return new Message(products, MessageFromServer.IMPORTED_PRODUCTS_SUCCEED);
 //    }
 
+    /**
+     * Get the items of specific product
+     * @param messageFromClient contains wanted product id
+     * @return
+     */
     public static Message getProductItems(Message messageFromClient) {
         int productId = (int) messageFromClient.getData();
-
-        ArrayList<Item> productItems = new ArrayList<>();
+        HashMap<Item,Integer> items = new HashMap<>();
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = con.prepareStatement("SELECT i.* FROM item i INNER JOIN product_item pi ON i.item_id = pi.item_id WHERE pi.product_id = ?");
+            preparedStatement = con.prepareStatement("SELECT i.*, pi.quantity FROM item i INNER JOIN product_item pi ON i.item_id = pi.item_id WHERE pi.product_id = ?");
             preparedStatement.setInt(1, productId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                productItems.add(new Item(
-                        resultSet.getInt("item_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("type"),
-                        resultSet.getString("color"),
-                        resultSet.getFloat("price"))
+                items.put(new Item(
+                                resultSet.getInt("item_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("type"),
+                                resultSet.getString("color"),
+                                resultSet.getFloat("price")),
+                        resultSet.getInt("quantity")
+
                 );
             }
         } catch (SQLException e) {
@@ -98,7 +105,7 @@ public class CatalogController {
             return new Message(null, MessageFromServer.CATALOG_GET_PRODUCT_ITEMS_FAIL);
         }
 
-        return new Message(productItems, MessageFromServer.CATALOG_GET_PRODUCT_ITEMS_SUCCEED);
+        return new Message(items, MessageFromServer.CATALOG_GET_PRODUCT_ITEMS_SUCCEED);
     }
 
 }

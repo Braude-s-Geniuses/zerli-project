@@ -52,6 +52,7 @@ public class MyCartPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
+        cartAsListView.setFocusTraversable( false );
 
         if(arrivedList.isEmpty())
             btnCheckOut.setDisable(true);

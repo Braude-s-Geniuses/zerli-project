@@ -3,6 +3,7 @@ package order;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Product implements Serializable {
     private int productId;

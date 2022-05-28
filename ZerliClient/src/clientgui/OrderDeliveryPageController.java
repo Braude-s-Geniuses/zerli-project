@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import order.Order;
 import order.OrderProduct;
 import order.OrderStatus;
+import user.Customer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class OrderDeliveryPageController implements Initializable {
+    private List<String> timeList = new ArrayList<String>();
+    private ObservableList<String> times;
     @FXML
     private ListView<Object> cartAsListView;
     @FXML
@@ -51,6 +54,8 @@ public class OrderDeliveryPageController implements Initializable {
     @FXML
     private Label lblDateTime;
     @FXML
+    private Label lblDiscount;
+    @FXML
     private ComboBox<String> cbTime;
     @FXML
     private ComboBox<String> cbBranch;
@@ -68,7 +73,8 @@ public class OrderDeliveryPageController implements Initializable {
     @FXML
     private RadioButton btnRadioExpressNo;
 
-    private float discountPrice, price;
+    private float discountPrice;
+    private float price;
 
     /**
      *
@@ -84,17 +90,33 @@ public class OrderDeliveryPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setDeliveryDisable(true);
         setTimeDateDisable(true);
+        lblDelivery.setText("Delivery: 0.0 \u20AA");
+        lblTotal.setWrapText(true);
+        cartAsListView.setFocusTraversable( false );
+
+        /**
+         * Update new customer discount
+         */
+        if(((Customer)Client.userController.getLoggedInUser()).getNewCustomer()){
+            lblDiscount.setVisible(true);
+            discountPrice = (float) (Client.orderController.getOrderPrice(true) * 0.8);
+        }else {
+            discountPrice = Client.orderController.getOrderPrice(true);
+        }
+        price = Client.orderController.getOrderPrice(false);
         if(Client.orderController.getCurrentOrder() != null && Client.orderController.getCurrentOrder().getBranch() != null) {
             restoreDeliveryData();
         }
-        List<String> timeList = new ArrayList<String>();
+        else{
+            lblTotal.setText("Total: " + discountPrice + " \u20AA");
+        }
 
         Client.orderController.getBranches();
-        discountPrice = Client.orderController.getOrderPrice(true);
-        price = Client.orderController.getOrderPrice(false);
+
         /**
          * Add hours to Time ComboBox.
          */
+        timeList = new ArrayList<String>();
         for (int i = 8; i <= 18; i++) {
             timeList.add(String.valueOf(i) + ":00");
             if (i != 18)
@@ -113,7 +135,7 @@ public class OrderDeliveryPageController implements Initializable {
                     }});
 
 
-        ObservableList<String> times = FXCollections.observableArrayList(timeList);
+        times = FXCollections.observableArrayList(timeList);
         cbTime.getItems().addAll(times);
 
         /**
@@ -123,7 +145,6 @@ public class OrderDeliveryPageController implements Initializable {
         cbBranch.getItems().addAll(branches);
         cbCity.getItems().addAll(branches);
         ArrayList<OrderProduct> cart = Client.orderController.getCart();
-
 
         /**
          * For each product order product in the cart - presented in the list
@@ -152,19 +173,13 @@ public class OrderDeliveryPageController implements Initializable {
 
             priceLabel.setFont(new Font(14));
             priceLabel.setPrefWidth(120);
-
             priceLabel.setWrapText(true);
 
             HBox h = new HBox(10,imageLabel,nameLabel, priceLabel);
-
             HBox.setHgrow(nameLabel, Priority.max(Priority.ALWAYS, Priority.ALWAYS));
-
             h.setAlignment(Pos.CENTER_LEFT);
             cartAsListView.getItems().addAll(h);
-
         }
-        lblTotal.setText("Total: " +   Client.orderController.getCurrentOrder().getDiscountPrice() + " \u20AA");
-        lblTotal.setWrapText(true);
     }
 
     /**
@@ -187,10 +202,12 @@ public class OrderDeliveryPageController implements Initializable {
             addressField.setText(fullAddress.substring(Client.orderController.getCurrentOrder().getBranch().length()+1));
             setDeliveryDisable(false);
             lblDelivery.setText("Delivery: " + Client.orderController.DELIVERY_PRICE + " \u20AA");
+            lblTotal.setText("Total: " + (discountPrice + Client.orderController.DELIVERY_PRICE) +" \u20AA");
         }
         else{
             btnRadioSelfPickup.setSelected(true);
             setDeliveryDisable(true);
+            lblTotal.setText("Total: " + discountPrice  + " \u20AA");
         }
         if(Client.orderController.getCurrentOrder().getOrderStatus().equals(OrderStatus.EXPRESS_PENDING) ){
             btnRadioExpressYes.setSelected(true);
@@ -319,8 +336,8 @@ public class OrderDeliveryPageController implements Initializable {
             Client.orderController.getCurrentOrder().setBranch(cbBranch.getSelectionModel().getSelectedItem());
             if (btnRadioDelivery.isSelected()) {
                 Client.orderController.getCurrentOrder().setDeliveryAddress(cbCity.getSelectionModel().getSelectedItem() + " " + addressField.getText());
-                Client.orderController.getCurrentOrder().setPrice(Client.orderController.getCurrentOrder().getPrice() + Client.orderController.DELIVERY_PRICE);
-                Client.orderController.getCurrentOrder().setDiscountPrice(Client.orderController.getCurrentOrder().getDiscountPrice() + Client.orderController.DELIVERY_PRICE);
+                Client.orderController.getCurrentOrder().setPrice(price + Client.orderController.DELIVERY_PRICE);
+                Client.orderController.getCurrentOrder().setDiscountPrice(discountPrice + Client.orderController.DELIVERY_PRICE);
             } else {
                 Client.orderController.getCurrentOrder().setPrice(price);
                 Client.orderController.getCurrentOrder().setDiscountPrice(discountPrice);
@@ -389,6 +406,29 @@ public class OrderDeliveryPageController implements Initializable {
         MainDashboardController.setContentFromFXML("MyCartPage.fxml");
     }
 
+    /**
+     * If the day that was chosen is today, the hours in cbTime changes accordingly to the current time
+     * @param event
+     */
+    @FXML
+    void pickDateHandler(ActionEvent event) {
+        List<String> timeLeftOfDay = new ArrayList<>();
+        if (LocalDate.now().equals(datePicker.getValue())){
+            for (int i = LocalTime.now().getHour(); i <= 18; i++) {
+                timeLeftOfDay.add(i + ":00");
+                if (i != 18)
+                    timeLeftOfDay.add(i + ":30");
+                times = FXCollections.observableArrayList(timeLeftOfDay);
+                cbTime.getItems().clear();
+                cbTime.getItems().addAll(times);
+            }
+        }
+        else {
+            times = FXCollections.observableArrayList(timeList);
+            cbTime.getItems().clear();
+            cbTime.getItems().addAll(times);
+        }
+    }
     /**
      * Set order object in order controller to a new Order.
      */

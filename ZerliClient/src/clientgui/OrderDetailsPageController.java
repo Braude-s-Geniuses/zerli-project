@@ -28,8 +28,13 @@ public class OrderDetailsPageController implements Initializable {
     @FXML
     private Button btnBack;
 
+    /**
+     * Returns to view orders page
+     * @param event
+     */
     @FXML
     void clickBtnBack(ActionEvent event) {
+        //order = null;
         MainDashboardController.setContentFromFXML("MyOrdersPage.fxml");
     }
 
@@ -39,31 +44,33 @@ public class OrderDetailsPageController implements Initializable {
         Client.orderController.getOrderProducts(order.getOrderId());
         orderProducts = (ArrayList<OrderProduct>) Client.orderController.getResponse().getData();
         detailsLabel.setStyle("-fx-border-color: #77385a;");
-        detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\nStatus:    " + order.getOrderStatus() + "\nTotal Paid Price:    " + order.discountPriceToString());
+        detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\n" + order.getOrderStatus().toString() + "\nTotal Paid Price:    " + order.discountPriceToString());
         detailsLabel.setAlignment(Pos.BASELINE_CENTER);
-        for (OrderProduct op : orderProducts) {
-            ImageView iv = new ImageView();
-            iv.setFitHeight(150.0);
-            iv.setFitWidth(130.0);
-            Client.productController.createProductImage(op.getProduct());
-            iv.setImage(Client.productController.getProductImages().get(op.getProduct().getProductId()));
-            Label lblImage = new Label(null, iv);
-            Label lblName = new Label(op.getProduct().getName());
-            lblName.getStyleClass().add("details-label");
-            Label lblPrice = new Label(op.getProduct().discountPriceToString());
-            lblPrice.getStyleClass().add("details-label");
-            Label lblCustom = new Label(op.getProduct().customMadeToString());
-            lblCustom.getStyleClass().add("details-label");
-            Label lblQuantity = new Label("Amount:  " + op.getQuantity());
-            lblQuantity.getStyleClass().add("details-label");
-            setLabels(lblName);
-            setLabels(lblPrice);
-            setLabels(lblCustom);
-            setLabels(lblQuantity);
+        if(!orderProducts.isEmpty()) {
+            for (OrderProduct op : orderProducts) {
+                ImageView iv = new ImageView();
+                iv.setFitHeight(150.0);
+                iv.setFitWidth(130.0);
+                Client.productController.createProductImage(op.getProduct());
+                iv.setImage(Client.productController.getProductImages().get(op.getProduct().getProductId()));
+                Label lblImage = new Label(null, iv);
+                Label lblName = new Label(op.getProduct().getName());
+                lblName.getStyleClass().add("details-label");
+                Label lblPrice = new Label(op.getProduct().discountPriceToString());
+                lblPrice.getStyleClass().add("details-label");
+                Label lblCustom = new Label(op.getProduct().customMadeToString());
+                lblCustom.getStyleClass().add("details-label");
+                Label lblQuantity = new Label("Amount:  " + op.getQuantity());
+                lblQuantity.getStyleClass().add("details-label");
+                setLabels(lblName);
+                setLabels(lblPrice);
+                setLabels(lblCustom);
+                setLabels(lblQuantity);
 
-            HBox h = new HBox(25, lblImage, lblName, lblPrice, lblCustom, lblQuantity);
+                HBox h = new HBox(25, lblImage, lblName, lblPrice, lblCustom, lblQuantity);
 
-            productsAsListView.getItems().add(h);
+                productsAsListView.getItems().add(h);
+            }
         }
     }
     private void setLabels (Label lbl){
@@ -72,4 +79,3 @@ public class OrderDetailsPageController implements Initializable {
         lbl.setAlignment(Pos.CENTER_LEFT);
     }
 }
-

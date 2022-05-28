@@ -34,6 +34,7 @@ public class MyOrdersPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Client.orderController.requestOrders();
+        orderList.setFocusTraversable(false);
         ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getResponse().getData();
         if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
@@ -47,7 +48,7 @@ public class MyOrdersPageController implements Initializable {
                 Label lblOrderNumber = new Label("#" + order.getOrderId(), null);
                 Label lblOrderDetails = new Label("Ordered On:  " + order.orderDateToString() +"\nFrom Branch:  " + order.getBranch(), null);
                 Label lblOrderPrices = new Label( "Total Paid:\n" + order.discountPriceToString() ,null);
-                Label lblOrderStatus = new Label( order.getOrderStatus().toString(), null);
+                Label lblOrderStatus = new Label(order.getOrderStatus().toString(), null);
 
                 switch (order.getOrderStatus()){
                     case CANCEL_PENDING:
@@ -88,6 +89,12 @@ public class MyOrdersPageController implements Initializable {
         lbl.setAlignment(Pos.BASELINE_LEFT);
 
     }
+
+    /**
+     * initialize the handler of each button in orders list view
+     * @param button- each order has its own button
+     * @param order
+     */
     private void setActionForButton(Button button, Order order) {
         button.setOnAction(e->{
             OrderDetailsPageController.order = order;
