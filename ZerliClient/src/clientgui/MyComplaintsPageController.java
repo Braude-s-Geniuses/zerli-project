@@ -77,13 +77,6 @@ public class MyComplaintsPageController implements Initializable {
                     }
                 }
             });
-
-            Timestamp now = new Timestamp(System.currentTimeMillis());
-            for (Complaint p : result) {
-                if (calculateDifference(now, p.getCreatedAt(), "hours") > 24 && p.getServiceId() == Client.userController.getLoggedInUser().getUserId() && p.getComplaintStatus() == ComplaintStatus.OPENED) {
-                    System.out.println("Please respond to the customer ASAP with id: " +p.getCustomerId());
-                }
-            }
         }
 
     }
@@ -107,7 +100,7 @@ public class MyComplaintsPageController implements Initializable {
         MainDashboardController.setContentFromFXML("ComplaintPage.fxml");
     }
 
-    private Long calculateDifference(Timestamp date1, Timestamp date2, String value) {
+    static Long calculateDifference(Timestamp date1, Timestamp date2, String value) {
 
         long milliseconds = date1.getTime() - date2.getTime();
         if (value.equals("second"))

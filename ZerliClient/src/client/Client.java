@@ -1,6 +1,7 @@
 package client;
 
 import clientgui.InputHostnameFormController;
+import clientgui.MainDashboardController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -65,4 +66,5 @@ public class Client extends Application {
         complaintController = new ComplaintController();
         reportController = new ReportController();
     }
+
 }

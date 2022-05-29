@@ -271,7 +271,8 @@
 }
 
 .tab-pane {
-    -fx-tab-min-width: 90px;
+    -fx-tab-min-width: 475px;
+    -fx-tab-min-height: 70px;
 }
 
 .tab {

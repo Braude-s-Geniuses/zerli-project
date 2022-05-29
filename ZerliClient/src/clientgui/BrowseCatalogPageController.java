@@ -63,12 +63,6 @@ public class BrowseCatalogPageController implements Initializable {
         }
         sPane.setFitToWidth(true);
         sPaneSingle.setFitToWidth(true);
-
-        if(Client.userController.getLoggedInUser() == null || Client.userController.getLoggedInUser().getUserType() != UserType.CUSTOMER) {
-            btnCreateProduct.setVisible(false);
-        } else {
-            initBtnCreateProduct();
-        }
     }
 
     /**
@@ -122,21 +116,13 @@ public class BrowseCatalogPageController implements Initializable {
         hBox.setPadding(new Insets(5, 30, 20, 70));
         vBox.setPadding(new Insets(50, 30, 20, 25));
 
-        if(Client.catalogController.isCreateProduct == true) {
-            addBtn.setText("Add to Product");
-            addBtn.setOnAction(event -> {
-                Client.catalogController.addProductToCustomProduct(product, Integer.valueOf(comboBoxQuantity.getValue()));
-                System.out.println("Added " + product + " with quantity " + comboBoxQuantity.getValue());
-            });
-        } else {
-            addBtn.setOnAction(event -> {
-                String valueOfQuantity = comboBoxQuantity.getValue();
+        addBtn.setOnAction(event -> {
+            String valueOfQuantity = comboBoxQuantity.getValue();
 
-                Client.orderController.addToCart(new OrderProduct(product, Integer.valueOf(valueOfQuantity)));
-                MainDashboardController.createAlert(product.getName() + " was added to cart", Alert.SUCCESS, Duration.seconds(2), 135, 67);
-                MainDashboardController.refreshCartCounter();
-            });
-        }
+            Client.orderController.addToCart(new OrderProduct(product, Integer.valueOf(valueOfQuantity)));
+            MainDashboardController.createAlert(product.getName() + " was added to cart", Alert.SUCCESS, Duration.seconds(2), 135, 67);
+            MainDashboardController.refreshCartCounter();
+        });
 
         viewDetails.setOnAction(event -> {
             currentProduct = product;
@@ -146,22 +132,4 @@ public class BrowseCatalogPageController implements Initializable {
         return hBox;
     }
 
-    @FXML
-    void clickBtnCreateProduct(ActionEvent event) {
-        if(Client.catalogController.isCreateProduct == false) {
-            Client.catalogController.isCreateProduct = true;
-        } else {
-            System.out.println(Client.catalogController.getCreateProduct());
-            Client.catalogController.isCreateProduct = false;
-        }
-        MainDashboardController.setContentFromFXML("BrowseCatalogPage.fxml");
-    }
-
-    private void initBtnCreateProduct() {
-        if(Client.catalogController.isCreateProduct == false) {
-            btnCreateProduct.setText("Create Product");
-        } else {
-            btnCreateProduct.setText("Finish Creation");
-        }
-    }
 }
