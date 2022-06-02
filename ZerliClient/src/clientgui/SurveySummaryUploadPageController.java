@@ -45,7 +45,7 @@ public class SurveySummaryUploadPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         surveyController = Client.surveyController;
-        ObservableList<String> surveysList = FXCollections.observableArrayList(surveyController.getAllSurveyNamesByExpert(4));//TODO:Change to real one
+        ObservableList<String> surveysList = FXCollections.observableArrayList(surveyController.getAllSurveyNamesByExpert(Client.userController.getLoggedInUser().getUserId()));
         surveyComboBox.setItems(surveysList);
     }
 
