@@ -6,8 +6,7 @@ import communication.MessageFromClient;
 import java.util.ArrayList;
 
 
-public class ReportController {
-    private Message response;
+public class ReportController extends AbstractController {
 
     public void viewReport(ArrayList<String> reportData) {
         Message msg = new Message();
@@ -37,11 +36,4 @@ public class ReportController {
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
-    public Message getResponse() {
-        return response;
-    }
-
-    public void setResponse(Message response) {
-        this.response = response;
-    }
 }

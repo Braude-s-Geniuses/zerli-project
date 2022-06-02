@@ -14,6 +14,11 @@ import java.util.List;
 public class ItemController {
     public static Connection con = Server.databaseController.getConnection();
 
+    /**
+     * Adds an Item to the database
+     * @param messageFromClient - Item to be added
+     * @return <code>ITEM_ADD_SUCCESS</code> on success; otherwise <code>ITEM_ADD_FAIL</code>
+     */
     public static Message addItem(Message messageFromClient) {
         Item itemToAdd = (Item) messageFromClient.getData();
 
@@ -36,6 +41,11 @@ public class ItemController {
         return new Message(null, MessageFromServer.ITEM_ADD_SUCCESS);
     }
 
+    /**
+     * Updates an Item in the database
+     * @param messageFromClient - Item to be updated
+     * @return <code>ITEM_UPDATE_SUCCESS</code> on success; otherwise <code>ITEM_UPDATE_FAIL</code>
+     */
     public static Message updateItem(Message messageFromClient) {
         Item itemToUpdate = (Item) messageFromClient.getData();
 
@@ -65,6 +75,11 @@ public class ItemController {
         return new Message(null, MessageFromServer.ITEM_UPDATE_SUCCESS);
     }
 
+    /**
+     * Deletes an Item from the database
+     * @param messageFromClient - Item to be deleted
+     * @return <code>ITEM_DELETE_SUCCESS</code> on success; otherwise <code>ITEM_DELETE_FAIL</code>
+     */
     public static Message deleteItem(Message messageFromClient) {
         Item itemToDelete = (Item) messageFromClient.getData();
 
@@ -81,6 +96,11 @@ public class ItemController {
         return new Message(null, MessageFromServer.ITEM_DELETE_SUCCESS);
     }
 
+    /**
+     * Checks if given item name is already taken
+     * @param name - Item name to check
+     * @return - true if not taken; false otherwise
+     */
     private static boolean isItemNameExists(String name) {
         PreparedStatement preparedStatement = null;
         try {
@@ -98,6 +118,10 @@ public class ItemController {
         return true;
     }
 
+    /**
+     * Gets all Items from the database
+     * @return <code>ITEMS_GET_SUCCESS</code> on success; otherwise <code>ITEMS_GET_FAIL</code>
+     */
     public static Message getAllItems() {
         List<Item> items = new ArrayList<Item>();
         PreparedStatement preparedStatement = null;

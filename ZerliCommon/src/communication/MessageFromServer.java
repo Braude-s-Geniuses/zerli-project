@@ -63,7 +63,6 @@ public enum MessageFromServer implements Serializable {
 
     /* SurveyController */
     SURVEY_UNAUTHORIZED_CUSTOMER,
-    SURVEY_HAS_BEEN_COMPLETED,
     SURVEY_INSERT_FAIL,
     SURVEY_INSERT_SUCCESS,
     SURVEY_NAMES_SUCCESS,
@@ -78,6 +77,7 @@ public enum MessageFromServer implements Serializable {
     SURVEY_IDS_CUSTOMER_SUCCESS,
     SURVEY_ALREADY_FILLED,
 
+    /* ComplaintController */
     COMPLAINT_RESPONSE,
     COMPLAINT_VALIDATE_RESPONSE,
     COMPLAINTS_GET_SUCCESS,

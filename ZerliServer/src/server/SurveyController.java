@@ -32,7 +32,7 @@ public class SurveyController {
         }
 
         if(surveyAlreadyFilled(username,surveyID)){
-            return new Message(null,MessageFromServer.SURVEY_HAS_BEEN_COMPLETED);
+            return new Message(null,MessageFromServer.SURVEY_ALREADY_FILLED);
         }
         else{
             Statement stmt;

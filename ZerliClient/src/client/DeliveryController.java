@@ -4,12 +4,9 @@ import communication.Message;
 import communication.MessageFromClient;
 import order.Order;
 
-public class DeliveryController {
+public class DeliveryController extends AbstractController {
 
-    public static Order order;
-
-    private  Message response;
-    private Order currentOrder;
+    private Order order;
 
     /**
      * This function request from the server orders that are ready to delivered.
@@ -41,17 +38,12 @@ public class DeliveryController {
         Client.clientController.getClient().handleMessageFromUI(OrderToRefund, true);
     }
 
-    /**
-     * Sets the response message from the server.
-     * @param response
-     */
-    public void setResponse(Message response) {this.response = response;}
+    public Order getOrder() {
+        return order;
+    }
 
-    /**
-     * Returns the response message from the server.
-     * @return message from server.
-     */
-    public Message getResponse() {return response;}
-
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
 }

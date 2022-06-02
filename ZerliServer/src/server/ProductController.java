@@ -14,6 +14,11 @@ import java.util.List;
 public class ProductController {
     public static Connection con = Server.databaseController.getConnection();
 
+    /**
+     * Adds a Product to the database
+     * @param messageFromClient - Product to be added
+     * @return <code>PRODUCT_ADD_SUCCESS</code> on success; otherwise <code>PRODUCT_ADD_FAIL</code>
+     */
     public static Message addProduct(Message messageFromClient) {
         Product productToAdd = (Product) messageFromClient.getData();
 
@@ -50,6 +55,11 @@ public class ProductController {
         return new Message(null, MessageFromServer.PRODUCT_ADD_SUCCESS);
     }
 
+    /**
+     * Updates an Product in the database
+     * @param messageFromClient - Product to be updated
+     * @return <code>PRODUCT_UPDATE_SUCCESS</code> on success; otherwise <code>PRODUCT_UPDATE_FAIL</code>
+     */
     public static Message updateProduct(Message messageFromClient) {
         Product productToUpdate = (Product) messageFromClient.getData();
         PreparedStatement preparedStatement = null;
@@ -85,6 +95,10 @@ public class ProductController {
         return new Message(null, MessageFromServer.PRODUCT_UPDATE_SUCCESS);
     }
 
+    /**
+     * Gets all Products from the database
+     * @return <code>PRODUCTS_GET_SUCCESS</code> on success; otherwise <code>PRODUCTS_GET_FAIL</code>
+     */
     public static Message getAllProducts() {
         List<Product> products = new ArrayList<Product>();
         PreparedStatement preparedStatement = null;
@@ -118,7 +132,7 @@ public class ProductController {
     /**
      * Get the items of specific product
      * @param messageFromClient contains wanted product id
-     * @return
+     * @return <code>PRODUCT_GET_ITEMS_SUCCEED</code> on success; otherwise <code>PRODUCT_GET_ITEMS_FAIL</code>
      */
     public static Message getProductItems(Message messageFromClient) {
         int productId = (int) messageFromClient.getData();

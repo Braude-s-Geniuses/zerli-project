@@ -134,7 +134,7 @@ public class SurveyAnswerSubmitPageController implements Initializable {
                 case SURVEY_UNAUTHORIZED_CUSTOMER:
                     showErrorMessage("This customer is unable to complete this survey.");
                     break;
-                case SURVEY_HAS_BEEN_COMPLETED:
+                case SURVEY_ALREADY_FILLED:
                     showErrorMessage("This customer all ready filled this survey.");
                     break;
                 case SURVEY_INSERT_FAIL:

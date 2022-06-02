@@ -101,13 +101,13 @@ public class MyDeliveriesPageController implements Initializable {
      */
     private void setActionForButton(Button button, Order order) {
         button.setOnAction(e->{
-            DeliveryController.order = order;
+            Client.deliveryController.setOrder(order);
             Client.deliveryController.makeDelivery();
             MessageFromServer result = Client.deliveryController.getResponse().getAnswer();
             if(result == MessageFromServer.DELIVERY_UPDATE_SUCCESS){
                 button.setDisable(true);
                 button.setText("Send");
-                if(checkForRefund(DeliveryController.order)){
+                if(checkForRefund(Client.deliveryController.getOrder())){
                     Client.deliveryController.makeRefund();
                 }
             }

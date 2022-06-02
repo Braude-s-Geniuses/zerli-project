@@ -103,9 +103,9 @@ public class SurveyDataPageController implements Initializable {
 
     private void setBarChart() {
         barChart.getData().clear();
-        barChart.setTitle("Grade Of Answer #" + questionNumber);
+        barChart.setTitle("Answer Distribution of Question #" + questionNumber);
         categoryAxis.setLabel("Grade");
-        numberAxis.setLabel("Number Of Customers");
+        numberAxis.setLabel("Num. of Customers");
         XYChart.Series series = new XYChart.Series();
         for(int i = 0 ; i<numberOfAnswers ; i++) {
             series.getData().add(new XYChart.Data(String.valueOf(i+1), answers[i]));

@@ -99,6 +99,27 @@ public class ZerliClient extends AbstractClient {
             case PRODUCT_GET_ITEMS_FAIL:
                 Client.productController.setResponse(messageFromServer);
                 break;
+            case CATALOG_GET_PRODUCT_ITEMS_FAIL:
+            case CATALOG_GET_PRODUCT_ITEMS_SUCCESS:
+                Client.catalogController.setResponse(messageFromServer);
+                break;
+            case REPORT_VIEW_SUCCESS:
+            case REPORT_VIEW_FAIL:
+            case MANAGER_BRANCH_GET_SUCCESS:
+                Client.reportController.setResponse((Message) msg);
+                break;
+            case DELIVERIES_GET_FAIL:
+            case DELIVERIES_GET_SUCCESS:
+            case DELIVERY_UPDATE_FAIL:
+            case DELIVERY_UPDATE_SUCCESS:
+                Client.deliveryController.setResponse(messageFromServer);
+                break;
+            case SURVEY_INSERT_FAIL:
+            case SURVEY_INSERT_SUCCESS:
+            case SURVEY_UNAUTHORIZED_CUSTOMER:
+            case SURVEY_ALREADY_FILLED:
+                Client.surveyController.setResponse(messageFromServer);
+                break;
             case SURVEY_NAMES_SUCCESS:
                 Client.surveyController.setSurveyNames((ArrayList<String>) messageFromServer.getData());
                 break;
@@ -119,23 +140,8 @@ public class ZerliClient extends AbstractClient {
                 Client.surveyController.setCurrCustomers((ArrayList<Integer>)messageFromServer.getData());
                 message = MessageFromServer.SURVEY_IDS_CUSTOMER_SUCCESS;
                 break;
-            case SURVEY_ALREADY_FILLED:
-                message = MessageFromServer.SURVEY_ALREADY_FILLED;
-                break;
             case SURVEY_IDS_REQUEST_FAIL:
                 message = MessageFromServer.SURVEY_IDS_REQUEST_FAIL;
-                break;
-            case SURVEY_HAS_BEEN_COMPLETED:
-                message = MessageFromServer.SURVEY_HAS_BEEN_COMPLETED;
-                break;
-            case SURVEY_INSERT_FAIL:
-                message = MessageFromServer.SURVEY_INSERT_FAIL;
-                break;
-            case SURVEY_INSERT_SUCCESS:
-                message = MessageFromServer.SURVEY_INSERT_SUCCESS;
-                break;
-            case SURVEY_UNAUTHORIZED_CUSTOMER:
-                message = MessageFromServer.SURVEY_UNAUTHORIZED_CUSTOMER;
                 break;
             case COMPLAINT_RESPONSE:
                 Client.complaintController.setComplaintStatusReceived(messageFromServer);
@@ -148,21 +154,6 @@ public class ZerliClient extends AbstractClient {
                 break;
             case COMPLAINT_CLOSE_SUCCESS:
                 Client.complaintController.setStatusClosed((String)messageFromServer.getData());
-                break;
-            case CATALOG_GET_PRODUCT_ITEMS_FAIL:
-            case CATALOG_GET_PRODUCT_ITEMS_SUCCESS:
-                Client.catalogController.setResponse(messageFromServer);
-                break;
-            case REPORT_VIEW_SUCCESS:
-            case REPORT_VIEW_FAIL:
-            case MANAGER_BRANCH_GET_SUCCESS:
-                Client.reportController.setResponse((Message) msg);
-                break;
-            case DELIVERIES_GET_FAIL:
-            case DELIVERIES_GET_SUCCESS:
-            case DELIVERY_UPDATE_FAIL:
-            case DELIVERY_UPDATE_SUCCESS:
-                Client.deliveryController.setResponse(messageFromServer);
                 break;
         }
 

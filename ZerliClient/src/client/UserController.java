@@ -14,9 +14,7 @@ import static communication.MessageFromClient.*;
  * By filtering, associating and documenting customers entry.
  */
 
-public class UserController {
-
-    private Message response = null;
+public class UserController extends AbstractController {
 
     /**
      *  Used to store user fetched from the server once <code>userController.tryToLogin()</code> is called.
@@ -64,7 +62,7 @@ public class UserController {
 
         Client.clientController.getClient().handleMessageFromUI(requestChangePermission,true);
 
-        return  (boolean) response.getData();
+        return  (boolean) getResponse().getData();
     }
 
     public User getUserInformation(List<String> userIdAndManagerId) {
@@ -84,7 +82,7 @@ public class UserController {
 
         Client.clientController.getClient().handleMessageFromUI(requestCreateNewCustomer,true);
 
-        return  (boolean) response.getData();
+        return  (boolean) getResponse().getData();
     }
 
     public boolean FreezeCustomer(Customer customerToFreeze) {
@@ -94,7 +92,7 @@ public class UserController {
 
         Client.clientController.getClient().handleMessageFromUI(requestFreezeCustomer,true);
 
-        return  (boolean) response.getData();
+        return  (boolean) getResponse().getData();
     }
 
     public User getUserForInformation() {
@@ -133,14 +131,6 @@ public class UserController {
                     break;
             }
         }
-    }
-
-    public Message getResponse() {
-        return response;
-    }
-
-    public void setResponse(Message response) {
-        this.response = response;
     }
 
     /**

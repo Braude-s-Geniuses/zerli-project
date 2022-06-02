@@ -9,8 +9,7 @@ import java.util.ArrayList;
 /**
  * Controller for everything related to Complaints
  */
-public class ComplaintController {
-    private Message response;
+public class ComplaintController extends AbstractController {
     private String statusClosed;
     private Message validationResultFromServer;
 
@@ -32,7 +31,7 @@ public class ComplaintController {
      * @param msg
      */
     public void setComplaintStatusReceived(Message msg) {
-        this.response = msg;
+        this.setResponse(msg);
     }
 
     /**

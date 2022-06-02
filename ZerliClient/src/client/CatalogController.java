@@ -10,12 +10,10 @@ import java.util.HashMap;
 /**
  * Controller for the catalog
  */
-public class CatalogController {
+public class CatalogController extends AbstractController {
 
     public ArrayList<Product> list = new ArrayList<>();
-    public Message response;
     public Product createProduct;
-
 
     /**
      * Get all products from server to be showed in the catalog
@@ -33,19 +31,4 @@ public class CatalogController {
         Client.clientController.getClient().handleMessageFromUI(message, true);
     }
 
-    /**
-     * Returns the response from the client related to Catalog
-     * @return
-     */
-    public Message getResponse() {
-        return response;
-    }
-
-    /**
-     * Sets the response from the server related to Catalog
-     * @param response
-     */
-    public void setResponse(Message response) {
-        this.response = response;
-    }
 }

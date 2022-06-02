@@ -9,17 +9,13 @@ import survey.SurveyAnswers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyController {
-
-    private final SurveyAnswers currSurvey = null;
+public class SurveyController extends AbstractController {
 
     private List<SurveyAnswers> surveyAnswersList = null;
 
     private List<String> surveyNames = null;
 
     private boolean uploadStatus = false;
-
-
 
     private int surveyID = -1;
 
@@ -32,15 +28,10 @@ public class SurveyController {
         return currSurveys;
     }
 
-    public List<Integer> getCustomerIds(){
-        return currCustomers;
-    }
-
     public boolean checkIfFull(SurveyAnswers survey){return survey.getAnswers().size() == 6;}
 
 
     public List<List> getSurveyIDs() {
-        List<List> idsOfSurvey = new ArrayList<List>();
         Message requestIdsOfSurvey = new Message();
         requestIdsOfSurvey.setTask(MessageFromClient.SURVEY_IDS_REQUEST);
         requestIdsOfSurvey.setData(null);
@@ -57,7 +48,7 @@ public class SurveyController {
 
         Client.clientController.getClient().handleMessageFromUI(requestInsertSurvey,true);
 
-        return Client.clientController.getClient().getMessage();
+        return getResponse().getAnswer();
     }
 
     public List<String> getAllSurveyNamesByExpert(int expertID) {

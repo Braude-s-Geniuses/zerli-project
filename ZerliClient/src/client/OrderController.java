@@ -8,7 +8,7 @@ import order.OrderProduct;
 
 import java.util.ArrayList;
 
-public class OrderController {
+public class OrderController extends AbstractController {
 
     public final float DELIVERY_PRICE = 20;
 
@@ -21,7 +21,6 @@ public class OrderController {
 
     private String currBranch = null;
 
-    private Message response;
     private Order currentOrder;
 
     public OrderController() {}
@@ -46,10 +45,6 @@ public class OrderController {
     public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
 
     public Order getCurrentOrder() { return currentOrder; }
-
-    public Message getResponse() {return response;}
-
-    public void setResponse(Message response) {this.response = response; }
 
     /**
      * Changing the amount of specific product in cart
@@ -104,7 +99,7 @@ public class OrderController {
     public boolean sendNewOrder() {
         Message msg = new Message(getCurrentOrder(), MessageFromClient.ORDER_CREATE_NEW);
         Client.clientController.getClient().handleMessageFromUI(msg, true);
-        return response.getAnswer() != MessageFromServer.ORDER_CREATE_NEW_FAIL;
+        return getResponse().getAnswer() != MessageFromServer.ORDER_CREATE_NEW_FAIL;
     }
 
     /**
@@ -165,7 +160,7 @@ public class OrderController {
     public float getBalance(int customerId) {
         Message msg = new Message(customerId, MessageFromClient.ORDER_GET_BALANCE);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
-        setBalanceCustomer((float)response.getData());
+        setBalanceCustomer((float) getResponse().getData());
 
         return getBalanceCustomer();
     }

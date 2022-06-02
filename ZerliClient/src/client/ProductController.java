@@ -11,36 +11,64 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class ProductController {
-    private Message response;
+/**
+ * This controller handles all CRUD functions relating to a Product
+ */
+public class ProductController extends AbstractController {
 
+    /**
+     * stores the image for every product in order to prevent
+     * duplicates of images on every screen change
+     * key: product_id
+     * value: image
+     */
     private HashMap<Integer, Image> productImages = new HashMap<>();
 
+    /**
+     * Adds a new Product to the system
+     * @param product - the new Product to be added
+     * @return returned result is retrieved through the controller's <code>getResponse()</code>> method
+     */
     public void addProduct(Product product) {
         Message message = new Message(product, MessageFromClient.PRODUCT_ADD);
         Client.clientController.getClient().handleMessageFromUI(message, true);
     }
 
+    /**
+     * Gets all existing Products from the server
+     * @return returned result is retrieved through the controller's <code>getResponse()</code>> method
+     */
     public void getProducts() {
         Message message = new Message(null, MessageFromClient.PRODUCTS_GET);
         Client.clientController.getClient().handleMessageFromUI(message, true);
     }
 
+    /**
+     * Gets all the Items of a given Product
+     * @param productId - the Id of the Product
+     * @return returned result is retrieved through the controller's <code>getResponse()</code>> method
+     */
     public void getProductItems(int productId) {
         Message message = new Message(productId, MessageFromClient.PRODUCT_GET_ITEMS);
         Client.clientController.getClient().handleMessageFromUI(message, true);
     }
 
+    /**
+     * Updates an existing Product in the system
+     * @param product - the updated Product with already updated fields
+     * @return returned result is retrieved through the controller's <code>getResponse()</code>> method
+     */
     public void updateProduct(Product product) {
         Message message = new Message(product, MessageFromClient.PRODUCT_UPDATE);
         Client.clientController.getClient().handleMessageFromUI(message, true);
     }
 
-    public void deleteProduct(Product product) {
-        Message message = new Message(product, MessageFromClient.PRODUCT_DELETE);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
-    }
-
+    /**
+     * Creates a local Image (%temp%) of a product in the client's OS and adds its instance to <code>productImages</code>
+     * so it can be used later
+     * @param product - the product an image is needed to be created
+     * @note the prefix of an image is: "zerli-product-{product_id}-hash.png"
+     */
     public void createProductImage(Product product) {
         File fileImage = null;
 
@@ -62,19 +90,12 @@ public class ProductController {
         }
     }
 
-    public Message getResponse() {
-        return response;
-    }
-
-    public void setResponse(Message response) {
-        this.response = response;
-    }
-
+    /**
+     * getter for <code>productImages</code>
+     * @return <code>productImages</code>
+     */
     public HashMap<Integer, Image> getProductImages() {
         return productImages;
     }
 
-    public void setProductImages(HashMap<Integer, Image> productImages) {
-        this.productImages = productImages;
-    }
 }
