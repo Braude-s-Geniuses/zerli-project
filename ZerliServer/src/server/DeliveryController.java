@@ -47,10 +47,10 @@ public class DeliveryController {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.IMPORT_DELIVERY_TABLE_NOT_SUCCEED);
+            return new Message(null, MessageFromServer.DELIVERIES_GET_FAIL);
         }
 
-        return new Message(orders, MessageFromServer.IMPORT_DELIVERY_TABLE_SUCCEED);
+        return new Message(orders, MessageFromServer.DELIVERIES_GET_SUCCESS);
     }
 
     /**
@@ -122,10 +122,10 @@ public class DeliveryController {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.IMPORT_DELIVERY_TABLE_NOT_SUCCEED);
+            return new Message(null, MessageFromServer.DELIVERIES_GET_FAIL);
         }
 
-        return new Message(orders, MessageFromServer.IMPORT_DELIVERY_TABLE_SUCCEED);
+        return new Message(orders, MessageFromServer.DELIVERIES_GET_SUCCESS);
     }
 
     /**
@@ -142,9 +142,9 @@ public class DeliveryController {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.REFUND_FAIL);
+            return new Message(null, MessageFromServer.DELIVERY_ORDER_REFUND_FAIL);
         }
-        return new Message(null, MessageFromServer.REFUND_SUCCESS);
+        return new Message(null, MessageFromServer.DELIVERY_ORDER_REFUND_SUCCESS);
     }
 
 }

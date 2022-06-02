@@ -6,7 +6,6 @@ import communication.MessageFromServer;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import order.Order;
-import order.Product;
 import servergui.ServerUIController;
 import survey.Survey;
 import survey.SurveyAnswers;
@@ -71,23 +70,23 @@ public class ZerliServer extends AbstractServer {
                 UserController loginController= new UserController();
                 messageFromServer = loginController.login((User)messageFromClient.getData());
 
-                if(messageFromServer.getAnswer() == MessageFromServer.LOGIN_SUCCEED)
+                if(messageFromServer.getAnswer() == MessageFromServer.LOGIN_SUCCESS)
                     ServerUIController.setClientLoggedInTable(client, (User) messageFromServer.getData());
                 break;
             case LOGOUT_REQUEST:
                 loginController= new UserController();
                 messageFromServer = loginController.logout((int)messageFromClient.getData());
 
-                if(messageFromServer.getAnswer() == MessageFromServer.LOGOUT_SUCCEED)
+                if(messageFromServer.getAnswer() == MessageFromServer.LOGOUT_SUCCESS)
                     ServerUIController.setClientLoggedOutTable(client);
                 break;
-            case REQUEST_ORDERS_TABLE:
+            case ORDERS_GET:
                 messageFromServer = OrderController.getAllOrdersFromServer((int) messageFromClient.getData());
                 break;
-            case REQUEST_BRANCHES:
+            case ORDER_BRANCHES_GET:
                 messageFromServer = OrderController.getAllBranches();
                 break;
-            case ADD_NEW_ORDER:
+            case ORDER_CREATE_NEW:
                 messageFromServer = OrderController.AddNewOrder((Order) messageFromClient.getData());
                 break;
             case ORDER_GET_BRANCH:
@@ -102,16 +101,16 @@ public class ZerliServer extends AbstractServer {
             case ORDER_GET_BALANCE:
                 messageFromServer = OrderController.getBalance((int)messageFromClient.getData());
                 break;
-            case REQUEST_ORDER_PRODUCTS:
+            case ORDER_PRODUCTS_GET:
                 messageFromServer = OrderController.getOrderDetails((Integer)messageFromClient.getData());
                 break;
-            case UPDATE_BALANCE_FOR_CUSTOMER:
+            case CUSTOMER_BALANCE_UPDATE:
                 OrderController.updateBalance((ArrayList<Object>)messageFromClient.getData());
                 break;
-            case UPDATE_CARD_FOR_CUSTOMER:
+            case CUSTOMER_CREDIT_CARD_UPDATE:
                 OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
                 break;
-            case UPDATE_NEW_CUSTOMER:
+            case CUSTOMER_UPDATE_NEW:
                 OrderController.updateNewCustomer((Integer)messageFromClient.getData());
                 break;
             case ITEM_ADD:
@@ -146,70 +145,70 @@ public class ZerliServer extends AbstractServer {
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToInsertSurvey((SurveyAnswers)messageFromClient.getData());
                 break;
-            case REQUEST_ALL_SURVEY_NAMES_BY_EXPERT:
+            case SURVEY_NAMES_GET_BY_EXPERT:
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToGetSurveyNames((int)messageFromClient.getData());
                 break;
-            case REQUEST_ALL_SURVEY_ANSWERS:
+            case SURVEY_ANSWERS_GET:
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToGetSurveyAnswers((String)messageFromClient.getData());
                 break;
-            case REQUEST_UPLOAD_SURVEY_SUMMARY:
+            case SURVEY_UPLOAD_SUMMARY:
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToUploadFile((Survey)messageFromClient.getData());
                 break;
-            case REQUEST_SURVEY_ID:
+            case SURVEY_ID_GET:
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToGetSurveyID((String)messageFromClient.getData());
                 break;
             case CATALOG_GET_PRODUCT_ITEMS:
                 messageFromServer = CatalogController.getProductItems(messageFromClient);
                 break;
-            case ADD_NEW_COMPLAINT:
+            case COMPLAINT_ADD_NEW:
                 messageFromServer = ComplaintController.setComplaintToDataBase((Complaint) messageFromClient.getData());
                 break;
-            case VALIDATE_CUSTOMER_AND_ORDER:
+            case COMPLAINT_VALIDATE_CUSTOMER_ORDER:
                 messageFromServer = ComplaintController.validateCustomerAndOrderDatabase(messageFromClient.getData());
                 break;
-            case REQUEST_COMPLAINTS_TABLE:
+            case COMPLAINTS_GET:
                 messageFromServer = ComplaintController.getAllComplaintsFromDatabase();
                 break;
-            case CLOSE_STATUS:
+            case COMPLAINT_CLOSE_UPDATE:
                 messageFromServer = ComplaintController.closeStatus((ArrayList<Object>) messageFromClient.getData());
                 break;
-            case VIEW_ORDER_REPORT:
-            case VIEW_REVENUE_REPORT:
-            case VIEW_COMPLAINTS_REPORT:
+            case REPORT_ORDER_VIEW:
+            case REPORT_REVENUE_VIEW:
+            case REPORT_COMPLAINT_VIEW:
                 messageFromServer = ReportController.viewReport((ArrayList<String>) messageFromClient.getData());
                 break;
-            case REQUEST_MANAGERS_BRANCH:
+            case MANAGER_BRANCH_GET:
                 messageFromServer = ReportController.getManagersBranch((Integer)messageFromClient.getData());
                 break;
-            case REQUEST_DELIVERIES_TABLE:
+            case DELIVERIES_GET:
                 messageFromServer = DeliveryController.getPreDeliveredOrdersFromServer();
                 break;
-            case SEND_DELIVERY:
+            case DELIVERY_ADD_NEW:
                 messageFromServer = DeliveryController.sendDelivery((Order) messageFromClient.getData());
                 break;
-            case REQUEST_DELIVERIES_HISTORY_TABLE:
+            case DELIVERY_HISTORY_GET:
                 messageFromServer = DeliveryController.getHistoryDeliveredOrdersFromServer();
                 break;
-            case REFUND_ORDER:
+            case DELIVERY_ORDER_REFUND:
                 messageFromServer = DeliveryController.refundOrder((Order) messageFromClient.getData());
                 break;
-            case CHANGE_PERMISSION:
+            case EMPLOYEE_PERMISSION_CHANGE:
                 UserController userController = new UserController();
                 messageFromServer = userController.changeBranchEmployeePermission((BranchEmployee) messageFromClient.getData());
                 break;
-            case GET_USER_INFORMATION:
+            case USER_INFORMATION_GET:
                 UserController userController1 = new UserController();
                 messageFromServer = userController1.getUserInformation((List<String>)messageFromClient.getData());
                 break;
-            case CREATE_NEW_CUSTOMER:
+            case CUSTOMER_CREATE_NEW:
                 UserController userController2 = new UserController();
                 messageFromServer = userController2.createNewUser((Customer)messageFromClient.getData());
                 break;
-            case FREEZE_CUSTOMER:
+            case CUSTOMER_FREEZE:
                 UserController userController3 = new UserController();
                 messageFromServer = userController3.FreezeCustomer((Customer)messageFromClient.getData());
                 break;

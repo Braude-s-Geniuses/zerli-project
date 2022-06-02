@@ -131,16 +131,16 @@ public class SurveyAnswerSubmitPageController implements Initializable {
         if (Client.surveyController.checkIfFull(answers)) {
             switch (Client.surveyController.tryToSentSurvey(answers)) {
 
-                case UNAUTHORIZED_CUSTOMER:
+                case SURVEY_UNAUTHORIZED_CUSTOMER:
                     showErrorMessage("This customer is unable to complete this survey.");
                     break;
                 case SURVEY_HAS_BEEN_COMPLETED:
                     showErrorMessage("This customer all ready filled this survey.");
                     break;
-                case SURVER_INSERT_NOT_SUCCESSFULLY:
+                case SURVEY_INSERT_FAIL:
                     showErrorMessage("There is a problem, please try again later...");
                     break;
-                case SURVER_INSERT_SUCCEED:
+                case SURVEY_INSERT_SUCCESS:
                     showSuccessfulMessage("              Survey sent successfully!");
                     break;
                 default:

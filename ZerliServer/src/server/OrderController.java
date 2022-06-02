@@ -51,10 +51,10 @@ public class OrderController {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.IMPORT_ORDERS_TABLE_NOT_SUCCEED);
+            return new Message(null, MessageFromServer.ORDERS_GET_FAIL);
         }
 
-        return new Message(orders, MessageFromServer.IMPORT_ORDERS_TABLE_SUCCEED);
+        return new Message(orders, MessageFromServer.ORDERS_GET_SUCCESS);
 
     }
 
@@ -73,9 +73,9 @@ public class OrderController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.IMPORT_BRANCHES_NOT_SUCCEDD);
+            return new Message(null, MessageFromServer.ORDER_BRANCHES_GET_FAIL);
         }
-        return new Message(branches, MessageFromServer.IMPORT_BRANCHES_SUCCEDD);
+        return new Message(branches, MessageFromServer.ORDER_BRANCHES_GET_SUCCESS);
     }
 
     /**
@@ -106,15 +106,15 @@ public class OrderController {
                     orderId = generatedKeys.getInt(1);
                     updateOrderProductsInDB(order.getProductList(), orderId);
                 } else {
-                    return new Message(null, MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY);
+                    return new Message(null, MessageFromServer.ORDER_CREATE_NEW_FAIL);
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.ORDER_CREATE_NEW_FAIL);
         }
-        return new Message(orderId, MessageFromServer.ADDED_ORDER_SUCCESSFULLY);
+        return new Message(orderId, MessageFromServer.ORDER_CREATE_NEW_SUCCESS);
     }
 
     /**
@@ -172,7 +172,7 @@ public class OrderController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Message(op, MessageFromServer.ORDER_PRODUCTS_DELIVERED_SUCCESSFULLY);
+        return new Message(op, MessageFromServer.ORDER_PRODUCTS_GET_SUCCESS);
     }
 
     /**
@@ -246,9 +246,9 @@ public class OrderController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.IMPORT_LAST_REPORT_NOT_SUCCEDD);
+            return new Message(null, MessageFromServer.REPORT_LAST_GET_FAIL);
         }
-        return new Message(lastReport, MessageFromServer.IMPORT_LAST_REPORT_SUCCEDD);
+        return new Message(lastReport, MessageFromServer.REPORT_LAST_GET_SUCCESS);
     }
 
     public static Message UpdateOrderStatus(Order order) {
@@ -260,7 +260,7 @@ public class OrderController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.ORDER_STATUS_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.ORDER_STATUS_FAIL);
         }
 
         return new Message(null, MessageFromServer.ORDER_STATUS_SUCCESS);
@@ -275,7 +275,7 @@ public class OrderController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.ORDER_CANCEL_TIME_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.ORDER_CANCEL_TIME_FAIL);
         }
 
         return new Message(null, MessageFromServer.ORDER_CANCEL_TIME_SUCCESS);
@@ -294,7 +294,7 @@ public class OrderController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.ORDER_GET_BALANCE_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.ORDER_GET_BALANCE_FAIL);
         }
         return new Message(balance, MessageFromServer.ORDER_GET_BALANCE_SUCCESS);
     }
@@ -352,7 +352,7 @@ public class OrderController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.ORDER_GET_BRANCH_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.ORDER_GET_BRANCH_FAIL);
         }
 
         return new Message(branch, MessageFromServer.ORDER_GET_BRANCH_SUCCESS);

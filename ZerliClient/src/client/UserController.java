@@ -59,7 +59,7 @@ public class UserController {
     public boolean changeBranchEmployeePermissions(BranchEmployee branchEmployee)
     {
         Message requestChangePermission = new Message();
-        requestChangePermission.setTask(CHANGE_PERMISSION);
+        requestChangePermission.setTask(EMPLOYEE_PERMISSION_CHANGE);
         requestChangePermission.setData(branchEmployee);
 
         Client.clientController.getClient().handleMessageFromUI(requestChangePermission,true);
@@ -69,7 +69,7 @@ public class UserController {
 
     public User getUserInformation(List<String> userIdAndManagerId) {
         Message getUserInformation = new Message();
-        getUserInformation.setTask(GET_USER_INFORMATION);
+        getUserInformation.setTask(USER_INFORMATION_GET);
         getUserInformation.setData(userIdAndManagerId);
 
         Client.clientController.getClient().handleMessageFromUI(getUserInformation,true);
@@ -79,7 +79,7 @@ public class UserController {
 
     public boolean createNewCustomer(Customer newCustomer) {
         Message requestCreateNewCustomer = new Message();
-        requestCreateNewCustomer.setTask(CREATE_NEW_CUSTOMER);
+        requestCreateNewCustomer.setTask(CUSTOMER_CREATE_NEW);
         requestCreateNewCustomer.setData(newCustomer);
 
         Client.clientController.getClient().handleMessageFromUI(requestCreateNewCustomer,true);
@@ -89,7 +89,7 @@ public class UserController {
 
     public boolean FreezeCustomer(Customer customerToFreeze) {
         Message requestFreezeCustomer = new Message();
-        requestFreezeCustomer.setTask(FREEZE_CUSTOMER);
+        requestFreezeCustomer.setTask(CUSTOMER_FREEZE);
         requestFreezeCustomer.setData(customerToFreeze);
 
         Client.clientController.getClient().handleMessageFromUI(requestFreezeCustomer,true);

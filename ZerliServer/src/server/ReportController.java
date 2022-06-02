@@ -437,9 +437,9 @@ public class ReportController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.REPORT_VIEW_FAIL);
         }
-        return new Message(blob, MessageFromServer.ORDER_REPORT_IMPORTED_SUCCESSFULLY);
+        return new Message(blob, MessageFromServer.REPORT_VIEW_SUCCESS);
     }
 
     /**
@@ -458,6 +458,6 @@ public class ReportController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new Message(branch, MessageFromServer.BRANCH_MANAGERS_BRANCH_SUCCESS);
+        return new Message(branch, MessageFromServer.MANAGER_BRANCH_GET_SUCCESS);
     }
 }

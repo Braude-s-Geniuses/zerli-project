@@ -28,7 +28,7 @@ public class SurveyController {
         int surveyID = survey.getSurveyID();
 
         if (!checksAuthorizedCustomer(username,surveyID)){
-            return new Message(null,MessageFromServer.UNAUTHORIZED_CUSTOMER);
+            return new Message(null,MessageFromServer.SURVEY_UNAUTHORIZED_CUSTOMER);
         }
 
         if(surveyAlreadyFilled(username,surveyID)){
@@ -48,10 +48,10 @@ public class SurveyController {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-                return new Message(null, MessageFromServer.SURVER_INSERT_NOT_SUCCESSFULLY);
+                return new Message(null, MessageFromServer.SURVEY_INSERT_FAIL);
             }
         }
-        return new Message(null, MessageFromServer.SURVER_INSERT_SUCCEED);
+        return new Message(null, MessageFromServer.SURVEY_INSERT_SUCCESS);
     }
 
 
@@ -70,11 +70,11 @@ public class SurveyController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.SURVEY_IDS_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.SURVEY_IDS_REQUEST_FAIL);
         }
         surveyData.add(surveysIDs);
         surveyData.add(surveysNames);
-        return new Message(surveyData, MessageFromServer.SURVEY_IDS_SUCCESSFUL);
+        return new Message(surveyData, MessageFromServer.SURVEY_IDS_REQUEST_SUCCESS);
 
     }
     public boolean checksAuthorizedCustomer(String username, int SurveyID) {
@@ -123,9 +123,9 @@ public class SurveyController {
             Collections.sort(surveys);
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.SURVEY_NAMES_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.SURVEY_NAMES_FAIL);
         }
-        return new Message(surveys, MessageFromServer.SURVEY_NAMES_SUCCESSFULLY);
+        return new Message(surveys, MessageFromServer.SURVEY_NAMES_SUCCESS);
     }
 
     public Message tryToGetSurveyAnswers(String name)
@@ -156,9 +156,9 @@ public class SurveyController {
             preparedStatement = null;
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.SURVEY_ANSWERS_NOT_SUCCESSFULLY);
+            return new Message(null, MessageFromServer.SURVEY_ANSWERS_FAIL);
         }
-        return new Message(surveyAnswersList, MessageFromServer.SURVEY_ANSWERS_SUCCESSFULLY);
+        return new Message(surveyAnswersList, MessageFromServer.SURVEY_ANSWERS_SUCCESS);
     }
 
     public Message tryToUploadFile(Survey survey) {
@@ -171,13 +171,13 @@ public class SurveyController {
             preparedStatement.setInt(3,survey.getExpertID());
 
             if(preparedStatement.executeUpdate()==1)
-                return new Message(null, MessageFromServer.UPLOAD_SURVEY_SUMMARY_SUCCESSFULLY);
+                return new Message(null, MessageFromServer.SURVEY_UPLOAD_SUMMARY_SUCCESS);
             preparedStatement = null;
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Message(null, MessageFromServer.UPLOAD_SURVEY_SUMMARY_NOT_SUCCESSFULLY);
+        return new Message(null, MessageFromServer.SURVEY_UPLOAD_SUMMARY_FAIL);
     }
 
     public Message tryToGetSurveyID(String name) {
@@ -186,7 +186,7 @@ public class SurveyController {
             preparedStatement.setString(1,name);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return new Message(resultSet.getInt("survey_id"), MessageFromServer.GET_SURVEY_ID_SUCCESSFULLY);
+            return new Message(resultSet.getInt("survey_id"), MessageFromServer.SURVEY_ID_GET_SUCCESS);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

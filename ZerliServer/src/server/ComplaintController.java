@@ -58,7 +58,7 @@ public class ComplaintController {
             ResultSet validationUsernameResult = preparedUsernameValidationStatement.executeQuery();
             if (!validationUsernameResult.next()) {
                 objToSend.add("No such username in database");
-                return new Message(objToSend, MessageFromServer.RESULT_OF_VALIDATION);
+                return new Message(objToSend, MessageFromServer.COMPLAINT_VALIDATE_RESPONSE);
             } else
                 customerID = validationUsernameResult.getInt(1);
 
@@ -70,7 +70,7 @@ public class ComplaintController {
 
             if (!validationOrderResult.next()) {
                 objToSend.add("No such order connected to this username in database");
-                return new Message(objToSend, MessageFromServer.RESULT_OF_VALIDATION);
+                return new Message(objToSend, MessageFromServer.COMPLAINT_VALIDATE_RESPONSE);
             }
 
 
@@ -81,7 +81,7 @@ public class ComplaintController {
         objToSend.clear();
         objToSend.add("Validated Successfully!");
         objToSend.add(customerID);
-        return new Message(objToSend, MessageFromServer.RESULT_OF_VALIDATION);
+        return new Message(objToSend, MessageFromServer.COMPLAINT_VALIDATE_RESPONSE);
     }
 
     /**
@@ -113,7 +113,7 @@ public class ComplaintController {
             System.out.println(e.getMessage());
         }
 
-        return new Message(complaints, MessageFromServer.IMPORTED_COMPLAINTS_SUCCEED);
+        return new Message(complaints, MessageFromServer.COMPLAINTS_GET_SUCCESS);
     }
 
     /**
@@ -160,6 +160,6 @@ public class ComplaintController {
             }
         }
 
-        return new Message("Added Successfully", MessageFromServer.STATUS_CLOSED_SUCCESSFULLY);
+        return new Message("Added Successfully", MessageFromServer.COMPLAINT_CLOSE_SUCCESS);
     }
 }

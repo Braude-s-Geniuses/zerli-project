@@ -237,7 +237,7 @@ public class OrderPaymentPageController implements Initializable {
             }
             if(customer.getNewCustomer()){
                 customer.setNewCustomer(false);
-                Client.orderController.updateNemCustomer(customer.getUserId());
+                Client.orderController.updateNewCustomer(customer.getUserId());
             }
             Client.orderController.getCurrentOrder().setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
 

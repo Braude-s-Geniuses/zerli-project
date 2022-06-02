@@ -85,12 +85,6 @@ public class ProductController {
         return new Message(null, MessageFromServer.PRODUCT_UPDATE_SUCCESS);
     }
 
-    public static Message deleteProduct(Message messageFromClient) {
-        Product productToDelete = (Product) messageFromClient.getData();
-
-        return new Message(null, MessageFromServer.PRODUCT_DELETE_SUCCESS);
-    }
-
     public static Message getAllProducts() {
         List<Product> products = new ArrayList<Product>();
         PreparedStatement preparedStatement = null;

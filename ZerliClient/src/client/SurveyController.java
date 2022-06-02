@@ -62,7 +62,7 @@ public class SurveyController {
 
     public List<String> getAllSurveyNamesByExpert(int expertID) {
         Message requestSurveysNamesByExpert = new Message();
-        requestSurveysNamesByExpert.setTask(MessageFromClient.REQUEST_ALL_SURVEY_NAMES_BY_EXPERT);
+        requestSurveysNamesByExpert.setTask(MessageFromClient.SURVEY_NAMES_GET_BY_EXPERT);
         requestSurveysNamesByExpert.setData(expertID);
 
         Client.clientController.getClient().handleMessageFromUI(requestSurveysNamesByExpert,true);
@@ -73,7 +73,7 @@ public class SurveyController {
     public List<SurveyAnswers> getAllSurveyAnswers(String value)
     {
         Message requestSurveyAnswer = new Message();
-        requestSurveyAnswer.setTask(MessageFromClient.REQUEST_ALL_SURVEY_ANSWERS);
+        requestSurveyAnswer.setTask(MessageFromClient.SURVEY_ANSWERS_GET);
         requestSurveyAnswer.setData(value);
 
         Client.clientController.getClient().handleMessageFromUI(requestSurveyAnswer,true);
@@ -83,7 +83,7 @@ public class SurveyController {
 
     public boolean uploadSurveySummary(Survey survey) {
         Message requestUploadSummary = new Message();
-        requestUploadSummary.setTask(MessageFromClient.REQUEST_UPLOAD_SURVEY_SUMMARY);
+        requestUploadSummary.setTask(MessageFromClient.SURVEY_UPLOAD_SUMMARY);
         requestUploadSummary.setData(survey);
 
         Client.clientController.getClient().handleMessageFromUI(requestUploadSummary,true);
@@ -93,7 +93,7 @@ public class SurveyController {
 
     public int getSurveyID(String name) {
         Message requestSurveyID = new Message();
-        requestSurveyID.setTask(MessageFromClient.REQUEST_SURVEY_ID);
+        requestSurveyID.setTask(MessageFromClient.SURVEY_ID_GET);
         requestSurveyID.setData(name);
 
         Client.clientController.getClient().handleMessageFromUI(requestSurveyID,true);

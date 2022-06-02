@@ -40,7 +40,7 @@ public class UserController {
 
             /* Compares user password */
             if(!resultSet.next() || !data.getPassword().equals(resultSet.getString("password")))
-                return new Message(null, MessageFromServer.LOGIN_NOT_SUCCEED);
+                return new Message(null, MessageFromServer.LOGIN_FAIL);
 
             /* Checks if user is already logged in */
             if(resultSet.getBoolean("logged_in"))
@@ -64,21 +64,21 @@ public class UserController {
                 addCustomerDetails(newCustomer);
                 if(newCustomer.isBlocked())
                     return new Message(newCustomer, MessageFromServer.CUSTOMER_IS_BLOCKED);
-                return new Message(newCustomer, MessageFromServer.LOGIN_SUCCEED);
+                return new Message(newCustomer, MessageFromServer.LOGIN_SUCCESS);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return new Message(null, MessageFromServer.LOGIN_NOT_SUCCEED);
+            return new Message(null, MessageFromServer.LOGIN_FAIL);
         }
 
-        return new Message(data, MessageFromServer.LOGIN_SUCCEED);
+        return new Message(data, MessageFromServer.LOGIN_SUCCESS);
     }
 
     public Message logout(int id) {
         if (setUserAsLoggedOut(id))
-            return new Message(null, MessageFromServer.LOGOUT_SUCCEED);
-        return new Message(null, MessageFromServer.LOGOUT_NOT_SUCCEED);
+            return new Message(null, MessageFromServer.LOGOUT_SUCCESS);
+        return new Message(null, MessageFromServer.LOGOUT_FAIL);
     }
 
     public void setUserAsLoggedIn(int id) {
@@ -128,7 +128,7 @@ public class UserController {
             preparedStatement.setString(1, userIdAndManagerId.get(0));
             ResultSet resultSet = preparedStatement.executeQuery();
             if(!resultSet.next())
-                return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
             user.setUserType(UserType.valueOf(resultSet.getString("user_type")));
             user.setUserId(resultSet.getInt("user_id"));
             if(user.getUserType()==UserType.UNREGISTERED) {
@@ -137,7 +137,7 @@ public class UserController {
                 user.setId(userIdAndManagerId.get(0));
                 user.setEmail(resultSet.getString("email"));
                 user.setPhone(resultSet.getString("phone"));
-                return new Message(user, MessageFromServer.GET_USER_INFORMATION_SUCCEED);
+                return new Message(user, MessageFromServer.USER_INFORMATION_GET_SUCCESS);
             }
             else if(user.getUserType()==UserType.CUSTOMER) {
                 Customer customer = new Customer(user);
@@ -145,10 +145,10 @@ public class UserController {
                 preparedStatement.setInt(1, user.getUserId());
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
-                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                    return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 customer.setBalance(resultSet.getFloat("balance"));
                 customer.setBlocked(resultSet.getBoolean("blocked"));
-                return new Message(customer, MessageFromServer.GET_USER_INFORMATION_SUCCEED);
+                return new Message(customer, MessageFromServer.USER_INFORMATION_GET_SUCCESS);
             }
             else if (user.getUserType()==UserType.BRANCH_EMPLOYEE) {
                 BranchEmployee branchEmployee = new BranchEmployee(user);
@@ -156,13 +156,13 @@ public class UserController {
                 preparedStatement.setString(1, userIdAndManagerId.get(1));
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
-                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                    return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 int userID = resultSet.getInt("user_id");
                 preparedStatement = con.prepareStatement("SELECT * FROM branch WHERE manager_id=?");
                 preparedStatement.setInt(1, userID);
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
-                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                    return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 String branch = resultSet.getString("branch");
                 preparedStatement = con.prepareStatement("SELECT * FROM branch_employee WHERE user_id=? AND" +
                         " branch=?");
@@ -170,17 +170,17 @@ public class UserController {
                 preparedStatement.setString(2, branch);
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
-                    return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+                    return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 branchEmployee.setSurvey(resultSet.getBoolean("survey"));
                 branchEmployee.setCatalogue(resultSet.getBoolean("catalogue"));
                 branchEmployee.setDiscount(resultSet.getBoolean("discount"));
-                return new Message(branchEmployee, MessageFromServer.GET_USER_INFORMATION_SUCCEED);
+                return new Message(branchEmployee, MessageFromServer.USER_INFORMATION_GET_SUCCESS);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return new Message(null, MessageFromServer.GET_USER_INFORMATION_NOT_SUCCEED);
+        return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
     }
 
     public Message changeBranchEmployeePermission(BranchEmployee branchEmployee)
@@ -194,11 +194,11 @@ public class UserController {
             preparedStatement.setBoolean(3, branchEmployee.isCatalogue());
             preparedStatement.setInt(4, branchEmployee.getUserId());
             boolean result =preparedStatement.execute();
-            return new Message(true, MessageFromServer.CHANGE_PERMISSION);
+            return new Message(true, MessageFromServer.EMPLOYEE_PERMISSION_CHANGE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Message(false, MessageFromServer.CHANGE_PERMISSION);
+        return new Message(false, MessageFromServer.EMPLOYEE_PERMISSION_CHANGE);
     }
 
     public Message createNewUser(Customer data) {
@@ -217,11 +217,11 @@ public class UserController {
             preparedStatement.setString(1, UserType.CUSTOMER.toString());
             preparedStatement.setInt(2, data.getUserId());
             result = preparedStatement.execute();
-            return new Message(true, MessageFromServer.CREATE_NEW_CUSTOMER);
+            return new Message(true, MessageFromServer.CUSTOMER_CREATE_NEW);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Message(false, MessageFromServer.CREATE_NEW_CUSTOMER);
+        return new Message(false, MessageFromServer.CUSTOMER_CREATE_NEW);
 
     }
 
@@ -232,10 +232,10 @@ public class UserController {
             preparedStatement.setBoolean(1,customer.isBlocked());
             preparedStatement.setInt(2,customer.getUserId());
             boolean result = preparedStatement.execute();
-            return new Message(true, MessageFromServer.FREEZE_CUSTOMER);
+            return new Message(true, MessageFromServer.CUSTOMER_FREEZE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Message(false, MessageFromServer.FREEZE_CUSTOMER);
+        return new Message(false, MessageFromServer.CUSTOMER_FREEZE);
     }
 }

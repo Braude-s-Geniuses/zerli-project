@@ -22,7 +22,7 @@ public class ComplaintController {
      * @param complaint
      */
     public void setComplaint(Complaint complaint) {
-        Message msg = new Message(complaint, MessageFromClient.ADD_NEW_COMPLAINT);
+        Message msg = new Message(complaint, MessageFromClient.COMPLAINT_ADD_NEW);
         Client.clientController.getClient().handleMessageFromUI(msg, true);
     }
 
@@ -44,7 +44,7 @@ public class ComplaintController {
         ArrayList<Object> arr = new ArrayList<>();
         arr.add(customer);
         arr.add(order);
-        Message msg = new Message(arr,MessageFromClient.VALIDATE_CUSTOMER_AND_ORDER);
+        Message msg = new Message(arr,MessageFromClient.COMPLAINT_VALIDATE_CUSTOMER_ORDER);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
@@ -68,7 +68,7 @@ public class ComplaintController {
      * sends to server request all complaints from database
      */
     public void getAllComplaints() {
-        Message msg = new Message(null, MessageFromClient.REQUEST_COMPLAINTS_TABLE);
+        Message msg = new Message(null, MessageFromClient.COMPLAINTS_GET);
         Client.clientController.getClient().handleMessageFromUI(msg, true);
     }
 
@@ -93,7 +93,7 @@ public class ComplaintController {
      * @param obj
      */
     public void closeStatus(ArrayList<Object> obj){
-        Message msg = new Message(obj,MessageFromClient.CLOSE_STATUS);
+        Message msg = new Message(obj,MessageFromClient.COMPLAINT_CLOSE_UPDATE);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 

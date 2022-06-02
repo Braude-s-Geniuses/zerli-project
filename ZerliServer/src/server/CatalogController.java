@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -45,7 +44,7 @@ public class CatalogController {
             return new Message(null, MessageFromServer.CATALOG_GET_PRODUCT_ITEMS_FAIL);
         }
 
-        return new Message(items, MessageFromServer.CATALOG_GET_PRODUCT_ITEMS_SUCCEED);
+        return new Message(items, MessageFromServer.CATALOG_GET_PRODUCT_ITEMS_SUCCESS);
     }
 
 }

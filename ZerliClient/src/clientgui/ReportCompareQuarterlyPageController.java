@@ -51,7 +51,7 @@ public class ReportCompareQuarterlyPageController implements Initializable {
         Client.reportController.viewReport(reportData);
         message = Client.reportController.getResponse();
         SerialBlob blob = (SerialBlob) message.getData();
-        if (message.getAnswer() == MessageFromServer.ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY) {
+        if (message.getAnswer() == MessageFromServer.REPORT_VIEW_FAIL) {
             //
         } else {
             try {

@@ -14,13 +14,13 @@ public class ReportController {
         msg.setData(reportData);
         switch (reportData.get(0)) {
             case "Order":
-                msg.setTask(MessageFromClient.VIEW_ORDER_REPORT);
+                msg.setTask(MessageFromClient.REPORT_ORDER_VIEW);
                 break;
             case "Revenue":
-                msg.setTask(MessageFromClient.VIEW_REVENUE_REPORT);
+                msg.setTask(MessageFromClient.REPORT_REVENUE_VIEW);
                 break;
             case "Complaints":
-                msg.setTask(MessageFromClient.VIEW_COMPLAINTS_REPORT);
+                msg.setTask(MessageFromClient.REPORT_COMPLAINT_VIEW);
                 break;
             default:
                 break;
@@ -33,7 +33,7 @@ public class ReportController {
      * @param userId - branch manager id
      */
     public void getManagersBranch(int userId) {
-        Message msg = new Message(userId, MessageFromClient.REQUEST_MANAGERS_BRANCH);
+        Message msg = new Message(userId, MessageFromClient.MANAGER_BRANCH_GET);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 

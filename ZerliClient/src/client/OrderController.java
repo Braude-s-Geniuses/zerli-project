@@ -86,7 +86,7 @@ public class OrderController {
      * Fetches all customer`s orders from DB
      */
     public void requestOrders(){
-        Message ordersRequest = new Message(Client.userController.getLoggedInUser().getUserId(), MessageFromClient.REQUEST_ORDERS_TABLE);
+        Message ordersRequest = new Message(Client.userController.getLoggedInUser().getUserId(), MessageFromClient.ORDERS_GET);
         Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
     }
 
@@ -94,7 +94,7 @@ public class OrderController {
      * Get branches list from DB
      */
     public void getBranches() {
-        Message msg = new Message(null, MessageFromClient.REQUEST_BRANCHES);
+        Message msg = new Message(null, MessageFromClient.ORDER_BRANCHES_GET);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
     /**
@@ -102,9 +102,9 @@ public class OrderController {
      * @return
      */
     public boolean sendNewOrder() {
-        Message msg = new Message(getCurrentOrder(), MessageFromClient.ADD_NEW_ORDER);
+        Message msg = new Message(getCurrentOrder(), MessageFromClient.ORDER_CREATE_NEW);
         Client.clientController.getClient().handleMessageFromUI(msg, true);
-        return response.getAnswer() != MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY;
+        return response.getAnswer() != MessageFromServer.ORDER_CREATE_NEW_FAIL;
     }
 
     /**
@@ -112,7 +112,7 @@ public class OrderController {
      * @param orderId
      */
     public void getOrderProducts(int orderId) {
-        Message msg = new Message(orderId, MessageFromClient.REQUEST_ORDER_PRODUCTS);
+        Message msg = new Message(orderId, MessageFromClient.ORDER_PRODUCTS_GET);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
@@ -125,7 +125,7 @@ public class OrderController {
         ArrayList<Object> msgList = new ArrayList<>();
         msgList.add(userId);
         msgList.add(balance);
-        Message msg = new Message(msgList, MessageFromClient.UPDATE_BALANCE_FOR_CUSTOMER);
+        Message msg = new Message(msgList, MessageFromClient.CUSTOMER_BALANCE_UPDATE);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
@@ -138,7 +138,7 @@ public class OrderController {
         ArrayList<Object> msgList = new ArrayList<>();
         msgList.add(userId);
         msgList.add(cardDetails);
-        Message msg = new Message(msgList, MessageFromClient.UPDATE_CARD_FOR_CUSTOMER);
+        Message msg = new Message(msgList, MessageFromClient.CUSTOMER_CREDIT_CARD_UPDATE);
         Client.clientController.getClient().handleMessageFromUI(msg,false);
 
     }
@@ -148,8 +148,8 @@ public class OrderController {
      * Updates in DB
      * @param userId the id of the current customer
      */
-    public void updateNemCustomer(int userId) {
-        Message msg = new Message(userId, MessageFromClient.UPDATE_NEW_CUSTOMER);
+    public void updateNewCustomer(int userId) {
+        Message msg = new Message(userId, MessageFromClient.CUSTOMER_UPDATE_NEW);
         Client.clientController.getClient().handleMessageFromUI(msg,false);
     }
 
