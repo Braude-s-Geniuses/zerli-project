@@ -57,7 +57,7 @@ public class InputHostnameFormController {
             return;
         }
 
-        Client.initController(fldHostname.getText());
+        Client.initController(fldHostname.getText(), true);
         try {
             Client.clientController.getClient().openConnection();
             lblErrorMessage.setVisible(false);

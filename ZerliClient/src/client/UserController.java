@@ -51,6 +51,9 @@ public class UserController {
         Client.clientController.getClient().handleMessageFromUI(requestLogout,true);
 
         loggedInUser = null;
+
+        /* resets all static controller instances except ClientController so the data is completely deleted between connected users sessions */
+        Client.initController(null, false);
     }
 
     public boolean changeBranchEmployeePermissions(BranchEmployee branchEmployee)

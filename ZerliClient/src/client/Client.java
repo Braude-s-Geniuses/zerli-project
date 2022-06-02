@@ -54,8 +54,9 @@ public class Client extends Application {
      * Initializes the Controllers once the Client clicks connect with a valid hostname.
      * @param hostname <code>ZerliServer</code> to connect to
      */
-    public static void initController(String hostname) {
-        clientController = new ClientController(hostname);
+    public static void initController(String hostname, boolean firstInit) {
+        if(firstInit)
+            clientController = new ClientController(hostname);
         userController = new UserController();
         deliveryController = new DeliveryController();
         catalogController = new CatalogController();

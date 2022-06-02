@@ -14,7 +14,6 @@ public class CatalogController {
 
     public ArrayList<Product> list = new ArrayList<>();
     public Message response;
-
     public Product createProduct;
 
 
