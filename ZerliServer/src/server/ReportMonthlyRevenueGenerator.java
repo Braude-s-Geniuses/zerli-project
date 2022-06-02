@@ -12,33 +12,36 @@ import java.util.ArrayList;
 
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 
-public class ReportRevenueMonthlyGenerator extends AbstractMonthlyReportGenerator {
+public class ReportMonthlyRevenueGenerator extends AbstractMonthlyReportGenerator {
 
     private ArrayList<String> revenueColumns =new ArrayList<String>();
 
-    public ReportRevenueMonthlyGenerator(String branch, String month, String year, String type) {
+    public ReportMonthlyRevenueGenerator(String branch, String month, String year, String type) {
         super(branch, month,year, type);
         revenueColumns.add("Order No.");
         revenueColumns.add("Date");
         revenueColumns.add("Price");
     }
 
-    public ArrayList<String> getReportSummery() {
-        return reportSummery;
-    }
-    public void setReportSummery(ArrayList<String> reportSummery) {
-        this.reportSummery = reportSummery;
-    }
     public ArrayList<String> getRevenueColumns() { return revenueColumns; }
+
+    /**
+     * Gives the option to add/ remove column
+     * @param revenueColumns
+     */
     public void setRevenueColumns(ArrayList<String> revenueColumns) { this.revenueColumns = revenueColumns;}
 
+    /**
+     * Generates monthly revenue report, fills it and saves in DB
+     * @param branch
+     */
     @Override
     public void generate(String branch) {
         try {
             generateReportTitle();
             ArrayList<Object> revenueReportDataFromDB = ReportController.extractRevenueInfoForReport(branch,month, year);
             if (revenueReportDataFromDB.isEmpty()) {
-                noDataForReport();
+                noDataForReport(title);
             } else {
                 generateColumns(revenueColumns);
                 fillColumns(revenueReportDataFromDB);
@@ -50,10 +53,15 @@ public class ReportRevenueMonthlyGenerator extends AbstractMonthlyReportGenerato
         }
     }
 
+    /**
+     * Fills the table in the report with given data
+     * @param values - data to fill from DB
+     * @throws DocumentException
+     */
     @Override
     public void fillColumns(ArrayList<Object> values) throws DocumentException {
         float colSize = 600f;
-        float[] columnWidth = new float[revenueColumns.size()];
+        float columnWidth[] = new float[revenueColumns.size()];
         float productSum = 0;
         int priceIndex = revenueColumns.indexOf("Price") +1;
         ArrayList<String> dataSumOfReport = new ArrayList<>();
@@ -76,11 +84,14 @@ public class ReportRevenueMonthlyGenerator extends AbstractMonthlyReportGenerato
         reportSummery.add(String.valueOf(productSum));
     }
 
-
+    /**
+     * Writes summery lines to the report
+     * @throws DocumentException
+     */
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float[] columnWidth = {colSize};
+        float columnWidth[] = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
@@ -95,6 +106,5 @@ public class ReportRevenueMonthlyGenerator extends AbstractMonthlyReportGenerato
     }
 
     @Override
-    public void addHistogram(Object complaintsData, float x, float y) {
-    }
+    public void addHistogram(Object complaintsData, float x, float y) {}
 }

@@ -116,9 +116,9 @@ public class MainDashboardController implements Initializable {
     }
 
     public static void buildUserNavigation() {
-        /* Clear all previously add buttons except the logo */
+        /* Clear all previously added buttons except the logo */
         sideNavigationBox.getChildren().remove(1, (int)sideNavigationBox.getChildren().stream().count());
-        /* Clear all previously add buttons */
+        /* Clear all previously added buttons */
         topNavigationBox.getChildren().remove(0, (int)topNavigationBox.getChildren().stream().count());
 
         Button buttonBrowseCatalog = new Button("Browse Catalog");
@@ -176,13 +176,17 @@ public class MainDashboardController implements Initializable {
                     Button buttonUserManagement = new Button("User Management");
                     buttonUserManagement.setOnAction(event -> setContentFromFXML("BranchManagerCustomerManagementPage.fxml"));
 
+                    Button buttonViewReport = new Button("View Report");
+                    buttonViewReport.setOnAction(event -> setContentFromFXML("ReportPageBranchManager.fxml"));
+
                     addSideNavButton(buttonUserManagement);
                     addSideNavButton(buttonManageOrders);
-                    addSideNavButton(buttonAddItem);
-                    addSideNavButton(buttonManageItems);
+                    addSideNavButton(buttonSurveyAnswers);
+                    addSideNavButton(buttonViewReport);
                     addSideNavButton(buttonAddProduct);
                     addSideNavButton(buttonManageProducts);
-                    addSideNavButton(buttonSurveyAnswers);
+                    addSideNavButton(buttonAddItem);
+                    addSideNavButton(buttonManageItems);
                     break;
                 case SERVICE_EMPLOYEE:
                     Button buttonMyComplaints = new Button("View Complaints");

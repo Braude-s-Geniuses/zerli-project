@@ -1,5 +1,10 @@
 package server;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import report.ReportType;
 import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.DocumentException;
@@ -23,19 +28,22 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
     public ReportQuarterlyComplaintsGenerator(String branch, String quarter, String year, String type) {
         super(branch, quarter, year, type);
     }
-
+    /**
+     * Generate quarterly complaints report, fill it and saves it in DB
+     * @param branch
+     */
     @Override
     public void generate(String branch) {
         try {
-            ArrayList<Integer> ordersReportDataFromDB;
+            ArrayList<Integer> complaintsReportDataFromDB;
             generateReportTitle();
-            ordersReportDataFromDB = ReportController.extractComplaintsInfoForReport(branch, quarters.get(quarter).substring(0,2), quarters.get(quarter).substring(3), year);
+            complaintsReportDataFromDB = ReportController.extractComplaintsInfoForReport(branch, quarters.get(quarter).substring(0,2), quarters.get(quarter).substring(3), year);
 
-            if (isDataEmpty(ordersReportDataFromDB)) {
-                noDataForReport();
+            if (isDataEmpty(complaintsReportDataFromDB)) {
+                noDataForReport(title);
                 closeDocument(ReportType.QUARTERLY_COMPLAINTS_REPORT);
             } else {
-                addHistogram(ordersReportDataFromDB, 45f, 220f);
+                addHistogram(complaintsReportDataFromDB, 45f, 220f);
                 endOfReport();
                 closeDocument(ReportType.QUARTERLY_COMPLAINTS_REPORT);
             }
@@ -43,25 +51,25 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
             e.printStackTrace();
         }
     }
-
+    /**
+     * Check if there's no data to fill in the report
+     * @param ordersReportDataFromDB
+     * @return true - if empty, false - if not
+     */
     private boolean isDataEmpty(ArrayList<Integer> ordersReportDataFromDB) {
         int sum = 0;
         for (int i : ordersReportDataFromDB) {
             sum += i;
         }
-        return sum == 0;
+        return sum == 0 ? true : false;
     }
 
-    @Override
-    public void fillColumns(ArrayList<Object> values) throws DocumentException {
-
-    }
-
-    @Override
-    public void generateColumns(ArrayList<String> columns) throws DocumentException {
-
-    }
-
+    /**
+     * Adds histogram with data given from DB
+     * @param orderData
+     * @param x
+     * @param y
+     */
     @Override
     public void addHistogram(Object orderData, float x, float y) {
         ArrayList<Integer> revenueDataForHistogram = (ArrayList<Integer>) orderData;
@@ -76,7 +84,11 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
         contentByte.addTemplate(template,x,y);
     }
 
-
+    /**
+     * Filling the bar chart in the data given
+     * @param complaintsData
+     * @return
+     */
     public JFreeChart generateBarChart(ArrayList<Integer> complaintsData) {
         int monthsForYAxis = Integer.valueOf(quarters.get(quarter).substring(0,2));
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
@@ -106,10 +118,31 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
 
         return chart;
     }
-
-
+    /**
+     * Writes summery lines to the report
+     * @throws DocumentException
+     */
     @Override
     public void endOfReport() throws DocumentException {
+        float colSize = 600f;
+        float columnWidth[] = {colSize};
 
+        PdfPTable table = new PdfPTable(columnWidth);
+        PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+        PdfPCell cell = new PdfPCell(new Phrase("Total Complaints: " + reportSummery.get(0) , FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
+        PdfPCell cell2 = new PdfPCell(new Phrase("Week number " + reportSummery.get(2) + " Was With Most Complaints This Month: " + reportSummery.get(1), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
+        setCell(cell);
+        setCell(cell3);
+        setCell(cell2);
+
+        table.addCell(cell3);
+        table.addCell(cell);
+        table.addCell(cell2);
+        document.add(table);
     }
+    @Override
+    public void fillColumns(ArrayList<Object> values) throws DocumentException {}
+
+    @Override
+    public void generateColumns(ArrayList<String> columns) throws DocumentException {}
 }

@@ -38,19 +38,23 @@ public abstract class AbstractQuarterlyReportGenerator extends AbstractReportsGe
     public HashMap<String, String> getQuarters() {
         return quarters;
     }
+
+    /**
+     * Prepares the report title using the report type, months in quarter and year
+     */
     public void generateReportTitle() {
         try {
             //Add content to the document.
 
             float col = 600f;
-            float[] columnWidth = {col};
+            float columnWidth[] = {col};
             PdfPTable table = new PdfPTable(columnWidth);
 
-            PdfPCell titleCell = new PdfPCell(new Phrase("Quarterly " + this.title + " Report\n", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 40, new BaseColor(119, 56, 90))));
+            PdfPCell titleCell = new PdfPCell(new Phrase("Quarterly " + this.title + " Report\n", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 25, new BaseColor(119, 56, 90))));
             setCell(titleCell);
             table.addCell(titleCell);
 
-            PdfPCell branchCell = new PdfPCell(new Phrase("Branch: " + this.branch, FontFactory.getFont(HELVETICA, 20, new BaseColor(119, 56, 90))));
+            PdfPCell branchCell = new PdfPCell(new Phrase("Branch: " + this.branch, FontFactory.getFont(HELVETICA, 15, new BaseColor(119, 56, 90))));
             setCell(branchCell);
             table.addCell(branchCell);
 
@@ -64,7 +68,7 @@ public abstract class AbstractQuarterlyReportGenerator extends AbstractReportsGe
             toMonthStr = toMonthStr.toLowerCase();
             toMonthStr = capitalize(toMonthStr);
 
-            PdfPCell cell3 = new PdfPCell(new Phrase("Months  "  +fromMonthStr + " - " + toMonthStr + ",  " + year + "\n\n", FontFactory.getFont(HELVETICA, 20, new BaseColor(119, 56, 90))));
+            PdfPCell cell3 = new PdfPCell(new Phrase("Months  "  +fromMonthStr + " - " + toMonthStr + ",  " + year + "\n\n", FontFactory.getFont(HELVETICA, 15, new BaseColor(119, 56, 90))));
             setCell(cell3);
             table.addCell(cell3);
 
@@ -74,6 +78,11 @@ public abstract class AbstractQuarterlyReportGenerator extends AbstractReportsGe
             e.printStackTrace();
         }
     }
+
+    /**
+     * Closes the report and saves it in DB
+     * @param reportType
+     */
     public void closeDocument(ReportType reportType){
         document.close();
         writer.close();

@@ -12,12 +12,9 @@ import java.util.ArrayList;
 
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 
-public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator {
-    @Override
-    public void addHistogram(Object complaintsData, float x, float y) {}
-
+public class ReportMonthlyOrderGenerator extends AbstractMonthlyReportGenerator {
     private  ArrayList<String> orderColumns = new ArrayList<String>();
-    public ReportOrderMonthlyGenerator(String branch, String month, String year, String type) {
+    public ReportMonthlyOrderGenerator(String branch, String month, String year, String type) {
         super(branch, month,year, type);
         orderColumns.add("Product No.");
         orderColumns.add("Product Name");
@@ -26,15 +23,23 @@ public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator 
 
     public ArrayList<String> getOrderColumns() {return orderColumns;}
 
+    /**
+     * Gives the option to add/ remove column
+     * @param orderColumns
+     */
     public void setOrderColumns(ArrayList<String> orderColumns) {this.orderColumns = orderColumns;}
 
+    /**
+     * Generate monthly order report, filling it and saves it in DB
+     * @param branch
+     */
     @Override
     public void generate(String branch) {
         try {
             generateReportTitle();
             ArrayList<Object> ordersReportDataFromDB = ReportController.extractOrderInfoForReport(branch,month, month,year);
-            if (ordersReportDataFromDB.isEmpty()){
-                noDataForReport();
+            if (ordersReportDataFromDB.isEmpty() || ordersReportDataFromDB.size() == 0){
+                noDataForReport(title);
             }
             else{
                 generateColumns(getOrderColumns());
@@ -56,9 +61,14 @@ public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator 
         this.reportSummery = reportSummery;
     }
 
+    /**
+     * Fills the table in the report with given data
+     * @param values - data to fill from DB
+     * @throws DocumentException
+     */
     public void fillColumns(ArrayList<Object> values) throws DocumentException {
         float colSize = 600f;
-        float[] columnWidth = new float[orderColumns.size()];
+        float columnWidth[] = new float[orderColumns.size()];
         int max = 0, productSum = 0, quantitySum = 0;
         int quantityIndex = orderColumns.indexOf("Quantity") + 1;
         String mustSold = null;
@@ -90,16 +100,17 @@ public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator 
 
     }
 
-
-
-
+    /**
+     * Writes summery lines to the report
+     * @throws DocumentException
+     */
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float[] columnWidth = {colSize};
+        float columnWidth[] = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell spaceCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-        PdfPCell mustPurchasedCell = new PdfPCell(new Phrase("Most purchased: " + reportSummery.get(0) +" -  "+ reportSummery.get(1), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
+        PdfPCell mustPurchasedCell = new PdfPCell(new Phrase("Most purchased: " + reportSummery.get(0) +" "+ reportSummery.get(1) + " times", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         PdfPCell totalCell = new PdfPCell(new Phrase("Total purchased:  "+ reportSummery.get(2) + " products (from inventory of " +reportSummery.get(3)+" products)", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         setCell(mustPurchasedCell);
         setCell(totalCell);
@@ -111,6 +122,6 @@ public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator 
 
         document.add(table);
     }
-
-
+    @Override
+    public void addHistogram(Object complaintsData, float x, float y) {}
 }

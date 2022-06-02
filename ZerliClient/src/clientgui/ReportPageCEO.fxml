@@ -16,12 +16,7 @@
                 <Font name="Calibri" size="64.0" />
             </font>
         </Label>
-        <Label alignment="BOTTOM_LEFT" layoutX="28.0" layoutY="102.0" prefHeight="82.0" prefWidth="948.0" text="Select Report:" textFill="#77385a">
-            <font>
-                <Font name="Calibri" size="48.0" />
-            </font>
-        </Label>
-        <ComboBox fx:id="comboBoxReportType" layoutX="397.0" layoutY="135.0" onAction="#cbReportTypeSelect" prefHeight="35.0" prefWidth="200.0" promptText="ReportType">
+        <ComboBox fx:id="cbReportType" layoutX="397.0" layoutY="135.0" onAction="#cbReportTypeSelect" prefHeight="35.0" prefWidth="200.0" promptText="ReportType">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
@@ -32,28 +27,23 @@
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <Label fx:id="labelTime" alignment="BASELINE_LEFT" layoutX="89.0" layoutY="348.0" prefHeight="68.0" prefWidth="158.0" text="Select " textFill="#77385a">
+        <Label fx:id="labelTime" alignment="BASELINE_LEFT" layoutX="89.0" layoutY="350.0" prefHeight="68.0" prefWidth="158.0" text="Select " textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <ComboBox fx:id="comboBoxTime" layoutX="248.0" layoutY="369.0" onAction="#cbTimeBranchSelect" prefHeight="35.0" prefWidth="170.0">
+        <ComboBox fx:id="cbTime" layoutX="248.0" layoutY="369.0" onAction="#cbTimeBranchSelect" prefHeight="35.0" prefWidth="170.0">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
             </styleClass>
         </ComboBox>
-        <ComboBox fx:id="comboBoxYear" layoutX="248.0" layoutY="300.0" onAction="#cbYearSelect" prefHeight="35.0" prefWidth="170.0" promptText="Year">
+        <ComboBox fx:id="cbYear" layoutX="248.0" layoutY="300.0" onAction="#cbYearSelect" prefHeight="35.0" prefWidth="170.0" promptText="Year">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
             </styleClass>
         </ComboBox>
-        <Button fx:id="btnShowReport" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="423.0" layoutY="569.0" mnemonicParsing="false" onAction="#clickBtnViewReport" prefHeight="50.0" prefWidth="158.0" styleClass="btn" text="Show Report" textAlignment="JUSTIFY" textFill="#77385a">
-            <font>
-                <Font name="Calibri" size="18.0" />
-            </font>
-        </Button>
         <Button fx:id="btnBack" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="602.0" mnemonicParsing="false" onAction="#clickBtnBack" prefHeight="35.0" prefWidth="137.0" styleClass="btn-secondary" text="Back" textAlignment="JUSTIFY" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="18.0" />
@@ -61,50 +51,50 @@
         </Button>
         <ToggleButton fx:id="btnQuarter" layoutX="366.0" layoutY="203.0" mnemonicParsing="false" onAction="#clickBtnQuarter" prefHeight="38.0" prefWidth="141.0" text="Quarterly" />
         <ToggleButton fx:id="btnMonth" layoutX="507.0" layoutY="203.0" mnemonicParsing="false" onAction="#clickBtnMonth" prefHeight="38.0" prefWidth="141.0" text="Monthly" />
-        <ComboBox fx:id="comboBoxBranch" layoutX="248.0" layoutY="437.0" onAction="#cbTimeBranchSelect" prefHeight="35.0" prefWidth="170.0" promptText="Branch">
+        <ComboBox fx:id="cbBranch" layoutX="248.0" layoutY="437.0" onAction="#cbTimeBranchSelect" prefHeight="35.0" prefWidth="170.0" promptText="Branch">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
             </styleClass>
         </ComboBox>
-        <Label alignment="BASELINE_LEFT" layoutX="89.0" layoutY="416.0" prefHeight="68.0" prefWidth="158.0" text="Select Branch" textFill="#77385a">
+        <Label alignment="BASELINE_LEFT" layoutX="89.0" layoutY="419.0" prefHeight="68.0" prefWidth="158.0" text="Select Branch" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <CheckBox fx:id="checkBoxCompare" layoutX="100.0" layoutY="500.0" mnemonicParsing="false" onAction="#clickCheckBoxCompare" prefHeight="27.0" prefWidth="121.0" text="Compare?" textFill="#77385a">
+        <CheckBox fx:id="cbCompare" layoutX="100.0" layoutY="500.0" mnemonicParsing="false" onAction="#clickCheckBoxCompare" prefHeight="27.0" prefWidth="121.0" text="Compare?" textFill="#77385a">
             <font>
                 <Font size="18.0" />
             </font>
         </CheckBox>
-        <Label fx:id="labelYearForCompare" alignment="BASELINE_LEFT" disable="true" layoutX="578.0" layoutY="280.0" prefHeight="68.0" prefWidth="141.0" text="Select Year" textFill="#77385a">
+        <Label fx:id="labelYearCompare" alignment="BASELINE_LEFT" disable="true" layoutX="580.0" layoutY="280.0" prefHeight="68.0" prefWidth="141.0" text="Select Year" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <Label fx:id="labelTimeForCompare" alignment="BASELINE_LEFT" disable="true" layoutX="581.0" layoutY="364.0" prefHeight="68.0" prefWidth="158.0" text="Select Quarter" textFill="#77385a">
+        <Label fx:id="labelTimeCompare" alignment="BASELINE_LEFT" disable="true" layoutX="581.0" layoutY="355.0" prefHeight="68.0" prefWidth="158.0" text="Select Quarter" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <ComboBox fx:id="comboBoxTimeForCompare" disable="true" layoutX="740.0" layoutY="369.0" onAction="#cbTimeBranchCompareSelect" prefHeight="35.0" prefWidth="170.0">
+        <ComboBox fx:id="cbTimeForCompare" disable="true" layoutX="740.0" layoutY="369.0" onAction="#cbTimeBranchCompareSelect" prefHeight="35.0" prefWidth="170.0">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
             </styleClass>
         </ComboBox>
-        <ComboBox fx:id="comboBoxYearForCompare" disable="true" layoutX="740.0" layoutY="301.0" onAction="#cbYearCompareSelect" prefHeight="35.0" prefWidth="170.0" promptText="Year">
+        <ComboBox fx:id="cbYearCompare" disable="true" layoutX="740.0" layoutY="301.0" onAction="#cbYearCompareSelect" prefHeight="35.0" prefWidth="170.0" promptText="Year">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
             </styleClass>
         </ComboBox>
-        <Label fx:id="labelBranchForCompare" alignment="BASELINE_LEFT" disable="true" layoutX="581.0" layoutY="432.0" prefHeight="68.0" prefWidth="158.0" text="Select Branch" textFill="#77385a">
+        <Label fx:id="labelBranchCompare" alignment="BASELINE_LEFT" disable="true" layoutX="581.0" layoutY="430.0" prefHeight="68.0" prefWidth="158.0" text="Select Branch" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
             </font>
         </Label>
-        <ComboBox fx:id="comboBoxBranchForCompare" disable="true" layoutX="740.0" layoutY="449.0" onAction="#cbTimeBranchCompareSelect" prefHeight="35.0" prefWidth="170.0" promptText="Branch">
+        <ComboBox fx:id="cbBranchForCompare" disable="true" layoutX="740.0" layoutY="449.0" onAction="#cbTimeBranchCompareSelect" prefHeight="35.0" prefWidth="170.0" promptText="Branch">
             <styleClass>
                 <String fx:value="combo-color" />
                 <String fx:value="combo-time" />
@@ -125,5 +115,15 @@
                 <Font size="14.0" />
             </font>
         </Label>
+        <Label alignment="BOTTOM_LEFT" layoutX="70.0" layoutY="91.0" prefHeight="82.0" prefWidth="864.0" text="Select Report Type" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="36.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnShowReport" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="378.0" layoutY="560.0" mnemonicParsing="false" onAction="#clickBtnViewReport" prefHeight="50.0" prefWidth="247.0" styleClass="btn" text="Show Report" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Button>
     </children>
 </AnchorPane>

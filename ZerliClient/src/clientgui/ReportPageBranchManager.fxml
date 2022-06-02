@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.ReportPageBranchManagerController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="82.0" prefWidth="963.0" text="Monthly Reports" textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="64.0" />
+            </font>
+        </Label>
+        <Label alignment="BOTTOM_LEFT" layoutX="56.0" layoutY="153.0" prefHeight="82.0" prefWidth="864.0" text="Select Report Type" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="36.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="cbReportType" layoutX="396.0" layoutY="195.0" onAction="#cbReportTypeSelect" prefHeight="41.0" prefWidth="200.0" promptText="ReportType">
+            <styleClass>
+                <String fx:value="combo-color" />
+                <String fx:value="combo-time" />
+            </styleClass>
+        </ComboBox>
+        <Label alignment="BASELINE_LEFT" layoutX="135.0" layoutY="283.0" prefHeight="68.0" prefWidth="141.0" text="Select Year" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="22.0" />
+            </font>
+        </Label>
+        <Label fx:id="labelTime" alignment="BASELINE_LEFT" layoutX="135.0" layoutY="351.0" prefHeight="68.0" prefWidth="158.0" text="Select Month" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="22.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="cbMonth" layoutX="294.0" layoutY="366.0" onAction="#cbMonthTimeBranchSelect" prefHeight="41.0" prefWidth="184.0" promptText="Month">
+            <styleClass>
+                <String fx:value="combo-color" />
+                <String fx:value="combo-time" />
+            </styleClass>
+        </ComboBox>
+        <ComboBox fx:id="cbYear" layoutX="294.0" layoutY="297.0" onAction="#cbYearSelect" prefHeight="41.0" prefWidth="184.0" promptText="Year">
+            <styleClass>
+                <String fx:value="combo-color" />
+                <String fx:value="combo-time" />
+            </styleClass>
+        </ComboBox>
+        <Button fx:id="btnShowReport" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="407.0" layoutY="552.0" mnemonicParsing="false" onAction="#clickBtnViewReport" prefHeight="50.0" prefWidth="247.0" styleClass="btn" text="Show Report" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnBack" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="602.0" mnemonicParsing="false" onAction="#clickBtnBack" prefHeight="35.0" prefWidth="137.0" styleClass="btn-secondary" text="Back" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <Label fx:id="lblErrorInDetails" layoutX="118.0" layoutY="265.0" prefHeight="18.0" prefWidth="247.0" text="You must select wanted year/time/branch!" textFill="#bf1313" visible="false">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblErrorInReportType" layoutX="390.0" layoutY="166.0" text="You must select wanted report type!" textFill="#bf1313" visible="false">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

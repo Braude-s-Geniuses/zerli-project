@@ -28,6 +28,15 @@ public class ReportController {
         Client.clientController.getClient().handleMessageFromUI(msg,true);
     }
 
+    /**
+     * Ask from DB the branch of the manager
+     * @param userId - branch manager id
+     */
+    public void getManagersBranch(int userId) {
+        Message msg = new Message(userId, MessageFromClient.REQUEST_MANAGERS_BRANCH);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+    }
+
     public Message getResponse() {
         return response;
     }

@@ -9,7 +9,6 @@ import report.ReportType;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-
 public abstract class AbstractReportsGenerator {
 
     protected  ArrayList<String> reportSummery = new ArrayList<>();
@@ -18,7 +17,6 @@ public abstract class AbstractReportsGenerator {
     protected ByteArrayOutputStream byteArrayOutputStream;
     protected String branch;
     protected String fileName;
-
     public abstract void generate(String branch);
     public abstract void generateReportTitle() ;
     public abstract void fillColumns(ArrayList<Object> values) throws DocumentException;
@@ -27,14 +25,10 @@ public abstract class AbstractReportsGenerator {
     public abstract void endOfReport() throws DocumentException;
     public abstract void closeDocument(ReportType reportType);
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
+    /**
+     * Creates a new document and leaves it open to write
+     * @param branch
+     */
     public AbstractReportsGenerator(String branch) {
         this.branch = branch;
         this.document = new Document(PageSize.A4);
@@ -42,13 +36,16 @@ public abstract class AbstractReportsGenerator {
 
         try {
             writer = PdfWriter.getInstance(document, byteArrayOutputStream);
-            //writer = PdfWriter.getInstance(document, new FileOutputStream("TestPdf.pdf"));
             this.document.open();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Set the cells in all the reports in the same way
+     * @param cell
+     */
     protected void setCell(PdfPCell cell) {
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_CENTER);
@@ -56,13 +53,26 @@ public abstract class AbstractReportsGenerator {
         cell.setBorder(0);
     }
 
-    protected void noDataForReport(){
+    /**
+     * Report with no data gets an appropriate message
+     * @param type
+     */
+    protected void noDataForReport(String type){
+        PdfPCell cell = null;
         try {
             float col = 600f;
-            float[] columnWidth = {col};
+            float columnWidth[] = {col};
             PdfPTable table = new PdfPTable(columnWidth);
+            switch (type){
+                case "Order":
+                case "Revenue":
+                    cell = new PdfPCell(new Phrase("\n\nNo placed orders in the specified time", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 15, new BaseColor(119, 56, 90))));
+                    break;
+                case "Complaints":
+                    cell = new PdfPCell(new Phrase("\n\nNo complaints has been made in the specified time", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 15, new BaseColor(119, 56, 90))));
+                    break;
+            }
 
-            PdfPCell cell = new PdfPCell(new Phrase("\n\n\n\nNo Data to show", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 30, new BaseColor(119, 56, 90))));
             setCell(cell);
             table.addCell(cell);
             document.add(table);

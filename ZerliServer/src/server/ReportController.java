@@ -9,165 +9,132 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.*;
 public class ReportController {
-
     public static Connection connection = Server.databaseController.getConnection();
+    private static HashMap<Integer, String> quarters = new HashMap<>();
 
-    public static void getLastReports() {
-        HashMap<Integer, String> quarters = new HashMap<>();
-        {
-            {
-                quarters.put(1, "04");
-                quarters.put(4, "01");
-                quarters.put(7, "02");
-                quarters.put(10, "03");
-            }
-        }
-
-        String lastReport = (String) OrderController.getLastReport().getData();     //get last report.
-        if (lastReport == null) {                                                    //if first time.
-            LocalDate currentDate = LocalDate.now();
-            int currentYear = currentDate.getYear();
-            int currentMonth = currentDate.getMonthValue();
-
-            for (int i = 2017; i < currentYear; i++) {
-                for (int j = 1; j <= 12; j++) {
-                    if (j == 4 || j == 7 || j == 10 || j == 1) {
-                        try {
-                            generateReportQuarterly(quarters.get(j), String.valueOf(i));
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    try {
-                        if(j < 10){
-                            generateReport("0" + j, String.valueOf(i));
-                        }
-                        else
-                            generateReport(String.valueOf(j), String.valueOf(i));
-                    } catch (DocumentException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            for (int i = 1; i <= currentMonth; i++) {       //for current year.
-                if (i == 4 || i == 7 || i == 10 || i == 1) {
-                    try {
-                        generateReportQuarterly(quarters.get(i), String.valueOf(currentYear));
-                    } catch (DocumentException e) {
-                        e.printStackTrace();
-                    }
-                }
-                try {
-                    if(i < 10) {
-                        generateReport("0" + i, String.valueOf(currentYear));
-                    }
-                    else
-                        generateReport(String.valueOf(i), String.valueOf(currentYear));
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        } else {     //not first time activating.
-            String yearString = lastReport.substring(lastReport.lastIndexOf('.') - 7, lastReport.lastIndexOf('.') - 3);   //get year
-            String monthString = lastReport.substring(lastReport.lastIndexOf('.') - 2, lastReport.lastIndexOf('.'));   //get month
-            int yearFromDB = Integer.valueOf(yearString);
-            int monthFromDB = Integer.valueOf(monthString);
-            LocalDate currentDate = LocalDate.now();
-            int currentYear = currentDate.getYear();
-            int currentMonth = currentDate.getMonthValue();
-
-            for (int i = yearFromDB; i < currentYear; i++) {
-                if (i == yearFromDB) {
-                    for (int j = monthFromDB + 1; j <= 12; j++) {
-                        if (j == 4 || j == 7 || j == 10 || j == 1) {
-                            try {
-                                generateReportQuarterly(quarters.get(j), String.valueOf(i));
-                            } catch (DocumentException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        try {
-                            if( j < 10) {
-                                generateReport("0" + j, String.valueOf(i));
-                            }
-                            else
-                                generateReport(String.valueOf(j), String.valueOf(i));
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } else if (i != yearFromDB) {
-                    for (int j = 1; j <= 12; j++) {
-                        if (j == 4 || j == 7 || j == 10 || j == 1) {
-                            try {
-                                generateReportQuarterly(quarters.get(j), String.valueOf(i));
-                            } catch (DocumentException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        try {
-                            if( j < 10) {
-                                generateReport("0" + j, String.valueOf(i));
-                            }
-                            else
-                                generateReport(String.valueOf(j), String.valueOf(i));
-                        } catch (DocumentException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-            for (int i = monthFromDB + 1; i <= currentMonth; i++) {       //for current year.
-                if (i == 4 || i == 7 || i == 10 || i == 1) {
-                    try {
-                        generateReportQuarterly(quarters.get(i), String.valueOf(currentYear));
-                    } catch (DocumentException e) {
-                        e.printStackTrace();
-                    }
-                }
-                try {
-                    if(i < 10) {
-                        generateReport("0" + i, String.valueOf(currentYear));
-                    }
-                    else
-                        generateReport(String.valueOf(i), String.valueOf(currentYear));
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
+    private static void  initQuarters() {
+        quarters.put(1, "04");
+        quarters.put(4, "01");
+        quarters.put(7, "02");
+        quarters.put(10, "03");
     }
 
-    public static void generateReport(String month, String year) throws DocumentException {
+    /**
+     * Every day checks if there's new data to create report (can change to- month/quarter ...)
+     */
+    public static void checkForReportUpdates() {
+        TimerTask task = new TimerTask() {
+            public void run() {
+                ReportController.generateReportAccordingToDB();
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, 0, 86400000); // period: 1 day
+    }
+    /**
+     * Checks what reports need to be created and generate them
+     */
+    public static void generateReportAccordingToDB() {
+        initQuarters();
+        int fromYear;
+        int fromMonth;
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
+
+        String lastReport = (String) OrderController.getLastReport().getData();     //get last report.
+
+        if (lastReport == null) { //First time generating reports
+            fromYear = 2017;
+            fromMonth = 1;
+        }
+        else  //Saving last report values
+        {
+            String yearString = lastReport.substring(lastReport.lastIndexOf('.') - 7, lastReport.lastIndexOf('.') - 3);   //get year
+            String monthString = lastReport.substring(lastReport.lastIndexOf('.') - 2, lastReport.lastIndexOf('.'));   //get month
+            fromYear = Integer.valueOf(yearString);
+            fromMonth = Integer.valueOf(monthString);
+
+
+            if(fromMonth == 12) fromMonth = 1;   //Start generating from the month after the last report in DB
+            else fromMonth++;
+        }
+        //Generate report for the previous years (relevant to the first time generating report in zerli)
+        for (int i = fromYear; i < currentYear; i++) {
+            if (i == fromYear) {
+                for (int j = fromMonth; j <= 12; j++) {
+                    reportGenerator(j,i);
+                }
+            } else if (i != fromYear) {
+                for (int j = 1; j <= 12; j++) {
+                    reportGenerator(j, i);
+                }
+            }
+        }
+        // Generate report for the current year
+        for (int i = fromMonth; i < currentMonth; i++) {
+            reportGenerator(i,currentYear);
+        }
+    }
+
+    /**
+     * Generate monthly and quarterly report
+     * @param month - month of the report
+     * @param year - year of the report
+     */
+    private static void reportGenerator(int month, int year){
+        try{
+            if (month == 4 || month == 7 || month == 10) {
+                generateQuarterlyReport(quarters.get(month), String.valueOf(year));
+            } else if (month == 1 && year != 2017)
+                generateQuarterlyReport(quarters.get(month), String.valueOf(year - 1));
+
+            if (month < 10) {
+                generateMonthlyReport("0" + month, String.valueOf(year));
+            } else
+                generateMonthlyReport(String.valueOf(month), String.valueOf(year));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Generate monthly revenue, order and complaints reports for all the branches
+     * @param month - month of wanted report
+     * @param year - year of wanted report
+     * @throws DocumentException
+     */
+    public static void generateMonthlyReport(String month, String year) throws DocumentException {
         AbstractReportsGenerator reportsGenerator;
         ArrayList<String> branchList;
         branchList = (ArrayList<String>) OrderController.getAllBranches().getData();
 
         for (String branch : branchList) {
-
             //monthly order report
-            reportsGenerator = new ReportOrderMonthlyGenerator(branch, month, year, "Order");
+            reportsGenerator = new ReportMonthlyOrderGenerator(branch, month, year, "Order");
             reportsGenerator.generate(branch);
 
             //monthly revenue report
-            reportsGenerator = new ReportRevenueMonthlyGenerator(branch, month, year, "Revenue");
+            reportsGenerator = new ReportMonthlyRevenueGenerator(branch, month, year, "Revenue");
             reportsGenerator.generate(branch);
 
             //monthly complaints report
-            reportsGenerator = new ReportComplaintsMonthlyGenerator(branch, month, year, "Complaints");
+            reportsGenerator = new ReportMonthlyComplaintsGenerator(branch, month, year, "Complaints");
             reportsGenerator.generate(branch);
 
         }
     }
 
-    public static void generateReportQuarterly(String quarter, String year) throws DocumentException {
+    /**
+     * Generate quarterly revenue, order and complaints reports for all the branches
+     * @param quarter - quarter of wanted report
+     * @param year - year of wanted report
+     * @throws DocumentException
+     */
+    public static void generateQuarterlyReport(String quarter, String year) throws DocumentException {
         AbstractReportsGenerator reportsGenerator;
-        ArrayList<String> reportData = new ArrayList<>();
         ArrayList<String> branchList;
         branchList = (ArrayList<String>) OrderController.getAllBranches().getData();
 
@@ -186,17 +153,16 @@ public class ReportController {
         }
     }
 
-    public static void checkForReportUpdates() {
-        TimerTask task = new TimerTask() {
-            public void run() {
-                ReportController.getLastReports();
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(task, 0, 86400000); // period: 1 day
-    }
 
-
+    /**
+     * Asking for the information needed for order report from order table in DB.
+     * for monthly report from month = to month
+     * @param branch
+     * @param fromMonth
+     * @param toMonth
+     * @param year
+     * @return
+     */
     public static ArrayList<Object> extractOrderInfoForReport(String branch, String fromMonth, String toMonth, String year) {
         ArrayList<Object> dataForCells = new ArrayList<>();
         ResultSet rs = null;
@@ -261,9 +227,16 @@ public class ReportController {
         return dataForCells;
     }
 
+    /**
+     * Asking for the information needed for revenue report from revenue table in DB.
+     * @param branch
+     * @param month
+     * @param year
+     * @return
+     */
     public static ArrayList<Object> extractRevenueInfoForReport(String branch, String month, String year) {
         ArrayList<Object> dataForCells = new ArrayList<>();
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT order_id, order_date, discount_price FROM `order` " +
                     "WHERE " +
@@ -286,6 +259,15 @@ public class ReportController {
         return dataForCells;
     }
 
+    /**
+     * Asking for the information needed for complaints report from complaints table in DB.
+     * for monthly report from month = to month
+     * @param branch
+     * @param fromMonth
+     * @param toMonth
+     * @param year
+     * @return
+     */
     public static ArrayList<Integer> extractComplaintsInfoForReport(String branch, String fromMonth, String toMonth, String year) {
         ArrayList<Integer> complaintsData = new ArrayList<>();
 
@@ -306,9 +288,16 @@ public class ReportController {
         return complaintsData;
     }
 
+    /**
+     * Asking for numbers of complaints in specified month and year
+     * @param branch
+     * @param month
+     * @param year
+     * @return Sum of complaint that has been made in given month and year
+     */
     private static int monthData(String branch, String month, String year) {
         int complaintsCount = 0;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(distinct complaint_id) AS quantity FROM Complaint\n" +
                     " WHERE order_id IN\n" +
@@ -328,6 +317,13 @@ public class ReportController {
         return complaintsCount;
     }
 
+    /**
+     * Asking for numbers of complaints in specified month and year
+     * @param branch
+     * @param from
+     * @param to
+     * @return Sum of complaint that has been made in given week
+     */
     private static int weekData(String branch, String from, String to) {
         int complaintsCount = 0;
         ResultSet rs = null;
@@ -350,50 +346,14 @@ public class ReportController {
         return complaintsCount;
     }
 
-    public static void saveReport(ByteArrayOutputStream byteArrayOutputStream, String nameOfFile, ReportType reportType, String period, String YearOfFile) {
-        int orderId = 0;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `report` (report_id, name, report_type, file, month, quarter, year) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            preparedStatement.setInt(1, 0);
-            preparedStatement.setString(2, nameOfFile);
-            preparedStatement.setString(3, reportType.name());
-            byte[] pdfBytes = byteArrayOutputStream.toByteArray();
-            ByteArrayInputStream bais = new ByteArrayInputStream(pdfBytes);
-            preparedStatement.setBlob(4, bais);
-            if (reportType.toString().startsWith("MONTHLY")) {
-                preparedStatement.setString(5, period);
-                preparedStatement.setString(6, null);
-            } else {       //for quarter
-                preparedStatement.setString(5, null);
-                preparedStatement.setString(6, period);
-            }
-
-            preparedStatement.setString(7, YearOfFile);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Message viewReport(ArrayList<String> data) {
-        String name = data.get(0) + "_" + data.get(2) + "_" + data.get(1) + ".pdf";
-        SerialBlob blob = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT file FROM `report` WHERE name =?");
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            blob = new SerialBlob(resultSet.getBlob(1));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new Message(null, MessageFromServer.ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY);
-        }
-        return new Message(blob, MessageFromServer.ORDER_REPORT_IMPORTED_SUCCESSFULLY);
-    }
-
+    /**
+     *  Asking for the information needed for revenue quarterly report from revenue table in DB
+     * @param branch
+     * @param period
+     * @param year
+     * @return
+     */
     public static HashMap<String, Float> extractRevenueInfoForReportQuarterly(String branch, String period, String year) {
         HashMap<String, Float> revenueData = new HashMap<>();
         int from = Integer.valueOf(period.substring(0, 2));
@@ -401,7 +361,7 @@ public class ReportController {
         for (int i = from; i <= to; i++) {
             revenueData.put(String.valueOf(i), 0f);
         }
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MONTH(order_date) AS Month ,sum(discount_price) AS revenue FROM `order` WHERE \n" +
                     "branch = ? AND MONTH(order_date) BETWEEN ? AND ? AND YEAR(order_date) = ? \n" +
@@ -425,32 +385,79 @@ public class ReportController {
         return revenueData;
     }
 
-    public static HashMap<String, Float> extractOrderInfoForReportQuarterly(String branch, String period, String year) {
-        HashMap<String, Float> orderData = new HashMap<>();
-        int from = Integer.valueOf(period.substring(0, 2));
-        int to = Integer.valueOf(period.substring(3));
-        for (int i = from; i <= to; i++) {
-            orderData.put(String.valueOf(i), 0f);
-        }
-        ResultSet rs = null;
+    /**
+     * Saves given report in DB
+     * @param byteArrayOutputStream
+     * @param nameOfFile
+     * @param reportType
+     * @param period
+     * @param YearOfFile
+     */
+    public static void saveReport(ByteArrayOutputStream byteArrayOutputStream, String nameOfFile, ReportType reportType, String period, String YearOfFile) {
+        int orderId = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT MONTH(order_date) AS Month ,count(order_id) AS orders FROM `order` WHERE \n" +
-                    "branch = ? AND MONTH(order_date) BETWEEN ? AND ? AND YEAR(order_date) = ? \n" +
-                    "AND (order_status = 'NORMAL_COMPLETED' OR order_status = 'EXPRESS_COMPLETED')\n" +
-                    "GROUP BY Month ORDER BY Month;");
-            preparedStatement.setString(1, branch);
-            preparedStatement.setString(2, period.substring(0, 2));
-            preparedStatement.setString(3, period.substring(3));
-            preparedStatement.setString(4, year);
-            rs = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `report` (report_id, name, report_type, file, month, quarter, year) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            while (rs.next()) {
-                orderData.put(rs.getString("Month"), rs.getFloat("orders"));
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, nameOfFile);
+            preparedStatement.setString(3, reportType.name());
+            byte[] pdfBytes = byteArrayOutputStream.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(pdfBytes);
+            preparedStatement.setBlob(4, bais);
+            if (reportType.toString().substring(0, 7).equals("MONTHLY")) {
+                preparedStatement.setString(5, period);
+                preparedStatement.setString(6, null);
+            } else {       //for quarter
+                preparedStatement.setString(5, null);
+                preparedStatement.setString(6, period);
             }
+
+            preparedStatement.setString(7, YearOfFile);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Ask for specific report from DB
+     * @param data report type, date and branch for show
+     * @return the wanted report
+     */
+    public static Message viewReport(ArrayList<String> data) {
+        String name = data.get(0) + "_" + data.get(2) + "_" + data.get(1) + ".pdf";
+        SerialBlob blob;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT file FROM `report` WHERE name =?");
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            blob = new SerialBlob(resultSet.getBlob(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY);
+        }
+        return new Message(blob, MessageFromServer.ORDER_REPORT_IMPORTED_SUCCESSFULLY);
+    }
+
+    /**
+     * Ask for the branch that the manager id is managing
+     * @param branchMangerId - id of the manager of the branch
+     * @return - branch name
+     */
+    public static Message getManagersBranch(Integer branchMangerId) {
+        String branch;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT branch FROM `branch` WHERE manager_id =?");
+            preparedStatement.setInt(1, branchMangerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            branch = resultSet.getString("branch");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return orderData;
+        return new Message(branch, MessageFromServer.BRANCH_MANAGERS_BRANCH_SUCCESS);
     }
 }

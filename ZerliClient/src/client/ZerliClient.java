@@ -160,6 +160,7 @@ public class ZerliClient extends AbstractClient {
                 break;
             case ORDER_REPORT_IMPORTED_SUCCESSFULLY:
             case ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY:
+            case BRANCH_MANAGERS_BRANCH_SUCCESS:
                 Client.reportController.setResponse((Message) msg);
                 break;
             case IMPORT_DELIVERY_TABLE_NOT_SUCCEED:

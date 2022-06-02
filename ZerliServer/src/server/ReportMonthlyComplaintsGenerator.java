@@ -22,35 +22,26 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class ReportComplaintsMonthlyGenerator extends AbstractMonthlyReportGenerator {
+public class ReportMonthlyComplaintsGenerator extends AbstractMonthlyReportGenerator {
 
-    public ReportComplaintsMonthlyGenerator(String branch, String month, String year, String type) {
+    public ReportMonthlyComplaintsGenerator(String branch, String month, String year, String type) {
         super(branch, month,year, type);
     }
-    public ArrayList<String> getReportSummery() {
-        return reportSummery;
-    }
-
-    public void setReportSummery(ArrayList<String> reportSummery) {
-        this.reportSummery = reportSummery;
-    }
-
-
-    @Override
-    public void fillColumns(ArrayList<Object> values) throws DocumentException {
-    }
-
+    /**
+     * Generate monthly complaints report, filling it and saves it in DB
+     * @param branch
+     */
     @Override
     public void generate(String branch) {
-        ArrayList<Integer> complaintsReportDataForDB = new ArrayList<>(); //
+        ArrayList<Integer> complaintsReportDataFromDB;
         try {
             generateReportTitle();
-            complaintsReportDataForDB = ReportController.extractComplaintsInfoForReport(branch,month,month ,year);
-            if (complaintsReportDataForDB.isEmpty()) {
-                noDataForReport();
+            complaintsReportDataFromDB = ReportController.extractComplaintsInfoForReport(branch,month,month ,year);
+            if (isDataEmpty(complaintsReportDataFromDB)) {
+                noDataForReport(title);
                 closeDocument(ReportType.MONTHLY_COMPLAINTS_REPORT);
             } else {
-                addHistogram(complaintsReportDataForDB, 45f, 220f);
+                addHistogram(complaintsReportDataFromDB, 45f, 220f);
                 endOfReport();
                 closeDocument(ReportType.MONTHLY_COMPLAINTS_REPORT);
             }
@@ -59,6 +50,25 @@ public class ReportComplaintsMonthlyGenerator extends AbstractMonthlyReportGener
         }
 
     }
+    /**
+     * Check if there's no data to fill in the report
+     * @param ordersReportDataFromDB
+     * @return true - if empty, false - if not
+     */
+    private boolean isDataEmpty(ArrayList<Integer> ordersReportDataFromDB) {
+        int sum = 0;
+        for (int i : ordersReportDataFromDB) {
+            sum += i;
+        }
+        return sum == 0 ? true : false;
+    }
+
+    /**
+     * Adds histogram with data given from DB
+     * @param complaintsData
+     * @param x
+     * @param y
+     */
     public void addHistogram(Object complaintsData, float x, float y) {
         ArrayList<Integer> complaintsAmount = (ArrayList<Integer>) complaintsData;
         JFreeChart chart = generateBarChart(complaintsAmount);
@@ -72,7 +82,11 @@ public class ReportComplaintsMonthlyGenerator extends AbstractMonthlyReportGener
 
     }
 
-
+    /**
+     * Filling the bar chart in the data given
+     * @param complaintsData
+     * @return
+     */
     public JFreeChart generateBarChart(ArrayList<Integer> complaintsData) {
 
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
@@ -101,10 +115,15 @@ public class ReportComplaintsMonthlyGenerator extends AbstractMonthlyReportGener
 
         return chart;
     }
+
+    /**
+     * Writes summery lines to the report
+     * @throws DocumentException
+     */
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float[] columnWidth = {colSize};
+        float columnWidth[] = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
@@ -119,4 +138,6 @@ public class ReportComplaintsMonthlyGenerator extends AbstractMonthlyReportGener
         table.addCell(cell2);
         document.add(table);
     }
+    @Override
+    public void fillColumns(ArrayList<Object> values) throws DocumentException {}
 }

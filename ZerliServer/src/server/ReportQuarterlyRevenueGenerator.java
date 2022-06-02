@@ -30,6 +30,10 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
         super(branch, quarter, year, type);
     }
 
+    /**
+     * Generate quarterly revenue report, fill it and saves it in DB
+     * @param branch
+     */
     @Override
     public void generate(String branch) {
         try{
@@ -37,9 +41,9 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
             HashMap<String,Float> revenueReportDataFromDB = ReportController.extractRevenueInfoForReportQuarterly(branch,quarters.get(quarter),year);
 
             if (isDataEmpty(revenueReportDataFromDB)) {
-                noDataForReport();
+                noDataForReport(title);
             } else {
-                addHistogram(revenueReportDataFromDB,45f,230f);
+                addHistogram(revenueReportDataFromDB,45f,220f);
                 endOfReport();
             }
 
@@ -49,22 +53,25 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
         }
     }
 
-    private boolean isDataEmpty(HashMap<String, Float> ordersReportDataFromDB) {
+    /**
+     * Check if there's no data to fill in the report
+     * @param revenueReportDataFromDB
+     * @return true - if empty, false - if not
+     */
+    private boolean isDataEmpty(HashMap<String, Float> revenueReportDataFromDB) {
         int sum = 0;
-        for (Map.Entry<String, Float> entry : ordersReportDataFromDB.entrySet()) {
+        for (Map.Entry<String, Float> entry : revenueReportDataFromDB.entrySet()) {
             sum += entry.getValue();
         }
-        return sum == 0;
+        return sum == 0 ? true : false;
     }
 
-    @Override
-    public void fillColumns(ArrayList<Object> values) throws DocumentException {
-
-    }
-    @Override
-    public void generateColumns(ArrayList<String> columns) throws DocumentException {
-    }
-
+    /**
+     * Adds histogram with data given from DB
+     * @param revenueData
+     * @param x
+     * @param y
+     */
     @Override
     public void addHistogram(Object revenueData, float x, float y) {
         HashMap<String,Float> revenueDataForHistogram = (HashMap<String, Float>) revenueData;
@@ -80,6 +87,11 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
 
     }
 
+    /**
+     * Filling the bar chart in the data given
+     * @param revenueDataForHistogram
+     * @return
+     */
     public JFreeChart generateBarChart(HashMap<String,Float> revenueDataForHistogram) {
 
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
@@ -110,13 +122,18 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
 
         return chart;
     }
+
+    /**
+     * Writes summery lines to the report
+     * @throws DocumentException
+     */
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float[] columnWidth = {colSize};
+        float columnWidth[] = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
-        PdfPCell skipTheHistogramCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+        PdfPCell skipTheHistogramCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
         PdfPCell totalRevenueCell = new PdfPCell(new Phrase("Total revenue: " + reportSummery.get(0), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         PdfPCell bestMonthCell = new PdfPCell(new Phrase("The most profitable month: " + reportSummery.get(2) + " with " + reportSummery.get(1) +" \u20AA", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         setCell(totalRevenueCell);
@@ -129,5 +146,10 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
 
         document.add(table);
     }
+
+    @Override
+    public void fillColumns(ArrayList<Object> values) throws DocumentException {}
+    @Override
+    public void generateColumns(ArrayList<String> columns) throws DocumentException {}
 
 }

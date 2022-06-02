@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import ocsf.server.ConnectionToClient;
+import server.ExternalSystemController;
 import server.Server;
 import user.User;
 
@@ -66,10 +67,21 @@ public class ServerUIController implements Initializable {
 
     @FXML
     private Label lblServerConsole;
+    @FXML
+    private Button btnImport;
+
+    @FXML
+    void clickBtnImport(ActionEvent event) {
+        printToServerConsoleUI(ExternalSystemController.connect());
+        ExternalSystemController.importUsers();
+        btnImport.setDisable(true);
+        printToServerConsoleUI("Import data from external system successfully");
+    }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //  tableClientsBox.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         serverConsoleBox = txtServerConsole;
         tableClientsBox = tableClients;
         columnIP.setCellValueFactory(new PropertyValueFactory<ClientInfo, String>("ipAddress"));
@@ -105,6 +117,7 @@ public class ServerUIController implements Initializable {
         fldDbUser.setDisable(true);
         fldDbPassword.setDisable(true);
         tableClients.setDisable(false);
+        btnImport.setDisable(false);
     }
 
     public void clickBtnStop(ActionEvent event) throws Exception {

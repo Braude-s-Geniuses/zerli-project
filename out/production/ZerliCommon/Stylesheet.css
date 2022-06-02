@@ -343,3 +343,10 @@
     -fx-stroke: firebrick;
     -fx-stroke-width: 2px;
 }
+
+.import-btn {
+	-fx-background-color: #e48520;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: transparent;
+	-fx-effect:  dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5)
+}

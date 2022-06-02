@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -33,8 +32,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class ReportPageCEOController implements Initializable{
-    ObservableList<String> monthPicker = FXCollections.observableArrayList("01", "02", "03", "04" , "05", "06", "07", "08", "09", "10", "11", "12");
-    ObservableList<String> quarterPicker = FXCollections.observableArrayList("01", "02", "03", "04");
+    ObservableList<String> monthList = FXCollections.observableArrayList("01", "02", "03", "04" , "05", "06", "07", "08", "09", "10", "11", "12");
+    ObservableList<String> quarterList = FXCollections.observableArrayList("01", "02", "03", "04");
     @FXML
     private Label lblErrorInDetails;
 
@@ -68,37 +67,37 @@ public class ReportPageCEOController implements Initializable{
     private Button btnShowReport;
 
     @FXML
-    private CheckBox checkBoxCompare;
+    private CheckBox cbCompare;
 
     @FXML
-    private ComboBox<String> comboBoxBranch;
+    private ComboBox<String> cbBranch;
 
     @FXML
-    private ComboBox<String> comboBoxBranchForCompare;
+    private ComboBox<String> cbBranchForCompare;
 
     @FXML
-    private ComboBox<String> comboBoxReportType;
+    private ComboBox<String> cbReportType;
 
     @FXML
-    private ComboBox<String> comboBoxTime;
+    private ComboBox<String> cbTime;
 
     @FXML
-    private ComboBox<String> comboBoxTimeForCompare;
+    private ComboBox<String> cbTimeForCompare;
 
     @FXML
-    private ComboBox<String> comboBoxYear;
+    private ComboBox<String> cbYear;
 
     @FXML
-    private ComboBox<String> comboBoxYearForCompare;
+    private ComboBox<String> cbYearCompare;
 
     @FXML
-    private Label labelBranchForCompare;
+    private Label labelBranchCompare;
 
     @FXML
-    private Label labelTimeForCompare;
+    private Label labelTimeCompare;
 
     @FXML
-    private Label labelYearForCompare;
+    private Label labelYearCompare;
 
     @FXML
     void clickBtnBack(ActionEvent event) {
@@ -109,19 +108,28 @@ public class ReportPageCEOController implements Initializable{
         lblErrorInReportType.setVisible(false);
     }
 
+    /**
+     * When person starts fill the missing data, Error label disappears
+     * @param event
+     */
     @FXML
     void cbTimeBranchCompareSelect(ActionEvent event) {
-        if(!comboBoxBranchForCompare.getSelectionModel().isEmpty() && !comboBoxTimeForCompare.getSelectionModel().isEmpty() && !comboBoxYearForCompare.getSelectionModel().isEmpty()){
+        if(!cbBranchForCompare.getSelectionModel().isEmpty() && !cbTimeForCompare.getSelectionModel().isEmpty() && !cbYearCompare.getSelectionModel().isEmpty()){
             lblErrorInDetailsCompare.setVisible(false);
         }
     }
 
+    /**
+     * When person starts fill the missing data, Error label disappears
+     * @param event
+     */
     @FXML
     void cbTimeBranchSelect(ActionEvent event) {
-        if(!comboBoxBranch.getSelectionModel().isEmpty()  && !comboBoxTime.getSelectionModel().isEmpty()  && !comboBoxYear.getSelectionModel().isEmpty() ){
+        if(!cbBranch.getSelectionModel().isEmpty()  && !cbTime.getSelectionModel().isEmpty()  && !cbYear.getSelectionModel().isEmpty() ){
             lblErrorInDetails.setVisible(false);
         }
     }
+
     @FXML
     void cbYearSelect(ActionEvent event) {
         cbTimeBranchSelect(new ActionEvent());
@@ -137,127 +145,184 @@ public class ReportPageCEOController implements Initializable{
         limitCbTimeQuarterly(true);
     }
 
+    /**
+     * Limits the month user can choose in current year (only the months that have passed)
+     */
     void limitCbTimeMonthly(){
-
-        if(String.valueOf(LocalDate.now().getYear()).equals(comboBoxYear.getValue())){
+        if(String.valueOf(LocalDate.now().getYear()).equals(cbYear.getValue())){
             ObservableList<String> month = FXCollections.observableArrayList();
             for (int i = 1; i < LocalDate.now().getMonthValue() ; i++) {
-                month.addAll(monthPicker.get(i-1));
+                month.addAll(monthList.get(i-1));
             }
-            comboBoxTime.getItems().clear();
-            comboBoxTime.getItems().addAll(month);
+            cbTime.getItems().clear();
+            cbTime.getItems().addAll(month);
         }
         else {
-            comboBoxTime.getItems().clear();
-            comboBoxTime.getItems().addAll(monthPicker);
+            String month = null;
+            if(cbTime.getValue() != null) {
+                month = cbTime.getValue();
+                cbTime.getItems().clear();
+                cbTime.getItems().addAll(monthList);
+                cbTime.setValue(month);
+            }else {
+                cbTime.getItems().clear();
+                cbTime.getItems().addAll(monthList);
+            }
         }
     }
+
+    /**
+     * Limits the quarter user can choose in current year (only the quarters that have passed)
+     * @param compare
+     */
     void limitCbTimeQuarterly(boolean compare){
         if(compare){
-            if(String.valueOf(LocalDate.now().getYear()).equals(comboBoxYearForCompare.getValue())){
+            if(String.valueOf(LocalDate.now().getYear()).equals(cbYearCompare.getValue())){
                 ObservableList<String> quarter = FXCollections.observableArrayList();
-                for (int i = 0; i < (LocalDate.now().getMonthValue()/3) ; i++) {
-                    quarter.addAll(quarterPicker.get(i));
+                for (int i = 0; i < ((LocalDate.now().getMonthValue()-1)/3) ; i++) {
+                    quarter.addAll(quarterList.get(i));
                 }
-                comboBoxTimeForCompare.getItems().clear();
-                comboBoxTimeForCompare.getItems().addAll(quarter);
+                cbTimeForCompare.getItems().clear();
+                cbTimeForCompare.getItems().addAll(quarter);
             }else{
-                comboBoxTimeForCompare.getItems().clear();
-                comboBoxTimeForCompare.getItems().addAll(quarterPicker);
+                String quarter;
+                if(cbTimeForCompare.getValue() != null) {
+                    quarter = cbTimeForCompare.getValue();
+                    cbTimeForCompare.getItems().clear();
+                    cbTimeForCompare.getItems().addAll(quarterList);
+                    cbTimeForCompare.setValue(quarter);
+                }else {
+                    cbTimeForCompare.getItems().clear();
+                    cbTimeForCompare.getItems().addAll(quarterList);
+                }
             }
         }else{
-            if(String.valueOf(LocalDate.now().getYear()).equals(comboBoxYear.getValue())){
+            if(String.valueOf(LocalDate.now().getYear()).equals(cbYear.getValue())){
                 ObservableList<String> quarter = FXCollections.observableArrayList();
-                for (int i = 0; i < (LocalDate.now().getMonthValue()/3) ; i++) {
-                    quarter.addAll(quarterPicker.get(i));
+                for (int i = 0; i < ((LocalDate.now().getMonthValue()-1)/3) ; i++) {
+                    quarter.addAll(quarterList.get(i));
                 }
-                comboBoxTime.getItems().clear();
-                comboBoxTime.getItems().addAll(quarter);
+                cbTime.getItems().clear();
+                cbTime.getItems().addAll(quarter);
             }
             else{
-                comboBoxTime.getItems().clear();
-                comboBoxTime.getItems().addAll(quarterPicker);
+                String quarter;
+                if(cbTime.getValue() != null) {
+                    quarter = cbTime.getValue();
+                    cbTime.getItems().clear();
+                    cbTime.getItems().addAll(quarterList);
+                    cbTime.setValue(quarter);
+                }else {
+                    cbTime.getItems().clear();
+                    cbTime.getItems().addAll(quarterList);
+                }
             }
         }
 
     }
+
+    /**
+     * Passes to the part in page that relates to month reports, initialized the month combo box
+     * @param event
+     */
     @FXML
     void clickBtnMonth(ActionEvent event) {
         btnMonth.setSelected(true);
         btnQuarter.setSelected(false);
         labelTime.setText("Select Month");
-        comboBoxTime.getItems().clear();
-        comboBoxTime.getItems().addAll(monthPicker);
-        comboBoxTime.setPromptText("month");
+        cbTime.getItems().clear();
+        cbTime.getItems().addAll(monthList);
+        cbTime.setPromptText("month");
         setCompareInvisible(false);
-        checkBoxCompare.setSelected(false);
-        if(comboBoxYear.getValue() != null && comboBoxYear.getValue().equals(String.valueOf(LocalDate.now().getYear())))
+        cbCompare.setSelected(false);
+        if(cbYear.getValue() != null && cbYear.getValue().equals(String.valueOf(LocalDate.now().getYear())))
             limitCbTimeMonthly();
 
     }
 
+    /**
+     * The compare button is not selected so the user can choose to see report for compare
+     * @param toVisible
+     */
     private void setCompareInvisible(boolean toVisible) {
-        checkBoxCompare.setVisible(toVisible);
-        labelYearForCompare.setVisible(toVisible);
-        labelTimeForCompare.setVisible(toVisible);
-        comboBoxTimeForCompare.setVisible(toVisible);
-        comboBoxYearForCompare.setVisible(toVisible);
-        labelBranchForCompare.setVisible(toVisible);
-        comboBoxBranchForCompare.setVisible(toVisible);
+        cbCompare.setVisible(toVisible);
+        labelYearCompare.setVisible(toVisible);
+        labelTimeCompare.setVisible(toVisible);
+        cbTimeForCompare.setVisible(toVisible);
+        cbYearCompare.setVisible(toVisible);
+        labelBranchCompare.setVisible(toVisible);
+        cbBranchForCompare.setVisible(toVisible);
     }
 
+    /**
+     * Passes to the part in page that relates to quarter reports, initialized the quarter combo box
+     * @param event
+     */
     @FXML
     void clickBtnQuarter(ActionEvent event) {
         btnQuarter.setSelected(true);
         setCompareInvisible(true);
+        setCompare(true);
         btnMonth.setSelected(false);
         labelTime.setText("Select Quarter ");
-        comboBoxTime.getItems().clear();
-        comboBoxTime.getItems().addAll(quarterPicker);
-        comboBoxTime.setPromptText("Quarter");
-        if(comboBoxYear.getValue() != null && comboBoxYear.getValue().equals(String.valueOf(LocalDate.now().getYear()))) {
+        cbTime.getItems().clear();
+        cbTime.getItems().addAll(quarterList);
+        cbTime.setPromptText("Quarter");
+        if(cbYear.getValue() != null && cbYear.getValue().equals(String.valueOf(LocalDate.now().getYear()))) {
             limitCbTimeQuarterly(false);
         }
-        if(comboBoxYearForCompare.getValue() != null && comboBoxYear.getValue().equals(String.valueOf(LocalDate.now().getYear()))) {
+        if(cbYearCompare.getValue() != null && cbYear.getValue().equals(String.valueOf(LocalDate.now().getYear()))) {
             limitCbTimeQuarterly(true);
         }
     }
 
+    /**
+     * Enables the user to choose report for compare
+     * @param event
+     */
     @FXML
     void clickCheckBoxCompare(ActionEvent event) {
-        setCompare(!checkBoxCompare.isSelected());
+        if (cbCompare.isSelected()){
+            setCompare(false);
+        }else {
+            setCompare(true);
+        }
     }
 
+    /**
+     * Hides/ shows the fields of compare reports
+     * @param toDisable
+     */
     private void setCompare(boolean toDisable) {
-        labelYearForCompare.setDisable(toDisable);
-        labelTimeForCompare.setDisable(toDisable);
-        comboBoxTimeForCompare.setDisable(toDisable);
-        comboBoxYearForCompare.setDisable(toDisable);
-        labelBranchForCompare.setDisable(toDisable);
-        comboBoxBranchForCompare.setDisable(toDisable);
+        labelYearCompare.setDisable(toDisable);
+        labelTimeCompare.setDisable(toDisable);
+        cbTimeForCompare.setDisable(toDisable);
+        cbYearCompare.setDisable(toDisable);
+        labelBranchCompare.setDisable(toDisable);
+        cbBranchForCompare.setDisable(toDisable);
     }
 
-    @FXML
-    void clickBtnMonthlyReports(ActionEvent event) {
-
-    }
-
+    /**
+     * Asking from controller the wanted report and prepares it for showing to the user
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void clickBtnViewReport(ActionEvent event) throws IOException {
         if(validData()) {
-            if(!checkBoxCompare.isSelected()) {
+            if(!cbCompare.isSelected()) {
                 ArrayList<String> data = new ArrayList<>();
                 String timePeriod;
-                data.add(comboBoxReportType.getValue().substring(0, comboBoxReportType.getValue().length() - 7));
+                data.add(cbReportType.getValue().substring(0, cbReportType.getValue().length() - 7));
                 if (btnQuarter.isSelected()) {
-                    timePeriod = comboBoxYear.getValue() + "-" + "quarter_" + comboBoxTime.getValue();
+                    timePeriod = cbYear.getValue() + "-" + "quarter_" + cbTime.getValue();
                 } else {
-                    timePeriod = comboBoxYear.getValue() + "-" + comboBoxTime.getValue();
+                    timePeriod = cbYear.getValue() + "-" + cbTime.getValue();
                 }
                 data.add(timePeriod);
-                data.add(comboBoxBranch.getValue());
+                data.add(cbBranch.getValue());
 
-                prepareReport(data);
+                ReportPageController.reportData.addAll(data);
 
                 Stage primaryStage = new Stage();
                 Parent root = FXMLLoader.load(getClass().getResource("ReportPage.fxml"));
@@ -270,22 +335,18 @@ public class ReportPageCEOController implements Initializable{
             }else{
                 ArrayList<String> data = new ArrayList<>();
                 String timePeriod;
-                data.add(comboBoxReportType.getValue().substring(0, comboBoxReportType.getValue().length() - 7));
-                timePeriod = comboBoxYear.getValue() + "-" + "quarter_" + comboBoxTime.getValue();
+                data.add(cbReportType.getValue().substring(0, cbReportType.getValue().length() - 7));
+                timePeriod = cbYear.getValue() + "-" + "quarter_" + cbTime.getValue();
                 data.add(timePeriod);
-                data.add(comboBoxBranch.getValue());
-                prepareReport(data);
-                ReportCompareQuarterlyPageController.imageViewsFromFirstReport = (ArrayList<ImageView>) ReportPageController.imageViews.clone();
-                ReportPageController.imageViews.clear();
+                data.add(cbBranch.getValue());
+                ReportCompareQuarterlyPageController.firstReportData.addAll(data);
+
                 data.clear();
-                //Prepare the second report.
-                data.add(comboBoxReportType.getValue().substring(0, comboBoxReportType.getValue().length() - 7));
-                timePeriod = comboBoxYearForCompare.getValue() + "-" + "quarter_" + comboBoxTimeForCompare.getValue();
+                data.add(cbReportType.getValue().substring(0, cbReportType.getValue().length() - 7));
+                timePeriod = cbYearCompare.getValue() + "-" + "quarter_" + cbTimeForCompare.getValue();
                 data.add(timePeriod);
-                data.add(comboBoxBranchForCompare.getValue());
-                prepareReport(data);
-                ReportCompareQuarterlyPageController.imageViewsFromSecondReport = (ArrayList<ImageView>) ReportPageController.imageViews.clone();
-                ReportPageController.imageViews.clear();
+                data.add(cbBranchForCompare.getValue());
+                ReportCompareQuarterlyPageController.secondReportData.addAll(data);
                 data.clear();
 
                 Stage primaryStage = new Stage();
@@ -301,89 +362,41 @@ public class ReportPageCEOController implements Initializable{
         }
     }
 
-    public void prepareReport(ArrayList<String> reportData) {
-        Message message;
-        File pdfFile = null;
-        FileChooser fileChooser = new FileChooser();
-        ImageView iv = new ImageView();
-
-        Client.reportController.viewReport(reportData);
-        message = Client.reportController.getResponse();
-        SerialBlob blob = (SerialBlob) message.getData();
-        if (message.getAnswer() == MessageFromServer.ORDER_REPORT_IMPORTED_NOT_SUCCESSFULLY) {
-            //
-        } else {
-            try {
-                pdfFile = File.createTempFile("zerli", "report.pdf");
-                pdfFile.deleteOnExit();
-                FileOutputStream fileOutputStream = new FileOutputStream(pdfFile);
-                byte[] b = blob.getBytes(1, (int) blob.length());
-                fileOutputStream.write(b);
-                fileOutputStream.close();
-
-                PDDocument document = PDDocument.load(pdfFile.getAbsoluteFile());
-                ArrayList<PDPage> pdPages = (ArrayList<PDPage>) document.getDocumentCatalog().getAllPages();
-                int page = 0;
-                for (PDPage pdPage : pdPages)
-                {
-
-                    ++page;
-                    BufferedImage bim = pdPage.convertToImage(BufferedImage.TYPE_INT_RGB, 200);
-                    Image image = SwingFXUtils.toFXImage(bim, null );
-
-                    iv.setImage(image);
-                    ReportPageController.imageViews.add(iv);
-                    PDResources resources = pdPage.getResources();
-                    Map images = resources.getImages();
-                    if( images != null )
-                    {
-                        Iterator imageIter = images.keySet().iterator();
-                        while( imageIter.hasNext() )
-                        {
-                            String key = (String)imageIter.next();
-                            PDXObjectImage image2 = (PDXObjectImage)images.get( key );
-                            String name = "zerli.jpg";
-                            image2.write2file( name );
-                            iv.setImage(image);
-                            ReportPageController.imageViews.add(iv);
-                        }
-                    }
-
-                    //iv.setFitHeight(600);
-                    //iv.setFitWidth(750);
-                    //vboxReport.getChildren().add(iv);
-                }
-                document.close();
 
 
-            } catch (IOException | SerialException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-    }
-
+    /**
+     * checks if all data has been filled by the user, if not shows an Error label
+     * @return true if user filled everything, false if not
+     */
     private boolean validData() {
         int flag = 0;
-        if(comboBoxBranch.getSelectionModel().isEmpty()  || comboBoxTime.getSelectionModel().isEmpty()  || comboBoxYear.getSelectionModel().isEmpty() ){
+        if(cbBranch.getSelectionModel().isEmpty()  || cbTime.getSelectionModel().isEmpty()  || cbYear.getSelectionModel().isEmpty() ){
             lblErrorInDetails.setVisible(true);
             flag++;
         }
-        if(checkBoxCompare.isSelected()) {
-            if ((comboBoxBranchForCompare.getSelectionModel().isEmpty() || comboBoxTimeForCompare.getSelectionModel().isEmpty() || comboBoxYearForCompare.getSelectionModel().isEmpty())) {
+        if(cbCompare.isSelected()) {
+            if ((cbBranchForCompare.getSelectionModel().isEmpty() || cbTimeForCompare.getSelectionModel().isEmpty() || cbYearCompare.getSelectionModel().isEmpty())) {
                 lblErrorInDetailsCompare.setVisible(true);
                 flag++;
             }
         }
-        if(comboBoxReportType.getSelectionModel().isEmpty() ){
+        if(cbReportType.getSelectionModel().isEmpty() ){
             lblErrorInReportType.setVisible(true);
             flag++;
         }
-        return flag <= 0;
+        return flag > 0 ? false : true;
     }
 
-
+    /**
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -392,7 +405,7 @@ public class ReportPageCEOController implements Initializable{
         reportList.add("Revenue report");
         reportList.add("Complaints report");
         ObservableList<String> reports = FXCollections.observableArrayList(reportList);
-        comboBoxReportType.getItems().addAll(reports);
+        cbReportType.getItems().addAll(reports);
 
         List<String> yearList = new ArrayList<String>();
         for (int i = 2017; i <= LocalDate.now().getYear(); i++) {
@@ -400,24 +413,19 @@ public class ReportPageCEOController implements Initializable{
         }
 
         ObservableList<String> years = FXCollections.observableArrayList(yearList);
-        comboBoxYear.getItems().addAll(years);
-        comboBoxYearForCompare.getItems().addAll(years);
+        cbYear.getItems().addAll(years);
+        cbYearCompare.getItems().addAll(years);
 
         btnQuarter.setSelected(true);   //Quarter option as default
         btnQuarter.fire();
 
-        comboBoxTime.getItems().addAll(quarterPicker);
-        comboBoxTime.setPromptText("Quarter");
-        comboBoxTimeForCompare.getItems().addAll(quarterPicker);
-        comboBoxTimeForCompare.setPromptText("Quarter");
+        cbTime.setPromptText("Quarter");
+        cbTimeForCompare.getItems().addAll(quarterList);
+        cbTimeForCompare.setPromptText("Quarter");
 
         Client.orderController.getBranches();   //set branches.
         ObservableList<String> branches = FXCollections.observableArrayList((ArrayList<String>)Client.orderController.getResponse().getData());
-        comboBoxBranch.getItems().addAll(branches);
-        comboBoxBranchForCompare.getItems().addAll(branches);
-
-
-
+        cbBranch.getItems().addAll(branches);
+        cbBranchForCompare.getItems().addAll(branches);
     }
-
 }

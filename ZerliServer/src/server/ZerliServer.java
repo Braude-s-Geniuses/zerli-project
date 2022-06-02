@@ -182,6 +182,9 @@ public class ZerliServer extends AbstractServer {
             case VIEW_COMPLAINTS_REPORT:
                 messageFromServer = ReportController.viewReport((ArrayList<String>) messageFromClient.getData());
                 break;
+            case REQUEST_MANAGERS_BRANCH:
+                messageFromServer = ReportController.getManagersBranch((Integer)messageFromClient.getData());
+                break;
             case REQUEST_DELIVERIES_TABLE:
                 messageFromServer = DeliveryController.getPreDeliveredOrdersFromServer();
                 break;
