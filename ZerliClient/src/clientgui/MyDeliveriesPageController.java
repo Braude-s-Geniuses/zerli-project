@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 import order.Order;
 
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -25,6 +27,12 @@ public class MyDeliveriesPageController implements Initializable {
     @FXML
     private ListView<Object> deliveryList;
 
+    /**
+     * This function initializes the page and shows
+     * all the orders that are ready to deliver is a list
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Client.deliveryController.requestDeliveries();
@@ -33,7 +41,7 @@ public class MyDeliveriesPageController implements Initializable {
         if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
             for (Order order : result) {
-                Button button = new Button("Confirm Delivered");
+                Button button = new Button("Accept delivery");
                 button.setPrefWidth(160);
                 button.setAlignment(Pos.CENTER);
                 button.getStyleClass().add("btn");
@@ -75,6 +83,10 @@ public class MyDeliveriesPageController implements Initializable {
         }
     }
 
+    /**
+     * This function sets the font for each label.
+     * @param lbl Import label
+     */
     private void setLabels(Label lbl){
         lbl.setFont(Font.font ("Calibri", 16));
         lbl.setWrapText(true);
@@ -82,16 +94,46 @@ public class MyDeliveriesPageController implements Initializable {
 
     }
 
+    /**
+     * This function sets the order as delivered and refund the customer if needed.
+     * @param button button that was pushed in gui.
+     * @param order order to deliver.
+     */
     private void setActionForButton(Button button, Order order) {
         button.setOnAction(e->{
             DeliveryController.order = order;
-            Client.deliveryController.makeDelivery();//
+            Client.deliveryController.makeDelivery();
             MessageFromServer result = Client.deliveryController.getResponse().getAnswer();
             if(result == MessageFromServer.DELIVERY_UPDATE_SUCCESS){
                 button.setDisable(true);
                 button.setText("Send");
+                if(checkForRefund(DeliveryController.order)){
+                    Client.deliveryController.makeRefund();
+                }
             }
         });
+    }
+
+    /**
+     * This function compares the delivery-time to the order-time and refunds
+     * the customer if delivery time is more than three hours
+     * @param order Order under check.
+     * @return
+     */
+    private boolean checkForRefund(Order order) {
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        Timestamp orderTime = order.getOrderDate();
+
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        if(fmt.format(currentTime).equals(fmt.format(orderTime))){
+            long timeDiff = currentTime.getTime() - orderTime.getTime();
+            if (timeDiff / (60 * 60 * 1000) >= 3){
+                return true;
+            }
+        }else {
+            return true;    //if a day or more has passed.
+        }
+        return false;
     }
 
 }

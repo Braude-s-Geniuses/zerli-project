@@ -10,10 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import order.Order;
 import order.OrderProduct;
 import order.OrderStatus;
 import user.UserType;
+import util.Alert;
 
 import java.net.URL;
 import java.sql.Timestamp;
@@ -43,11 +45,10 @@ public class OrderDetailsPageController implements Initializable {
      */
     @FXML
     void clickBtnBack(ActionEvent event) {
-        if(Client.userController.getLoggedInUser().getUserType().equals(UserType.CUSTOMER)) {
+        if(Client.userController.getLoggedInUser().getUserType().equals(UserType.CUSTOMER))
             MainDashboardController.setContentFromFXML("MyOrdersPage.fxml");
-        } else {
+        else
             MainDashboardController.setContentFromFXML("OrderManagerPage.fxml");
-        }
     }
 
     @Override
@@ -119,6 +120,7 @@ public class OrderDetailsPageController implements Initializable {
             order.setCancelTime(currTime);
             Client.orderController.setCancelTime(order);
             Client.orderController.setStatusOrder(order);
+            MainDashboardController.createAlert("Order "+ order.getOrderId() + " is awaiting cancellation confirmation", Alert.SUCCESS, Duration.seconds(3), 135, 100);
         }
         else{
             if(hours > 3){
@@ -140,11 +142,14 @@ public class OrderDetailsPageController implements Initializable {
     void clickBtnConfirm(ActionEvent event) {
         if(order.getOrderStatus() == OrderStatus.NORMAL_PENDING) {
             order.setOrderStatus("NORMAL_CONFIRMED");
+            MainDashboardController.createAlert("Order "+ order.getOrderId() + " was confirmed", Alert.SUCCESS, Duration.seconds(3), 135, 100);
         } else if (order.getOrderStatus() == OrderStatus.EXPRESS_PENDING) {
             order.setOrderStatus("EXPRESS_CONFIRMED");
+            MainDashboardController.createAlert("Express order "+ order.getOrderId() + " was confirmed", Alert.SUCCESS, Duration.seconds(3), 135, 100);
         } else {
             order.setOrderStatus("CANCEL_CONFIRMED");
             clickBtnCancel(event);
+            MainDashboardController.createAlert("Order "+ order.getOrderId() + " was canceled successfully", Alert.SUCCESS, Duration.seconds(3), 135, 100);
         }
 
         Client.orderController.setStatusOrder(order);

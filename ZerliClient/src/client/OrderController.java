@@ -16,7 +16,11 @@ public class OrderController {
      * Used to store Products inserted into the cart.
      */
     private final ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
+
     private float currBalance = -1;
+
+    private String currBranch = null;
+
     private Message response;
     private Order currentOrder;
 
@@ -79,23 +83,10 @@ public class OrderController {
     }
 
     /**
-     * Calculates the price of all the cart includes discounts
-     * @return
-     */
-    public float sumOfCart(){
-        float total = 0;
-        for (OrderProduct op : cart){
-            total += op.getProduct().getDiscountPrice() * op.getQuantity();
-        }
-        return total;
-    }
-
-    /**
      * Fetches all customer`s orders from DB
      */
     public void requestOrders(){
-        //   Message ordersRequest = new Message(Client.clientController.getClient().getLoggedInUser().getUserId(), MessageFromClient.REQUEST_ORDERS_TABLE);
-        Message ordersRequest = new Message(1, MessageFromClient.REQUEST_ORDERS_TABLE);
+        Message ordersRequest = new Message(Client.userController.getLoggedInUser().getUserId(), MessageFromClient.REQUEST_ORDERS_TABLE);
         Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
     }
 
@@ -185,5 +176,15 @@ public class OrderController {
 
     public void setBalanceCustomer(float currBalance) {
         this.currBalance = currBalance;
+    }
+
+    public String getBranch(int userId) {
+        Message msg = new Message(userId, MessageFromClient.ORDER_GET_BRANCH);
+        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        return getBranchManager();
+    }
+
+    public String getBranchManager() {
+        return currBranch;
     }
 }

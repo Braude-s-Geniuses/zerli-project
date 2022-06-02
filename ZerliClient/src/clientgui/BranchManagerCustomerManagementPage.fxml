@@ -16,7 +16,7 @@
                 <Font name="Calibri" size="34.0" />
             </font>
         </Label>
-        <AnchorPane fx:id="newCustomerAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="515.0" prefWidth="990.0">
+        <AnchorPane fx:id="newCustomerAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="515.0" prefWidth="990.0" visible="false">
             <children>
                 <Label fx:id="firstNameNewCustomerLabel" layoutX="75.0" layoutY="54.0" text="First Name:" textFill="#77385a">
                     <font>
@@ -95,10 +95,20 @@
                         <Font name="Calibri" size="20.0" />
                     </font>
                 </Label>
+                <Label fx:id="addNewCustomerLabel" alignment="CENTER" layoutX="375.0" text="Add New Customer" textAlignment="CENTER" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="34.0" />
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="editCustomerAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="990.0" visible="false">
             <children>
+                <Label fx:id="editCustomerLabel" alignment="CENTER" layoutX="375.0" prefHeight="40.0" prefWidth="269.0" text="Edit Customer" textAlignment="CENTER" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="34.0" />
+                    </font>
+                </Label>
                 <Label fx:id="balanceLabel" layoutX="396.0" layoutY="80.0" prefHeight="55.0" prefWidth="185.0" text="Balance:" textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="48.0" />
@@ -126,19 +136,19 @@
                 </Label>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="editPermissionAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="990.0" visible="false">
+        <AnchorPane fx:id="editPermissionAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="990.0">
             <children>
-                <CheckBox fx:id="editCatalogueCheckBox" layoutX="345.0" layoutY="235.0" mnemonicParsing="false" text="Edit Catalogue" textFill="#77385a">
+                <CheckBox fx:id="editCatalogueCheckBox" layoutX="345.0" layoutY="257.0" mnemonicParsing="false" text="Edit Catalogue" textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="30.0" />
                     </font>
                 </CheckBox>
-                <CheckBox fx:id="activateDiscountCheckBox" layoutX="345.0" layoutY="149.0" mnemonicParsing="false" text="Activate Discount" textFill="#77385a">
+                <CheckBox fx:id="activateDiscountCheckBox" layoutX="345.0" layoutY="171.0" mnemonicParsing="false" text="Activate Discount" textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="30.0" />
                     </font>
                 </CheckBox>
-                <CheckBox fx:id="insertSurveyAnswersCheckBox" layoutX="345.0" layoutY="71.0" mnemonicParsing="false" text="Insert Survey Answers" textFill="#77385a">
+                <CheckBox fx:id="insertSurveyAnswersCheckBox" layoutX="345.0" layoutY="93.0" mnemonicParsing="false" text="Insert Survey Answers" textFill="#77385a">
                     <font>
                         <Font name="Calibri" size="30.0" />
                     </font>
@@ -153,6 +163,11 @@
                         <Font name="Calibri" size="18.0" />
                     </font>
                 </Button>
+                <Label fx:id="editEmployeeLabel" alignment="CENTER" layoutX="375.0" prefHeight="40.0" prefWidth="269.0" text="Edit Employee" textAlignment="CENTER" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="34.0" />
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
         <Label fx:id="enterIDLabel" layoutX="280.0" layoutY="87.0" prefHeight="37.0" prefWidth="94.0" text="Enter I.D:" textFill="#77385a">

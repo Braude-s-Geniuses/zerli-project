@@ -23,9 +23,6 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.*;
 
-/**
- * TODO: Add page validation.
- */
 public class ProductAddPageController implements Initializable {
 
     private ArrayList<Item> availableItems;

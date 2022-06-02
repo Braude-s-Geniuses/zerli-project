@@ -3,6 +3,7 @@
 package clientgui;
 
 import client.Client;
+import client.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +20,10 @@ import javafx.scene.paint.Color;
 import user.BranchEmployee;
 import user.Customer;
 import user.User;
+import user.UserType;
+import util.Alert;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,89 +39,89 @@ public class BranchManagerCustomerManagementPageController implements Initializa
 
     private int cvvCharsCount = 0;
 
-    @FXML
-    private AnchorPane newCustomerAnchorPane;
+    @FXML // fx:id="newCustomerAnchorPane"
+    private AnchorPane newCustomerAnchorPane; // Value injected by FXMLLoader
 
-    @FXML
-    private TextField firstNameNewCustomerTextField;
+    @FXML // fx:id="firstNameNewCustomerTextField"
+    private TextField firstNameNewCustomerTextField; // Value injected by FXMLLoader
 
-    @FXML
-    private TextField lastNameNewCustomerTextField;
-
-
-    @FXML
-    private TextField emailNewCustomerTextField;
+    @FXML // fx:id="lastNameNewCustomerTextField"
+    private TextField lastNameNewCustomerTextField; // Value injected by FXMLLoader
 
 
-    @FXML
-    private TextField idNewCustomerTextField;
-
-    @FXML
-    private TextField cardNewCustomerTextField4;
-
-    @FXML
-    private TextField cardNewCustomerTextField3;
-
-    @FXML
-    private TextField cardNewCustomerTextField2;
-
-    @FXML
-    private TextField cardNewCustomerTextField1;
-
-    @FXML
-    private TextField cvvNewCustomerTextField;
-
-    @FXML
-    private ComboBox<String> monthNewCustomerComboBox;
-
-    @FXML
-    private ComboBox<String> yearNewCustomerComboBox;
+    @FXML // fx:id="emailNewCustomerTextField"
+    private TextField emailNewCustomerTextField; // Value injected by FXMLLoader
 
 
-    @FXML
-    private TextField phoneNewCustomerTextField;
+    @FXML // fx:id="idNewCustomerTextField"
+    private TextField idNewCustomerTextField; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cardNewCustomerTextField4"
+    private TextField cardNewCustomerTextField4; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cardNewCustomerTextField3"
+    private TextField cardNewCustomerTextField3; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cardNewCustomerTextField2"
+    private TextField cardNewCustomerTextField2; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cardNewCustomerTextField1"
+    private TextField cardNewCustomerTextField1; // Value injected by FXMLLoader
+
+    @FXML // fx:id="cvvNewCustomerTextField"
+    private TextField cvvNewCustomerTextField; // Value injected by FXMLLoader
+
+    @FXML // fx:id="monthNewCustomerComboBox"
+    private ComboBox<String> monthNewCustomerComboBox; // Value injected by FXMLLoader
+
+    @FXML // fx:id="yearNewCustomerComboBox"
+    private ComboBox<String> yearNewCustomerComboBox; // Value injected by FXMLLoader
 
 
-    @FXML
-    private AnchorPane editCustomerAnchorPane;
+    @FXML // fx:id="phoneNewCustomerTextField"
+    private TextField phoneNewCustomerTextField; // Value injected by FXMLLoader
+
+
+    @FXML // fx:id="editCustomerAnchorPane"
+    private AnchorPane editCustomerAnchorPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="actualBalanceLabel"
-    private Label actualBalanceLabel;
+    private Label actualBalanceLabel; // Value injected by FXMLLoader
 
     @FXML // fx:id="editPermissionAnchorPane"
-    private AnchorPane editPermissionAnchorPane;
+    private AnchorPane editPermissionAnchorPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="editCatalogueCheckBox"
-    private CheckBox editCatalogueCheckBox;
+    private CheckBox editCatalogueCheckBox; // Value injected by FXMLLoader
 
-    @FXML
-    private CheckBox activateDiscountCheckBox;
+    @FXML // fx:id="activateDiscountCheckBox"
+    private CheckBox activateDiscountCheckBox; // Value injected by FXMLLoader
 
-    @FXML
-    private CheckBox insertSurveyAnswersCheckBox;
-
-
-    @FXML
-    private TextField enterIDTextField;
+    @FXML // fx:id="insertSurveyAnswersCheckBox"
+    private CheckBox insertSurveyAnswersCheckBox; // Value injected by FXMLLoader
 
 
-    @FXML
-    private CheckBox freezeCustomerCheckBox;
+    @FXML // fx:id="enterIDTextField"
+    private TextField enterIDTextField; // Value injected by FXMLLoader
 
-    @FXML
-    private Label firstErrorLabel;
 
-    @FXML
-    private Label messageEditEmployeeLabel;
+    @FXML // fx:id="freezeCustomerCheckBox"
+    private CheckBox freezeCustomerCheckBox; // Value injected by FXMLLoader
 
-    @FXML
-    private Label messageEditCustomerLabel;
+    @FXML // fx:id="firstErrorLabel"
+    private Label firstErrorLabel; // Value injected by FXMLLoader
 
-    @FXML
-    private Label messageNewCustomerLabel;
+    @FXML // fx:id="messageEditEmployeeLabel"
+    private Label messageEditEmployeeLabel; // Value injected by FXMLLoader
 
-    @FXML
-    private Button updateNewCustomerButton;
+    @FXML // fx:id="messageEditCustomerLabel"
+    private Label messageEditCustomerLabel; // Value injected by FXMLLoader
+
+    @FXML // fx:id="messageNewCustomerLabel"
+    private Label messageNewCustomerLabel; // Value injected by FXMLLoader
+
+    @FXML // fx:id="updateNewCustomerButton"
+    private Button updateNewCustomerButton; // Value injected by FXMLLoader
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -257,6 +261,7 @@ public class BranchManagerCustomerManagementPageController implements Initializa
     }
 
     private void setNewCustomerDetails(User user) {
+        clearFields();
         firstNameNewCustomerTextField.setText(user.getFirstName());
         lastNameNewCustomerTextField.setText(user.getLastName());
         idNewCustomerTextField.setText(user.getId());
@@ -270,7 +275,7 @@ public class BranchManagerCustomerManagementPageController implements Initializa
         List<String> monthList = new ArrayList<String>();       //Set value of months.
         for (int i = 1; i <= 12; i++) {
             if (i<10){
-                monthList.add("0" + i);
+                monthList.add("0" + String.valueOf(i));
             }else {
                 monthList.add(String.valueOf(i));
             }
@@ -395,5 +400,21 @@ public class BranchManagerCustomerManagementPageController implements Initializa
         newCustomerAnchorPane.setVisible(false);
         editCustomerAnchorPane.setVisible(false);
         editPermissionAnchorPane.setVisible(false);
+    }
+
+    private void clearFields()
+    {
+        firstNameNewCustomerTextField.clear();
+        lastNameNewCustomerTextField.clear();
+        phoneNewCustomerTextField.clear();
+        emailNewCustomerTextField.clear();
+        idNewCustomerTextField.clear();
+        cardNewCustomerTextField1.clear();
+        cardNewCustomerTextField2.clear();
+        cardNewCustomerTextField3.clear();
+        cardNewCustomerTextField4.clear();
+        cvvNewCustomerTextField.clear();
+        monthNewCustomerComboBox.setValue("Month");
+        yearNewCustomerComboBox.setValue("Year");
     }
 }

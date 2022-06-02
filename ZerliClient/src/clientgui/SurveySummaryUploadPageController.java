@@ -69,12 +69,12 @@ public class SurveySummaryUploadPageController implements Initializable {
 
     public void confirmButtonClick(ActionEvent event)
     {
-        boolean returnValue = Client.surveyController.uploadSurveySummary( //TODO:Change to real one
-                //new Survey(Client.userController.getLoggedInUser().getUserId(),uploadedPdf));
-                new Survey(surveyController.getSurveyID(surveyComboBox.getValue()),4,uploadedPdf));
+        boolean returnValue = Client.surveyController.uploadSurveySummary(new Survey(surveyController.getSurveyID(surveyComboBox.getValue()),Client.userController.getLoggedInUser().getUserId(),uploadedPdf));
+
         if(returnValue)
             showMessage("Upload Successfully", false);
-        else showMessage("Upload Failed", true);
+        else
+            showMessage("Upload Failed", true);
     }
 
     private File browseFile() {
@@ -95,6 +95,4 @@ public class SurveySummaryUploadPageController implements Initializable {
         messageLabel.setTextFill(Paint.valueOf("black"));
         messageLabel.setVisible(true);
     }
-
-
 }

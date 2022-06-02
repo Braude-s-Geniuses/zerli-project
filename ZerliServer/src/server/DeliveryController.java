@@ -14,6 +14,10 @@ public class DeliveryController {
 
     public static Connection connection = Server.databaseController.getConnection();
 
+    /**
+     *This function requests from the database all the orders that are ready to be delivered
+     * @return Message with ArrayList of orders
+     */
     public static Message getPreDeliveredOrdersFromServer() {
         List<Order> orders = new ArrayList<Order>();
         ResultSet resultSet = null;
@@ -49,7 +53,11 @@ public class DeliveryController {
         return new Message(orders, MessageFromServer.IMPORT_DELIVERY_TABLE_SUCCEED);
     }
 
-
+    /**
+     * This function requests from the database to set the order as delivered
+     * @param order
+     * @return
+     */
     public static Message sendDelivery(Order order) {
         Timestamp deliveryTime = Timestamp.valueOf(LocalDateTime.now());
 
@@ -69,6 +77,11 @@ public class DeliveryController {
         return new Message(null, MessageFromServer.DELIVERY_UPDATE_SUCCESS);
     }
 
+    /**
+     * This function sets a new status to the order that is being delivered.
+     * @param oldStatus
+     * @return
+     */
     private static OrderStatus getNewStatus(String oldStatus) {
         if (oldStatus == "Express Confirmed"){
             return OrderStatus.EXPRESS_COMPLETED;
@@ -76,7 +89,10 @@ public class DeliveryController {
         return OrderStatus.NORMAL_COMPLETED;
     }
 
-
+    /**
+     * This function fetches from the database all the orders that were already delivered.
+     * @return Message with ArrayList of orders.
+     */
     public static Message getHistoryDeliveredOrdersFromServer() {
         List<Order> orders = new ArrayList<Order>();
         ResultSet resultSet = null;
@@ -112,5 +128,23 @@ public class DeliveryController {
         return new Message(orders, MessageFromServer.IMPORT_DELIVERY_TABLE_SUCCEED);
     }
 
+    /**
+     * This function updates the database of the customer that is being refunded.
+     * @param data order with details of customer that is being refunded.
+     * @return
+     */
+    public static Message refundOrder(Order data) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE customer SET balance = balance + ? WHERE  customer_id = ?");
+            preparedStatement.setFloat(1, data.getDiscountPrice());
+            preparedStatement.setInt(2, data.getCustomerId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.REFUND_FAIL);
+        }
+        return new Message(null, MessageFromServer.REFUND_SUCCESS);
+    }
 
 }

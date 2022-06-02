@@ -30,16 +30,27 @@ public class DeliveryDetailsPageController  implements Initializable {
     @FXML
     private ListView<Object> productsAsListView;
 
+
+    /**
+     * This function returns to the previous page.
+     * @param event
+     */
     @FXML
     void clickBtnBack(ActionEvent event) {MainDashboardController.setContentFromFXML("MyDeliveryHistoryPage.fxml");}
 
+    /**
+     *This function initialize the page upon opening and sets up all the relevant details:
+     * Order details and list of products.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<OrderProduct> orderProducts;
         Client.orderController.getOrderProducts(order.getOrderId());
         orderProducts = (ArrayList<OrderProduct>) Client.orderController.getResponse().getData();
         detailsLabel.setStyle("-fx-border-color: #77385a;");
-        detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\n" + order.getOrderStatus()
+        detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\nStatus:    " + order.getOrderStatus() + "\nTotal Paid Price:    " + order.discountPriceToString()
                 + "\nDelivery Date:  \n" + order.getDeliveryDate() + "\nDelivery Address:  \n" + order.getDeliveryAddress() + "\nRecipient Name:  \n" + order.getRecipientName()
                 + "\nRecipient Phone:  " + order.getRecipientPhone());
         detailsLabel.setAlignment(Pos.BASELINE_CENTER);
@@ -68,6 +79,11 @@ public class DeliveryDetailsPageController  implements Initializable {
             productsAsListView.getItems().add(h);
         }
     }
+
+    /**
+     * This function sets the font for each label.
+     * @param lbl Import label
+     */
     private void setLabels (Label lbl){
         lbl.setWrapText(true);
         lbl.setPrefHeight(150);

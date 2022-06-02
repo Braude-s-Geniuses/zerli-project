@@ -1,8 +1,6 @@
 package clientgui;
 
 import client.Client;
-import client.DeliveryController;
-import communication.MessageFromServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,7 +23,11 @@ public class MyDeliveryHistoryPageController implements Initializable {
     @FXML
     private ListView<Object> deliveryHistoryList;
 
-
+    /**
+     * This function initialized the page and presents all the deliveries that have been delivered.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Client.deliveryController.requestDeliveriesHistory();
@@ -47,8 +49,6 @@ public class MyDeliveryHistoryPageController implements Initializable {
 
                 switch (order.getOrderStatus()){
                     case EXPRESS_COMPLETED:
-                        lblOrderStatus.setTextFill(Color.web("#bf2d39"));
-                        break;
                     case NORMAL_COMPLETED:
                         lblOrderStatus.setTextFill(Color.web("#77385a"));
                         break;
@@ -73,7 +73,10 @@ public class MyDeliveryHistoryPageController implements Initializable {
         }
     }
 
-
+    /**
+     * This function sets the font for each label.
+     * @param lbl Import label
+     */
     private void setLabels(Label lbl){
         lbl.setFont(Font.font ("Calibri", 16));
         lbl.setWrapText(true);
@@ -81,12 +84,16 @@ public class MyDeliveryHistoryPageController implements Initializable {
 
     }
 
+    /**
+     * This function initialize a new page with all the delivery details of a specific order.
+     * @param button button that was pushed in gui.
+     * @param order order to deliver.
+     */
     private void setActionForButton(Button button, Order order) {
         button.setOnAction(e->{
             DeliveryDetailsPageController.order = order;
             MainDashboardController.setContentFromFXML("DeliveryDetailsPage.fxml");
         });
     }
-
 
 }

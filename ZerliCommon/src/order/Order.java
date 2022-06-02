@@ -11,12 +11,11 @@ public class Order implements Serializable {
     private String branch;
     private OrderStatus orderStatus;
     private String greetingCard;
-    //private boolean customMade; TODO TEll Itshak to change in DB
     private float price;
     private float discountPrice;
     private Timestamp orderDate;
     private Timestamp deliveryDate;
-    private Timestamp actualDeliveryDate; //TODO TEll Itshak to change in DB
+    private Timestamp actualDeliveryDate;
     private String deliveryAddress;
     private String recipientName;
     private String recipientPhone;

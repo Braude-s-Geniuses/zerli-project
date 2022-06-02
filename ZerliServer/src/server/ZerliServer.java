@@ -81,9 +81,6 @@ public class ZerliServer extends AbstractServer {
                 if(messageFromServer.getAnswer() == MessageFromServer.LOGOUT_SUCCEED)
                     ServerUIController.setClientLoggedOutTable(client);
                 break;
-//            case GET_PRODUCT:
-//                messageFromServer = CatalogController.getProductsFromDataBase();
-//                break;
             case REQUEST_ORDERS_TABLE:
                 messageFromServer = OrderController.getAllOrdersFromServer((int) messageFromClient.getData());
                 break;
@@ -92,6 +89,30 @@ public class ZerliServer extends AbstractServer {
                 break;
             case ADD_NEW_ORDER:
                 messageFromServer = OrderController.AddNewOrder((Order) messageFromClient.getData());
+                break;
+            case ORDER_GET_BRANCH:
+                messageFromServer = OrderController.getBranch((int)messageFromClient.getData());
+                break;
+            case ORDER_CHANGE_STATUS:
+                messageFromServer = OrderController.UpdateOrderStatus((Order)messageFromClient.getData());
+                break;
+            case ORDER_CANCEL_TIME:
+                messageFromServer = OrderController.UpdateOrderCancel((Order)messageFromClient.getData());
+                break;
+            case ORDER_GET_BALANCE:
+                messageFromServer = OrderController.getBalance((int)messageFromClient.getData());
+                break;
+            case REQUEST_ORDER_PRODUCTS:
+                messageFromServer = OrderController.getOrderDetails((Integer)messageFromClient.getData());
+                break;
+            case UPDATE_BALANCE_FOR_CUSTOMER:
+                OrderController.updateBalance((ArrayList<Object>)messageFromClient.getData());
+                break;
+            case UPDATE_CARD_FOR_CUSTOMER:
+                OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
+                break;
+            case UPDATE_NEW_CUSTOMER:
+                OrderController.updateNewCustomer((Integer)messageFromClient.getData());
                 break;
             case ITEM_ADD:
                 messageFromServer = ItemController.addItem(messageFromClient);
@@ -116,18 +137,6 @@ public class ZerliServer extends AbstractServer {
                 break;
             case PRODUCT_UPDATE:
                 messageFromServer = ProductController.updateProduct(messageFromClient);
-                break;
-            case REQUEST_ORDER_PRODUCTS:
-                messageFromServer = OrderController.getOrderDetails((Integer)messageFromClient.getData());
-                break;
-            case UPDATE_BALANCE_FOR_CUSTOMER:
-                OrderController.updateBalance((ArrayList<Object>)messageFromClient.getData());
-                break;
-            case UPDATE_CARD_FOR_CUSTOMER:
-                OrderController.updateCreditCard((ArrayList<Object>)messageFromClient.getData());
-                break;
-            case UPDATE_NEW_CUSTOMER:
-                OrderController.updateNewCustomer((Integer)messageFromClient.getData());
                 break;
             case SURVEY_IDS_REQUEST:
                 SurveyController surveyServerController= new SurveyController();
@@ -182,6 +191,9 @@ public class ZerliServer extends AbstractServer {
             case REQUEST_DELIVERIES_HISTORY_TABLE:
                 messageFromServer = DeliveryController.getHistoryDeliveredOrdersFromServer();
                 break;
+            case REFUND_ORDER:
+                messageFromServer = DeliveryController.refundOrder((Order) messageFromClient.getData());
+                break;
             case CHANGE_PERMISSION:
                 UserController userController = new UserController();
                 messageFromServer = userController.changeBranchEmployeePermission((BranchEmployee) messageFromClient.getData());
@@ -198,16 +210,8 @@ public class ZerliServer extends AbstractServer {
                 UserController userController3 = new UserController();
                 messageFromServer = userController3.FreezeCustomer((Customer)messageFromClient.getData());
                 break;
-            case ORDER_CHANGE_STATUS:
-                messageFromServer = OrderController.UpdateOrderStatus((Order)messageFromClient.getData());
-                break;
-            case ORDER_CANCEL_TIME:
-                messageFromServer = OrderController.UpdateOrderCancel((Order)messageFromClient.getData());
-                break;
-            case ORDER_GET_BALANCE:
-                messageFromServer = OrderController.getBalance((int)messageFromClient.getData());
-                break;
             default:
+                ServerUIController.printToServerConsoleUI("Unhandled task was requested from server: " + messageFromClient.getTask());
                 break;
         }
         try {

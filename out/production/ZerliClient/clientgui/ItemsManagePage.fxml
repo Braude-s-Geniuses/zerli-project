@@ -33,7 +33,7 @@
                   <Font name="Calibri" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="btnDeleteItem" layoutX="105.0" layoutY="400.0" mnemonicParsing="false" onAction="#clickBtnDeleteItem" prefHeight="20.0" prefWidth="90.0" styleClass="btn-delete" text="Delete" textFill="INDIANRED">
+            <Button fx:id="btnDeleteItem" layoutX="105.0" layoutY="400.0" mnemonicParsing="false" onAction="#clickBtnDeleteItem" prefHeight="20.0" prefWidth="90.0" styleClass="btn-red" text="Delete" textFill="INDIANRED">
                <font>
                   <Font name="Calibri" size="18.0" />
                </font>

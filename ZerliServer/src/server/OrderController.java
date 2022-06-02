@@ -299,6 +299,11 @@ public class OrderController {
         return new Message(balance, MessageFromServer.ORDER_GET_BALANCE_SUCCESS);
     }
 
+    /**
+     * Inserts into the database a customer's custom-built product before an order has been processed.
+     * @param product - Product instance to insert
+     * @return the newly created product_id; 0 on failure
+     */
     private static int addCustomerBuiltProduct(Product product) {
         int product_id = 0;
 
@@ -333,5 +338,23 @@ public class OrderController {
         }
 
         return product_id;
+    }
+
+    public static Message getBranch(int userID) {
+        String branch = null;
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT branch FROM branch where manager_id = ?;");
+            preparedStatement.setInt(1, userID);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                branch = resultSet.getString("branch");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ORDER_GET_BRANCH_SUCCESSFULLY);
+        }
+
+        return new Message(branch, MessageFromServer.ORDER_GET_BRANCH_SUCCESS);
     }
 }
