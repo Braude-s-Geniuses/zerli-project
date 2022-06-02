@@ -68,7 +68,7 @@
             <Font name="Calibri" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnImport" disable="true" layoutX="10.0" layoutY="6.0" mnemonicParsing="false" onAction="#clickBtnImport" prefHeight="30.0" prefWidth="620.0" styleClass="import-btn" text="Import From External System">
+      <Button fx:id="btnImport" disable="true" layoutX="10.0" layoutY="6.0" mnemonicParsing="false" onAction="#clickBtnImport" prefHeight="30.0" prefWidth="620.0" styleClass="import-btn" text="Import Users from External Database">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>

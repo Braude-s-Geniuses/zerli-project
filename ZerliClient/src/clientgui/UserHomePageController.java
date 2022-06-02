@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import user.Customer;
 import user.UserType;
 
 import java.net.URL;
@@ -33,6 +34,9 @@ public class UserHomePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         lblUserRole.setText(Client.userController.getLoggedInUser().getUserType().toString());
         lbluserFullname.setText(Client.userController.getLoggedInUser().getFirstName() + " " + Client.userController.getLoggedInUser().getLastName());
+
+        if(Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER && ((Customer) Client.userController.getLoggedInUser()).isBlocked())
+            lblUserRole.setText(lblUserRole.getText() + " (Frozen Account)");
 
         if(Client.userController.getLoggedInUser().getUserType() == UserType.SERVICE_EMPLOYEE) {
             Client.complaintController.getAllComplaints();

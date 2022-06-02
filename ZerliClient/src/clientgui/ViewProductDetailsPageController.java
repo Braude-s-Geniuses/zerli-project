@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import order.Item;
 import order.Order;
 import order.OrderProduct;
+import user.Customer;
 import user.UserType;
 import util.Alert;
 
@@ -122,7 +123,8 @@ public class ViewProductDetailsPageController implements Initializable {
         Client.catalogController.getProductItems(BrowseCatalogPageController.currentProduct.getProductId());
         HashMap<Item,Integer> items = (HashMap<Item, Integer>) Client.catalogController.getResponse().getData();
         lblDetails.setText(mapToString(items));
-        if(Client.userController.getLoggedInUser() != null && Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER){
+
+        if(Client.userController.getLoggedInUser() != null && Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER && !((Customer) Client.userController.getLoggedInUser()).isBlocked()){
             btnAdd.setVisible(true);
             btnBuyNow.setVisible(true);
             cbAmount.setVisible(true);

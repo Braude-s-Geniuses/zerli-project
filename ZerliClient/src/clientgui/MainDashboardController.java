@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import user.Customer;
 import util.Alert;
 
 import java.io.IOException;
@@ -163,6 +164,10 @@ public class MainDashboardController implements Initializable {
 
                     Button buttonProductBuilder = new Button("Product Builder");
                     buttonProductBuilder.setOnAction(event -> setContentFromFXML("CustomerProductBuilderPage.fxml"));
+
+                    if(((Customer) Client.userController.getLoggedInUser()).isBlocked())
+                        buttonProductBuilder.setDisable(true);
+
                     addSideNavButton(buttonProductBuilder);
                     break;
                 case BRANCH_EMPLOYEE:

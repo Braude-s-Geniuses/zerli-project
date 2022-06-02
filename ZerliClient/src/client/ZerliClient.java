@@ -52,6 +52,7 @@ public class ZerliClient extends AbstractClient {
             case ALREADY_LOGGED_IN:
             case LOGOUT_SUCCEED:
             case LOGOUT_NOT_SUCCEED:
+            case CUSTOMER_IS_BLOCKED:
                 Client.userController.setLoggedInUser((User)messageFromServer.getData());
                 Client.userController.setResponse(messageFromServer);
                 break;
@@ -67,10 +68,6 @@ public class ZerliClient extends AbstractClient {
             case FREEZE_CUSTOMER:
             case CHANGE_PERMISSION:
                 Client.userController.setResponse(messageFromServer);
-                break;
-            case CUSTOMER_IS_BLOCKED:
-                Client.userController.setLoggedInUser(null);
-                message = MessageFromServer.CUSTOMER_IS_BLOCKED;
                 break;
             case IMPORT_ORDERS_TABLE_SUCCEED:
             case IMPORT_ORDERS_TABLE_NOT_SUCCEED:

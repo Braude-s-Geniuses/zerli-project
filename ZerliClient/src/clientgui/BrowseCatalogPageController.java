@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import order.OrderProduct;
 import order.Product;
+import user.Customer;
 import user.UserType;
 import util.Alert;
 
@@ -107,7 +108,10 @@ public class BrowseCatalogPageController implements Initializable {
         }
 
         if(Client.userController.getLoggedInUser() != null)
-            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn, viewDetails);
+            if(Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER && ((Customer) Client.userController.getLoggedInUser()).isBlocked())
+                vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), viewDetails);
+            else
+                vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn, viewDetails);
         else
             vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), viewDetails);
         hBox.getChildren().addAll(iv, vBox);
