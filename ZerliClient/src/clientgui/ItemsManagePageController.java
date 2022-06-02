@@ -30,7 +30,7 @@ public class ItemsManagePageController implements Initializable {
 
     private Item currentItem;
 
-    private ObservableList<Item> items = FXCollections.observableArrayList();
+    private final ObservableList<Item> items = FXCollections.observableArrayList();
 
     @FXML
     private TableView<Item> tableItems;
@@ -202,26 +202,26 @@ public class ItemsManagePageController implements Initializable {
         boolean itemChanged = false;
         Item updatedItem = new Item(currentItem.getItemId(), currentItem.getName(), currentItem.getType(), currentItem.getColor(), currentItem.getPrice());
 
-        if(!fldName.getText().isEmpty() && !fldName.getText().toString().equals(currentItem.getName())) {
+        if(!fldName.getText().isEmpty() && !fldName.getText().equals(currentItem.getName())) {
             itemChanged = true;
-            updatedItem.setName(fldName.getText().toString());
+            updatedItem.setName(fldName.getText());
         }
 
-        if(!cbType.getSelectionModel().isEmpty() && !cbType.getValue().toString().equals(currentItem.getType())) {
+        if(!cbType.getSelectionModel().isEmpty() && !cbType.getValue().equals(currentItem.getType())) {
             itemChanged = true;
-            updatedItem.setType(cbType.getValue().toString());
+            updatedItem.setType(cbType.getValue());
         }
 
-        if(!cbColor.getSelectionModel().isEmpty() && !cbColor.getValue().toString().equals(currentItem.getColor())) {
+        if(!cbColor.getSelectionModel().isEmpty() && !cbColor.getValue().equals(currentItem.getColor())) {
             itemChanged = true;
-            updatedItem.setColor(cbColor.getValue().toString());
+            updatedItem.setColor(cbColor.getValue());
         }
 
         float price;
 
         if(!fldPrice.getText().isEmpty()) {
             try {
-                price = Float.parseFloat(fldPrice.getText().toString());
+                price = Float.parseFloat(fldPrice.getText());
 
                 if(price <= 0.0) {
                     lblUpdateItemMessage.setStyle("-fx-text-fill: indianred");

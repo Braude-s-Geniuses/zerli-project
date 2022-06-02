@@ -43,7 +43,7 @@ public abstract class AbstractQuarterlyReportGenerator extends AbstractReportsGe
             //Add content to the document.
 
             float col = 600f;
-            float columnWidth[] = {col};
+            float[] columnWidth = {col};
             PdfPTable table = new PdfPTable(columnWidth);
 
             PdfPCell titleCell = new PdfPCell(new Phrase("Quarterly " + this.title + " Report\n", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 40, new BaseColor(119, 56, 90))));

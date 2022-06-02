@@ -31,7 +31,7 @@ import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenerator {
 
 
-    private  ArrayList<String> orderColumns = new ArrayList<String>();
+    private final ArrayList<String> orderColumns = new ArrayList<String>();
 
     public ReportQuarterlyOrderGenerator(String branch, String quarter, String year, String type) {
         super(branch, quarter, year, type);
@@ -74,7 +74,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
     @Override
     public void fillColumns(ArrayList<Object> values) throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = new float[orderColumns.size()];
+        float[] columnWidth = new float[orderColumns.size()];
         int max = 0, productSum = 0, quantitySum = 0;
         int totalIndex = orderColumns.indexOf("Total") + 1;
         String mostSold = null;
@@ -111,10 +111,10 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
     public void generateColumns(ArrayList<String> columns) throws DocumentException {
 
         float colSizeforspace = 600f;
-        float columnWidthfoespace[] = {colSizeforspace};
+        float[] columnWidthfoespace = {colSizeforspace};
 
         float colSize = 830 / columns.size();
-        float columnWidth[] = new float[columns.size()];
+        float[] columnWidth = new float[columns.size()];
         for (int i = 0; i < columns.size(); i++) {
             columnWidth[i] = colSize;
         }
@@ -172,7 +172,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell spaceCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));

@@ -5,6 +5,12 @@
       <element id="module-output" name="ZerliClient" />
       <element id="module-output" name="OCSF" />
       <element id="module-output" name="ZerliCommon" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliCommon/lib/itextpdf-5.5.13.3-javadoc.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliCommon/lib/itextpdf-5.5.13.3-sources.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliCommon/lib/itextpdf-5.5.13.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliCommon/lib/jcommon-1.0.23.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliCommon/lib/jfreechart-1.0.19.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/ZerliCommon/lib/pdfbox-app-1.8.16.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

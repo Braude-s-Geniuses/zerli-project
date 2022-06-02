@@ -42,8 +42,7 @@ public enum OrderStatus implements Serializable {
         public String toString(){
             return "Type: Canceled\nStatus: Confirmed";
         }
-    };
-
+    }
 
 
 }

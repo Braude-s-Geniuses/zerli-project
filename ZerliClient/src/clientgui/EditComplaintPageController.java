@@ -44,7 +44,16 @@ public class EditComplaintPageController implements Initializable {
     @FXML
     private Label closeIssue;
 
-
+    /**
+     * Initializes the controller with the selected complaint from previous page
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -60,13 +69,29 @@ public class EditComplaintPageController implements Initializable {
 
     }
 
-
+    /**
+     * Function to close the selected complaint. The service-employee can choose whenever to give
+     * compensation or not and will be added to the customers balance
+     *
+     * @param actionEvent
+     */
     public void closeBtnClick(ActionEvent actionEvent) {
         ArrayList<Object> msgToSend = new ArrayList<>();
         msgToSend.add(MyComplaintsPageController.currentComplaint.getComplaintId());
         msgToSend.add(MyComplaintsPageController.currentComplaint.getCustomerId());
-        if (!amount.getText().isEmpty()) {
-            msgToSend.add(Double.parseDouble(amount.getText()));
+        try {
+            if (!amount.getText().isEmpty() && Double.parseDouble(amount.getText()) >= 0) {
+                msgToSend.add(Double.parseDouble(amount.getText()));
+                Client.complaintController.closeStatus(msgToSend);
+            } else {
+                closeIssue.setText("Please input valid value");
+                closeIssue.setTextFill(Color.RED);
+                return;
+            }
+        } catch (Exception e) {
+            closeIssue.setText("Please input valid value");
+            closeIssue.setTextFill(Color.RED);
+            return;
         }
         Client.complaintController.closeStatus(msgToSend);
 
@@ -76,13 +101,16 @@ public class EditComplaintPageController implements Initializable {
             closeBtn.setDisable(true);
             complaintText.setDisable(true);
             amount.setDisable(true);
-        }
-        else{
+        } else {
             closeIssue.setText("Something gone wrong!");
             closeIssue.setTextFill(Color.RED);
         }
     }
 
+    /**
+     * Returns to complaint page
+     * @param actionEvent
+     */
     public void backBtnClick(ActionEvent actionEvent) {
         MainDashboardController.setContentFromFXML("MyComplaintsPage.fxml");
     }

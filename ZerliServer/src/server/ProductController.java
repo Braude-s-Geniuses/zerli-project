@@ -96,7 +96,7 @@ public class ProductController {
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = con.prepareStatement("SELECT * FROM product");
+            preparedStatement = con.prepareStatement("SELECT * FROM product WHERE customer_product = 0");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

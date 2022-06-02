@@ -15,8 +15,8 @@ import java.util.List;
 
 public class UserController {
 
-    private ZerliServer server;
-    private Connection con;
+    private final ZerliServer server;
+    private final Connection con;
 
     public UserController() {
         server = ServerController.getServer();

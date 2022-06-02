@@ -49,7 +49,7 @@ public class ProductController {
                 fileImage = File.createTempFile("zerli-product-" + product.getProductId() + "-", "");
                 fileImage.deleteOnExit();
                 FileOutputStream fileOutputStream = new FileOutputStream(fileImage);
-                byte b[] = product.getImage().getBytes(1L, (int) product.getImage().length());
+                byte[] b = product.getImage().getBytes(1L, (int) product.getImage().length());
 
                 fileOutputStream.write(b);
                 fileOutputStream.close();

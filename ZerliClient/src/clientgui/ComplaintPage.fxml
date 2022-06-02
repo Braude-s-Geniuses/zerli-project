@@ -11,7 +11,7 @@
             </font>
         </Label>
         <Label layoutX="126.0" layoutY="187.0" text="Order ID: " />
-        <TextField fx:id="orderIDtext" layoutX="199.0" layoutY="182.0" prefHeight="31.0" prefWidth="155.0" promptText="Enter order ID" />
+        <TextField fx:id="orderIDText" layoutX="199.0" layoutY="182.0" prefHeight="31.0" prefWidth="155.0" promptText="Enter order ID" />
         <Label layoutX="126.0" layoutY="238.0" prefHeight="31.0" prefWidth="185.0" text="Customer's issue:" textFill="#77385a">
             <font>
                 <Font name="Calibri Bold" size="25.0" />

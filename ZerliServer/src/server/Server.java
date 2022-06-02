@@ -41,7 +41,7 @@ public class Server extends Application {
      * @param args
      * @throws Exception
      */
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         launch(args);
     }
 
@@ -93,11 +93,11 @@ public class Server extends Application {
 
         if (resultSQL.contains("SQL connection succeed")) {
             try {
-                serverController.getServer().listen();
+                ServerController.getServer().listen();
                 ServerUIController.printToServerConsoleUI("Connected to Server!");
-                ServerUIController.printToServerConsoleUI("Server listening for connections on port " + serverController.getServer().getPort());
+                ServerUIController.printToServerConsoleUI("Server listening for connections on port " + ServerController.getServer().getPort());
                 result += "\nConnected to Server!";
-                result += "\nServer listening for connections on port " + serverController.getServer().getPort();
+                result += "\nServer listening for connections on port " + ServerController.getServer().getPort();
             } catch (Exception e) {
                 ServerUIController.printToServerConsoleUI("[ERROR] Failed to start Server");
                 result = "[ERROR] Failed to start Server";
@@ -114,7 +114,7 @@ public class Server extends Application {
      */
     public static void stopServer() {
         try {
-            serverController.getServer().close();
+            ServerController.getServer().close();
         } catch (IOException e) {
             System.out.println(e);
         }

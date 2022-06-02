@@ -245,9 +245,6 @@ public class OrderRecipientPageController implements Initializable {
             lblGreetingError.setVisible(true);
             invalidFields++;
         }
-        if(invalidFields > 0){
-            return false;
-        }
-        return true;
+        return invalidFields <= 0;
     }
 }

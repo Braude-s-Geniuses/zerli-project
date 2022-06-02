@@ -2,6 +2,7 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
+import order.Item;
 import order.Order;
 import order.OrderProduct;
 import order.Product;
@@ -124,6 +125,9 @@ public class OrderController {
     private static void updateOrderProductsInDB(ArrayList<OrderProduct> productList, int orderId) {
         for (OrderProduct p : productList) {
             try {
+                if(p.getProduct().isCustomerProduct())
+                    p.getProduct().setProductId(addCustomerBuiltProduct(p.getProduct()));
+
                 PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `order_product` (order_id,product_id, quantity) VALUES (?,?,?);");
                 preparedStatement.setInt(1, orderId);
                 preparedStatement.setInt(2, p.getProduct().getProductId());
@@ -218,7 +222,7 @@ public class OrderController {
      * @param data - contains customer id
      */
     public static void updateNewCustomer(Integer data) {
-        int customerId = (int) data;
+        int customerId = data;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `customer`\n" +
                     "SET new_customer = 0  \n" +
@@ -293,5 +297,41 @@ public class OrderController {
             return new Message(null, MessageFromServer.ORDER_GET_BALANCE_NOT_SUCCESSFULLY);
         }
         return new Message(balance, MessageFromServer.ORDER_GET_BALANCE_SUCCESS);
+    }
+
+    private static int addCustomerBuiltProduct(Product product) {
+        int product_id = 0;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `product` (name, price, discount_price, image, custom_made, dominant_color, in_catalog, customer_product) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setFloat(2, product.getPrice());
+            preparedStatement.setFloat(3, product.getDiscountPrice());
+            preparedStatement.setBlob(4, product.getImage());
+            preparedStatement.setBoolean(5, product.isCustomMade());
+            preparedStatement.setString(6, product.getDominantColor());
+            preparedStatement.setBoolean(7, product.isInCatalog());
+            preparedStatement.setBoolean(8, product.isCustomerProduct());
+            preparedStatement.executeUpdate();
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (!generatedKeys.next())
+                return 0;
+
+            product_id = generatedKeys.getInt(1);
+
+            for(Item item : product.getItems().keySet()) {
+                preparedStatement = connection.prepareStatement("INSERT INTO product_item (product_id, item_id, quantity) VALUES (?, ?, ?)");
+                preparedStatement.setInt(1, product_id);
+                preparedStatement.setInt(2, item.getItemId());
+                preparedStatement.setInt(3, product.getItems().get(item));
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product_id;
     }
 }

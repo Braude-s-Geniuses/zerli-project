@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class ProductsManagePageController implements Initializable {
 
-    private ObservableList<Product> products = FXCollections.observableArrayList();
+    private final ObservableList<Product> products = FXCollections.observableArrayList();
 
     @FXML
     private TableView<Product> tableProducts;

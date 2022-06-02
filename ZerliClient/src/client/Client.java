@@ -26,7 +26,7 @@ public class Client extends Application {
     public static ReportController reportController;
     public static OrderController orderController;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         launch(args);
     }
 

@@ -160,6 +160,10 @@ public class MainDashboardController implements Initializable {
                     Button buttonMyOrders = new Button("My Orders");
                     buttonMyOrders.setOnAction(event -> setContentFromFXML("MyOrdersPage.fxml"));
                     addSideNavButton(buttonMyOrders);
+
+                    Button buttonProductBuilder = new Button("Product Builder");
+                    buttonProductBuilder.setOnAction(event -> setContentFromFXML("CustomerProductBuilderPage.fxml"));
+                    addSideNavButton(buttonProductBuilder);
                     break;
                 case BRANCH_EMPLOYEE:
                     addSideNavButton(buttonManageProducts);
@@ -260,7 +264,7 @@ public class MainDashboardController implements Initializable {
     public static void setContentFromFXML(String fxml) {
         Node node = null;
         try {
-            node = (Node) FXMLLoader.load(MainDashboardController.class.getResource(fxml));
+            node = FXMLLoader.load(MainDashboardController.class.getResource(fxml));
         } catch (IOException e) {
             e.printStackTrace();
         }

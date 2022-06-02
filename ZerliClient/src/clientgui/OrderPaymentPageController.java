@@ -112,7 +112,7 @@ public class OrderPaymentPageController implements Initializable {
         List<String> monthList = new ArrayList<String>();       //Set value of months.
         for (int i = 1; i <= 12; i++) {
             if (i<10){
-                monthList.add("0" + String.valueOf(i));
+                monthList.add("0" + i);
             }else {
                 monthList.add(String.valueOf(i));
             }
@@ -295,7 +295,7 @@ public class OrderPaymentPageController implements Initializable {
             lblCVVError.setVisible(true);
             invalidFields++;
         }
-        return invalidFields == 0 ? true: false;
+        return invalidFields == 0;
     }
 
     /**
@@ -312,10 +312,7 @@ public class OrderPaymentPageController implements Initializable {
         if (cardField3.getText().length() != 4 && !cardField3.getText().contains("[0-9]+")){
             return false;
         }
-        if (cardField4.getText().length() != 4 && !cardField4.getText().contains("[0-9]+")){
-            return false;
-        }
-        return true;
+        return cardField4.getText().length() == 4 || cardField4.getText().contains("[0-9]+");
     }
 
     /**
@@ -355,12 +352,7 @@ public class OrderPaymentPageController implements Initializable {
     @FXML
     void checkButtonUpdateCard(ActionEvent event) {
         if(btnSavedCreditCard.isSelected()){
-            if(customer.getId().equals(idField.getText())) {
-                lblSaveCardWithDifferentIdError.setVisible(false);
-            }
-            else{
-                lblSaveCardWithDifferentIdError.setVisible(true);
-            }
+            lblSaveCardWithDifferentIdError.setVisible(!customer.getId().equals(idField.getText()));
             btnPlaceOrder.requestFocus();
         }
         else{

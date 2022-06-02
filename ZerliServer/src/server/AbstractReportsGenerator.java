@@ -59,7 +59,7 @@ public abstract class AbstractReportsGenerator {
     protected void noDataForReport(){
         try {
             float col = 600f;
-            float columnWidth[] = {col};
+            float[] columnWidth = {col};
             PdfPTable table = new PdfPTable(columnWidth);
 
             PdfPCell cell = new PdfPCell(new Phrase("\n\n\n\nNo Data to show", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 30, new BaseColor(119, 56, 90))));

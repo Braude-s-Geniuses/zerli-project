@@ -43,15 +43,13 @@ public class BrowseCatalogPageController implements Initializable {
     @FXML
     private TabPane tabPane;
 
-    @FXML
-    private Button btnCreateProduct;
-
     ObservableList<String> quantityPicker =
             FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         tabPane.getStyleClass().add("tab-pane");
+
         Client.catalogController.getProducts();
         ArrayList<Product> arrivedList = (ArrayList<Product>) Client.productController.getResponse().getData();
 
@@ -61,11 +59,13 @@ public class BrowseCatalogPageController implements Initializable {
             else
                 tilePaneSingle.getChildren().add(createProductTile(product));
         }
+
         sPane.setFitToWidth(true);
         sPaneSingle.setFitToWidth(true);
     }
 
     /**
+     * This function creates the node that will be added to the proper pane (single\multi itemized product)
      * @param product is the product we add to the tile pane
      * @return product tile that is created from data fetched from Data Base
      */
@@ -80,25 +80,26 @@ public class BrowseCatalogPageController implements Initializable {
         iv.setFitWidth(150.0);
 
         Button addBtn = new Button("Add to cart");
+        addBtn.getStyleClass().add("btn");
         Button viewDetails = new Button("View details");
-        Button removeBtn = new Button("Remove");
+        viewDetails.getStyleClass().add("btn-secondary");
 
         Label nameLabel = new Label(product.getName());
-        Text newPrice = new Text();
-        ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
-        Text priceLabel = new Text("Price: " + product.priceToString());
-
-        priceLabel.getStyleClass().add("price-label");
         nameLabel.getStyleClass().add("name-label");
-        addBtn.getStyleClass().add("btn");
-        removeBtn.getStyleClass().add("btn-red");
-        viewDetails.getStyleClass().add("btn-secondary");
+
+        ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
         comboBoxQuantity.getStyleClass().add("combo-color");
+
+        Text newPrice = new Text();
+        Text priceLabel = new Text("Price: " + product.priceToString());
+        priceLabel.getStyleClass().add("price-label");
+
         comboBoxQuantity.getSelectionModel().selectFirst();
 
         Client.productController.createProductImage(product);
         iv.setImage(Client.productController.getProductImages().get(product.getProductId()));
 
+        // Check which price to display to the customer
         if(product.getPrice() != product.getDiscountPrice()) {
             priceLabel.setStrikethrough(true);
             newPrice.setText("Discount Price: " + product.getDiscountPrice() + " \u20AA");
@@ -106,10 +107,10 @@ public class BrowseCatalogPageController implements Initializable {
         }
 
         if(Client.userController.getLoggedInUser() != null)
-            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn);
+            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), comboBoxQuantity, addBtn, viewDetails);
         else
-            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()));
-        hBox.getChildren().addAll(new VBox(iv,viewDetails), vBox);
+            vBox.getChildren().addAll(nameLabel, priceLabel, newPrice, new Label("Color: " + product.getDominantColor()), viewDetails);
+        hBox.getChildren().addAll(iv, vBox);
         vBox.setSpacing(15);
         vBox.setId(String.valueOf(product.getProductId()));
         iv.setTranslateY(50);

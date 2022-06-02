@@ -29,9 +29,9 @@ public class ProductModifyPageController implements Initializable {
 
     private ArrayList<Item> availableItems;
     private SerialBlob uploadedImage;
-    private ObservableList<Item> items = FXCollections.observableArrayList();
-    private ObservableList<ItemWithQuantity> itemsAdded = FXCollections.observableArrayList();
-    private List<Integer> choices = new ArrayList<>();
+    private final ObservableList<Item> items = FXCollections.observableArrayList();
+    private final ObservableList<ItemWithQuantity> itemsAdded = FXCollections.observableArrayList();
+    private final List<Integer> choices = new ArrayList<>();
 
     @FXML
     private TextField fldName;
@@ -333,10 +333,7 @@ public class ProductModifyPageController implements Initializable {
             validated = false;
         }
 
-        if(validated)
-            return true;
-
-        return false;
+        return validated;
     }
 
     private void hideErrorsLabels() {

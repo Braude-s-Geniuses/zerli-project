@@ -35,12 +35,18 @@ public class UserHomePageController implements Initializable {
         lbluserFullname.setText(Client.userController.getLoggedInUser().getFirstName() + " " + Client.userController.getLoggedInUser().getLastName());
 
         if(Client.userController.getLoggedInUser().getUserType() == UserType.SERVICE_EMPLOYEE) {
-            Client.complaintController.requestAllOrders();
-            // TODO: Fix how the list view looks like
+            Client.complaintController.getAllComplaints();
             ListView listView = new ListView();
+            Label lblMsg = new Label("Messages: ");
+            lblMsg.getStyleClass().add("details-label");
+            lblMsg.setLayoutX(25);
+            lblMsg.setLayoutY(150);
+            listView.getStyleClass().add("list-view-msg");
+            listView.setPlaceholder(new Label("No complaints in this list"));
             listView.setLayoutX(20);
-            listView.setLayoutY(80);
-
+            listView.setLayoutY(180);
+            listView.setMaxHeight(150);
+            listView.setMinWidth(350);
             Timestamp now = new Timestamp(System.currentTimeMillis());
             ArrayList<Complaint> result = Client.complaintController.getListOfComplaints();
 
@@ -52,6 +58,7 @@ public class UserHomePageController implements Initializable {
             }
 
             contentPane.getChildren().add(listView);
+            contentPane.getChildren().add(lblMsg);
         }
     }
 }

@@ -49,7 +49,7 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
         for (int i : ordersReportDataFromDB) {
             sum += i;
         }
-        return sum == 0 ? true : false;
+        return sum == 0;
     }
 
     @Override

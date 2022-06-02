@@ -27,13 +27,15 @@ import java.util.ResourceBundle;
 import static java.lang.String.valueOf;
 
 public class ViewProductDetailsPageController implements Initializable {
-    ObservableList<Integer> quantityPicker =
-            FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8,9, 10);
+
+    ObservableList<Integer> quantityPicker = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8,9, 10);
+
     @FXML
     private AnchorPane baseAnchor;
 
     @FXML
     private Button backBtn;
+
     @FXML
     private Button btnAdd;
 
@@ -92,7 +94,17 @@ public class ViewProductDetailsPageController implements Initializable {
         MainDashboardController.setContentFromFXML("OrderDeliveryPage.fxml");
     }
 
-
+    /**
+     * Initializes the controller
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productImage.setImage(Client.productController.getProductImages().get(BrowseCatalogPageController.currentProduct.getProductId()));

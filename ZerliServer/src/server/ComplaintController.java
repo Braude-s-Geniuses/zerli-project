@@ -17,7 +17,11 @@ public class ComplaintController {
 
     public static Connection connection = Server.databaseController.getConnection();
 
-
+    /**
+     * Inserts the arrived complaint to database
+     * @param complaint
+     * @return Message with proper response
+     */
     public static Message setComplaintToDataBase(Complaint complaint) {
         try {
 
@@ -32,12 +36,16 @@ public class ComplaintController {
             preparedStmt.execute();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new Message("Not added!!!!!!!!", MessageFromServer.ADDED_COMPLAINT_SUCCESSFULLY);//change this to unsuccessfully complaint
+            return new Message("Failed to add Complaint!", MessageFromServer.COMPLAINT_RESPONSE);
         }
-        return new Message("Added Successfully", MessageFromServer.ADDED_COMPLAINT_SUCCESSFULLY);
+        return new Message("Added Successfully", MessageFromServer.COMPLAINT_RESPONSE);
     }
 
-
+    /**
+     * Validates if such customer exists and if there is order provided is connected to him.
+     * @param data
+     * @return
+     */
     public static Message validateCustomerAndOrderDatabase(Object data) {
         ArrayList<Object> objToSend = new ArrayList<>();
         ArrayList<Object> arr = (ArrayList<Object>) data;
@@ -76,6 +84,10 @@ public class ComplaintController {
         return new Message(objToSend, MessageFromServer.RESULT_OF_VALIDATION);
     }
 
+    /**
+     * Returns all complaints exists in the database
+     * @return
+     */
     public static Message getAllComplaintsFromDatabase() {
         ArrayList<Complaint> complaints = new ArrayList<>();
         try {
@@ -104,12 +116,16 @@ public class ComplaintController {
         return new Message(complaints, MessageFromServer.IMPORTED_COMPLAINTS_SUCCEED);
     }
 
+    /**
+     * Closes the complaint and returns ok if the complaint closed properly
+     * @param msg
+     * @return
+     */
     public static Message closeStatus(ArrayList<Object> msg) {
         double amountToAdd;
         double sum = 0;
         int complaintID = (Integer) msg.get(0);
         int customerID = (Integer)msg.get(1);
-
 
         try {
             PreparedStatement preparedStmt = connection.prepareStatement("UPDATE `complaint` SET `status` = 'CLOSED' WHERE (`complaint_id` = ' " + complaintID + "');");
@@ -118,7 +134,6 @@ public class ComplaintController {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
 
         try {
             PreparedStatement preparedBalanceStatement = connection.prepareStatement("SELECT balance\n" +

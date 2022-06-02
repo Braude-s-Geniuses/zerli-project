@@ -77,7 +77,7 @@ public class ItemAddPageController implements Initializable {
         float price;
 
         try {
-            price = Float.parseFloat(fldPrice.getText().toString());
+            price = Float.parseFloat(fldPrice.getText());
 
             if(price <= 0.0) {
                 lblMessage.setStyle("-fx-text-fill: indianred");

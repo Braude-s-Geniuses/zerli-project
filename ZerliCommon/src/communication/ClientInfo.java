@@ -4,8 +4,8 @@ package communication;
  *
  */
 public class ClientInfo {
-    private String ipAddress;
-    private String hostname;
+    private final String ipAddress;
+    private final String hostname;
     private String status;
 
     public ClientInfo(String ipAddress, String hostname) {

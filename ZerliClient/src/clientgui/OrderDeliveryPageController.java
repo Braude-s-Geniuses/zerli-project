@@ -118,9 +118,9 @@ public class OrderDeliveryPageController implements Initializable {
          */
         timeList = new ArrayList<String>();
         for (int i = 8; i <= 18; i++) {
-            timeList.add(String.valueOf(i) + ":00");
+            timeList.add(i + ":00");
             if (i != 18)
-                timeList.add(String.valueOf(i) + ":30");
+                timeList.add(i + ":30");
         }
         LocalDate minDate = LocalDate.now();
 
@@ -343,7 +343,7 @@ public class OrderDeliveryPageController implements Initializable {
                 Client.orderController.getCurrentOrder().setDiscountPrice(discountPrice);
                 Client.orderController.getCurrentOrder().setDeliveryAddress(null);
             }
-            Timestamp deliveryDateTime = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem().toString() + ":00");
+            Timestamp deliveryDateTime = Timestamp.valueOf(datePicker.getValue().toString() + " " + cbTime.getSelectionModel().getSelectedItem() + ":00");
             Client.orderController.getCurrentOrder().setDeliveryDate(deliveryDateTime);
             if(btnRadioExpressYes.isSelected()){
                 Client.orderController.getCurrentOrder().setOrderStatus(OrderStatus.EXPRESS_PENDING);
@@ -392,7 +392,7 @@ public class OrderDeliveryPageController implements Initializable {
                 invalidFields++;
             }
         }
-        return  invalidFields == 0 ? true: false;
+        return invalidFields == 0;
     }
 
     /**

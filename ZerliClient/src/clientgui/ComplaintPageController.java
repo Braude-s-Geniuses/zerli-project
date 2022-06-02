@@ -21,9 +21,8 @@ import static java.lang.String.valueOf;
 
 public class ComplaintPageController implements Initializable {
 
-
     @FXML
-    private TextField orderIDtext;
+    private TextField orderIDText;
 
     @FXML
     private TextArea complaintText;
@@ -39,48 +38,46 @@ public class ComplaintPageController implements Initializable {
     @FXML
     private Button backBtn;
 
-
+    /**
+     * Initializes the controller
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        orderIDtext.clear();
+        orderIDText.clear();
         customerUsername.clear();
         complaintText.clear();
         backBtn.getStyleClass().add("btn-red");
 
         if (Client.userController.getLoggedInUser() != null)
             servicerID.setText(valueOf(Client.userController.getLoggedInUser().getUserId()));
-        else {
-            servicerID.setText("No Service person logged in! , Please log in");//Maybe will be deleted because no one can access this page unless servicer logged in
-            servicerID.setTextFill(Color.RED);
-            orderIDtext.setDisable(true);
-            customerUsername.setDisable(true);
-            complaintText.setDisable(true);
-            submitComplaintBtn.setDisable(true);
-        }
-
-
     }
 
-
+    /**
+     * This function will create new complaint in the system with few constraints
+     *
+     * @param actionEvent
+     */
     public void submitComplaintClick(ActionEvent actionEvent) {
-
-
-        if (customerUsername.getText().isEmpty() || orderIDtext.getText().isEmpty()) {
+        if (customerUsername.getText().isEmpty() || orderIDText.getText().isEmpty()) {
             emptyLabel.setText("You must enter Customer's Username and Order ID");
             emptyLabel.setTextFill(Color.RED);
             emptyLabel.setVisible(true);
         } else
             emptyLabel.setVisible(false);
 
-
-        if (!customerUsername.getText().isEmpty() && !orderIDtext.getText().isEmpty()) {
+        if (!customerUsername.getText().isEmpty() && !orderIDText.getText().isEmpty()) {
 
             String customerUsernameCheck = customerUsername.getText();
-            int orderIDCheck = Integer.parseInt(orderIDtext.getText());
+            int orderIDCheck = Integer.parseInt(orderIDText.getText());
 
+            //validating that there is such username and order connected to him in database and response accordingly
             Client.complaintController.validateCustomerAndOrder(customerUsernameCheck, orderIDCheck);
-
             ArrayList<Object> resultValidation = (ArrayList<Object>) Client.complaintController.getValidationResult().getData();
 
             if (resultValidation.get(0).equals("No such order connected to this username in database")) {
@@ -97,7 +94,7 @@ public class ComplaintPageController implements Initializable {
                 emptyLabel.setText("Please provide a complaint!");
                 emptyLabel.setTextFill(Color.RED);
                 emptyLabel.setVisible(true);
-            } else {
+            } else { // After validation if all checks passed the complaint will be added to database
                 int myID = Client.userController.getLoggedInUser().getUserId();
                 String complaintTextToSend = complaintText.getText();
                 int customerIDtoSend = (int) resultValidation.get(1);
@@ -105,20 +102,18 @@ public class ComplaintPageController implements Initializable {
                 emptyLabel.setText("Complaint saved successfully!");
                 emptyLabel.setTextFill(Color.GREEN);
                 emptyLabel.setVisible(true);
-                orderIDtext.setDisable(true);
+                orderIDText.setDisable(true);
                 complaintText.setDisable(true);
                 customerUsername.setDisable(true);
                 submitComplaintBtn.setDisable(true);
-
             }
-
-
         }
-
-
     }
 
-
+    /**
+     * Returns to the complaints page
+     * @param actionEvent
+     */
     public void backBtnClick(ActionEvent actionEvent) {
         MainDashboardController.setContentFromFXML("MyComplaintsPage.fxml");
     }

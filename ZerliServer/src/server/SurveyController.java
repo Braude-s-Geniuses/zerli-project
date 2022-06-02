@@ -13,8 +13,8 @@ import java.util.List;
 
 public class SurveyController {
 
-    private ZerliServer server;
-    private Connection con;
+    private final ZerliServer server;
+    private final Connection con;
 
     private  PreparedStatement preparedStatement = null;
 
@@ -22,7 +22,6 @@ public class SurveyController {
         server = ServerController.getServer();
         con = Server.databaseController.getConnection();
     }
-
 
     public Message tryToInsertSurvey(SurveyAnswers survey) {
         String username = survey.getUsername();
@@ -87,7 +86,7 @@ public class SurveyController {
 
             ResultSet resultSet = stmt.executeQuery(str);
 
-            return resultSet.next() ? true : false;
+            return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -101,7 +100,7 @@ public class SurveyController {
             String queryToExecute = "SELECT * FROM survey_result where username = \"" +
                     username + "\" AND survey_id= \"" + surveyID + "\";";
             ResultSet resultSet = stmt.executeQuery(queryToExecute);
-            return resultSet.next() ? true : false;
+            return resultSet.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

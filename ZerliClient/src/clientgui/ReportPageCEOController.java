@@ -225,11 +225,7 @@ public class ReportPageCEOController implements Initializable{
 
     @FXML
     void clickCheckBoxCompare(ActionEvent event) {
-        if (checkBoxCompare.isSelected()){
-            setCompare(false);
-        }else {
-            setCompare(true);
-        }
+        setCompare(!checkBoxCompare.isSelected());
     }
 
     private void setCompare(boolean toDisable) {
@@ -321,7 +317,7 @@ public class ReportPageCEOController implements Initializable{
                 pdfFile = File.createTempFile("zerli", "report.pdf");
                 pdfFile.deleteOnExit();
                 FileOutputStream fileOutputStream = new FileOutputStream(pdfFile);
-                byte b[] = blob.getBytes(1, (int) blob.length());
+                byte[] b = blob.getBytes(1, (int) blob.length());
                 fileOutputStream.write(b);
                 fileOutputStream.close();
 
@@ -384,7 +380,7 @@ public class ReportPageCEOController implements Initializable{
             lblErrorInReportType.setVisible(true);
             flag++;
         }
-        return flag > 0 ? false : true;
+        return flag <= 0;
     }
 
 

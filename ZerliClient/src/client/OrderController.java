@@ -15,7 +15,7 @@ public class OrderController {
     /**
      * Used to store Products inserted into the cart.
      */
-    private ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
+    private final ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
     private float currBalance = -1;
     private Message response;
     private Order currentOrder;
@@ -113,10 +113,7 @@ public class OrderController {
     public boolean sendNewOrder() {
         Message msg = new Message(getCurrentOrder(), MessageFromClient.ADD_NEW_ORDER);
         Client.clientController.getClient().handleMessageFromUI(msg, true);
-        if(response.getAnswer() == MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY){
-           return false;
-        }
-        return true;
+        return response.getAnswer() != MessageFromServer.ADDED_ORDER_NOT_SUCCESSFULLY;
     }
 
     /**

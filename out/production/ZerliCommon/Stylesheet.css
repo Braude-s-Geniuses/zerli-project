@@ -143,6 +143,10 @@
 	-fx-text-background-color: #ffffff;
 }
 
+.table-row-cell:disabled{
+    -fx-opacity: 0.3;
+}
+
 .date-picker {
     -fx-font-family: 'Calibri';
     -fx-font-size: 18;
@@ -271,7 +275,8 @@
 }
 
 .tab-pane {
-    -fx-tab-min-width: 90px;
+    -fx-tab-min-width: 370px;
+    -fx-tab-min-height: 50px;
 }
 
 .tab {
@@ -297,4 +302,44 @@
 .tab:selected .tab-label {
     -fx-alignment: CENTER;
     -fx-text-fill: #e6e6e6;
+}
+
+.list-view-msg{
+    -fx-opacity: 0.8;
+}
+
+.scroll-pane {
+    -fx-background-color: #e4d7de;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #77385a;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #e4d7de;
+}
+
+.white-lbl{
+    -fx-fill: lightseagreen;
+    -fx-stroke: firebrick;
+    -fx-stroke-width: 2px;
 }

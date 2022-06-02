@@ -54,7 +54,7 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
         for (Map.Entry<String, Float> entry : ordersReportDataFromDB.entrySet()) {
             sum += entry.getValue();
         }
-        return sum == 0 ? true : false;
+        return sum == 0;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell skipTheHistogramCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));

@@ -57,7 +57,7 @@ public class MyComplaintsPageController implements Initializable {
         dateTimeColumn.setCellValueFactory(new PropertyValueFactory<Complaint, Timestamp>("createdAt"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<Complaint, String>("description"));
 
-        Client.complaintController.requestAllOrders();
+        Client.complaintController.getAllComplaints();
 
         ArrayList<Complaint> result = Client.complaintController.getListOfComplaints();
 

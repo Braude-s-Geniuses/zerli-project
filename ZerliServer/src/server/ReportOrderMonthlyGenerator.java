@@ -58,7 +58,7 @@ public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator 
 
     public void fillColumns(ArrayList<Object> values) throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = new float[orderColumns.size()];
+        float[] columnWidth = new float[orderColumns.size()];
         int max = 0, productSum = 0, quantitySum = 0;
         int quantityIndex = orderColumns.indexOf("Quantity") + 1;
         String mustSold = null;
@@ -95,7 +95,7 @@ public class ReportOrderMonthlyGenerator extends AbstractMonthlyReportGenerator 
 
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell spaceCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));

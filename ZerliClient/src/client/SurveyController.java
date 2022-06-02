@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SurveyController {
 
-    private SurveyAnswers currSurvey = null;
+    private final SurveyAnswers currSurvey = null;
 
     private List<SurveyAnswers> surveyAnswersList = null;
 
@@ -36,7 +36,7 @@ public class SurveyController {
         return currCustomers;
     }
 
-    public boolean checkIfFull(SurveyAnswers survey){return survey.getAnswers().size() == 6 ? true : false;}
+    public boolean checkIfFull(SurveyAnswers survey){return survey.getAnswers().size() == 6;}
 
 
     public List<List> getSurveyIDs() {

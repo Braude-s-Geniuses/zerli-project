@@ -361,7 +361,7 @@ public class ReportController {
             byte[] pdfBytes = byteArrayOutputStream.toByteArray();
             ByteArrayInputStream bais = new ByteArrayInputStream(pdfBytes);
             preparedStatement.setBlob(4, bais);
-            if (reportType.toString().substring(0, 7).equals("MONTHLY")) {
+            if (reportType.toString().startsWith("MONTHLY")) {
                 preparedStatement.setString(5, period);
                 preparedStatement.setString(6, null);
             } else {       //for quarter

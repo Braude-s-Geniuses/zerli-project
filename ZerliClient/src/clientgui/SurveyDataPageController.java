@@ -120,7 +120,7 @@ public class SurveyDataPageController implements Initializable {
     }
 
     public void setSurveyAnswers(List<SurveyAnswers> surveyAnswers) {
-        this.surveyAnswers = surveyAnswers;
+        SurveyDataPageController.surveyAnswers = surveyAnswers;
     }
 
 
@@ -129,6 +129,6 @@ public class SurveyDataPageController implements Initializable {
     }
 
     public void setSurveyName(String surveyName) {
-        this.surveyName = surveyName;
+        SurveyDataPageController.surveyName = surveyName;
     }
 }

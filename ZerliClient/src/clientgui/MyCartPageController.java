@@ -34,7 +34,7 @@ public class MyCartPageController implements Initializable {
     private Label totalLabel;
     @FXML
     private ListView<Object> cartAsListView;
-    private ArrayList<ComboBox> comboBoxQuantityArray = new ArrayList<>();
+    private final ArrayList<ComboBox> comboBoxQuantityArray = new ArrayList<>();
     private EventHandler<ActionEvent> handler;
 
     private float totalPrice;
@@ -54,10 +54,7 @@ public class MyCartPageController implements Initializable {
         ArrayList<OrderProduct> arrivedList = Client.orderController.getCart();
         cartAsListView.setFocusTraversable( false );
 
-        if(arrivedList.isEmpty())
-            btnCheckOut.setDisable(true);
-        else
-            btnCheckOut.setDisable(false);
+        btnCheckOut.setDisable(arrivedList.isEmpty());
 
         initHandler();
         for (OrderProduct op : arrivedList) {
@@ -131,7 +128,7 @@ public class MyCartPageController implements Initializable {
                 OrderProduct op = Client.orderController.getProductByName(splitNameLabelString[0]);
                 if(newAmount == 0){
                     cartAsListView.getItems().remove(productHBox);
-                    Client.orderController.getCart().remove(Client.orderController.getCart().indexOf(op));
+                    Client.orderController.getCart().remove(op);
                     if(Client.orderController.getCart().isEmpty()){
                         btnCheckOut.setDisable(true);
                     }

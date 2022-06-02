@@ -5,7 +5,6 @@ import communication.Message;
 import communication.MessageFromClient;
 import communication.MessageFromServer;
 import ocsf.client.AbstractClient;
-import order.Product;
 import survey.SurveyAnswers;
 import user.User;
 
@@ -68,9 +67,6 @@ public class ZerliClient extends AbstractClient {
             case FREEZE_CUSTOMER:
             case CHANGE_PERMISSION:
                 Client.userController.setResponse(messageFromServer);
-                break;
-            case IMPORTED_PRODUCTS_SUCCEED:
-                Client.catalogController.setProducts((ArrayList<Product>) messageFromServer.getData());
                 break;
             case CUSTOMER_IS_BLOCKED:
                 Client.userController.setLoggedInUser(null);
@@ -144,7 +140,7 @@ public class ZerliClient extends AbstractClient {
             case UNAUTHORIZED_CUSTOMER:
                 message = MessageFromServer.UNAUTHORIZED_CUSTOMER;
                 break;
-            case ADDED_COMPLAINT_SUCCESSFULLY:
+            case COMPLAINT_RESPONSE:
                 Client.complaintController.setComplaintStatusReceived(messageFromServer);
                 break;
             case RESULT_OF_VALIDATION:
@@ -168,7 +164,7 @@ public class ZerliClient extends AbstractClient {
             case IMPORT_DELIVERY_TABLE_SUCCEED:
             case DELIVERY_UPDATE_FAIL:
             case DELIVERY_UPDATE_SUCCESS:
-                Client.deliveryController.setResponse((Message)messageFromServer);
+                Client.deliveryController.setResponse(messageFromServer);
                 break;
         }
 

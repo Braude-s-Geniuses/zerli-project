@@ -3,7 +3,6 @@ package order;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Product implements Serializable {
     private int productId;
@@ -14,7 +13,8 @@ public class Product implements Serializable {
     private SerialBlob image;
     private boolean customMade;
     private String dominantColor;
-    private boolean inCatalog;
+    private boolean inCatalog = true;
+    private boolean customerProduct = false;
 
     public Product() {
 
@@ -124,14 +124,12 @@ public class Product implements Serializable {
         this.inCatalog = inCatalog;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean isCustomerProduct() {
+        return customerProduct;
+    }
 
-        Product product = (Product) o;
-
-        return getProductId() == product.getProductId();
+    public void setCustomerProduct(boolean customerProduct) {
+        this.customerProduct = customerProduct;
     }
 
     @Override
