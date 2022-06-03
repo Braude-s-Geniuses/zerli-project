@@ -86,6 +86,14 @@ public class OrderController extends AbstractController {
     }
 
     /**
+     * Fetches all customer`s orders from DB by branch
+     */
+    public void requestOrders(String branch){
+        Message ordersRequest = new Message(branch, MessageFromClient.ORDERS_GET_BY_BRANCH);
+        Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
+    }
+
+    /**
      * Get branches list from DB
      */
     public void getBranches() {
@@ -173,10 +181,9 @@ public class OrderController extends AbstractController {
         this.currBalance = currBalance;
     }
 
-    public String getBranch(int userId) {
+    public void getBranch(int userId) {
         Message msg = new Message(userId, MessageFromClient.ORDER_GET_BRANCH);
         Client.clientController.getClient().handleMessageFromUI(msg,true);
-        return getBranchManager();
     }
 
     public String getBranchManager() {

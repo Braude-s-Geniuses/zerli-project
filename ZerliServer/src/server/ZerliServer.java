@@ -83,6 +83,9 @@ public class ZerliServer extends AbstractServer {
             case ORDERS_GET:
                 messageFromServer = OrderController.getAllOrdersFromServer((int) messageFromClient.getData());
                 break;
+            case ORDERS_GET_BY_BRANCH:
+                messageFromServer = OrderController.getAllOrdersByBranch((String) messageFromClient.getData());
+                break;
             case ORDER_BRANCHES_GET:
                 messageFromServer = OrderController.getAllBranches();
                 break;

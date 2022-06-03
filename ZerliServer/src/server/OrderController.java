@@ -357,4 +357,46 @@ public class OrderController {
 
         return new Message(branch, MessageFromServer.ORDER_GET_BRANCH_SUCCESS);
     }
+
+    /**
+     * Get all order of specific customer from DB
+     * @param branch - the branch to filter by
+     * @return list of orders
+     */
+    public static Message getAllOrdersByBranch(String branch) {
+
+        List<Order> orders = new ArrayList<Order>();
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE `branch` = ? ORDER BY FIELD(order_status, 'EXPRESS_PENDING', 'NORMAL_PENDING', 'CANCEL_PENDING', 'NORMAL_CONFIRMED', 'EXPRESS_CONFIRMED', 'CANCEL_CONFIRMED', 'NORMAL_COMPLETED', 'EXPRESS_COMPLETED');");
+            preparedStatement.setString(1, branch);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setOrderId(resultSet.getInt("order_id"));
+                order.setCustomerId(resultSet.getInt("customer_id"));
+                order.setBranch(resultSet.getString("branch"));
+                order.setOrderStatus(resultSet.getString("order_status"));
+                order.setGreetingCard(resultSet.getString("greeting_card"));
+                order.setPrice(resultSet.getFloat("price"));
+                order.setDiscountPrice(resultSet.getFloat("discount_price"));
+                order.setOrderDate(resultSet.getTimestamp("order_date"));
+                order.setDeliveryDate(resultSet.getTimestamp("delivery_date"));
+                order.setDeliveryAddress(resultSet.getString("delivery_address"));
+                order.setRecipientName(resultSet.getString("recipient_name"));
+                order.setRecipientPhone(resultSet.getString("recipient_phone"));
+                order.setCancelTime(resultSet.getTimestamp("cancel_time"));
+
+                orders.add(order);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.ORDERS_GET_BY_BRANCH_FAIL);
+        }
+
+        return new Message(orders, MessageFromServer.ORDERS_GET_BY_BRANCH_SUCCESS);
+
+    }
 }

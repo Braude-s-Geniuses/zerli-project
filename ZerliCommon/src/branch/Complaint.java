@@ -5,14 +5,14 @@ import java.sql.Timestamp;
 
 public class Complaint implements Serializable {
     private int complaintId;
-    private int customerId;
+    private String customerId;
     private int serviceId;
     private int orderId;
     private ComplaintStatus complaintStatus;
     private Timestamp createdAt;
     private String description;
 
-    public Complaint(int complaintId, int customerId, int serviceId, int orderId, ComplaintStatus complaintStatus, Timestamp createdAt, String description) {
+    public Complaint(int complaintId, String customerId, int serviceId, int orderId, ComplaintStatus complaintStatus, Timestamp createdAt, String description) {
         this.complaintId = complaintId;
         this.customerId = customerId;
         this.serviceId = serviceId;
@@ -32,11 +32,11 @@ public class Complaint implements Serializable {
         this.complaintId = complaintId;
     }
 
-    public int getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 

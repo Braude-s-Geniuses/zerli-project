@@ -27,7 +27,7 @@ public class ComplaintController {
 
             PreparedStatement preparedStmt = connection.prepareStatement("INSERT INTO `complaint` (complaint_id, customer_id, expert_id, order_id, status, created_at,description) VALUES (?,?,?,?,?,?,?);");
             preparedStmt.setInt(1, complaint.getComplaintId());
-            preparedStmt.setInt(2, complaint.getCustomerId());
+            preparedStmt.setString(2, complaint.getCustomerId());
             preparedStmt.setInt(3, complaint.getServiceId());
             preparedStmt.setInt(4, complaint.getOrderId());
             preparedStmt.setString(5, valueOf(complaint.getComplaintStatus()));
@@ -52,20 +52,21 @@ public class ComplaintController {
         String customerUsername = (String) arr.get(0);
         int orderID = (int) arr.get(1);
 
-        int customerID = 0;
+        int customerUserId = 0;
         try {
-            PreparedStatement preparedUsernameValidationStatement = connection.prepareStatement("SELECT user_id FROM user WHERE username = '" + customerUsername + "'");
+            PreparedStatement preparedUsernameValidationStatement = connection.prepareStatement("SELECT user_id FROM user WHERE id = '" + customerUsername + "'");
             ResultSet validationUsernameResult = preparedUsernameValidationStatement.executeQuery();
             if (!validationUsernameResult.next()) {
                 objToSend.add("No such username in database");
                 return new Message(objToSend, MessageFromServer.COMPLAINT_VALIDATE_RESPONSE);
-            } else
-                customerID = validationUsernameResult.getInt(1);
+            } else {
+                customerUserId = validationUsernameResult.getInt("user_id");
+            }
 
 
             PreparedStatement preparedOrderValidationStatement = connection.prepareStatement("SELECT * FROM `order` WHERE order_id = ? AND customer_id = ?");
             preparedOrderValidationStatement.setInt(1, orderID);
-            preparedOrderValidationStatement.setInt(2, customerID);
+            preparedOrderValidationStatement.setInt(2, customerUserId);
             ResultSet validationOrderResult = preparedOrderValidationStatement.executeQuery();
 
             if (!validationOrderResult.next()) {
@@ -80,7 +81,7 @@ public class ComplaintController {
 
         objToSend.clear();
         objToSend.add("Validated Successfully!");
-        objToSend.add(customerID);
+        objToSend.add(customerUsername);
         return new Message(objToSend, MessageFromServer.COMPLAINT_VALIDATE_RESPONSE);
     }
 
@@ -98,13 +99,13 @@ public class ComplaintController {
 
                 Complaint complaint = new Complaint();
 
-                complaint.setComplaintId(complaintResult.getInt(1));
-                complaint.setCustomerId(complaintResult.getInt(2));
-                complaint.setServiceId(complaintResult.getInt(3));
-                complaint.setOrderId(complaintResult.getInt(4));
-                complaint.setComplaintStatus(ComplaintStatus.valueOf(complaintResult.getString(5)));
-                complaint.setCreatedAt(complaintResult.getTimestamp(6));
-                complaint.setDescription(complaintResult.getString(7));
+                complaint.setComplaintId(complaintResult.getInt("complaint_id"));
+                complaint.setCustomerId(complaintResult.getString("customer_id"));
+                complaint.setServiceId(complaintResult.getInt("expert_id"));
+                complaint.setOrderId(complaintResult.getInt("order_id"));
+                complaint.setComplaintStatus(ComplaintStatus.valueOf(complaintResult.getString("status")));
+                complaint.setCreatedAt(complaintResult.getTimestamp("created_at"));
+                complaint.setDescription(complaintResult.getString("description"));
 
                 complaints.add(complaint);
             }
@@ -125,7 +126,7 @@ public class ComplaintController {
         double amountToAdd;
         double sum = 0;
         int complaintID = (Integer) msg.get(0);
-        int customerID = (Integer)msg.get(1);
+        String customerID = (String) msg.get(1);
 
         try {
             PreparedStatement preparedStmt = connection.prepareStatement("UPDATE `complaint` SET `status` = 'CLOSED' WHERE (`complaint_id` = ' " + complaintID + "');");
@@ -144,6 +145,18 @@ public class ComplaintController {
                 sum = statusResult.getInt(1);
             }
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        int customerUserid = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT user_id FROM user WHERE id = ?");
+            preparedStatement.setString(1, customerID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            customerUserid = resultSet.getInt("user_id");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

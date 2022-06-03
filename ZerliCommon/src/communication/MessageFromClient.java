@@ -69,6 +69,6 @@ public enum MessageFromClient implements Serializable {
     DELIVERIES_GET,
     DELIVERY_ADD_NEW,
     DELIVERY_HISTORY_GET,
-    DELIVERY_ORDER_REFUND,
+    DELIVERY_ORDER_REFUND, ORDERS_GET_BY_BRANCH,
 
 }

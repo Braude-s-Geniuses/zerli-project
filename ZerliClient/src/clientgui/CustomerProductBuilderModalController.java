@@ -1,6 +1,9 @@
 package clientgui;
 
 import client.Client;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import order.OrderProduct;
 import order.Product;
@@ -113,8 +118,34 @@ public class CustomerProductBuilderModalController implements Initializable {
         addBtn.setOnAction(event -> {
             String valueOfQuantity = comboBoxQuantity.getValue();
             CustomerProductBuilderListPageController.addProductToListView(new OrderProduct(product, Integer.valueOf(valueOfQuantity)));
+            createSuccessAlert(product.getName() + " added to your customized product", Duration.seconds(3), 135, 67);
         });
 
         return hBox;
+    }
+
+    public void createSuccessAlert(String message, Duration duration, double layoutX, double layoutY) {
+        TextFlow textFlow = new TextFlow();
+        Text text = new Text(message);
+
+        text.setFill(Color.web("#0f5132"));
+        textFlow.getChildren().add(text);
+        textFlow.getStyleClass().add("text-flow");
+        textFlow.getStyleClass().add("text-flow-success");
+        textFlow.setLayoutX(layoutX);
+        textFlow.setLayoutY(layoutY);
+
+        baseAnchor.getChildren().add(textFlow);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        duration,
+                        event -> {
+                            MainDashboardController.getContentBox().getChildren().remove(textFlow);
+                        }
+                )
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 }

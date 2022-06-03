@@ -130,7 +130,7 @@ public class CustomerProductBuilderListPageController implements Initializable {
                 totalPrice += (op.getProduct().getPrice() * op.getQuantity());
                 totalDiscountPrice += (op.getProduct().getDiscountPrice() * op.getQuantity());
             }
-            //URL resource = Product.class.getResource();
+
             ImageView imageView = new ImageView("/flower.png");
 
             BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
@@ -138,7 +138,7 @@ public class CustomerProductBuilderListPageController implements Initializable {
             g2d.drawImage(bImage, 0, 0, null);
             g2d.dispose();
             ByteArrayOutputStream baos =new ByteArrayOutputStream();
-          ImageIO.write(bImage, "png", baos);
+            ImageIO.write(bImage, "png", baos);
 
             byte[] fileContent = baos.toByteArray();
 

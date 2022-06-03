@@ -20,7 +20,7 @@
                 <Font name="Calibri" size="24.0" />
             </font>
         </Button>
-        <Label fx:id="totalLabel" layoutX="20.0" layoutY="595.0" prefHeight="45.0" prefWidth="263.0" text="Total 0.0₪" textFill="#77385a">
+        <Label fx:id="totalLabel" layoutX="20.0" layoutY="595.0" prefHeight="45.0" prefWidth="263.0" text="Total 0.0 ₪" textFill="#77385a">
             <font>
                 <Font size="35.0" />
             </font>

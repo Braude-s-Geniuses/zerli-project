@@ -71,6 +71,8 @@ public class ZerliClient extends AbstractClient {
                 break;
             case ORDERS_GET_SUCCESS:
             case ORDERS_GET_FAIL:
+            case ORDERS_GET_BY_BRANCH_SUCCESS:
+            case ORDERS_GET_BY_BRANCH_FAIL:
             case ORDER_BRANCHES_GET_SUCCESS:
             case ORDER_CREATE_NEW_SUCCESS:
             case ORDER_CREATE_NEW_FAIL:

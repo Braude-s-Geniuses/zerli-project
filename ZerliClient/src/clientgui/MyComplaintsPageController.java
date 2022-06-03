@@ -30,7 +30,7 @@ public class MyComplaintsPageController implements Initializable {
     private TableColumn<Complaint, Integer> complaintIdColumn;
 
     @FXML
-    private TableColumn<Complaint, Integer> customerIdColumn;
+    private TableColumn<Complaint, String> customerIdColumn;
 
     @FXML
     private TableColumn<Complaint, Integer> servicerIdColumn;
@@ -50,7 +50,7 @@ public class MyComplaintsPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         complaintIdColumn.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("complaintId"));
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("customerId"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Complaint, String>("customerId"));
         servicerIdColumn.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("serviceId"));
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<Complaint, Integer>("orderId"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Complaint, ComplaintStatus>("complaintStatus"));

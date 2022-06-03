@@ -67,6 +67,7 @@ public class CustomerProductBuilderPageController implements Initializable {
         sliderPrice.setMin(minPrice);
         sliderPrice.setMax(maxPrice);
         sliderPrice.setValue(maxPrice);
+        lblRange.setText(minPrice + "\u20AA-" + maxPrice + "\u20AA");
 
         float finalMinPrice = minPrice;
         sliderPrice.valueProperty().addListener((observable, oldValue, newValue) -> {

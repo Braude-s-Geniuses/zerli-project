@@ -27,7 +27,7 @@ public class ExternalSystemController {
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/zerli?serverTimezone=Asia/Jerusalem","root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/" + Server.databaseController.getDbName() + "?serverTimezone=Asia/Jerusalem", Server.databaseController.getDbUser(), Server.databaseController.getDbPassword());
             ServerUIController.printToServerConsoleUI("SQL connection succeed");
             result += "External System connection succeed";
 
