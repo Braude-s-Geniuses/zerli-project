@@ -129,7 +129,7 @@ public class OrderController extends AbstractController {
         msgList.add(userId);
         msgList.add(balance);
         Message msg = new Message(msgList, MessageFromClient.CUSTOMER_BALANCE_UPDATE);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        Client.clientController.getClient().handleMessageFromUI(msg,false);
     }
 
     /**

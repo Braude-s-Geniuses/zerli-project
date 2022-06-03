@@ -38,7 +38,7 @@ public class DeliveryController extends AbstractController {
         Client.clientController.getClient().handleMessageFromUI(OrderToRefund, true);
         Client.userController.getCustomerEmail(order.getCustomerId());
         String email = (String) Client.userController.getResponse().getData();
-        Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: Customer " + email + " | Message: Your Order #" + order.getOrderId() + " has been delivered. We apologize for the delay and we have fully refunded your payment to your account.");
+        Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + email + " | Message: Your Order #" + order.getOrderId() + " has been delivered. We apologize for the delay and we have fully refunded your payment to your account.");
     }
 
     public Order getOrder() {

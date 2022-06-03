@@ -112,7 +112,7 @@ public class OrderDetailsPageController implements Initializable {
     void clickBtnCancel(ActionEvent event) {
         Timestamp deliveryTime = order.getDeliveryDate();
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
-        long timeLeft = deliveryTime.getTime() - currTime.getTime();
+        long timeLeft =  deliveryTime.getTime() - order.getCancelTime().getTime();
         int hours = (int) timeLeft / 3600000;
         float refund = 0;
         if(Client.userController.getLoggedInUser().getUserType().equals(UserType.CUSTOMER)) {
@@ -124,11 +124,10 @@ public class OrderDetailsPageController implements Initializable {
         }
         else{
             if(hours > 3){
-                refund = order.getDiscountPrice()+Client.orderController.getBalance(order.getCustomerId());
+                refund = order.getDiscountPrice();
             }
             if(hours < 3 && hours >= 1){
                 refund = order.getDiscountPrice()* (float) 0.5;
-                refund+= Client.orderController.getBalance(order.getCustomerId());
             }
             if(refund != 0){
                 Client.orderController.updateBalance(order.getCustomerId(),refund);
@@ -137,7 +136,7 @@ public class OrderDetailsPageController implements Initializable {
             /* Notify customer */
             Client.userController.getCustomerEmail(order.getCustomerId());
             String mail = (String) Client.userController.getResponse().getData();
-            Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: Customer " + mail + " | Message: Your Order #" + order.getOrderId() + " has been cancelled and " + refund + " ILS has been credited to your account");
+            Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + mail + " | Message: Your Order #" + order.getOrderId() + " has been cancelled and " + refund + " ILS has been credited to your account");
         }
 
         return;
