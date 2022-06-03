@@ -41,12 +41,13 @@ public class UserHomePageController implements Initializable {
         if(Client.userController.getLoggedInUser().getUserType() == UserType.SERVICE_EMPLOYEE) {
             Client.complaintController.getAllComplaints();
             ListView listView = new ListView();
-            Label lblMsg = new Label("Messages: ");
+            listView.setPrefWidth(250);
+            Label lblMsg = new Label("Overdue Complaints: ");
             lblMsg.getStyleClass().add("details-label");
             lblMsg.setLayoutX(25);
             lblMsg.setLayoutY(150);
             listView.getStyleClass().add("list-view-msg");
-            listView.setPlaceholder(new Label("No complaints in this list"));
+            listView.setPlaceholder(new Label("No complaints are overdue"));
             listView.setLayoutX(20);
             listView.setLayoutY(180);
             listView.setMaxHeight(150);
