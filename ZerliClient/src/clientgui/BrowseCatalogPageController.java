@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -128,12 +129,12 @@ public class BrowseCatalogPageController implements Initializable {
             MainDashboardController.createAlert(product.getName() + " was added to cart", Alert.SUCCESS, Duration.seconds(2), 135, 67);
             MainDashboardController.refreshCartCounter();
         });
-
+        addBtn.setCursor(Cursor.HAND);
         viewDetails.setOnAction(event -> {
             currentProduct = product;
             MainDashboardController.setContentFromFXML("ViewProductDetailsPage.fxml");
         });
-
+        viewDetails.setCursor(Cursor.HAND);
         return hBox;
     }
 

@@ -93,22 +93,17 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         fldUsername.requestFocus();
+
         fldUsername.setOnKeyPressed( evt ->{
-            if(evt.getCode().equals(KeyCode.ENTER) || evt.getCode().equals(KeyCode.TAB) ){
+            if(evt.getCode().equals(KeyCode.ENTER) ){
                 fldPassword.requestFocus();
             }
         });
-
         fldPassword.setOnKeyPressed( evt ->{
-            if(evt.getCode().equals(KeyCode.ENTER) || evt.getCode().equals(KeyCode.TAB)){
-                login_Button.requestFocus();
-            }
-        });
-
-        login_Button.setOnKeyPressed( evt ->{
             if(evt.getCode().equals(KeyCode.ENTER)){
                 login_Button.fire();
             }
         });
+
     }
 }

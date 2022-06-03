@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -154,6 +155,7 @@ public class MainDashboardController implements Initializable {
                     btnCart.setGraphic(new ImageView(new Image("cart.png")));
                     btnCart.setText("My Cart");
                     btnCart.setOnAction(event -> setContentFromFXML("MyCartPage.fxml"));
+                    btnCart.setCursor(Cursor.HAND);
                     addTopNavButton(btnCart);
 
                     addSideNavButton(buttonBrowseCatalog);
@@ -230,6 +232,7 @@ public class MainDashboardController implements Initializable {
         btnLogInOrOut = new Button();
         btnLogInOrOut.setLayoutX(933.0);
         btnLogInOrOut.setPrefWidth(80.0);
+        btnLogInOrOut.setCursor(Cursor.HAND);
 
         refreshLoginButton();
         addTopNavButton(btnLogInOrOut);
