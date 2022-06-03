@@ -1,8 +1,10 @@
 package clientgui;
 
 import client.Client;
+import com.itextpdf.text.Image;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +35,7 @@ import util.Alert;
 
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -127,11 +130,16 @@ public class CustomerProductBuilderListPageController implements Initializable {
                 totalPrice += (op.getProduct().getPrice() * op.getQuantity());
                 totalDiscountPrice += (op.getProduct().getDiscountPrice() * op.getQuantity());
             }
+            //URL resource = Product.class.getResource();
+            ImageView imageView = new ImageView("/flower.png");
 
-            File file = new File(getClass().getResource("../logo.png").getPath());
-            BufferedImage originalImage= ImageIO.read(file);
+            BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
+            Graphics2D g2d = bImage.createGraphics();
+            g2d.drawImage(bImage, 0, 0, null);
+            g2d.dispose();
             ByteArrayOutputStream baos =new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
+          ImageIO.write(bImage, "png", baos);
+
             byte[] fileContent = baos.toByteArray();
 
             Client.catalogController.createProduct.setPrice(totalPrice);
