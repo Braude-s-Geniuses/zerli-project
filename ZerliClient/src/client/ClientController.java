@@ -1,8 +1,11 @@
 package client;
 
+import clientgui.MainDashboardController;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
+import util.Alert;
 
 /** Client represents the Client Controller which manages <code>ZerliClient</code>,
  * the controller is used by the GUI to communicate with the server.
@@ -44,5 +47,13 @@ public class ClientController {
      * @return <code>client</code>
      */
     public ZerliClient getClient() { return client; }
+
+    /**
+     * This simulates sending an Email/SMS which will be implemented in future versions
+     * @param body - the message to be sent
+     */
+    public void sendMail(String body) {
+        MainDashboardController.createAlert(body, Alert.WARNING, Duration.seconds(5), 135, 0);
+    }
 
 }

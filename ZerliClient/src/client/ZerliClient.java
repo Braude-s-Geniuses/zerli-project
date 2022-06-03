@@ -67,6 +67,8 @@ public class ZerliClient extends AbstractClient {
             case CUSTOMER_CREATE_NEW:
             case CUSTOMER_FREEZE:
             case EMPLOYEE_PERMISSION_CHANGE:
+            case CUSTOMER_GET_EMAIL_SUCCESS:
+            case CUSTOMER_GET_EMAIL_FAIL:
                 Client.userController.setResponse(messageFromServer);
                 break;
             case ORDERS_GET_SUCCESS:

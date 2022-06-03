@@ -81,6 +81,7 @@ public class UserController extends AbstractController {
         requestCreateNewCustomer.setData(newCustomer);
 
         Client.clientController.getClient().handleMessageFromUI(requestCreateNewCustomer,true);
+        Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: Customer " + newCustomer.getEmail() + " | Message: You are now a Zerli Customer! To celebrate, we are giving you a 20% Discount on your first order. No code necessary.");
 
         return  (boolean) getResponse().getData();
     }
@@ -93,6 +94,11 @@ public class UserController extends AbstractController {
         Client.clientController.getClient().handleMessageFromUI(requestFreezeCustomer,true);
 
         return  (boolean) getResponse().getData();
+    }
+
+    public void getCustomerEmail(int customerId) {
+        Message message = new Message(customerId, CUSTOMER_GET_EMAIL);
+        Client.clientController.getClient().handleMessageFromUI(message,true);
     }
 
     public User getUserForInformation() {

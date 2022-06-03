@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import order.Order;
+import order.OrderStatus;
 
 import java.net.URL;
 import java.sql.Timestamp;
@@ -38,9 +39,10 @@ public class MyDeliveriesPageController implements Initializable {
         Client.deliveryController.requestDeliveries();
 
         ArrayList<Order> result = (ArrayList<Order>) Client.deliveryController.getResponse().getData();
-        if (result != null) {
+        if (result.size() != 0) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
             for (Order order : result) {
+                String orderTime = new SimpleDateFormat("hh:mm").format(order.getOrderDate());
                 Button button = new Button("Accept delivery");
                 button.setPrefWidth(160);
                 button.setAlignment(Pos.CENTER);
@@ -48,7 +50,7 @@ public class MyDeliveriesPageController implements Initializable {
 
                 setActionForButton(button, order);
                 Label lblOrderNumber = new Label("#" + order.getOrderId(), null);
-                Label lblOrderDetails = new Label("Ordered On:  " + order.orderDateToString() +"\nFrom Branch:  " + order.getBranch(), null);
+                Label lblOrderDetails = new Label("Ordered On:  " + order.orderDateToString() + "\nAt time:  " + orderTime + "\nFrom Branch:  " + order.getBranch(), null);
                 Label lblOrderAddress = new Label( "Delivery Address:\n" + order.getDeliveryAddress() ,null);
                 Label lblOrderRecipient = new Label( "Recipient:\n" + order.getRecipientName() + "\n" + order.getRecipientPhone(),null);
                 Label lblOrderStatus = new Label( order.getOrderStatus().toString(), null);
@@ -80,6 +82,15 @@ public class MyDeliveriesPageController implements Initializable {
                 deliveryList.getItems().addAll(h);
 
             }
+        }else {
+            Label lblNoOrders = new Label("No upcoming orders", null);
+            lblNoOrders.setFont(Font.font ("Calibri", 32));
+            lblNoOrders.setTextFill(Color.web("#77385a"));
+            lblNoOrders.setPrefWidth(400);
+            HBox h = new HBox(30,lblNoOrders);
+            h.setPrefWidth(940);
+            h.setAlignment(Pos.CENTER);
+            deliveryList.getItems().addAll(h);
         }
     }
 
@@ -102,12 +113,13 @@ public class MyDeliveriesPageController implements Initializable {
     private void setActionForButton(Button button, Order order) {
         button.setOnAction(e->{
             Client.deliveryController.setOrder(order);
+            OrderStatus orderStatus= order.getOrderStatus();
             Client.deliveryController.makeDelivery();
             MessageFromServer result = Client.deliveryController.getResponse().getAnswer();
             if(result == MessageFromServer.DELIVERY_UPDATE_SUCCESS){
                 button.setDisable(true);
                 button.setText("Send");
-                if(checkForRefund(Client.deliveryController.getOrder())){
+                if(checkForRefund(Client.deliveryController.getOrder(), orderStatus)){
                     Client.deliveryController.makeRefund();
                 }
             }
@@ -118,20 +130,25 @@ public class MyDeliveriesPageController implements Initializable {
      * This function compares the delivery-time to the order-time and refunds
      * the customer if delivery time is more than three hours
      * @param order Order under check.
+     * @param orderStatus of order.
      * @return
      */
-    private boolean checkForRefund(Order order) {
+    private boolean checkForRefund(Order order, OrderStatus orderStatus) {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         Timestamp orderTime = order.getOrderDate();
 
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-        if(fmt.format(currentTime).equals(fmt.format(orderTime))){
-            long timeDiff = currentTime.getTime() - orderTime.getTime();
-            if (timeDiff / (60 * 60 * 1000) >= 3){
-                return true;
+        if(fmt.format(currentTime).equals(fmt.format(orderTime))){          //if same day
+            float timeDiff = currentTime.getTime() - orderTime.getTime() ;
+            float timeDiffHours = timeDiff / (60 * 60 * 1000);
+            if (timeDiffHours >= 3 && orderStatus == OrderStatus.EXPRESS_CONFIRMED){
+                return true;    //Refund if express order was more than three hours late.
+            }
+            if (timeDiffHours >= 0.5 && orderStatus == OrderStatus.NORMAL_CONFIRMED){
+                return true;        //Refund if normal order was more than one hour late.
             }
         }else {
-            return true;    //if a day or more has passed.
+            return true;        //if a day or more has passed.
         }
         return false;
     }

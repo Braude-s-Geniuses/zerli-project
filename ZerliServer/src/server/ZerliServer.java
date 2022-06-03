@@ -215,6 +215,10 @@ public class ZerliServer extends AbstractServer {
                 UserController userController3 = new UserController();
                 messageFromServer = userController3.FreezeCustomer((Customer)messageFromClient.getData());
                 break;
+            case CUSTOMER_GET_EMAIL:
+                UserController userController4 = new UserController();
+                messageFromServer = userController4.getCustomerEmail((int) messageFromClient.getData());
+                break;
             default:
                 ServerUIController.printToServerConsoleUI("Unhandled task was requested from server: " + messageFromClient.getTask());
                 break;

@@ -124,15 +124,20 @@ public class OrderDetailsPageController implements Initializable {
         }
         else{
             if(hours > 3){
-                refund = order.getPrice()+Client.orderController.getBalance(order.getCustomerId());
+                refund = order.getDiscountPrice()+Client.orderController.getBalance(order.getCustomerId());
             }
             if(hours < 3 && hours >= 1){
-                refund = order.getPrice()* (float) 0.5;
+                refund = order.getDiscountPrice()* (float) 0.5;
                 refund+= Client.orderController.getBalance(order.getCustomerId());
             }
             if(refund != 0){
                 Client.orderController.updateBalance(order.getCustomerId(),refund);
             }
+
+            /* Notify customer */
+            Client.userController.getCustomerEmail(order.getCustomerId());
+            String mail = (String) Client.userController.getResponse().getData();
+            Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: Customer " + mail + " | Message: Your Order #" + order.getOrderId() + " has been cancelled and " + refund + " ILS has been credited to your account");
         }
 
         return;

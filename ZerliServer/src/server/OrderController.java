@@ -184,7 +184,7 @@ public class OrderController {
         float balance = (float) data.get(1);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `customer`\n" +
-                    "SET balance = ? \n" +
+                    "SET balance += + ? \n" +
                     "WHERE customer_id = ? ;");
             preparedStatement.setFloat(1, balance);
             preparedStatement.setInt(2, customerId);

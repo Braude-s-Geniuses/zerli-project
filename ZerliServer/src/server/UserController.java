@@ -238,4 +238,27 @@ public class UserController {
         }
         return new Message(false, MessageFromServer.CUSTOMER_FREEZE);
     }
+
+    /**
+     * gets a customer's email by user id
+     * @param customerId - the user id to look for
+     * @return String email
+     */
+    public Message getCustomerEmail(int customerId) {
+        PreparedStatement preparedStatement = null;
+        String result = null;
+        try {
+            preparedStatement = con.prepareStatement("SELECT email FROM user WHERE user_id = ?");
+            preparedStatement.setInt(1, customerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            if(!resultSet.next())
+                return new Message(null, MessageFromServer.CUSTOMER_GET_EMAIL_FAIL);
+            result = resultSet.getString("email");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new Message(result, MessageFromServer.CUSTOMER_GET_EMAIL_SUCCESS);
+    }
 }
