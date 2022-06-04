@@ -28,8 +28,14 @@ import java.util.ResourceBundle;
 
 public class ItemsManagePageController implements Initializable {
 
+    /**
+     * stores the currentItem being modified
+     */
     private Item currentItem;
 
+    /**
+     * stores a list of all the items retrieved from the database on initialization
+     */
     private final ObservableList<Item> items = FXCollections.observableArrayList();
 
     @FXML
@@ -143,6 +149,10 @@ public class ItemsManagePageController implements Initializable {
         });
     }
 
+    /**
+     * Internal class used to allow to add an action button of 'Modify'
+     * to each TableRow
+     */
     private class AddItemCell extends TableCell<Item, Boolean> {
         final Button modifyButton = new Button("Modify");
         final StackPane paddedButton = new StackPane();
@@ -207,7 +217,7 @@ public class ItemsManagePageController implements Initializable {
             updatedItem.setName(fldName.getText());
         }
 
-        if(!cbType.getSelectionModel().isEmpty() && !cbType.getValue().equals(currentItem.getType())) {
+        if(cbType.getValue() != null && !cbType.getValue().equals("") && !cbType.getValue().equals(currentItem.getType())) {
             itemChanged = true;
             updatedItem.setType(cbType.getValue());
         }

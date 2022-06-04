@@ -165,7 +165,7 @@ public class ComplaintController {
             amountToAdd =(Double) msg.get(2);
             sum += amountToAdd;
             try {
-                PreparedStatement preparedStmt = connection.prepareStatement("UPDATE `customer` SET `balance` = " + sum + " WHERE (`customer_id` = ' " + customerID + "');");
+                PreparedStatement preparedStmt = connection.prepareStatement("UPDATE `customer` SET `balance` = " + sum + " WHERE (`customer_id` = ' " + customerUserid + "');");
                 preparedStmt.execute();
 
             } catch (SQLException e) {

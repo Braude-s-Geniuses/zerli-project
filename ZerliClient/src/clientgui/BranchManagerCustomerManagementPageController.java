@@ -125,6 +125,27 @@ public class BranchManagerCustomerManagementPageController implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        cardNewCustomerTextField1.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 4 && newText.length() >= 4)
+                cardNewCustomerTextField2.requestFocus();
+        });
+
+        cardNewCustomerTextField2.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() <4  && newText.length() >= 4)
+                cardNewCustomerTextField3.requestFocus();
+        });
+
+        cardNewCustomerTextField3.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 4 && newText.length() >= 4)
+                cardNewCustomerTextField4.requestFocus();
+        });
+
+        cardNewCustomerTextField4.textProperty().addListener((obs, oldText, newText)-> {
+            if (oldText.length() < 4 && newText.length() >= 4)
+                cvvNewCustomerTextField.requestFocus();
+        });
+
         clearPanes();
         clearMessages();
     }
@@ -152,6 +173,7 @@ public class BranchManagerCustomerManagementPageController implements Initializa
                 case CUSTOMER:
                     Customer customer = Client.userController.getCustomerForInformation();
                     showCustomerBalance(customer);
+                    cardNewCustomerTextField1.requestFocus();
                     break;
                 case BRANCH_EMPLOYEE:
                     BranchEmployee branchEmployee = Client.userController.getBranchEmployeeForInformation();
@@ -215,33 +237,6 @@ public class BranchManagerCustomerManagementPageController implements Initializa
             showMessage("Branch employee change permission succeed",false);
         else showMessage("Branch employee change permission failed",true);
     }
-
-    @FXML
-    void creditCardKeyTyped(KeyEvent event) {
-        creditCardCharsCount++;
-        switch (creditCardCharsCount){
-            case 4:
-                cardNewCustomerTextField2.requestFocus();
-                break;
-            case 8:
-                cardNewCustomerTextField3.requestFocus();
-                break;
-            case 12:
-                cardNewCustomerTextField4.requestFocus();
-                break;
-            case 16:
-                cvvNewCustomerTextField.requestFocus();
-                break;
-        }
-    }
-
-    @FXML
-    void cvvKeyTyped(KeyEvent event) {
-        cvvCharsCount++;
-        if(cvvCharsCount == 3)
-            monthNewCustomerComboBox.requestFocus();
-    }
-
 
     private void showBranchEmployeePermissions(BranchEmployee branchEmployee) {
         activateDiscountCheckBox.setSelected(branchEmployee.isDiscount());

@@ -16,10 +16,11 @@ public class CatalogController extends AbstractController {
     public Product createProduct;
 
     /**
-     * Get all products from server to be showed in the catalog
+     * Get all products from server to be showed in the catalog, sorted by discounts in the catalog to be shown first
      */
     public void getProducts() {
-        Client.productController.getProducts();
+        Message message = new Message(null, MessageFromClient.CATALOG_PRODUCTS_GET);
+        Client.clientController.getClient().handleMessageFromUI(message, true);
     }
 
     /**

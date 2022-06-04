@@ -33,12 +33,12 @@
                     </tickLabelFont></NumberAxis>
             </yAxis>
         </BarChart>
-        <Button fx:id="nextButton" layoutX="842.0" layoutY="547.0" mnemonicParsing="false" onAction="#nextButtonClick" text="Next" textFill="#77385a">
+        <Button fx:id="nextButton" layoutX="842.0" layoutY="547.0" mnemonicParsing="false" onAction="#nextButtonClick" styleClass="btn" text="Next" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="25.0" />
             </font>
         </Button>
-        <Button fx:id="backButton" layoutX="96.0" layoutY="547.0" mnemonicParsing="false" onAction="#backButtonClick" text="Return" textFill="#77385a">
+        <Button fx:id="backButton" layoutX="96.0" layoutY="547.0" mnemonicParsing="false" onAction="#backButtonClick" styleClass="btn-secondary" text="Previous" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="25.0" />
             </font>

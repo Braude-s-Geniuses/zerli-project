@@ -180,8 +180,8 @@ public class OrderRecipientPageController implements Initializable {
                 Client.orderController.getCurrentOrder().setRecipientName(nameField.getText());
                 Client.orderController.getCurrentOrder().setRecipientPhone(phoneField.getText());
             } else {
-                Client.orderController.getCurrentOrder().setRecipientName(null);
-                Client.orderController.getCurrentOrder().setRecipientPhone(null);
+                Client.orderController.getCurrentOrder().setRecipientName(Client.userController.getLoggedInUser().getFirstName() + " " + Client.userController.getLoggedInUser().getLastName());
+                Client.orderController.getCurrentOrder().setRecipientPhone(Client.userController.getLoggedInUser().getPhone());
             }
 
             if (btnAddGreeting.isSelected()) {

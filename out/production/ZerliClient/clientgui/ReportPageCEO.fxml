@@ -16,12 +16,7 @@
                 <Font name="Calibri" size="64.0" />
             </font>
         </Label>
-        <ComboBox fx:id="cbReportType" layoutX="397.0" layoutY="135.0" onAction="#cbReportTypeSelect" prefHeight="35.0" prefWidth="200.0" promptText="ReportType">
-            <styleClass>
-                <String fx:value="combo-color" />
-                <String fx:value="combo-time" />
-            </styleClass>
-        </ComboBox>
+        <ComboBox fx:id="cbReportType" layoutX="397.0" layoutY="135.0" onAction="#cbReportTypeSelect" prefHeight="35.0" prefWidth="200.0" promptText="ReportType" styleClass="combo-time" />
         <Label alignment="BASELINE_LEFT" layoutX="89.0" layoutY="280.0" prefHeight="68.0" prefWidth="141.0" text="Select Year" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="20.0" />
@@ -115,7 +110,7 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label alignment="BOTTOM_LEFT" layoutX="70.0" layoutY="91.0" prefHeight="82.0" prefWidth="864.0" text="Select Report Type" textFill="#77385a">
+        <Label alignment="BOTTOM_LEFT" layoutX="70.0" layoutY="91.0" prefHeight="82.0" prefWidth="309.0" text="Select Report Type" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="36.0" />
             </font>

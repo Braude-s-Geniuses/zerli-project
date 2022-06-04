@@ -105,6 +105,8 @@ public class ZerliClient extends AbstractClient {
                 break;
             case CATALOG_GET_PRODUCT_ITEMS_FAIL:
             case CATALOG_GET_PRODUCT_ITEMS_SUCCESS:
+            case CATALOG_PRODUCTS_GET_SUCCESS:
+            case CATALOG_PRODUCTS_GET_FAIL:
                 Client.catalogController.setResponse(messageFromServer);
                 break;
             case REPORT_VIEW_SUCCESS:

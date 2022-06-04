@@ -60,7 +60,7 @@
                 <Font name="Calibri Bold" size="14.0" />
             </font>
         </Label>
-        <Button fx:id="btnBack" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnBack" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Back" textAlignment="JUSTIFY" textFill="#77385a">
+        <Button fx:id="btnBack" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnBack" prefHeight="35.0" prefWidth="137.0" styleClass="btn-secondary" text="Back" textAlignment="JUSTIFY" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>

@@ -59,6 +59,7 @@ public class Customer extends User {
     public void setBalance(float balance) {
         this.balance = balance;
     }
+
     public ArrayList<String> getCardDetails(){
         ArrayList<String> cardDetails = new ArrayList<>();
         cardDetails.add(creditCard);

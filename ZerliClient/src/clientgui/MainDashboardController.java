@@ -7,9 +7,11 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -148,8 +150,14 @@ public class MainDashboardController implements Initializable {
         else {
             switch (Client.userController.getLoggedInUser().getUserType()) {
                 case CUSTOMER:
+                    Button btnCurrentBalance = new Button("Balance: " + ((Customer) Client.userController.getLoggedInUser()).getBalance() + " \u20AA");
+                    btnCurrentBalance.setLayoutX(700.0);
+                    btnCurrentBalance.setPadding(new Insets(10, 5, 0, 0));
+                    btnCurrentBalance.getStyleClass().add("balance-btn");
+                    addTopNavButton(btnCurrentBalance);
+
                     btnCart = new Button();
-                    btnCart.setLayoutX(770.0);
+                    btnCart.setLayoutX(780.0);
                     btnCart.setMinWidth(150.0);
                     btnCart.getStyleClass().add("cart-btn");
                     btnCart.setGraphic(new ImageView(new Image("cart.png")));

@@ -130,7 +130,7 @@ public class OrderDetailsPageController implements Initializable {
                 refund = order.getDiscountPrice()* (float) 0.5;
             }
             if(refund != 0){
-                Client.orderController.updateBalance(order.getCustomerId(),refund);
+                Client.orderController.updateBalance(order.getCustomerId(),Client.orderController.getBalance(order.getCustomerId()) + refund);
             }
 
             /* Notify customer */
@@ -147,9 +147,18 @@ public class OrderDetailsPageController implements Initializable {
         if(order.getOrderStatus() == OrderStatus.NORMAL_PENDING) {
             order.setOrderStatus("NORMAL_CONFIRMED");
             MainDashboardController.createAlert("Order "+ order.getOrderId() + " was confirmed", Alert.SUCCESS, Duration.seconds(3), 135, 100);
+
+            /* Notify customer */
+            Client.userController.getCustomerEmail(order.getCustomerId());
+            String mail = (String) Client.userController.getResponse().getData();
+            Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + mail + " | Message: Your Order #" + order.getOrderId() + " has been confirmed. Thank you for your purchase from us!");
         } else if (order.getOrderStatus() == OrderStatus.EXPRESS_PENDING) {
             order.setOrderStatus("EXPRESS_CONFIRMED");
             MainDashboardController.createAlert("Express order "+ order.getOrderId() + " was confirmed", Alert.SUCCESS, Duration.seconds(3), 135, 100);
+            /* Notify customer */
+            Client.userController.getCustomerEmail(order.getCustomerId());
+            String mail = (String) Client.userController.getResponse().getData();
+            Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + mail + " | Message: Your Order #" + order.getOrderId() + " has been confirmed. Thank you for your purchase from us!");
         } else {
             order.setOrderStatus("CANCEL_CONFIRMED");
             clickBtnCancel(event);

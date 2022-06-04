@@ -220,6 +220,13 @@
     -fx-underline: true;
 }
 
+.balance-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #77385a;
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 14;
+}
+
 .text-flow {
     -fx-pref-width: 640;
     -fx-pref-height: 25;

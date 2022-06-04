@@ -74,12 +74,12 @@ public class ComplaintPageController implements Initializable {
             Client.complaintController.validateCustomerAndOrder(customerUsernameCheck, orderIDCheck);
             ArrayList<Object> resultValidation = (ArrayList<Object>) Client.complaintController.getValidationResult().getData();
 
-            if (resultValidation.get(0).equals("No such order connected to this Customer in database")) {
+            if (resultValidation.get(0).equals("No such order connected to this username in database")) {
                 emptyLabel.setText("No such order connected to this Customer ID");
                 emptyLabel.setTextFill(Color.RED);
                 emptyLabel.setVisible(true);
 
-            } else if (resultValidation.get(0).equals("No such Customer in database")) {
+            } else if (resultValidation.get(0).equals("No such username in database")) {
                 emptyLabel.setText("No such Customer, provide valid one!");
                 emptyLabel.setTextFill(Color.RED);
                 emptyLabel.setVisible(true);

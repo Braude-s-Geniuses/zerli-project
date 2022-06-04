@@ -164,6 +164,9 @@ public class ZerliServer extends AbstractServer {
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.tryToGetSurveyID((String)messageFromClient.getData());
                 break;
+            case CATALOG_PRODUCTS_GET:
+                messageFromServer = CatalogController.getAllProducts();
+                break;
             case CATALOG_GET_PRODUCT_ITEMS:
                 messageFromServer = CatalogController.getProductItems(messageFromClient);
                 break;

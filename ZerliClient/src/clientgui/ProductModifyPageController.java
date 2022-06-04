@@ -189,7 +189,7 @@ public class ProductModifyPageController implements Initializable {
         result.ifPresent(selectedQuantity -> {
             boolean done = false;
             for(ItemWithQuantity itemWithQuantity : itemsAdded) {
-                if (itemWithQuantity.item == selectedItem) {
+                if (itemWithQuantity.item.getItemId() == selectedItem.getItemId()) {
                     itemWithQuantity.quantity += result.get();
                     done = true;
                     listProduct.refresh();

@@ -325,24 +325,25 @@ public class OrderPaymentPageController implements Initializable {
     @FXML
     void clickBtnUseBalance(ActionEvent event) {
         if(btnUseBalance.isSelected()){
-            if (( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance()) <= 0){ //balance is more than total price.
+            if (( Client.orderController.getCurrentOrder().getDiscountPrice() - customer.getBalance()) <= 0){ //balance is more than total price.
                 lblTotal.setText("Total: 0" + " \u20AA");
                 setCreditCardLabels(true);
                 btnUseAnotherCreditCard.setDisable(true);
                 btnSavedCreditCard.setDisable(true);
                 total = 0;
-                balance = customer.getBalance() - Client.orderController.getCurrentOrder().getPrice();
+                balance = customer.getBalance() - Client.orderController.getCurrentOrder().getDiscountPrice();
             }
             else{
-                lblTotal.setText("Total: " + ( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance()) + " \u20AA");
-                total = ( Client.orderController.getCurrentOrder().getPrice() - customer.getBalance());
+                lblTotal.setText("Total: " + ( Client.orderController.getCurrentOrder().getDiscountPrice() - customer.getBalance()) + " \u20AA");
+                total = ( Client.orderController.getCurrentOrder().getDiscountPrice() - customer.getBalance());
                 balance = 0;
             }
         }
         else {
-            lblTotal.setText("Total: " +  Client.orderController.getCurrentOrder().getPrice() + " \u20AA");
+            lblTotal.setText("Total: " +  Client.orderController.getCurrentOrder().getDiscountPrice() + " \u20AA");
             setCreditCardLabels(false);
-            total =  Client.orderController.getCurrentOrder().getPrice();
+            balance = customer.getBalance();
+            total =  Client.orderController.getCurrentOrder().getDiscountPrice();
             btnUseAnotherCreditCard.setDisable(false);
             btnSavedCreditCard.setDisable(false);
         }
@@ -404,22 +405,25 @@ public class OrderPaymentPageController implements Initializable {
     /**
      * Set credit card fields disable/ enable
      * @param isDisabled
+     * @note this feature is invisible and can be used in future updates to allow the customer to enter different credit card
      */
     private void setCreditCardLabels(boolean isDisabled) {
-        creditLabel.setDisable(isDisabled);
-        cardField1.setDisable(isDisabled);
-        cardField2.setDisable(isDisabled);
-        cardField3.setDisable(isDisabled);
-        cardField4.setDisable(isDisabled);
-        idLabel.setDisable(isDisabled);
-        idField.setDisable(isDisabled);
-        expLable.setDisable(isDisabled);
-        comboBoxMonth.setDisable(isDisabled);
-        comboBoxYear.setDisable(isDisabled);
-        lblForSideLine.setDisable(isDisabled);
-        lblCVV.setDisable(isDisabled);
-        cvvField.setDisable(isDisabled);
-        btnUpdateCreditCard.setDisable(isDisabled);
+        isDisabled = false;
+        btnUseAnotherCreditCard.setVisible(isDisabled);
+        creditLabel.setVisible(isDisabled);
+        cardField1.setVisible(isDisabled);
+        cardField2.setVisible(isDisabled);
+        cardField3.setVisible(isDisabled);
+        cardField4.setVisible(isDisabled);
+        idLabel.setVisible(isDisabled);
+        idField.setVisible(isDisabled);
+        expLable.setVisible(isDisabled);
+        comboBoxMonth.setVisible(isDisabled);
+        comboBoxYear.setVisible(isDisabled);
+        lblForSideLine.setVisible(isDisabled);
+        lblCVV.setVisible(isDisabled);
+        cvvField.setVisible(isDisabled);
+        btnUpdateCreditCard.setVisible(isDisabled);
     }
 
     /**

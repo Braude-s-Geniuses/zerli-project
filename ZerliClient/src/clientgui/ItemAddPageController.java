@@ -56,7 +56,8 @@ public class ItemAddPageController implements Initializable {
             lblMessage.setText("You must type a new name");
             return;
         }
-        if(cbType.getSelectionModel().isEmpty()) {
+
+        if(cbType.getValue() == null || cbType.getValue().equals("")) {
             lblMessage.setStyle("-fx-text-fill: indianred");
             lblMessage.setText("You must select a type");
             return;

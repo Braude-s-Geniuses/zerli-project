@@ -2,13 +2,12 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
-import order.Item;
-import order.Order;
-import order.OrderProduct;
-import order.Product;
+import order.*;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,7 +183,7 @@ public class OrderController {
         float balance = (float) data.get(1);
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `customer`\n" +
-                    "SET `balance` = `balance` + ? \n" +
+                    "SET `balance` = ? \n" +
                     "WHERE `customer_id` = ? ;");
             preparedStatement.setFloat(1, balance);
             preparedStatement.setInt(2, customerId);
@@ -252,8 +251,11 @@ public class OrderController {
     }
 
     public static Message UpdateOrderStatus(Order order) {
+        String express = "";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `order` SET order_status = ? WHERE order_id = ?");
+            if(order.getOrderStatus() == OrderStatus.EXPRESS_CONFIRMED)
+                express = ", delivery_date = '" + Timestamp.valueOf((LocalDateTime.now()).plusHours(3)) + "'";
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `order` SET order_status = ?" + express + " WHERE order_id = ?");
             preparedStatement.setString(1,order.getOrderStatus().name());
             preparedStatement.setInt(2,order.getOrderId());
             preparedStatement.executeUpdate();
