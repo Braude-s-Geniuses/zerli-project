@@ -55,7 +55,7 @@ public class CustomerProductBuilderPageController implements Initializable {
         float maxPrice = Integer.MIN_VALUE;
 
         Client.catalogController.getProducts();
-        originalProductList = (ArrayList<Product>) Client.productController.getResponse().getData();
+        originalProductList = (ArrayList<Product>) Client.catalogController.getService().getResponse().getData();
 
         for(Product product : originalProductList) {
             if(product.getDiscountPrice() > maxPrice)

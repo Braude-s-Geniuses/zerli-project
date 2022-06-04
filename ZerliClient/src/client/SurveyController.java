@@ -22,10 +22,8 @@ public class SurveyController extends AbstractController {
     private List<List> currSurveys = null;
     private List<Integer> currCustomers = null;
 
-
-
-    public List<List> getSurveyIds(){
-        return currSurveys;
+    SurveyController(IMessageService service) {
+        super(service);
     }
 
     public boolean checkIfFull(SurveyAnswers survey){return survey.getAnswers().size() == 6;}
@@ -36,7 +34,7 @@ public class SurveyController extends AbstractController {
         requestIdsOfSurvey.setTask(MessageFromClient.SURVEY_IDS_REQUEST);
         requestIdsOfSurvey.setData(null);
 
-        Client.clientController.getClient().handleMessageFromUI(requestIdsOfSurvey,true);
+        getService().sendToServer(requestIdsOfSurvey, true);
 
         return getSurveyIds();
     }
@@ -46,53 +44,80 @@ public class SurveyController extends AbstractController {
         requestInsertSurvey.setTask(MessageFromClient.SURVEY_SEND);
         requestInsertSurvey.setData(survey);
 
-        Client.clientController.getClient().handleMessageFromUI(requestInsertSurvey,true);
-
-        return getResponse().getAnswer();
+        return (getService().sendToServer(requestInsertSurvey, true)).getAnswer();
     }
 
+
+    /**
+     * This method prepares MessageFromClient to get all survey names by expert
+     * and sends it to server using clientController
+     * @param expertID
+     * @return the surveyNames - List<String>
+     */
     public List<String> getAllSurveyNamesByExpert(int expertID) {
         Message requestSurveysNamesByExpert = new Message();
         requestSurveysNamesByExpert.setTask(MessageFromClient.SURVEY_NAMES_GET_BY_EXPERT);
         requestSurveysNamesByExpert.setData(expertID);
 
-        Client.clientController.getClient().handleMessageFromUI(requestSurveysNamesByExpert,true);
+        getService().sendToServer(requestSurveysNamesByExpert, true);
 
         return surveyNames;
     }
 
+    /**
+     * This method prepares MessageFromClient to get all survey answers
+     * and sends it to server using clientController
+     * @param value
+     * @return the surveyAnswersList - List<SurveyAnswers>
+     */
     public List<SurveyAnswers> getAllSurveyAnswers(String value)
     {
         Message requestSurveyAnswer = new Message();
         requestSurveyAnswer.setTask(MessageFromClient.SURVEY_ANSWERS_GET);
         requestSurveyAnswer.setData(value);
 
-        Client.clientController.getClient().handleMessageFromUI(requestSurveyAnswer,true);
+        getService().sendToServer(requestSurveyAnswer, true);
 
         return surveyAnswersList;
     }
 
+    /**
+     * This method prepares MessageFromClient to upload survey summary
+     * and sends it to server using clientController
+     * @param survey
+     * @return the uploadStatus
+     */
     public boolean uploadSurveySummary(Survey survey) {
         Message requestUploadSummary = new Message();
         requestUploadSummary.setTask(MessageFromClient.SURVEY_UPLOAD_SUMMARY);
         requestUploadSummary.setData(survey);
 
-        Client.clientController.getClient().handleMessageFromUI(requestUploadSummary,true);
+        getService().sendToServer(requestUploadSummary, true);
 
         return uploadStatus;
     }
 
+    /**
+     * This method prepares MessageFromClient to get survey ID
+     * and sends it to server using clientController
+     * @param name
+     * @return the survey id
+     */
     public int getSurveyID(String name) {
         Message requestSurveyID = new Message();
         requestSurveyID.setTask(MessageFromClient.SURVEY_ID_GET);
         requestSurveyID.setData(name);
 
-        Client.clientController.getClient().handleMessageFromUI(requestSurveyID,true);
+        getService().sendToServer(requestSurveyID, true);
 
         return surveyID;
     }
 
     // Getters and Setters
+    public List<List> getSurveyIds(){
+        return currSurveys;
+    }
+
     public List<SurveyAnswers> getSurveyAnswersList() {
         return surveyAnswersList;
     }

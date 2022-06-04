@@ -33,10 +33,10 @@ public class OrderManagerPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Client.orderController.getBranch(Client.userController.getLoggedInUser().getUserId());
-        String managerBranch = (String) Client.orderController.getResponse().getData();
+        String managerBranch = (String) Client.orderController.getService().getResponse().getData();
 
         Client.orderController.requestOrders(managerBranch);
-        ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getResponse().getData();
+        ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getService().getResponse().getData();
 
         if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);

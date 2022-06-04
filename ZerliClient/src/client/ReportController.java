@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class ReportController extends AbstractController {
 
+    ReportController(IMessageService service) {
+        super(service);
+    }
+
     public void viewReport(ArrayList<String> reportData) {
         Message msg = new Message();
         msg.setData(reportData);
@@ -24,7 +28,7 @@ public class ReportController extends AbstractController {
             default:
                 break;
         }
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
 
     /**
@@ -33,7 +37,7 @@ public class ReportController extends AbstractController {
      */
     public void getManagersBranch(int userId) {
         Message msg = new Message(userId, MessageFromClient.MANAGER_BRANCH_GET);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
 
 }

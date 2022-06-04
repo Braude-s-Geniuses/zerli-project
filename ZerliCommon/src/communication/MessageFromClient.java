@@ -73,6 +73,6 @@ public enum MessageFromClient implements Serializable {
 
     ORDERS_GET_BY_BRANCH,
     CUSTOMER_GET_EMAIL,
-    CATALOG_PRODUCTS_GET,
+    CATALOG_PRODUCTS_GET, GET_USER_PERMISSION,
 
 }

@@ -53,7 +53,7 @@ public class BrowseCatalogPageController implements Initializable {
         tabPane.getStyleClass().add("tab-pane");
 
         Client.catalogController.getProducts();
-        ArrayList<Product> arrivedList = (ArrayList<Product>) Client.catalogController.getResponse().getData();
+        ArrayList<Product> arrivedList = (ArrayList<Product>) Client.catalogController.getService().getResponse().getData();
 
         for (Product product : arrivedList) {
             if(!product.isCustomMade())

@@ -48,7 +48,7 @@ public class DeliveryDetailsPageController  implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<OrderProduct> orderProducts;
         Client.orderController.getOrderProducts(order.getOrderId());
-        orderProducts = (ArrayList<OrderProduct>) Client.orderController.getResponse().getData();
+        orderProducts = (ArrayList<OrderProduct>) Client.orderController.getService().getResponse().getData();
         detailsLabel.setStyle("-fx-border-color: #77385a;");
         detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\n" + order.getOrderStatus() + "\nTotal Paid Price:    " + order.discountPriceToString()
                 + "\nDelivery Date:  \n" + order.getDeliveryDate() + "\nDelivery Address:  \n" + order.getDeliveryAddress() + "\nRecipient Name:  " + order.getRecipientName()

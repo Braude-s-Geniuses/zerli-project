@@ -1,5 +1,6 @@
 package client;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import communication.Message;
 import communication.MessageFromClient;
 import order.Order;
@@ -8,12 +9,16 @@ public class DeliveryController extends AbstractController {
 
     private Order order;
 
+    DeliveryController(IMessageService service) {
+        super(service);
+    }
+
     /**
      * This function request from the server orders that are ready to delivered.
      */
     public void requestDeliveries() {
         Message deliveryRequest = new Message(null, MessageFromClient.DELIVERIES_GET);
-        Client.clientController.getClient().handleMessageFromUI(deliveryRequest, true);
+        getService().sendToServer(deliveryRequest, true);
     }
 
     /**
@@ -21,7 +26,7 @@ public class DeliveryController extends AbstractController {
      */
     public void makeDelivery() {
         Message deliveryToSend = new Message(order, MessageFromClient.DELIVERY_ADD_NEW);
-        Client.clientController.getClient().handleMessageFromUI(deliveryToSend, true);
+        getService().sendToServer(deliveryToSend, true);
     }
 
     /**
@@ -29,15 +34,16 @@ public class DeliveryController extends AbstractController {
      */
     public void requestDeliveriesHistory() {
         Message deliveryToSend = new Message(null, MessageFromClient.DELIVERY_HISTORY_GET);
-        Client.clientController.getClient().handleMessageFromUI(deliveryToSend, true);
+        getService().sendToServer(deliveryToSend, true);
     }
 
 
     public void makeRefund() {
         Message OrderToRefund = new Message(order, MessageFromClient.DELIVERY_ORDER_REFUND);
-        Client.clientController.getClient().handleMessageFromUI(OrderToRefund, true);
+        getService().sendToServer(OrderToRefund, true);
+
         Client.userController.getCustomerEmail(order.getCustomerId());
-        String email = (String) Client.userController.getResponse().getData();
+        String email = (String) Client.userController.getService().getResponse().getData();
         Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + email + " | Message: Your Order #" + order.getOrderId() + " has been delivered. We apologize for the delay and we have fully refunded your payment to your account.");
     }
 

@@ -9,6 +9,10 @@ import order.Item;
  */
 public class ItemController extends AbstractController {
 
+    ItemController(IMessageService service) {
+        super(service);
+    }
+
     /**
      * Adds a new item to the system
      * @param item - the new Item to be added
@@ -16,7 +20,7 @@ public class ItemController extends AbstractController {
      */
     public void addItem(Item item) {
         Message message = new Message(item, MessageFromClient.ITEM_ADD);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -25,7 +29,7 @@ public class ItemController extends AbstractController {
      */
     public void getItems() {
         Message message = new Message(null, MessageFromClient.ITEMS_GET);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -35,7 +39,7 @@ public class ItemController extends AbstractController {
      */
     public void updateItem(Item item) {
         Message message = new Message(item, MessageFromClient.ITEM_UPDATE);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -47,7 +51,7 @@ public class ItemController extends AbstractController {
      */
     public void deleteItem(Item item) {
         Message message = new Message(item, MessageFromClient.ITEM_DELETE);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
 }

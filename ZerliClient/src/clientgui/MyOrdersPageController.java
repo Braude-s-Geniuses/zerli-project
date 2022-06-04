@@ -35,7 +35,7 @@ public class MyOrdersPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Client.orderController.requestOrders();
         orderList.setFocusTraversable(false);
-        ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getResponse().getData();
+        ArrayList<Order> result = (ArrayList<Order>) Client.orderController.getService().getResponse().getData();
         if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
             for (Order order : result) {

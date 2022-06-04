@@ -57,15 +57,15 @@ public class Client extends Application {
     public static void initController(String hostname, boolean firstInit) {
         if(firstInit)
             clientController = new ClientController(hostname);
-        userController = new UserController();
-        deliveryController = new DeliveryController();
-        catalogController = new CatalogController();
-        orderController = new OrderController();
-        itemController = new ItemController();
-        productController = new ProductController();
-        surveyController = new SurveyController();
-        complaintController = new ComplaintController();
-        reportController = new ReportController();
+        userController = new UserController(new MessageService());
+        deliveryController = new DeliveryController(new MessageService());
+        catalogController = new CatalogController(new MessageService());
+        orderController = new OrderController(new MessageService());
+        itemController = new ItemController(new MessageService());
+        productController = new ProductController(new MessageService());
+        surveyController = new SurveyController(new MessageService());
+        complaintController = new ComplaintController(new MessageService());
+        reportController = new ReportController(new MessageService());
     }
 
 }

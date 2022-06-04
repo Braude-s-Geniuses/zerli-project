@@ -128,7 +128,7 @@ public class ItemsManagePageController implements Initializable {
         columnAction.setSortable(false);
 
         Client.itemController.getItems();
-        for (Item item : (ArrayList<Item>) Client.itemController.getResponse().getData())
+        for (Item item : (ArrayList<Item>) Client.itemController.getService().getResponse().getData())
             items.add(item);
 
         tableItems.setItems(items);
@@ -256,7 +256,7 @@ public class ItemsManagePageController implements Initializable {
         else {
             Client.itemController.updateItem(updatedItem);
 
-            switch(Client.itemController.getResponse().getAnswer()) {
+            switch(Client.itemController.getService().getResponse().getAnswer()) {
                 case ITEM_UPDATE_SUCCESS:
                     lblUpdateItemMessage.setStyle("-fx-text-fill: green");
                     lblUpdateItemMessage.setText("Item updated successfully");
@@ -290,7 +290,7 @@ public class ItemsManagePageController implements Initializable {
         if (result.get() == ButtonType.OK){
             Client.itemController.deleteItem(currentItem);
 
-            switch(Client.itemController.getResponse().getAnswer()) {
+            switch(Client.itemController.getService().getResponse().getAnswer()) {
                 case ITEM_DELETE_SUCCESS:
                     lblUpdateItemMessage.setStyle("-fx-text-fill: green");
                     lblUpdateItemMessage.setText("Item deleted successfully");

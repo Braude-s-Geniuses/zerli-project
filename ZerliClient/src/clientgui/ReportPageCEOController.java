@@ -424,7 +424,7 @@ public class ReportPageCEOController implements Initializable{
         cbTimeForCompare.setPromptText("Quarter");
 
         Client.orderController.getBranches();   //set branches.
-        ObservableList<String> branches = FXCollections.observableArrayList((ArrayList<String>)Client.orderController.getResponse().getData());
+        ObservableList<String> branches = FXCollections.observableArrayList((ArrayList<String>)Client.orderController.getService().getResponse().getData());
         cbBranch.getItems().addAll(branches);
         cbBranchForCompare.getItems().addAll(branches);
     }

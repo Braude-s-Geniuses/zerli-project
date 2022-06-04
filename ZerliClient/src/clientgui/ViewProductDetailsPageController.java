@@ -121,7 +121,7 @@ public class ViewProductDetailsPageController implements Initializable {
         lblPrice.setText(BrowseCatalogPageController.currentProduct.getPrice() + " \u20AA");
 
         Client.catalogController.getProductItems(BrowseCatalogPageController.currentProduct.getProductId());
-        HashMap<Item,Integer> items = (HashMap<Item, Integer>) Client.catalogController.getResponse().getData();
+        HashMap<Item,Integer> items = (HashMap<Item, Integer>) Client.catalogController.getService().getResponse().getData();
         lblDetails.setText(mapToString(items));
 
         if(Client.userController.getLoggedInUser() != null && Client.userController.getLoggedInUser().getUserType() == UserType.CUSTOMER && !((Customer) Client.userController.getLoggedInUser()).isBlocked()){

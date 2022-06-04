@@ -107,7 +107,7 @@ public class CustomerProductBuilderListPageController implements Initializable {
             /* Loops all added products */
             for(OrderProduct op : listAddedProducts) {
                 Client.catalogController.getProductItems(op.getProduct().getProductId());
-                HashMap<Item, Integer> currentProductItems = (HashMap<Item, Integer>) Client.catalogController.getResponse().getData();
+                HashMap<Item, Integer> currentProductItems = (HashMap<Item, Integer>) Client.catalogController.getService().getResponse().getData();
 
                 /* Loops all the items in every added product */
                 for(Item item : currentProductItems.keySet()) {

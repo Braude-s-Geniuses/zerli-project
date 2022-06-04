@@ -54,22 +54,24 @@ public class ZerliClient extends AbstractClient {
             case LOGOUT_FAIL:
             case CUSTOMER_IS_BLOCKED:
                 Client.userController.setLoggedInUser((User)messageFromServer.getData());
-                Client.userController.setResponse(messageFromServer);
+                Client.userController.getService().setResponse(messageFromServer);
                 break;
             case USER_INFORMATION_GET_SUCCESS:
+            case GET_USER_PERMISSION_SUCCEED:
                 Client.userController.setUserTypeForInformation(messageFromServer.getData());
-                Client.userController.setResponse(messageFromServer);
+                Client.userController.getService().setResponse(messageFromServer);
                 break;
             case USER_INFORMATION_GET_FAIL:
+            case GET_USER_PERMISSION_NOT_SUCCEED:
                 Client.userController.setUserTypeForInformation(null);
-                Client.userController.setResponse(null);
+                Client.userController.getService().setResponse(null);
                 break;
             case CUSTOMER_CREATE_NEW:
             case CUSTOMER_FREEZE:
             case EMPLOYEE_PERMISSION_CHANGE:
             case CUSTOMER_GET_EMAIL_SUCCESS:
             case CUSTOMER_GET_EMAIL_FAIL:
-                Client.userController.setResponse(messageFromServer);
+                Client.userController.getService().setResponse(messageFromServer);
                 break;
             case ORDERS_GET_SUCCESS:
             case ORDERS_GET_FAIL:
@@ -81,7 +83,7 @@ public class ZerliClient extends AbstractClient {
             case ORDER_PRODUCTS_GET_SUCCESS:
             case ORDER_GET_BRANCH_FAIL:
             case ORDER_GET_BRANCH_SUCCESS:
-                Client.orderController.setResponse((Message) msg);
+                Client.orderController.getService().setResponse((Message) msg);
                 break;
             case ITEM_ADD_SUCCESS:
             case ITEM_ADD_FAIL:
@@ -91,7 +93,7 @@ public class ZerliClient extends AbstractClient {
             case ITEM_UPDATE_FAIL:
             case ITEM_DELETE_SUCCESS:
             case ITEM_DELETE_FAIL:
-                Client.itemController.setResponse(messageFromServer);
+                Client.itemController.getService().setResponse(messageFromServer);
                 break;
             case PRODUCT_ADD_SUCCESS:
             case PRODUCT_ADD_FAIL:
@@ -101,30 +103,30 @@ public class ZerliClient extends AbstractClient {
             case PRODUCT_UPDATE_FAIL:
             case PRODUCT_GET_ITEMS_SUCCEED:
             case PRODUCT_GET_ITEMS_FAIL:
-                Client.productController.setResponse(messageFromServer);
+                Client.productController.getService().setResponse(messageFromServer);
                 break;
             case CATALOG_GET_PRODUCT_ITEMS_FAIL:
             case CATALOG_GET_PRODUCT_ITEMS_SUCCESS:
             case CATALOG_PRODUCTS_GET_SUCCESS:
             case CATALOG_PRODUCTS_GET_FAIL:
-                Client.catalogController.setResponse(messageFromServer);
+                Client.catalogController.getService().setResponse(messageFromServer);
                 break;
             case REPORT_VIEW_SUCCESS:
             case REPORT_VIEW_FAIL:
             case MANAGER_BRANCH_GET_SUCCESS:
-                Client.reportController.setResponse((Message) msg);
+                Client.reportController.getService().setResponse((Message) msg);
                 break;
             case DELIVERIES_GET_FAIL:
             case DELIVERIES_GET_SUCCESS:
             case DELIVERY_UPDATE_FAIL:
             case DELIVERY_UPDATE_SUCCESS:
-                Client.deliveryController.setResponse(messageFromServer);
+                Client.deliveryController.getService().setResponse(messageFromServer);
                 break;
             case SURVEY_INSERT_FAIL:
             case SURVEY_INSERT_SUCCESS:
             case SURVEY_UNAUTHORIZED_CUSTOMER:
             case SURVEY_ALREADY_FILLED:
-                Client.surveyController.setResponse(messageFromServer);
+                Client.surveyController.getService().setResponse(messageFromServer);
                 break;
             case SURVEY_NAMES_SUCCESS:
                 Client.surveyController.setSurveyNames((ArrayList<String>) messageFromServer.getData());

@@ -17,13 +17,14 @@ public class OrderController extends AbstractController {
      */
     private final ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
 
-    private float currBalance = -1;
-
     private String currBranch = null;
 
     private Order currentOrder;
 
-    public OrderController() {}
+    OrderController(IMessageService service) {
+        super(service);
+    }
+
 
     public void addToCart(OrderProduct orderProduct){
         // if added order already exists in cart - adds quantity to existing OrderProduct
@@ -37,14 +38,6 @@ public class OrderController extends AbstractController {
         // orderProduct doesn't exist - create it
         cart.add(orderProduct);
     }
-
-    public ArrayList<OrderProduct> getCart() {
-        return cart;
-    }
-
-    public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
-
-    public Order getCurrentOrder() { return currentOrder; }
 
     /**
      * Changing the amount of specific product in cart
@@ -82,7 +75,7 @@ public class OrderController extends AbstractController {
      */
     public void requestOrders(){
         Message ordersRequest = new Message(Client.userController.getLoggedInUser().getUserId(), MessageFromClient.ORDERS_GET);
-        Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
+        getService().sendToServer(ordersRequest, true);
     }
 
     /**
@@ -90,7 +83,7 @@ public class OrderController extends AbstractController {
      */
     public void requestOrders(String branch){
         Message ordersRequest = new Message(branch, MessageFromClient.ORDERS_GET_BY_BRANCH);
-        Client.clientController.getClient().handleMessageFromUI(ordersRequest, true);
+        getService().sendToServer(ordersRequest, true);
     }
 
     /**
@@ -98,7 +91,7 @@ public class OrderController extends AbstractController {
      */
     public void getBranches() {
         Message msg = new Message(null, MessageFromClient.ORDER_BRANCHES_GET);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
     /**
      * Saves completed order in DB
@@ -106,8 +99,8 @@ public class OrderController extends AbstractController {
      */
     public boolean sendNewOrder() {
         Message msg = new Message(getCurrentOrder(), MessageFromClient.ORDER_CREATE_NEW);
-        Client.clientController.getClient().handleMessageFromUI(msg, true);
-        return getResponse().getAnswer() != MessageFromServer.ORDER_CREATE_NEW_FAIL;
+
+        return (getService().sendToServer(msg, true)).getAnswer() != MessageFromServer.ORDER_CREATE_NEW_FAIL;
     }
 
     /**
@@ -116,7 +109,18 @@ public class OrderController extends AbstractController {
      */
     public void getOrderProducts(int orderId) {
         Message msg = new Message(orderId, MessageFromClient.ORDER_PRODUCTS_GET);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
+    }
+
+    /**
+     * Gets a customer's current balance from the server
+     * @param customerId - customer id to get balance from
+     * @return given customer's current balance
+     */
+    public float getBalance(int customerId) {
+        Message msg = new Message(customerId, MessageFromClient.ORDER_GET_BALANCE);
+
+        return (float) (getService().sendToServer(msg, true)).getData();
     }
 
     /**
@@ -129,7 +133,7 @@ public class OrderController extends AbstractController {
         msgList.add(userId);
         msgList.add(balance);
         Message msg = new Message(msgList, MessageFromClient.CUSTOMER_BALANCE_UPDATE);
-        Client.clientController.getClient().handleMessageFromUI(msg,false);
+        getService().sendToServer(msg, false);
     }
 
     /**
@@ -142,7 +146,7 @@ public class OrderController extends AbstractController {
         msgList.add(userId);
         msgList.add(cardDetails);
         Message msg = new Message(msgList, MessageFromClient.CUSTOMER_CREDIT_CARD_UPDATE);
-        Client.clientController.getClient().handleMessageFromUI(msg,false);
+        getService().sendToServer(msg, false);
 
     }
 
@@ -153,38 +157,30 @@ public class OrderController extends AbstractController {
      */
     public void updateNewCustomer(int userId) {
         Message msg = new Message(userId, MessageFromClient.CUSTOMER_UPDATE_NEW);
-        Client.clientController.getClient().handleMessageFromUI(msg,false);
+        getService().sendToServer(msg, false);
     }
 
     public void setStatusOrder(Order order){
         Message msg = new Message(order, MessageFromClient.ORDER_CHANGE_STATUS);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
     public void setCancelTime(Order order){
         Message msg = new Message(order, MessageFromClient.ORDER_CANCEL_TIME);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
-    }
-
-    public float getBalance(int customerId) {
-        Message msg = new Message(customerId, MessageFromClient.ORDER_GET_BALANCE);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
-        setBalanceCustomer((float) getResponse().getData());
-
-        return getBalanceCustomer();
-    }
-
-    public float getBalanceCustomer() {
-        return currBalance;
-    }
-
-    public void setBalanceCustomer(float currBalance) {
-        this.currBalance = currBalance;
+        getService().sendToServer(msg, true);
     }
 
     public void getBranch(int userId) {
         Message msg = new Message(userId, MessageFromClient.ORDER_GET_BRANCH);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
+
+    public ArrayList<OrderProduct> getCart() {
+        return cart;
+    }
+
+    public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
+
+    public Order getCurrentOrder() { return currentOrder; }
 
     public String getBranchManager() {
         return currBranch;

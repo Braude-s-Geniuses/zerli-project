@@ -94,7 +94,7 @@ public class ItemAddPageController implements Initializable {
         Item item = new Item(fldName.getText(), cbType.getValue().toString(), cbColor.getValue().toString(), price);
         Client.itemController.addItem(item);
 
-        switch(Client.itemController.getResponse().getAnswer()) {
+        switch(Client.itemController.getService().getResponse().getAnswer()) {
             case ITEM_ADD_SUCCESS:
                 lblMessage.setStyle("-fx-text-fill: green");
                 lblMessage.setText("Item added  !");

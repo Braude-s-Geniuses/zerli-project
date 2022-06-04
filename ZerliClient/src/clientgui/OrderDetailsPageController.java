@@ -55,7 +55,7 @@ public class OrderDetailsPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<OrderProduct> orderProducts;
         Client.orderController.getOrderProducts(order.getOrderId());
-        orderProducts = (ArrayList<OrderProduct>) Client.orderController.getResponse().getData();
+        orderProducts = (ArrayList<OrderProduct>) Client.orderController.getService().getResponse().getData();
         detailsLabel.setStyle("-fx-border-color: #77385a;");
         detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\n" + order.getOrderStatus().toString() + "\nTotal Paid Price:    " + order.discountPriceToString());
         detailsLabel.setAlignment(Pos.BASELINE_CENTER);
@@ -135,7 +135,7 @@ public class OrderDetailsPageController implements Initializable {
 
             /* Notify customer */
             Client.userController.getCustomerEmail(order.getCustomerId());
-            String mail = (String) Client.userController.getResponse().getData();
+            String mail = (String) Client.userController.getService().getResponse().getData();
             Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + mail + " | Message: Your Order #" + order.getOrderId() + " has been cancelled and " + refund + " ILS has been credited to your account");
         }
 
@@ -150,14 +150,14 @@ public class OrderDetailsPageController implements Initializable {
 
             /* Notify customer */
             Client.userController.getCustomerEmail(order.getCustomerId());
-            String mail = (String) Client.userController.getResponse().getData();
+            String mail = (String) Client.userController.getService().getResponse().getData();
             Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + mail + " | Message: Your Order #" + order.getOrderId() + " has been confirmed. Thank you for your purchase from us!");
         } else if (order.getOrderStatus() == OrderStatus.EXPRESS_PENDING) {
             order.setOrderStatus("EXPRESS_CONFIRMED");
             MainDashboardController.createAlert("Express order "+ order.getOrderId() + " was confirmed", Alert.SUCCESS, Duration.seconds(3), 135, 100);
             /* Notify customer */
             Client.userController.getCustomerEmail(order.getCustomerId());
-            String mail = (String) Client.userController.getResponse().getData();
+            String mail = (String) Client.userController.getService().getResponse().getData();
             Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + mail + " | Message: Your Order #" + order.getOrderId() + " has been confirmed. Thank you for your purchase from us!");
         } else {
             order.setOrderStatus("CANCEL_CONFIRMED");

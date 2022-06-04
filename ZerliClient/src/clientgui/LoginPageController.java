@@ -67,8 +67,7 @@ public class LoginPageController implements Initializable {
             return;
         }
 
-        Client.userController.login(fldUsername.getText(), fldPassword.getText());
-        MessageFromServer result = Client.userController.getResponse().getAnswer();
+        MessageFromServer result = (Client.userController.login(fldUsername.getText(), fldPassword.getText())).getAnswer();
 
         if(result == MessageFromServer.LOGIN_SUCCESS || result == MessageFromServer.CUSTOMER_IS_BLOCKED) {
             MainDashboardController.setContentFromFXML("UserHomePage.fxml");

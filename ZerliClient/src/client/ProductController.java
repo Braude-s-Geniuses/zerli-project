@@ -24,6 +24,10 @@ public class ProductController extends AbstractController {
      */
     private HashMap<Integer, Image> productImages = new HashMap<>();
 
+    ProductController(IMessageService service) {
+        super(service);
+    }
+
     /**
      * Adds a new Product to the system
      * @param product - the new Product to be added
@@ -31,7 +35,7 @@ public class ProductController extends AbstractController {
      */
     public void addProduct(Product product) {
         Message message = new Message(product, MessageFromClient.PRODUCT_ADD);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -40,7 +44,7 @@ public class ProductController extends AbstractController {
      */
     public void getProducts() {
         Message message = new Message(null, MessageFromClient.PRODUCTS_GET);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -50,7 +54,7 @@ public class ProductController extends AbstractController {
      */
     public void getProductItems(int productId) {
         Message message = new Message(productId, MessageFromClient.PRODUCT_GET_ITEMS);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -60,7 +64,7 @@ public class ProductController extends AbstractController {
      */
     public void updateProduct(Product product) {
         Message message = new Message(product, MessageFromClient.PRODUCT_UPDATE);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**

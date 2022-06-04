@@ -141,7 +141,7 @@ public class OrderDeliveryPageController implements Initializable {
         /**
          * Initializes Branches and City comboBox.
          */
-        ObservableList<String> branches = FXCollections.observableArrayList((ArrayList<String>)Client.orderController.getResponse().getData());
+        ObservableList<String> branches = FXCollections.observableArrayList((ArrayList<String>)Client.orderController.getService().getResponse().getData());
         cbBranch.getItems().addAll(branches);
         cbCity.getItems().addAll(branches);
         ArrayList<OrderProduct> cart = Client.orderController.getCart();

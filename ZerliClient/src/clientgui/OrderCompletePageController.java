@@ -33,7 +33,7 @@ public class OrderCompletePageController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        lblOrderId.setText(String.valueOf((int)Client.orderController.getResponse().getData()));
+        lblOrderId.setText(String.valueOf((int)Client.orderController.getService().getResponse().getData()));
         lblOrderId.setUnderline(true);
         float discount = Client.orderController.getCurrentOrder().getPrice()  - Client.orderController.getCurrentOrder().getDiscountPrice();
         if(discount > 0)

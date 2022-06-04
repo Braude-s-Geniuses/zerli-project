@@ -61,7 +61,7 @@ public class ProductsManagePageController implements Initializable {
         columnAction.setSortable(false);
 
         Client.productController.getProducts();
-        for (Product product : (ArrayList<Product>) Client.productController.getResponse().getData())
+        for (Product product : (ArrayList<Product>) Client.productController.getService().getResponse().getData())
             products.add(product);
 
         tableProducts.setItems(products);

@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import order.Item;
 import order.Product;
+import user.BranchEmployee;
 import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -112,6 +113,11 @@ public class ProductModifyPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         hideErrorsLabels();
 
+        Client.userController.getPermissions(Client.userController.getLoggedInUser());
+        BranchEmployee branchEmployee = Client.userController.getBranchEmployeeForInformation();
+        if(!branchEmployee.isDiscount())
+            fldDiscountPrice.setDisable(true);
+
         for (int i = 1; i <= 20; i++)
             choices.add(i);
 
@@ -138,9 +144,9 @@ public class ProductModifyPageController implements Initializable {
         cbColor.setItems(observableList);
 
         Client.itemController.getItems();
-        availableItems = (ArrayList<Item>) Client.itemController.getResponse().getData();
+        availableItems = (ArrayList<Item>) Client.itemController.getService().getResponse().getData();
 
-        for (Item item : (ArrayList<Item>) Client.itemController.getResponse().getData())
+        for (Item item : (ArrayList<Item>) Client.itemController.getService().getResponse().getData())
             items.add(item);
 
         listItems.setItems(items);
@@ -155,7 +161,7 @@ public class ProductModifyPageController implements Initializable {
 
             Client.productController.getProductItems(currentProduct.getProductId());
 
-            HashMap<Item, Integer> productItems = (HashMap<Item, Integer>) Client.productController.getResponse().getData();
+            HashMap<Item, Integer> productItems = (HashMap<Item, Integer>) Client.productController.getService().getResponse().getData();
 
             currentProduct.setItems(productItems);
 
@@ -267,7 +273,7 @@ public class ProductModifyPageController implements Initializable {
 
             Client.productController.updateProduct(currentProduct);
 
-            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_UPDATE_SUCCESS) {
+            if(Client.productController.getService().getResponse().getAnswer() == MessageFromServer.PRODUCT_UPDATE_SUCCESS) {
                 MainDashboardController.createAlert("Product updated successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
             } else {
                 MainDashboardController.createAlert("Failed to update product.", Alert.DANGER, Duration.seconds(3), 135, 67);

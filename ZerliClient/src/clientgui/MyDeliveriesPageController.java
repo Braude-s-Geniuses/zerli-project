@@ -38,7 +38,7 @@ public class MyDeliveriesPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Client.deliveryController.requestDeliveries();
 
-        ArrayList<Order> result = (ArrayList<Order>) Client.deliveryController.getResponse().getData();
+        ArrayList<Order> result = (ArrayList<Order>) Client.deliveryController.getService().getResponse().getData();
         if (result.size() != 0) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
             for (Order order : result) {
@@ -115,7 +115,7 @@ public class MyDeliveriesPageController implements Initializable {
             Client.deliveryController.setOrder(order);
             OrderStatus orderStatus= order.getOrderStatus();
             Client.deliveryController.makeDelivery();
-            MessageFromServer result = Client.deliveryController.getResponse().getAnswer();
+            MessageFromServer result = Client.deliveryController.getService().getResponse().getAnswer();
             if(result == MessageFromServer.DELIVERY_UPDATE_SUCCESS){
                 button.setDisable(true);
                 button.setText("Completed");

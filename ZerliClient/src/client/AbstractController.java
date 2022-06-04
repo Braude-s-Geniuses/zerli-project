@@ -4,24 +4,14 @@ import communication.Message;
 
 public class AbstractController {
 
-    /**
-     * stores the response from the server to a client's request in its relevant inheritor
-     */
-    private Message response;
+    private IMessageService service;
 
-    /**
-     * getter for response
-     * @return
-     */
-    public Message getResponse() {
-        return response;
+    AbstractController(IMessageService service) {
+        this.service = service;
     }
 
-    /**
-     * setter for response
-     * @param response
-     */
-    public void setResponse(Message response) {
-        this.response = response;
+    public IMessageService getService() {
+        return service;
     }
+
 }

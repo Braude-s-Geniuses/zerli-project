@@ -15,12 +15,16 @@ public class CatalogController extends AbstractController {
     public ArrayList<Product> list = new ArrayList<>();
     public Product createProduct;
 
+    CatalogController(IMessageService service) {
+        super(service);
+    }
+
     /**
      * Get all products from server to be showed in the catalog, sorted by discounts in the catalog to be shown first
      */
     public void getProducts() {
         Message message = new Message(null, MessageFromClient.CATALOG_PRODUCTS_GET);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -29,7 +33,7 @@ public class CatalogController extends AbstractController {
      */
     public void getProductItems(int productId) {
         Message message = new Message(productId, MessageFromClient.CATALOG_GET_PRODUCT_ITEMS);
-        Client.clientController.getClient().handleMessageFromUI(message, true);
+        getService().sendToServer(message, true);
     }
 
 }

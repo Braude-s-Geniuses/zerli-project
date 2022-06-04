@@ -130,9 +130,9 @@ public class ProductAddPageController implements Initializable {
         cbColor.setItems(observableList);
 
         Client.itemController.getItems();
-        availableItems = (ArrayList<Item>) Client.itemController.getResponse().getData();
+        availableItems = (ArrayList<Item>) Client.itemController.getService().getResponse().getData();
 
-        for (Item item : (ArrayList<Item>) Client.itemController.getResponse().getData())
+        for (Item item : (ArrayList<Item>) Client.itemController.getService().getResponse().getData())
             items.add(item);
 
         listItems.setItems(items);
@@ -206,7 +206,7 @@ public class ProductAddPageController implements Initializable {
             Product product = new Product(fldName.getText(), items, Float.valueOf(fldPrice.getText()), Float.valueOf(fldPrice.getText()), uploadedImage, customMade, cbColor.getValue().toString());
             Client.productController.addProduct(product);
 
-            if(Client.productController.getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
+            if(Client.productController.getService().getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
                 MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
             }
         }

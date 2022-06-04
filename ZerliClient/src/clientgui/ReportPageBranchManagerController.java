@@ -108,7 +108,7 @@ public class ReportPageBranchManagerController implements Initializable {
             date = cbYear.getValue() + "-" + cbMonth.getValue();
             data.add(date);
             Client.reportController.getManagersBranch(Client.userController.getLoggedInUser().getUserId());
-            data.add((String) Client.reportController.getResponse().getData());
+            data.add((String) Client.reportController.getService().getResponse().getData());
 
             ReportPageController.reportData.addAll(data);
 

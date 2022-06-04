@@ -32,7 +32,7 @@ public class MyDeliveryHistoryPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Client.deliveryController.requestDeliveriesHistory();
 
-        ArrayList<Order> result = (ArrayList<Order>) Client.deliveryController.getResponse().getData();
+        ArrayList<Order> result = (ArrayList<Order>) Client.deliveryController.getService().getResponse().getData();
         if (result != null) {
             ObservableList<Order> orders = FXCollections.observableArrayList(result);
             for (Order order : result) {

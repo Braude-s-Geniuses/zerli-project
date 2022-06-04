@@ -49,7 +49,7 @@ public class ReportCompareQuarterlyPageController implements Initializable {
         ImageView iv = new ImageView();
 
         Client.reportController.viewReport(reportData);
-        message = Client.reportController.getResponse();
+        message = Client.reportController.getService().getResponse();
         SerialBlob blob = (SerialBlob) message.getData();
         if (message.getAnswer() == MessageFromServer.REPORT_VIEW_FAIL) {
             //

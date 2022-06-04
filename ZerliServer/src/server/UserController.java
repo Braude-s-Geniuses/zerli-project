@@ -239,6 +239,31 @@ public class UserController {
         return new Message(false, MessageFromServer.CUSTOMER_FREEZE);
     }
 
+    public Message getUserPermission(User user) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet;
+        switch (user.getUserType())
+        {
+            case BRANCH_EMPLOYEE:
+                try {
+                    preparedStatement = con.prepareStatement("SELECT * FROM branch_employee WHERE user_id=?");
+                    preparedStatement.setInt(1,user.getUserId());
+                    resultSet = preparedStatement.executeQuery();
+                    if(!resultSet.next())
+                        return new Message(null, MessageFromServer.GET_USER_PERMISSION_NOT_SUCCEED);
+                    BranchEmployee branchEmployee = new BranchEmployee(user);
+                    branchEmployee.setSurvey(resultSet.getBoolean("survey"));
+                    branchEmployee.setDiscount(resultSet.getBoolean("discount"));
+                    branchEmployee.setCatalogue(resultSet.getBoolean("catalogue"));
+                    return new Message(branchEmployee, MessageFromServer.GET_USER_PERMISSION_SUCCEED);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        return new Message(null, MessageFromServer.GET_USER_PERMISSION_NOT_SUCCEED);
+    }
+
     /**
      * gets a customer's email by user id
      * @param customerId - the user id to look for

@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+import user.BranchEmployee;
 import user.Customer;
 import util.Alert;
 
@@ -286,6 +287,13 @@ public class MainDashboardController implements Initializable {
     }
 
     public static void setContentFromFXML(String fxml) {
+        if(fxml == "ProductsManagePage.fxml" || fxml =="SurveyAnswerSubmitPage.fxml") {
+            if (!isUserHavePermission(fxml)) {
+                createAlert("You are not authorized to perform this action", Alert.DANGER,Duration.seconds(3),200,0);
+                return;
+            }
+        }
+
         Node node = null;
         try {
             node = FXMLLoader.load(MainDashboardController.class.getResource(fxml));
@@ -293,6 +301,26 @@ public class MainDashboardController implements Initializable {
             e.printStackTrace();
         }
         getContentBox().getChildren().setAll(node);
+    }
+
+    private static boolean isUserHavePermission(String fxml)
+    {
+        Client.userController.getPermissions(Client.userController.getLoggedInUser());
+        BranchEmployee branchEmployee;
+        switch (fxml)
+        {
+            case "ProductsManagePage.fxml":
+                branchEmployee = Client.userController.getBranchEmployeeForInformation();
+                if(branchEmployee.isCatalogue())
+                    return true;
+                break;
+            case "SurveyAnswerSubmitPage.fxml":
+                branchEmployee = Client.userController.getBranchEmployeeForInformation();
+                if(branchEmployee.isSurvey())
+                    return true;
+                break;
+        }
+        return false;
     }
 
     public static AnchorPane getContentBox(){

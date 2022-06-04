@@ -15,6 +15,10 @@ public class ComplaintController extends AbstractController {
 
     public ArrayList<Complaint> listOfComplaints = new ArrayList<>();
 
+    ComplaintController(IMessageService service) {
+        super(service);
+    }
+
     /**
      * Sends the complaint to the server
      *
@@ -22,7 +26,7 @@ public class ComplaintController extends AbstractController {
      */
     public void setComplaint(Complaint complaint) {
         Message msg = new Message(complaint, MessageFromClient.COMPLAINT_ADD_NEW);
-        Client.clientController.getClient().handleMessageFromUI(msg, true);
+        getService().sendToServer(msg, true);
     }
 
     /**
@@ -31,7 +35,7 @@ public class ComplaintController extends AbstractController {
      * @param msg
      */
     public void setComplaintStatusReceived(Message msg) {
-        this.setResponse(msg);
+        this.getService().setResponse(msg);
     }
 
     /**
@@ -44,7 +48,7 @@ public class ComplaintController extends AbstractController {
         arr.add(customer);
         arr.add(order);
         Message msg = new Message(arr,MessageFromClient.COMPLAINT_VALIDATE_CUSTOMER_ORDER);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
 
     /**
@@ -68,7 +72,7 @@ public class ComplaintController extends AbstractController {
      */
     public void getAllComplaints() {
         Message msg = new Message(null, MessageFromClient.COMPLAINTS_GET);
-        Client.clientController.getClient().handleMessageFromUI(msg, true);
+        getService().sendToServer(msg, true);
     }
 
     /**
@@ -93,7 +97,7 @@ public class ComplaintController extends AbstractController {
      */
     public void closeStatus(ArrayList<Object> obj){
         Message msg = new Message(obj,MessageFromClient.COMPLAINT_CLOSE_UPDATE);
-        Client.clientController.getClient().handleMessageFromUI(msg,true);
+        getService().sendToServer(msg, true);
     }
 
     /**

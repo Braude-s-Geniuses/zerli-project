@@ -222,8 +222,12 @@ public class ZerliServer extends AbstractServer {
                 UserController userController4 = new UserController();
                 messageFromServer = userController4.getCustomerEmail((int) messageFromClient.getData());
                 break;
+            case GET_USER_PERMISSION:
+                UserController userController5 = new UserController();
+                messageFromServer = userController5.getUserPermission((User)messageFromClient.getData());
+                break;
             default:
-                ServerUIController.printToServerConsoleUI("Unhandled task was requested from server: " + messageFromClient.getTask());
+                ServerUIController.printToServerConsoleUI("Unhandled task was requested from client: " + messageFromClient.getTask());
                 break;
         }
         try {
@@ -231,7 +235,6 @@ public class ZerliServer extends AbstractServer {
                 client.sendToClient(messageFromServer);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         }
 
     }
