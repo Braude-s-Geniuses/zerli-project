@@ -50,10 +50,11 @@ public class DeliveryDetailsPageController  implements Initializable {
         Client.orderController.getOrderProducts(order.getOrderId());
         orderProducts = (ArrayList<OrderProduct>) Client.orderController.getResponse().getData();
         detailsLabel.setStyle("-fx-border-color: #77385a;");
-        detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\nStatus:    " + order.getOrderStatus() + "\nTotal Paid Price:    " + order.discountPriceToString()
-                + "\nDelivery Date:  \n" + order.getDeliveryDate() + "\nDelivery Address:  \n" + order.getDeliveryAddress() + "\nRecipient Name:  \n" + order.getRecipientName()
+        detailsLabel.setText("Order Number:   #" + order.getOrderId() + "\n" + order.getOrderStatus() + "\nTotal Paid Price:    " + order.discountPriceToString()
+                + "\nDelivery Date:  \n" + order.getDeliveryDate() + "\nDelivery Address:  \n" + order.getDeliveryAddress() + "\nRecipient Name:  " + order.getRecipientName()
                 + "\nRecipient Phone:  " + order.getRecipientPhone());
         detailsLabel.setAlignment(Pos.BASELINE_CENTER);
+        detailsLabel.setWrapText(true);
         for (OrderProduct op : orderProducts) {
             ImageView iv = new ImageView();
             iv.setFitHeight(150.0);

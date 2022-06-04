@@ -196,6 +196,10 @@ public class MainDashboardController implements Initializable {
                     addSideNavButton(buttonManageItems);
                     break;
                 case SERVICE_EMPLOYEE:
+                    Button buttonAddComplaint = new Button("Add Complaint");
+                    buttonAddComplaint.setOnAction(event -> setContentFromFXML("ComplaintPage.fxml"));
+                    addSideNavButton(buttonAddComplaint);
+
                     Button buttonMyComplaints = new Button("View Complaints");
                     buttonMyComplaints.setOnAction(event ->setContentFromFXML("MyComplaintsPage.fxml"));
                     addSideNavButton(buttonMyComplaints);

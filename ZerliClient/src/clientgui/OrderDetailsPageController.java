@@ -112,8 +112,6 @@ public class OrderDetailsPageController implements Initializable {
     void clickBtnCancel(ActionEvent event) {
         Timestamp deliveryTime = order.getDeliveryDate();
         Timestamp currTime = new Timestamp(System.currentTimeMillis());
-        long timeLeft =  deliveryTime.getTime() - order.getCancelTime().getTime();
-        int hours = (int) timeLeft / 3600000;
         float refund = 0;
         if(Client.userController.getLoggedInUser().getUserType().equals(UserType.CUSTOMER)) {
             order.setOrderStatus("CANCEL_PENDING");
@@ -123,6 +121,8 @@ public class OrderDetailsPageController implements Initializable {
             MainDashboardController.createAlert("Order "+ order.getOrderId() + " is awaiting cancellation confirmation", Alert.SUCCESS, Duration.seconds(3), 135, 100);
         }
         else{
+            long timeLeft =  deliveryTime.getTime() - order.getCancelTime().getTime();
+            int hours = (int) timeLeft / 3600000;
             if(hours > 3){
                 refund = order.getDiscountPrice();
             }

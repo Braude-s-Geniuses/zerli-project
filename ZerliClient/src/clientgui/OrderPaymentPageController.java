@@ -9,7 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 import user.Customer;
+import util.Alert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -224,14 +226,14 @@ public class OrderPaymentPageController implements Initializable {
      */
     @FXML
     void clickBtnPlaceOrder(ActionEvent event) {
-        if(validateInput()){ //TODO- in case of fail
+        if(validateInput()){
             if (btnUpdateCreditCard.isSelected()) {
                 customer.setCreditCard(cardField1.getText() + cardField2.getText() + cardField3.getText() + cardField4.getText());
                 customer.setExpDate(comboBoxMonth.getSelectionModel().getSelectedItem() +"/"+ comboBoxYear.getSelectionModel().getSelectedItem());
                 customer.setCvv(cvvField.getText());
                 Client.orderController.updateCreditCard(customer.getUserId(),customer.getCardDetails());
             }
-            if(btnUseBalance.isSelected()){ //TODO- in case of fail
+            if(btnUseBalance.isSelected()){
                 customer.setBalance(balance);
                 Client.orderController.updateBalance(customer.getUserId(),balance);
             }
@@ -245,7 +247,8 @@ public class OrderPaymentPageController implements Initializable {
                 MainDashboardController.setContentFromFXML("OrderCompletePage.fxml");
                 MainDashboardController.refreshCartCounter();
             }else{
-                System.out.println("not succeed"); //TODO from Itshak
+                MainDashboardController.setContentFromFXML("MyCartPage.fxml");
+                MainDashboardController.createAlert("Failed to place the Order. Please try again later", Alert.DANGER, Duration.seconds(5), 135, 67);
             }
 
         }

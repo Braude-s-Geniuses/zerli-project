@@ -19,22 +19,20 @@ public class ExternalSystemController {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             ServerUIController.printToServerConsoleUI("Driver definition succeed");
-            result += "\nDriver definition succeed";
         } catch (Exception ex) {
             /* handle the error*/
             ServerUIController.printToServerConsoleUI("Driver definition failed");
-            result += "\nDriver definition failed";
         }
 
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/" + Server.databaseController.getDbName() + "?serverTimezone=Asia/Jerusalem", Server.databaseController.getDbUser(), Server.databaseController.getDbPassword());
             ServerUIController.printToServerConsoleUI("SQL connection succeed");
-            result += "External System connection succeed";
+            ServerUIController.printToServerConsoleUI("External System connection succeed");
 
         } catch (SQLException ex) {/* handle any erroresultSet*/
-            result += "External System connection failed, there has been an SQLException: " + ex.getMessage();
-            result += "\nSQLState: " + ex.getSQLState();
-            result += "\nVendorError: " + ex.getErrorCode();
+            ServerUIController.printToServerConsoleUI("External System connection failed, there has been an SQLException: " + ex.getMessage());
+            ServerUIController.printToServerConsoleUI("SQLState: " + ex.getSQLState());
+            ServerUIController.printToServerConsoleUI("VendorError: " + ex.getErrorCode());
         }
         return result;
     }

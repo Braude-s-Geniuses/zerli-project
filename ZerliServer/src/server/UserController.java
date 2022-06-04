@@ -214,7 +214,7 @@ public class UserController {
             preparedStatement.setBoolean(7,true);//new customer
             boolean result = preparedStatement.execute();
             preparedStatement = con.prepareStatement("UPDATE user SET user_type=? WHERE user_id=?");
-            preparedStatement.setString(1, UserType.CUSTOMER.toString());
+            preparedStatement.setString(1, UserType.CUSTOMER.name());
             preparedStatement.setInt(2, data.getUserId());
             result = preparedStatement.execute();
             return new Message(true, MessageFromServer.CUSTOMER_CREATE_NEW);

@@ -175,8 +175,8 @@ public class BranchManagerCustomerManagementPageController implements Initializa
             user.setEmail(emailNewCustomerTextField.getText());
             Customer newCustomer = new Customer(user);
             newCustomer.setBalance(0);
-            String creditCard = cardNewCustomerTextField1.getText()+"-" + cardNewCustomerTextField2.getText()+"-"
-                    + cardNewCustomerTextField3.getText()+"-" + cardNewCustomerTextField4.getText();
+            String creditCard = cardNewCustomerTextField1.getText() + cardNewCustomerTextField2.getText()
+                    + cardNewCustomerTextField3.getText() + cardNewCustomerTextField4.getText();
             newCustomer.setCreditCard(creditCard);
             newCustomer.setExpDate(monthNewCustomerComboBox.getValue() + "/" + yearNewCustomerComboBox.getValue());
             newCustomer.setCvv(cvvNewCustomerTextField.getText());

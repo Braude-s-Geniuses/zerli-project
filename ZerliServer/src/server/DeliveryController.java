@@ -61,7 +61,7 @@ public class DeliveryController {
     public static Message sendDelivery(Order order) {
         Timestamp deliveryTime = Timestamp.valueOf(LocalDateTime.now());
 
-        OrderStatus newStatus = getNewStatus(String.valueOf(order.getOrderStatus()));
+        OrderStatus newStatus = getNewStatus(order.getOrderStatus());
 
         PreparedStatement preparedStatement = null;
         try {
@@ -82,11 +82,8 @@ public class DeliveryController {
      * @param oldStatus
      * @return
      */
-    private static OrderStatus getNewStatus(String oldStatus) {
-        if (oldStatus == "Express Confirmed"){
-            return OrderStatus.EXPRESS_COMPLETED;
-        }
-        return OrderStatus.NORMAL_COMPLETED;
+    private static OrderStatus getNewStatus(OrderStatus oldStatus) {
+        return oldStatus == OrderStatus.EXPRESS_CONFIRMED ? OrderStatus.EXPRESS_COMPLETED : OrderStatus.NORMAL_COMPLETED;
     }
 
     /**

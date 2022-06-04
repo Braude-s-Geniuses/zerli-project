@@ -118,7 +118,7 @@ public class MyDeliveriesPageController implements Initializable {
             MessageFromServer result = Client.deliveryController.getResponse().getAnswer();
             if(result == MessageFromServer.DELIVERY_UPDATE_SUCCESS){
                 button.setDisable(true);
-                button.setText("Send");
+                button.setText("Completed");
                 if(checkForRefund(Client.deliveryController.getOrder(), orderStatus)){
                     Client.deliveryController.makeRefund();
                 }
@@ -135,7 +135,7 @@ public class MyDeliveriesPageController implements Initializable {
      */
     private boolean checkForRefund(Order order, OrderStatus orderStatus) {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        Timestamp orderTime = order.getOrderDate();
+        Timestamp orderTime = order.getDeliveryDate();
 
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         if(fmt.format(currentTime).equals(fmt.format(orderTime))){          //if same day
