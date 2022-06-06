@@ -129,20 +129,20 @@ public class MyCartPageController implements Initializable {
                 if(newAmount == 0){
                     cartAsListView.getItems().remove(productHBox);
                     Client.orderController.getCart().remove(op);
+                    MainDashboardController.refreshCartCounter();
                     if(Client.orderController.getCart().isEmpty()){
                         btnCheckOut.setDisable(true);
                     }
-                }
-                else {
+                } else {
                     Client.orderController.getCart().get( Client.orderController.getCart().indexOf(op)).setQuantity(newAmount);
                     if (op == null) {//if cart is empty
                         return;
                     }
                     ((Label) productHBox.getChildren().get(3)).setText(op.getQuantity() * op.getProduct().getPrice() + " \u20AA");
                     ((Label) productHBox.getChildren().get(4)).setText(op.getQuantity() * op.getProduct().getDiscountPrice() + " \u20AA");
-
-                    editTotalLabel();
                 }
+
+                editTotalLabel();
             }
         };
     }

@@ -1,7 +1,7 @@
 package clientgui;
 
-import branch.Complaint;
-import branch.ComplaintStatus;
+import complaint.Complaint;
+import complaint.ComplaintStatus;
 import client.Client;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

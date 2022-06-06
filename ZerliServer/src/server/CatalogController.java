@@ -2,8 +2,8 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
-import order.Item;
-import order.Product;
+import product.Item;
+import product.Product;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Connection;

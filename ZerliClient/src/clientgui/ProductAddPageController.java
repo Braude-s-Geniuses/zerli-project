@@ -10,8 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import order.Item;
-import order.Product;
+import product.Item;
+import product.Product;
 import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;

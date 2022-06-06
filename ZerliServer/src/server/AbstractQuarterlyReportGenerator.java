@@ -1,6 +1,6 @@
 package server;
 
-import report.ReportType;
+import util.ReportType;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;

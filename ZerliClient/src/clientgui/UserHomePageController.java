@@ -1,13 +1,12 @@
 package clientgui;
 
-import branch.Complaint;
-import branch.ComplaintStatus;
+import complaint.Complaint;
+import complaint.ComplaintStatus;
 import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import user.Customer;
 import user.UserType;

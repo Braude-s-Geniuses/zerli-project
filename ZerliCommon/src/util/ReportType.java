@@ -1,4 +1,4 @@
-package report;
+package util;
 
 public enum ReportType {
     MONTHLY_ORDER_REPORT{

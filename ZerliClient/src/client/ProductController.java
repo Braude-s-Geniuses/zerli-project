@@ -3,7 +3,7 @@ package client;
 import communication.Message;
 import communication.MessageFromClient;
 import javafx.scene.image.Image;
-import order.Product;
+import product.Product;
 
 import javax.sql.rowset.serial.SerialException;
 import java.io.File;
@@ -50,7 +50,6 @@ public class ProductController extends AbstractController {
     /**
      * Gets all the Items of a given Product
      * @param productId - the Id of the Product
-     * @return returned result is retrieved through the controller's <code>getResponse()</code>> method
      */
     public void getProductItems(int productId) {
         Message message = new Message(productId, MessageFromClient.PRODUCT_GET_ITEMS);
@@ -60,7 +59,6 @@ public class ProductController extends AbstractController {
     /**
      * Updates an existing Product in the system
      * @param product - the updated Product with already updated fields
-     * @return returned result is retrieved through the controller's <code>getResponse()</code>> method
      */
     public void updateProduct(Product product) {
         Message message = new Message(product, MessageFromClient.PRODUCT_UPDATE);
@@ -70,8 +68,8 @@ public class ProductController extends AbstractController {
     /**
      * Creates a local Image (%temp%) of a product in the client's OS and adds its instance to <code>productImages</code>
      * so it can be used later
+     * <b>Note: </b> the prefix of an image is: "zerli-product-{product_id}-hash.png"
      * @param product - the product an image is needed to be created
-     * @note the prefix of an image is: "zerli-product-{product_id}-hash.png"
      */
     public void createProductImage(Product product) {
         File fileImage = null;

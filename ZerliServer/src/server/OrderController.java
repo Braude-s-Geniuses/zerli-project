@@ -3,10 +3,11 @@ package server;
 import communication.Message;
 import communication.MessageFromServer;
 import order.*;
+import product.Item;
+import product.Product;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class OrderController {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCustomerId(resultSet.getInt("customer_id"));
-                order.setBranch(resultSet.getString("branch"));
+                order.setBranch(resultSet.getString("complaint"));
                 order.setOrderStatus(resultSet.getString("order_status"));
                 order.setGreetingCard(resultSet.getString("greeting_card"));
                 order.setPrice(resultSet.getFloat("price"));
@@ -68,7 +69,7 @@ public class OrderController {
             stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT branch FROM branch;");
             while (resultSet.next()) {
-                branches.add(resultSet.getString("branch"));
+                branches.add(resultSet.getString("complaint"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -339,7 +340,7 @@ public class OrderController {
             preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                branch = resultSet.getString("branch");
+                branch = resultSet.getString("complaint");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -367,7 +368,7 @@ public class OrderController {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCustomerId(resultSet.getInt("customer_id"));
-                order.setBranch(resultSet.getString("branch"));
+                order.setBranch(resultSet.getString("complaint"));
                 order.setOrderStatus(resultSet.getString("order_status"));
                 order.setGreetingCard(resultSet.getString("greeting_card"));
                 order.setPrice(resultSet.getFloat("price"));

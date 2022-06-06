@@ -1,6 +1,6 @@
 package server;
 
-import report.ReportType;
+import util.ReportType;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.FontFactory;
@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA_BOLD;
@@ -143,7 +142,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
         float columnWidth[] = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
-        PdfPCell spaceCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+        PdfPCell spaceCell = new PdfPCell(new Phrase("\n\n\n\n\n"));
         PdfPCell mustPurchasedCell = new PdfPCell(new Phrase("Most purchased: " + reportSummery.get(0) +" "+ reportSummery.get(1) + " times", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         PdfPCell totalCell = new PdfPCell(new Phrase("Total purchased:  "+ reportSummery.get(2) + " products (from inventory of " +reportSummery.get(3)+" products)", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         setCell(mustPurchasedCell);

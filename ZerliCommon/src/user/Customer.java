@@ -2,13 +2,40 @@ package user;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to represent a User of type Customer in the database
+ */
 public class Customer extends User {
+    /**
+     * Determines if the customer is blocked from placing Orders
+     */
     private boolean blocked;
+
+    /**
+     * Stores the Credit Card's number
+     */
     private String creditCard;
+
+    /**
+     * Stores the Credit Card's exp date
+     */
     private String expDate;
+
+    /**
+     * Stores the Credit Card's CVV
+     */
     private String cvv;
+
+    /**
+     * The Customer's account balance where he will be credited for refunds
+     * and can use them as a form of payment for future purchases
+     */
     private float balance = 0;
 
+    /**
+     * Determines if the Customer has placed his first order
+     * On first order, a 20% Discount will be applied automatically on his order
+     */
     private boolean newCustomer;
 
     public Customer(int userId, String username, String password, UserType userType, boolean loggedIn, String firstName, String lastName, String id, String email, String phone) {

@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
-import order.Product;
+import product.Product;
 
 import java.net.URL;
 import java.util.ArrayList;

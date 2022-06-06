@@ -5,21 +5,79 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+/**
+ * The class is used to describe an Order made by a Customer
+ */
 public class Order implements Serializable {
+    /**
+     * The ID of the order within the database
+     */
     private int orderId;
+
+    /**
+     * The ID of the customer who made the order within the database
+     */
     private int customerId;
+
+    /**
+     * The branch name where the customer wants the order to be made in
+     */
     private String branch;
+
+    /**
+     * The order's current status
+     */
     private OrderStatus orderStatus;
+
+    /**
+     * An optional greeting card message that can be added by customer when placing an order
+     */
     private String greetingCard;
+
+    /**
+     * The price of the order before any discounts applied
+     */
     private float price;
+
+    /**
+     * The price of order after discounts of all products (if any)
+     */
     private float discountPrice;
+
+    /**
+     * The date time when the order was placed
+     */
     private Timestamp orderDate;
+
+    /**
+     * The date time of when the customer wants to receive the order
+     * <b>Note:</b> changes to ACTUAL delivery time once the order status is COMPLETED
+     */
     private Timestamp deliveryDate;
-    private Timestamp actualDeliveryDate;
+
+    /**
+     * The address to delivery the order to (if applicable)
+     */
     private String deliveryAddress;
+
+    /**
+     * The recipient of the order (Same as customer/Other - provided by him)
+     */
     private String recipientName;
+
+    /**
+     * The recipient's phone (Same as customer/Other - provided by him)
+     */
     private String recipientPhone;
+
+    /**
+     * The date time of when the customer started the cancellation process
+     */
     private Timestamp cancelTime;
+
+    /**
+     * The products included in this order with the quantity of each
+     */
     private ArrayList<OrderProduct> productList;
 
 
@@ -122,14 +180,6 @@ public class Order implements Serializable {
 
     public void setDeliveryDate(Timestamp deliveryDate) {
         this.deliveryDate = deliveryDate;
-    }
-
-    public Timestamp getActualDeliveryDate() {
-        return actualDeliveryDate;
-    }
-
-    public void setActualDeliveryDate(Timestamp actualDeliveryDate) {
-        this.actualDeliveryDate = actualDeliveryDate;
     }
 
     public String getDeliveryAddress() {

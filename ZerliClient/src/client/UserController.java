@@ -50,8 +50,8 @@ public class UserController extends AbstractController {
     /**
      * This method is used to log a user out of the system by sending a logout
      * request to the server
+     * <b>Note:</b> all the Client's Application Controllers are also re-instantiated upon calling this function
      * @param id - the user ID needs to be logged out
-     * @note all the Client's Application Controllers are also re-instantiated upon calling this function
      */
     public void logout(int id){
         Message requestLogout = new Message();
@@ -129,8 +129,8 @@ public class UserController extends AbstractController {
 
     /**
      * This method sends a request to the server to fetch a customerId's email
+     * <b>Note:</b> the response from the server is located in <code>this.getResponse()</code>
      * @param customerId - the customer's email we would like to get
-     * @note the response from the server is located in <code>this.getResponse()</code>
      */
     public void getCustomerEmail(int customerId) {
         Message message = new Message(customerId, CUSTOMER_GET_EMAIL);
@@ -141,7 +141,6 @@ public class UserController extends AbstractController {
      * This method prepares MessageFromClient to get user permissions
      * and sends it to server using clientController
      * @param user
-     * @return the response from server
      */
     public void getPermissions(User user) {
         Message getUserPermission = new Message();

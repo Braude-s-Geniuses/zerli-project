@@ -21,8 +21,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import order.OrderProduct;
-import order.Product;
-import util.Alert;
+import product.Product;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -143,7 +142,7 @@ public class CustomerProductBuilderModalController implements Initializable {
                 new KeyFrame(
                         duration,
                         event -> {
-                            MainDashboardController.getContentBox().getChildren().remove(textFlow);
+                            baseAnchor.getChildren().remove(textFlow);
                         }
                 )
         );

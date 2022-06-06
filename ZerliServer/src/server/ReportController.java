@@ -1,6 +1,6 @@
 package server;
 
-import report.ReportType;
+import util.ReportType;
 import com.itextpdf.text.DocumentException;
 import communication.Message;
 import communication.MessageFromServer;
@@ -454,7 +454,7 @@ public class ReportController {
             preparedStatement.setInt(1, branchMangerId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            branch = resultSet.getString("branch");
+            branch = resultSet.getString("complaint");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

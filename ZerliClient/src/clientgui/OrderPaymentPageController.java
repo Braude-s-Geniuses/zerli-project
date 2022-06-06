@@ -404,8 +404,8 @@ public class OrderPaymentPageController implements Initializable {
 
     /**
      * Set credit card fields disable/ enable
+     * <b>Note:</b> this feature is invisible and can be used in future updates to allow the customer to enter different credit card!!!
      * @param isDisabled
-     * @note this feature is invisible and can be used in future updates to allow the customer to enter different credit card
      */
     private void setCreditCardLabels(boolean isDisabled) {
         isDisabled = false;

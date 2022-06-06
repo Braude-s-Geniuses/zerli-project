@@ -2,6 +2,9 @@ package order;
 
 import java.io.Serializable;
 
+/**
+ * This class is used to describe an order status
+ */
 public enum OrderStatus implements Serializable {
     NORMAL_PENDING{
         public String toString(){

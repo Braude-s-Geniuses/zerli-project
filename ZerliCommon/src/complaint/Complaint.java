@@ -1,15 +1,45 @@
-package branch;
+package complaint;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+/**
+ * This class is used to describe a Complaint made by a Customer in the System
+ */
 public class Complaint implements Serializable {
+    /**
+     * The Identification number of the complaint within the database
+     */
     private int complaintId;
+
+    /**
+     * The Government Identification number of the customer complaining within the database
+     */
     private String customerId;
+
+    /**
+     * The Identification number of the Service Employee who created the complaint within the database
+     */
     private int serviceId;
+
+    /**
+     * The Identification number of the order related to the complaint within the database
+     */
     private int orderId;
+
+    /**
+     * The current complaint status
+     */
     private ComplaintStatus complaintStatus;
+
+    /**
+     * The timestamp of when the complaint was created at
+     */
     private Timestamp createdAt;
+
+    /**
+     * Describes what exactly the customer is complaining about
+     */
     private String description;
 
     public Complaint(int complaintId, String customerId, int serviceId, int orderId, ComplaintStatus complaintStatus, Timestamp createdAt, String description) {
@@ -21,6 +51,7 @@ public class Complaint implements Serializable {
         this.createdAt = createdAt;
         this.description = description;
     }
+
     public Complaint(){}
 
 

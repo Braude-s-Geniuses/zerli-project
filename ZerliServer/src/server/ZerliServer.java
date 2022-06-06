@@ -1,6 +1,6 @@
 package server;
 
-import branch.Complaint;
+import complaint.Complaint;
 import communication.Message;
 import communication.MessageFromServer;
 import ocsf.server.AbstractServer;

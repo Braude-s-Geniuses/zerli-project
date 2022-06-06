@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import order.Product;
+import product.Product;
 
 import java.net.URL;
 import java.util.ArrayList;

@@ -8,6 +8,9 @@ import order.OrderProduct;
 
 import java.util.ArrayList;
 
+/**
+ * Controller for everything related to Orders
+ */
 public class OrderController extends AbstractController {
 
     /**
@@ -132,9 +135,9 @@ public class OrderController extends AbstractController {
 
     /**
      * Updates a customer's balance to a given balance
+     * <b>Note:</b> this method is async - it will not wait for the server's response
      * @param userId - the id of the customer we want to update the balance to
      * @param balance - new balance
-     * @note this method is async - it will not wait for the server's response
      */
     public void updateBalance(int userId, float balance) {
         ArrayList<Object> msgList = new ArrayList<>();

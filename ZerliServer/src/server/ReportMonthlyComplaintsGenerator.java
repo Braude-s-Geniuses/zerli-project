@@ -1,6 +1,6 @@
 package server;
 
-import report.ReportType;
+import util.ReportType;
 import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;

@@ -1,13 +1,37 @@
-package order;
+package product;
 
 import java.io.Serializable;
 
+/**
+ * The class is used to describe an Item in the system
+ * <b>Important Note:</b> an Item is used internally to compose a Product.
+ * Meaning, a Customer can only buy a Product, therefore: a Product comprises item(s).
+ */
 public class Item implements Serializable {
 
+    /**
+     * The ID of the Item in the database
+     */
     private int itemId;
+
+    /**
+     * The name of the Item
+     */
     private String name;
+
+    /**
+     * The type of the Item (e.g. Leaf, Flower, Branch, Chocolate...)
+     */
     private String type;
+
+    /**
+     * The color of the Item
+     */
     private String color;
+
+    /**
+     * The item base price
+     */
     private float price;
 
     public Item(int itemId, String name, String type, String color, float price) {

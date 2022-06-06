@@ -1,19 +1,65 @@
-package order;
+package product;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * This class represents a Product in the System.
+ * A Product is shown in the Catalog and can be purchased by a Customer(s) multiple times
+ * A Product comprises Item(s)
+ */
 public class Product implements Serializable {
+    /**
+     * The ID of the Product in the database
+     */
     private int productId;
+
+    /**
+     * The name of the Product
+     */
     private String name;
+
+    /**
+     * Every Item in the Product and its respective quantity in it
+     */
     private HashMap<Item, Integer> items = new HashMap<Item, Integer>();
+
+    /**
+     * The full price of the Product
+     */
     private float price;
+
+    /**
+     * The Product's discount price (if applicable)
+     */
     private float discountPrice;
+
+    /**
+     * The Product's picture
+     */
     private SerialBlob image;
+
+    /**
+     * If the Product consists a single Item with quantity of 1
+     * e.g. A single Red Rose is customMade  true
+     * A Roses Bouquet is customMade  false
+     */
     private boolean customMade;
+
+    /**
+     * The color to be displayed as the main color of the Product
+     */
     private String dominantColor;
+
+    /**
+     * If the Product should be shown in the catalog
+     */
     private boolean inCatalog = true;
+
+    /**
+     * If the Product was made by a Customer using the Product Builder feature
+     */
     private boolean customerProduct = false;
 
     public Product() {

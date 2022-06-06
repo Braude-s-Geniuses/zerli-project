@@ -8,6 +8,9 @@ import survey.SurveyAnswers;
 
 import java.util.List;
 
+/**
+ * Controller for everything related to Surveys
+ */
 public class SurveyController extends AbstractController {
 
     private List<SurveyAnswers> surveyAnswersList = null;
@@ -65,7 +68,7 @@ public class SurveyController extends AbstractController {
      * This method prepares MessageFromClient to get all survey names by expert
      * and sends it to server using clientController
      * @param expertID
-     * @return the surveyNames - List<String>
+     * @return the surveyNames - List
      */
     public List<String> getAllSurveyNamesByExpert(int expertID) {
         Message requestSurveysNamesByExpert = new Message();
@@ -81,7 +84,7 @@ public class SurveyController extends AbstractController {
      * This method prepares MessageFromClient to get all survey answers
      * and sends it to server using clientController
      * @param value
-     * @return the surveyAnswersList - List<SurveyAnswers>
+     * @return list of (ids, names)
      */
     public List<SurveyAnswers> getAllSurveyAnswers(String value) {
         Message requestSurveyAnswer = new Message();

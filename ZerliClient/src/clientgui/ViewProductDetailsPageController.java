@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import order.Item;
+import product.Item;
 import order.Order;
 import order.OrderProduct;
 import user.Customer;
@@ -20,7 +20,6 @@ import user.UserType;
 import util.Alert;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;

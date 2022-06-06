@@ -4,20 +4,31 @@ package communication;
  *
  */
 public class ClientInfo {
+    /**
+     * IP Address of the Client
+     */
     private final String ipAddress;
+
+    /**
+     * Hostname of the Client
+     */
     private final String hostname;
+
+    /**
+     * Connection Status of the Client
+     */
     private String status;
 
+    /**
+     * Creates a new instance on connected Client Information.
+     * This constructor is used on first time connection when Client is as a guest
+     * @param ipAddress - the IP Address he connected with
+     * @param hostname - the Hostname he connected with
+     */
     public ClientInfo(String ipAddress, String hostname) {
         this.ipAddress = ipAddress;
         this.hostname = hostname;
         this.status = "Connected (Guest)";
-    }
-
-    public ClientInfo(String ipAddress, String hostname, String status) {
-        this.ipAddress = ipAddress;
-        this.hostname = hostname;
-        this.status = status;
     }
 
     public String getIpAddress() {

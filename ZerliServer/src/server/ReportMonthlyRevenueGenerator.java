@@ -1,6 +1,6 @@
 package server;
 
-import report.ReportType;
+import util.ReportType;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.FontFactory;
@@ -94,7 +94,7 @@ public class ReportMonthlyRevenueGenerator extends AbstractMonthlyReportGenerato
         float columnWidth[] = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
-        PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+        PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n"));
         PdfPCell cell = new PdfPCell(new Phrase("Total revenue: " + reportSummery.get(0), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         setCell(cell);
         setCell(cell3);

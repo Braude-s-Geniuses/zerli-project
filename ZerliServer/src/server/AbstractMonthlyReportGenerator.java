@@ -6,7 +6,7 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import report.ReportType;
+import util.ReportType;
 
 import java.time.Month;
 import java.util.ArrayList;

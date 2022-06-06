@@ -11,7 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import order.Item;
+import product.Item;
 import util.Alert;
 
 import java.net.URL;

@@ -4,23 +4,29 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * This class is used to describe a Survey in the system
+ */
 public class Survey implements Serializable {
+    /**
+     * The ID of the survey in the database
+     */
     private int surveyID;
+
+    /**
+     * The User ID of the expert who submitting his reportData
+     */
     private int expertID;
+
+    /**
+     * The title of the Survey
+     */
     private String name;
-    private Date startDate;
-    private Date endDate;
+
+    /**
+     * The PDF conclusion report added by the Expert Service Employee
+     */
     private SerialBlob reportData;
-
-
-    public Survey(int surveyID, int expertID, String name, Date startDate, Date endDate, SerialBlob reportData) {
-        this.surveyID = surveyID;
-        this.expertID = expertID;
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.reportData = reportData;
-    }
 
     public Survey(int surveyID, int expertID, SerialBlob reportData) {
         this.surveyID = surveyID;
@@ -50,22 +56,6 @@ public class Survey implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public SerialBlob getReportData() {

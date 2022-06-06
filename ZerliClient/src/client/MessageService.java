@@ -2,6 +2,10 @@ package client;
 
 import communication.Message;
 
+/**
+ * Implementation of the steps taken when a message is being sent to server
+ * and when receiving a message from it
+ */
 public class MessageService implements IMessageService {
 
     /**
@@ -15,6 +19,7 @@ public class MessageService implements IMessageService {
      * @param message - message to send to server
      * @param await - if the client should wait for server's response
      * @return server response if exists; null otherwise
+     * @see {@link client.ZerliClient#handleMessageFromUI(Object, boolean)}
      */
     @Override
     public Message sendToServer(Object message, boolean await) {

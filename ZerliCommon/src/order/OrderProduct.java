@@ -1,9 +1,21 @@
 package order;
 
+import product.Product;
+
 import java.io.Serializable;
 
+/**
+ * Describes a Product in an Order
+ */
 public class OrderProduct implements Serializable {
+    /**
+     * The product in the order
+     */
     private Product product;
+
+    /**
+     * The quantity of given product in the order
+     */
     private int quantity;
 
     public OrderProduct(){}

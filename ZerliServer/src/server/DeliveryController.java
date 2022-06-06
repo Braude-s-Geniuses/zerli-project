@@ -30,7 +30,7 @@ public class DeliveryController {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCustomerId(resultSet.getInt("customer_id"));
-                order.setBranch(resultSet.getString("branch"));
+                order.setBranch(resultSet.getString("complaint"));
                 order.setOrderStatus(resultSet.getString("order_status"));
                 order.setGreetingCard(resultSet.getString("greeting_card"));
                 order.setPrice(resultSet.getFloat("price"));
@@ -102,7 +102,7 @@ public class DeliveryController {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCustomerId(resultSet.getInt("customer_id"));
-                order.setBranch(resultSet.getString("branch"));
+                order.setBranch(resultSet.getString("complaint"));
                 order.setOrderStatus(resultSet.getString("order_status"));
                 order.setGreetingCard(resultSet.getString("greeting_card"));
                 order.setPrice(resultSet.getFloat("price"));

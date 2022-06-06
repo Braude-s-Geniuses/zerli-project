@@ -16,7 +16,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
-import report.ReportType;
+import util.ReportType;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

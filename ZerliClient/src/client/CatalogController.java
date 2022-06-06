@@ -2,13 +2,12 @@ package client;
 
 import communication.Message;
 import communication.MessageFromClient;
-import order.Product;
+import product.Product;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
- * Controller for the catalog
+ * Controller for everything related to Catalog
  */
 public class CatalogController extends AbstractController {
 

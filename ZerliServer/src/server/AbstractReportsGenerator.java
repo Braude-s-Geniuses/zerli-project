@@ -4,7 +4,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import report.ReportType;
+import util.ReportType;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;

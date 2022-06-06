@@ -185,7 +185,7 @@ public class UserController {
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
                     return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
-                String branch = resultSet.getString("branch");
+                String branch = resultSet.getString("complaint");
                 preparedStatement = con.prepareStatement("SELECT * FROM `branch_employee` WHERE user_id=? AND" +
                         " branch=?");
                 preparedStatement.setInt(1, user.getUserId());

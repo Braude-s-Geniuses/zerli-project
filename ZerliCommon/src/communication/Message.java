@@ -9,8 +9,19 @@ public class Message implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The message data (e.g. User instance, List of Products etc..)
+	 */
 	private Object data;
+
+	/**
+	 * Describes the task the client is asking the server to perform
+	 */
 	private MessageFromClient task;
+
+	/**
+	 * Describes the result of the task completed by the server
+	 */
 	private MessageFromServer answer;
 
 		
@@ -27,10 +38,10 @@ public class Message implements Serializable {
 		this.answer = answer;
 	}
 	
-	public Message(Object data, MessageFromClient taskRequseted) {
+	public Message(Object data, MessageFromClient task) {
 		super();
 		this.data = data;
-		this.task = taskRequseted;
+		this.task = task;
 	}
 	
 	public Object getData() {

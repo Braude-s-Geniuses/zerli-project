@@ -1,6 +1,6 @@
 package client;
 
-import branch.Complaint;
+import complaint.Complaint;
 import communication.Message;
 import communication.MessageFromClient;
 

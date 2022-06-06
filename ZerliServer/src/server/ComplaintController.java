@@ -1,7 +1,7 @@
 package server;
 
-import branch.Complaint;
-import branch.ComplaintStatus;
+import complaint.Complaint;
+import complaint.ComplaintStatus;
 import communication.Message;
 import communication.MessageFromServer;
 

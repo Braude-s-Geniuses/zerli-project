@@ -2,7 +2,7 @@ package server;
 
 import communication.Message;
 import communication.MessageFromServer;
-import order.Item;
+import product.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

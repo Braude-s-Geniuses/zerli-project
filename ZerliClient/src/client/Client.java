@@ -11,11 +11,6 @@ import javafx.stage.WindowEvent;
  * Client represents the main ZerliClient Runnable
  */
 public class Client extends Application {
-
-    /**
-     * represents the static instances of all controllers
-     */
-
     public static ClientController clientController;
     public static UserController userController;
     public static DeliveryController deliveryController;

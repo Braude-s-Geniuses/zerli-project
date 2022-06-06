@@ -5,7 +5,9 @@ import communication.MessageFromClient;
 
 import java.util.ArrayList;
 
-
+/**
+ * Controller for everything related to Reports
+ */
 public class ReportController extends AbstractController {
 
     ReportController(IMessageService service) {

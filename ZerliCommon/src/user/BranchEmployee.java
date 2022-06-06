@@ -2,10 +2,28 @@ package user;
 
 import branch.Branch;
 
+/**
+ * The class represents a Branch Employee in the system
+ */
 public class BranchEmployee extends User {
+    /**
+     * the branch the employee works at
+     */
     private Branch branch;
+
+    /**
+     * Determines if the employee has permissions to add customer's answer to a survey
+     */
     private boolean survey;
+
+    /**
+     * Determines if the employee has permission to add/update/remove discounts of a Product(s)
+     */
     private boolean discount;
+
+    /**
+     * Determines if the employee has permission to update/remove Product(s) from the catalog
+     */
     private boolean catalogue;
 
     public BranchEmployee(User user)
