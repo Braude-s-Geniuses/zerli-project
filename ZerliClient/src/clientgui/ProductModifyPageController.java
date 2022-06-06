@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import order.Item;
 import order.Product;
 import user.BranchEmployee;
+import user.UserType;
 import util.Alert;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -112,11 +113,13 @@ public class ProductModifyPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         hideErrorsLabels();
+        if(Client.userController.getLoggedInUser().getUserType() == UserType.BRANCH_EMPLOYEE) {
+            Client.userController.getPermissions(Client.userController.getLoggedInUser());
+            BranchEmployee branchEmployee = Client.userController.getBranchEmployeeForInformation();
 
-        Client.userController.getPermissions(Client.userController.getLoggedInUser());
-        BranchEmployee branchEmployee = Client.userController.getBranchEmployeeForInformation();
-        if(!branchEmployee.isDiscount())
-            fldDiscountPrice.setDisable(true);
+            if (!branchEmployee.isDiscount())
+                fldDiscountPrice.setDisable(true);
+        }
 
         for (int i = 1; i <= 20; i++)
             choices.add(i);

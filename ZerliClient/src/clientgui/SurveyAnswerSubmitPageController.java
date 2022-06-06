@@ -135,7 +135,7 @@ public class SurveyAnswerSubmitPageController implements Initializable {
                     showErrorMessage("This customer is unable to complete this survey.");
                     break;
                 case SURVEY_ALREADY_FILLED:
-                    showErrorMessage("This customer all ready filled this survey.");
+                    showErrorMessage("This customer already filled this survey.");
                     break;
                 case SURVEY_INSERT_FAIL:
                     showErrorMessage("There is a problem, please try again later...");

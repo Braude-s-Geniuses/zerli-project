@@ -599,7 +599,7 @@
                 <Font name="Calibri Bold" size="22.0" />
             </font>
         </Label>
-        <Button fx:id="reset" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="259.0" layoutY="605.0" mnemonicParsing="false" onAction="#reset" prefWidth="200.0" styleClass="btn" text="Reset" textAlignment="JUSTIFY" textFill="#77385a">
+        <Button fx:id="reset" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="259.0" layoutY="605.0" mnemonicParsing="false" onAction="#reset" prefWidth="200.0" styleClass="btn-secondary" text="Reset" textAlignment="JUSTIFY" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="18.0" />
             </font>

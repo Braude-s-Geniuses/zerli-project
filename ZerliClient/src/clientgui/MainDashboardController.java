@@ -23,6 +23,7 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import user.BranchEmployee;
 import user.Customer;
+import user.UserType;
 import util.Alert;
 
 import java.io.IOException;
@@ -193,13 +194,14 @@ public class MainDashboardController implements Initializable {
                     Button buttonUserManagement = new Button("User Management");
                     buttonUserManagement.setOnAction(event -> setContentFromFXML("BranchManagerCustomerManagementPage.fxml"));
 
-                    Button buttonViewReport = new Button("View Report");
+                    Button buttonViewReport = new Button("View Reports");
                     buttonViewReport.setOnAction(event -> setContentFromFXML("ReportPageBranchManager.fxml"));
 
+                    addSideNavButton(buttonViewReport);
                     addSideNavButton(buttonUserManagement);
                     addSideNavButton(buttonManageOrders);
                     addSideNavButton(buttonSurveyAnswers);
-                    addSideNavButton(buttonViewReport);
+
                     addSideNavButton(buttonAddProduct);
                     addSideNavButton(buttonManageProducts);
                     addSideNavButton(buttonAddItem);
@@ -227,7 +229,8 @@ public class MainDashboardController implements Initializable {
                     Button buttonMyDeliveries = new Button("Available Deliveries");
                     buttonMyDeliveries.setOnAction(event -> setContentFromFXML("MyDeliveriesPage.fxml"));
                     addSideNavButton(buttonMyDeliveries);
-                    Button buttonMyHistory = new Button("My Delivery History");
+
+                    Button buttonMyHistory = new Button("Delivery History");
                     buttonMyHistory.setOnAction(event -> setContentFromFXML("MyDeliveryHistoryPage.fxml"));
                     addSideNavButton(buttonMyHistory);
                     break;
@@ -297,7 +300,7 @@ public class MainDashboardController implements Initializable {
 
     public static void setContentFromFXML(String fxml) {
         if(fxml == "ProductsManagePage.fxml" || fxml =="SurveyAnswerSubmitPage.fxml") {
-            if (!isUserHavePermission(fxml)) {
+            if (Client.userController.getLoggedInUser().getUserType() == UserType.BRANCH_EMPLOYEE && !isUserHavePermission(fxml)) {
                 createAlert("You are not authorized to perform this action", Alert.DANGER,Duration.seconds(3),200,0);
                 return;
             }
