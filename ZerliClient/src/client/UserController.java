@@ -57,8 +57,8 @@ public class UserController extends AbstractController {
         Message requestLogout = new Message();
         requestLogout.setTask(LOGOUT_REQUEST);
         requestLogout.setData(id);
-        Client.clientController.getClient().handleMessageFromUI(requestLogout,true);
 
+        getService().sendToServer(requestLogout, true);
         loggedInUser = null;
 
         /* resets all static controller instances except ClientController so the data is completely deleted between connected users sessions */
@@ -91,7 +91,7 @@ public class UserController extends AbstractController {
         getUserInformation.setTask(USER_INFORMATION_GET);
         getUserInformation.setData(userIdAndManagerId);
 
-        Client.clientController.getClient().handleMessageFromUI(getUserInformation,true);
+        getService().sendToServer(getUserInformation, true);
 
         return userForInformation;
     }
@@ -107,10 +107,9 @@ public class UserController extends AbstractController {
         requestCreateNewCustomer.setTask(CUSTOMER_CREATE_NEW);
         requestCreateNewCustomer.setData(newCustomer);
 
-        //Client.clientController.getClient().handleMessageFromUI(requestCreateNewCustomer,true);
+
         Client.clientController.sendMail("[SMS/EMAIL SIMULATION] To: " + newCustomer.getEmail() + " | Message: You are now a Zerli Customer! To celebrate, we are giving you a 20% Discount on your first order. No code necessary.");
 
-        //return  (boolean) getResponse().getData();
         return (boolean) (getService().sendToServer(requestCreateNewCustomer, true)).getData();
     }
 
@@ -125,9 +124,6 @@ public class UserController extends AbstractController {
         requestFreezeCustomer.setTask(CUSTOMER_FREEZE);
         requestFreezeCustomer.setData(customerToFreeze);
 
-        //Client.clientController.getClient().handleMessageFromUI(requestFreezeCustomer,true);
-
-        //return  (boolean) getResponse().getData();
         return (boolean) (getService().sendToServer(requestFreezeCustomer, true)).getData();
     }
 
@@ -138,7 +134,7 @@ public class UserController extends AbstractController {
      */
     public void getCustomerEmail(int customerId) {
         Message message = new Message(customerId, CUSTOMER_GET_EMAIL);
-        Client.clientController.getClient().handleMessageFromUI(message,true);
+        getService().sendToServer(message, true);
     }
 
     /**
@@ -151,12 +147,7 @@ public class UserController extends AbstractController {
         Message getUserPermission = new Message();
         getUserPermission.setTask(GET_USER_PERMISSION);
         getUserPermission.setData(user);
-//        if(user.getUserType() == UserType.BRANCH_MANAGER){//TODO ask Itshak
-//            return true;
-//        }
-        //Client.clientController.getClient().handleMessageFromUI(getUserPermission,true);
 
-        //return  (boolean) getResponse().getData();
         getService().sendToServer(getUserPermission, true);
     }
 

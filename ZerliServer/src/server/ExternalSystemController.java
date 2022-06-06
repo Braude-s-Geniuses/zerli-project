@@ -13,28 +13,28 @@ public class ExternalSystemController {
      * Connect to the DB where external system is in
      * @return a string of success/ fails
      */
-    public static String connect() {
-        String result = "";
+    public static boolean connect() {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            ServerUIController.printToServerConsoleUI("Driver definition succeed");
         } catch (Exception ex) {
             /* handle the error*/
             ServerUIController.printToServerConsoleUI("Driver definition failed");
+            return false;
         }
 
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/" + Server.databaseController.getDbName() + "?serverTimezone=Asia/Jerusalem", Server.databaseController.getDbUser(), Server.databaseController.getDbPassword());
-            ServerUIController.printToServerConsoleUI("SQL connection succeed");
             ServerUIController.printToServerConsoleUI("External System connection succeed");
 
         } catch (SQLException ex) {/* handle any erroresultSet*/
             ServerUIController.printToServerConsoleUI("External System connection failed, there has been an SQLException: " + ex.getMessage());
             ServerUIController.printToServerConsoleUI("SQLState: " + ex.getSQLState());
             ServerUIController.printToServerConsoleUI("VendorError: " + ex.getErrorCode());
+            return false;
         }
-        return result;
+
+        return true;
     }
 
     /**

@@ -78,6 +78,7 @@ public class MyOrdersPageController implements Initializable {
                 setLabels(lblOrderNumber);
                 lblOrderNumber.setPrefWidth(40);
                 setLabels(lblOrderPrices);
+                lblOrderPrices.setAlignment(Pos.CENTER);
 
                 HBox h = new HBox(30,lblOrderNumber ,lblOrderDetails,lblOrderPrices, lblOrderStatus, button);
                 h.setPrefWidth(940);

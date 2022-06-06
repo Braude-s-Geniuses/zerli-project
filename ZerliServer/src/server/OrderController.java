@@ -234,22 +234,11 @@ public class OrderController {
         }
     }
 
-    public static Message getLastReport() {
-        String lastReport = null;
-        Statement stmt;
-        try {
-            stmt = connection.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT name FROM report WHERE report_id = (select MAX(report_id) FROM report);");
-            while (resultSet.next()) {
-                lastReport = resultSet.getString("name");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new Message(null, MessageFromServer.REPORT_LAST_GET_FAIL);
-        }
-        return new Message(lastReport, MessageFromServer.REPORT_LAST_GET_SUCCESS);
-    }
-
+    /**
+     *
+     * @param order
+     * @return
+     */
     public static Message UpdateOrderStatus(Order order) {
         String express = "";
         try {

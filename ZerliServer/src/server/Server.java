@@ -20,13 +20,13 @@ public class Server extends Application {
      */
     public static ServerUIController serverUIController;
 
-    /** represents the only (static) instance of a server contrller.
+    /** represents the only (static) instance of a server controller.
      *
      */
     public static ServerController serverController;
 
 
-    /** represents the only (static) instance of a database contrller.
+    /** represents the only (static) instance of a database controller.
      *
      */
     public static DatabaseController databaseController;
@@ -104,7 +104,8 @@ public class Server extends Application {
             }
         }
 
-        ReportController.checkForReportUpdates();
+        /* A Task that checks once a day if new reports need to be created */
+        ReportController.TaskGenerateReport();
 
         return result;
     }

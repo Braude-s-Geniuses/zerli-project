@@ -12,6 +12,10 @@ public class ReportController extends AbstractController {
         super(service);
     }
 
+    /**
+     * Gets a report from the server given time parameters
+     * @param reportData -
+     */
     public void viewReport(ArrayList<String> reportData) {
         Message msg = new Message();
         msg.setData(reportData);

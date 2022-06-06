@@ -152,7 +152,6 @@ public class ProductController {
                                 resultSet.getString("color"),
                                 resultSet.getFloat("price")),
                         resultSet.getInt("quantity")
-
                 );
             }
         } catch (SQLException e) {

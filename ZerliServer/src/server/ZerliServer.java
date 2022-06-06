@@ -142,11 +142,11 @@ public class ZerliServer extends AbstractServer {
                 break;
             case SURVEY_IDS_REQUEST:
                 SurveyController surveyServerController= new SurveyController();
-                messageFromServer = surveyServerController.tryToGetIDsOfSurveys();
+                messageFromServer = surveyServerController.getSurveyIdsAndNames();
                 break;
             case SURVEY_SEND:
                 surveyServerController= new SurveyController();
-                messageFromServer = surveyServerController.tryToInsertSurvey((SurveyAnswers)messageFromClient.getData());
+                messageFromServer = surveyServerController.addSurveyAnswersByCustomer((SurveyAnswers)messageFromClient.getData());
                 break;
             case SURVEY_NAMES_GET_BY_EXPERT:
                 surveyServerController= new SurveyController();
@@ -212,7 +212,7 @@ public class ZerliServer extends AbstractServer {
                 break;
             case CUSTOMER_CREATE_NEW:
                 UserController userController2 = new UserController();
-                messageFromServer = userController2.createNewUser((Customer)messageFromClient.getData());
+                messageFromServer = userController2.createNewCustomer((Customer)messageFromClient.getData());
                 break;
             case CUSTOMER_FREEZE:
                 UserController userController3 = new UserController();

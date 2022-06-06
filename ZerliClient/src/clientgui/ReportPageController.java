@@ -29,7 +29,6 @@ import java.util.ResourceBundle;
 
 public class ReportPageController implements Initializable {
     public static ArrayList<String> reportData = new ArrayList<>();
-    //    public static ArrayList<ImageView> reportImages = new ArrayList<>();
 
     @FXML
     private VBox vboxReport;

@@ -24,7 +24,7 @@ public class ReportController {
     /**
      * Every day checks if there's new data to create report (can change to- month/quarter ...)
      */
-    public static void checkForReportUpdates() {
+    public static void TaskGenerateReport() {
         TimerTask task = new TimerTask() {
             public void run() {
                 ReportController.generateReportAccordingToDB();
@@ -44,7 +44,7 @@ public class ReportController {
         int currentYear = currentDate.getYear();
         int currentMonth = currentDate.getMonthValue();
 
-        String lastReport = (String) OrderController.getLastReport().getData();     //get last report.
+        String lastReport = (String) getLastReport().getData();     //get last report.
 
         if (lastReport == null) { //First time generating reports
             fromYear = 2020;
@@ -459,5 +459,25 @@ public class ReportController {
             throw new RuntimeException(e);
         }
         return new Message(branch, MessageFromServer.MANAGER_BRANCH_GET_SUCCESS);
+    }
+
+    /**
+     * Gets the latest created report from the database
+     * @return Message with the report name in it
+     */
+    public static Message getLastReport() {
+        String lastReport = null;
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery("SELECT name FROM report WHERE report_id = (select MAX(report_id) FROM report);");
+            while (resultSet.next()) {
+                lastReport = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Message(null, MessageFromServer.REPORT_LAST_GET_FAIL);
+        }
+        return new Message(lastReport, MessageFromServer.REPORT_LAST_GET_SUCCESS);
     }
 }

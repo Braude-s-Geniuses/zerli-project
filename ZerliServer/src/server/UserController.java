@@ -31,7 +31,6 @@ public class UserController {
      * @param data
      * @return
      */
-
     public Message login(User data) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM `user` WHERE username=?");
@@ -75,12 +74,21 @@ public class UserController {
         return new Message(data, MessageFromServer.LOGIN_SUCCESS);
     }
 
+    /**
+     * Logs a given userId out of the system
+     * @param id
+     * @return
+     */
     public Message logout(int id) {
         if (setUserAsLoggedOut(id))
             return new Message(null, MessageFromServer.LOGOUT_SUCCESS);
         return new Message(null, MessageFromServer.LOGOUT_FAIL);
     }
 
+    /**
+     * Sets a given userId as logged into the system
+     * @param id
+     */
     public void setUserAsLoggedIn(int id) {
         PreparedStatement preparedStatement = null;
         try {
@@ -92,6 +100,10 @@ public class UserController {
         }
     }
 
+    /**
+     * Sets a given userId as logged out of the system
+     * @param id
+     */
     public boolean setUserAsLoggedOut(int id) {
         PreparedStatement preparedStatement = null;
         try {
@@ -106,6 +118,11 @@ public class UserController {
         return false;
     }
 
+    /**
+     * Gets customer data from the database
+     * @param data
+     * @throws SQLException
+     */
     public void addCustomerDetails(Customer data) throws SQLException{
         PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM `customer` WHERE customer_id=?");
         preparedStatement.setInt(1, data.getUserId());
@@ -121,6 +138,11 @@ public class UserController {
         data.setNewCustomer(resultSet.getBoolean(7));
     }
 
+    /**
+     * Gets a user's information according to its type for user management
+     * @param userIdAndManagerId
+     * @return
+     */
     public Message getUserInformation(List<String> userIdAndManagerId) {
         User user = new User();
         try {
@@ -183,6 +205,11 @@ public class UserController {
         return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
     }
 
+    /**
+     * Updates branch employee's permission within the system
+     * @param branchEmployee
+     * @return
+     */
     public Message changeBranchEmployeePermission(BranchEmployee branchEmployee)
     {
         PreparedStatement preparedStatement = null;
@@ -201,7 +228,12 @@ public class UserController {
         return new Message(false, MessageFromServer.EMPLOYEE_PERMISSION_CHANGE);
     }
 
-    public Message createNewUser(Customer data) {
+    /**
+     * Creates a new customer in the database after approving the user as authorized customer
+     * @param data
+     * @return
+     */
+    public Message createNewCustomer(Customer data) {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = con.prepareStatement("INSERT INTO `customer` VALUES (?,?,?,?,?,?,?);");
@@ -225,6 +257,11 @@ public class UserController {
 
     }
 
+    /**
+     * Freezes or unfreezes a given customer's account
+     * @param customer
+     * @return
+     */
     public Message FreezeCustomer(Customer customer) {
         PreparedStatement preparedStatement = null;
         try {
@@ -239,6 +276,11 @@ public class UserController {
         return new Message(false, MessageFromServer.CUSTOMER_FREEZE);
     }
 
+    /**
+     * Gets branch employee's permission within the system
+     * @param user
+     * @return
+     */
     public Message getUserPermission(User user) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet;

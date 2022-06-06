@@ -23,7 +23,12 @@ public class SurveyController {
         con = Server.databaseController.getConnection();
     }
 
-    public Message tryToInsertSurvey(SurveyAnswers survey) {
+    /**
+     * Adds a customer's survey response if he is eligible to do so
+     * @param survey
+     * @return
+     */
+    public Message addSurveyAnswersByCustomer(SurveyAnswers survey) {
         String username = survey.getUsername();
         int surveyID = survey.getSurveyID();
 
@@ -31,7 +36,7 @@ public class SurveyController {
             return new Message(null,MessageFromServer.SURVEY_UNAUTHORIZED_CUSTOMER);
         }
 
-        if(surveyAlreadyFilled(username,surveyID)){
+        if(checkIfFilled(username,surveyID)){
             return new Message(null,MessageFromServer.SURVEY_ALREADY_FILLED);
         }
         else{
@@ -55,8 +60,11 @@ public class SurveyController {
     }
 
 
-
-    public Message tryToGetIDsOfSurveys() {
+    /**
+     * Returns a List of Lists that contains Survey IDs and Names
+     * @return List (List Ids, List Names)
+     */
+    public Message getSurveyIdsAndNames() {
         Statement stmt;
         ArrayList<Integer> surveysIDs = new ArrayList<Integer>();
         ArrayList<String> surveysNames = new ArrayList<String>();
@@ -77,6 +85,13 @@ public class SurveyController {
         return new Message(surveyData, MessageFromServer.SURVEY_IDS_REQUEST_SUCCESS);
 
     }
+
+    /**
+     * Checks if customer is allowed to submit Survey Results
+     * @param username
+     * @param SurveyID
+     * @return true if he's allowed; false otherwise
+     */
     public boolean checksAuthorizedCustomer(String username, int SurveyID) {
         Statement stmt;
         try {
@@ -93,7 +108,13 @@ public class SurveyController {
         }
     }
 
-    public boolean surveyAlreadyFilled(String username,int surveyID) {
+    /**
+     * Checks if customer already answered given survey
+     * @param username
+     * @param surveyID
+     * @return true if he didnt fill; false otherwise
+     */
+    public boolean checkIfFilled(String username, int surveyID) {
         Statement stmt;
         try {
             stmt = con.createStatement();
@@ -107,7 +128,11 @@ public class SurveyController {
         }
     }
 
-
+    /**
+     * Gets all surveys related to a given expert
+     * @param expertID
+     * @return
+     */
     public Message tryToGetSurveyNames(int expertID) {
         Statement stmt;
         List<String> surveys = new ArrayList<>();
@@ -128,6 +153,11 @@ public class SurveyController {
         return new Message(surveys, MessageFromServer.SURVEY_NAMES_SUCCESS);
     }
 
+    /**
+     * Gets all survey submitted results
+     * @param name - the survey name
+     * @return
+     */
     public Message tryToGetSurveyAnswers(String name)
     {
         List<SurveyAnswers> surveyAnswersList = new ArrayList<>();
@@ -161,6 +191,11 @@ public class SurveyController {
         return new Message(surveyAnswersList, MessageFromServer.SURVEY_ANSWERS_SUCCESS);
     }
 
+    /**
+     * Uploads expert conclusion report to database
+     * @param survey
+     * @return
+     */
     public Message tryToUploadFile(Survey survey) {
         try {
             preparedStatement = con.prepareStatement("UPDATE survey SET conclusion_report=?" +
@@ -180,16 +215,22 @@ public class SurveyController {
         return new Message(null, MessageFromServer.SURVEY_UPLOAD_SUMMARY_FAIL);
     }
 
+    /**
+     * Converts survey name to survey id
+     * @param name
+     * @return
+     */
     public Message tryToGetSurveyID(String name) {
         try {
-            preparedStatement=  con.prepareStatement("SELECT survey_id FROM survey WHERE survey_name=? ;", Statement.RETURN_GENERATED_KEYS);//get survey id
-            preparedStatement.setString(1,name);
+            preparedStatement = con.prepareStatement("SELECT survey_id FROM survey WHERE survey_name=? ;", Statement.RETURN_GENERATED_KEYS);//get survey id
+            preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return new Message(resultSet.getInt("survey_id"), MessageFromServer.SURVEY_ID_GET_SUCCESS);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
+        return new Message(null, MessageFromServer.SURVEY_ID_GET_FAIL);
     }
 }

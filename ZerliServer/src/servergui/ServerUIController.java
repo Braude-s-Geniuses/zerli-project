@@ -72,7 +72,8 @@ public class ServerUIController implements Initializable {
 
     @FXML
     void clickBtnImport(ActionEvent event) {
-        printToServerConsoleUI(ExternalSystemController.connect());
+        if(!ExternalSystemController.connect())
+            return;
         ExternalSystemController.importUsers();
         btnImport.setDisable(true);
         printToServerConsoleUI("Import data from external system successfully");
