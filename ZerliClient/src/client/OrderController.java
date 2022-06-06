@@ -26,6 +26,10 @@ public class OrderController extends AbstractController {
     }
 
 
+    /**
+     * adds a product to the current logged in customer
+     * @param orderProduct - the product to be added to cart with its quantity
+     */
     public void addToCart(OrderProduct orderProduct){
         // if added order already exists in cart - adds quantity to existing OrderProduct
         for(OrderProduct op : cart) {
@@ -124,9 +128,10 @@ public class OrderController extends AbstractController {
     }
 
     /**
-     * Updates the balance of customer after he used it
-     * @param userId - the id of the current customer
+     * Updates a customer's balance to a given balance
+     * @param userId - the id of the customer we want to update the balance to
      * @param balance - new balance
+     * @note this method is async - it will not wait for the server's response
      */
     public void updateBalance(int userId, float balance) {
         ArrayList<Object> msgList = new ArrayList<>();
@@ -160,15 +165,28 @@ public class OrderController extends AbstractController {
         getService().sendToServer(msg, false);
     }
 
+    /**
+     * Updates an order status
+     * @param order - the order to update with the new status already in the instance
+     */
     public void setStatusOrder(Order order){
         Message msg = new Message(order, MessageFromClient.ORDER_CHANGE_STATUS);
         getService().sendToServer(msg, true);
     }
+
+    /**
+     * Updates an order cancel time
+     * @param order - the order to update with the cancel time inside already
+     */
     public void setCancelTime(Order order){
         Message msg = new Message(order, MessageFromClient.ORDER_CANCEL_TIME);
         getService().sendToServer(msg, true);
     }
 
+    /**
+     * Gets the branch a given branch manager is responsible for
+     * @param userId - the branch manager to get his branch
+     */
     public void getBranch(int userId) {
         Message msg = new Message(userId, MessageFromClient.ORDER_GET_BRANCH);
         getService().sendToServer(msg, true);

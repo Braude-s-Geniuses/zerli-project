@@ -84,6 +84,10 @@ public class ZerliClient extends AbstractClient {
             case ORDER_GET_BRANCH_FAIL:
             case ORDER_GET_BRANCH_SUCCESS:
             case ORDER_GET_BALANCE_SUCCESS:
+            case ORDER_STATUS_SUCCESS:
+            case ORDER_STATUS_FAIL:
+            case ORDER_CANCEL_TIME_SUCCESS:
+            case ORDER_CANCEL_TIME_FAIL:
                 Client.orderController.getService().setResponse((Message) msg);
                 break;
             case ITEM_ADD_SUCCESS:
