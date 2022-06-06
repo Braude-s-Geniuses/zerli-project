@@ -23,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGenerator {
 
@@ -95,23 +96,42 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
     public JFreeChart generateBarChart(HashMap<String,Float> revenueDataForHistogram) {
 
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
+        int weeks = 0, i = 0;
         float max = 0, sum = 0;
-        String month= null;
-        for (Map.Entry<String, Float> entry : revenueDataForHistogram.entrySet()){      //i- is declining to reverse the months on the chart.
+        String bestWeek= null;
+        TreeMap<Integer,Float> newVals = new TreeMap<>();
+        for (Map.Entry<String, Float> entry : revenueDataForHistogram.entrySet()) {      //i- is declining to reverse the months on the chart.
+            newVals.put(Integer.valueOf(entry.getKey()), entry.getValue());
+        }
+
+        for ( Map.Entry<Integer, Float> entry : newVals.entrySet()){
+            if (i == 0){
+                i = entry.getKey();
+            }
+            while (Integer.valueOf(entry.getKey()) != i) {
+                dataSet.setValue(0 , String.valueOf(weeks/5), weeks+1 +"");
+                i++;
+            }
             if(entry.getValue() > max) {
                 max = entry.getValue();
-                month = entry.getKey();
+                bestWeek = String.valueOf(weeks+1);
             }
             sum += entry.getValue();
-            dataSet.setValue(entry.getValue() , "Months", entry.getKey());
+            dataSet.setValue(entry.getValue() , String.valueOf(weeks/5), weeks+1 +"");
+            i++;
+            weeks++;
+        }
+        while (weeks != 15){
+            dataSet.setValue(0 , String.valueOf(weeks/5), weeks+1 +"");
+            weeks++;
         }
         //for end of report
         this.reportSummery.add(String.valueOf(sum));
         this.reportSummery.add(String.valueOf(max));
-        this.reportSummery.add(month);
+        this.reportSummery.add(bestWeek);
 
         JFreeChart chart = ChartFactory.createBarChart(
-                "Revenue amount over the quarter", "Months", "Revenue in Shekels",
+                "Revenue amount over the quarter", "Weeks", "Revenue in Shekels",
                 dataSet, PlotOrientation.VERTICAL, false, true, false);
         CategoryPlot chartPlot = (CategoryPlot)chart.getPlot();
         chart.getPlot().setBackgroundPaint( new Color(228,215,222) );
@@ -135,7 +155,7 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell skipTheHistogramCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
         PdfPCell totalRevenueCell = new PdfPCell(new Phrase("Total revenue: " + reportSummery.get(0), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
-        PdfPCell bestMonthCell = new PdfPCell(new Phrase("The most profitable month: " + reportSummery.get(2) + " with " + reportSummery.get(1) +" \u20AA", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
+        PdfPCell bestMonthCell = new PdfPCell(new Phrase("The most profitable week: " + reportSummery.get(2) + " with " + reportSummery.get(1) +" \u20AA", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         setCell(totalRevenueCell);
         setCell(skipTheHistogramCell);
         setCell(bestMonthCell);

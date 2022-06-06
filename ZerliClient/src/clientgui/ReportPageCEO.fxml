@@ -95,12 +95,12 @@
                 <String fx:value="combo-time" />
             </styleClass>
         </ComboBox>
-        <Label fx:id="lblErrorInDetails" layoutX="89.0" layoutY="263.0" text="You must select wanted year/time/complaint!" textFill="#bf1313" visible="false">
+        <Label fx:id="lblErrorInDetails" layoutX="89.0" layoutY="263.0" text="You must select wanted year/time/branch!" textFill="#bf1313" visible="false">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label fx:id="lblErrorInDetailsCompare" layoutX="578.0" layoutY="263.0" text="You must select wanted year/time/complaint!" textFill="#bf1313" visible="false">
+        <Label fx:id="lblErrorInDetailsCompare" layoutX="578.0" layoutY="263.0" text="You must select wanted year/time/branch!" textFill="#bf1313" visible="false">
             <font>
                 <Font size="14.0" />
             </font>

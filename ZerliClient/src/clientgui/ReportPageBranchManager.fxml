@@ -57,7 +57,7 @@
                 <Font name="Calibri" size="18.0" />
             </font>
         </Button>
-        <Label fx:id="lblErrorInDetails" layoutX="118.0" layoutY="265.0" prefHeight="18.0" prefWidth="247.0" text="You must select wanted year/time/complaint!" textFill="#bf1313" visible="false">
+        <Label fx:id="lblErrorInDetails" layoutX="118.0" layoutY="265.0" prefHeight="18.0" prefWidth="247.0" text="You must select wanted year/time/branch!" textFill="#bf1313" visible="false">
             <font>
                 <Font size="14.0" />
             </font>

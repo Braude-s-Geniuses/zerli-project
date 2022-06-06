@@ -52,13 +52,22 @@ public class ReportController {
         }
         else  //Saving last report values
         {
-            String yearString = lastReport.substring(lastReport.lastIndexOf('.') - 7, lastReport.lastIndexOf('.') - 3);   //get year
-            String monthString = lastReport.substring(lastReport.lastIndexOf('.') - 2, lastReport.lastIndexOf('.'));   //get month
+            String yearString = lastReport.split("_")[2].substring(0, 4);   //get year
+            String monthString;
+            if(lastReport.contains("quarter")) {
+                String quarter = lastReport.split("quarter")[1].substring(2, 3);
+                int month = Integer.valueOf(quarter) * 3;
+                monthString = String.valueOf(month);   //get month
+            } else
+                monthString = lastReport.split("-")[1].substring(0, 2);
             fromYear = Integer.valueOf(yearString);
             fromMonth = Integer.valueOf(monthString);
 
 
-            if(fromMonth == 12) fromMonth = 1;   //Start generating from the month after the last report in DB
+            if(fromMonth == 12) {
+                fromMonth = 1;
+                fromYear++;
+            }
             else fromMonth++;
         }
         //Generate report for the previous years (relevant to the first time generating report in zerli)
@@ -280,9 +289,14 @@ public class ReportController {
             complaintsData.add(weekData(branch, year + "-" + month + "-29", year + "-" + month + "-31"));
         } else {
             String middleMonth = String.valueOf(Integer.valueOf(fromMonth) + 1);
-            complaintsData.add(monthData(branch, fromMonth, year));
-            complaintsData.add(monthData(branch, middleMonth, year));
-            complaintsData.add(monthData(branch, toMonth, year));
+            complaintsData.addAll(extractComplaintsInfoForReport(branch, fromMonth, fromMonth, year));
+            complaintsData.addAll(extractComplaintsInfoForReport(branch, middleMonth, middleMonth, year));
+            complaintsData.addAll(extractComplaintsInfoForReport(branch, toMonth, toMonth, year));
+
+//            String middleMonth = String.valueOf(Integer.valueOf(fromMonth) + 1);
+//            complaintsData.add(monthData(branch, fromMonth, year));
+//            complaintsData.add(monthData(branch, middleMonth, year));
+//            complaintsData.add(monthData(branch, toMonth, year));
         }
 
         return complaintsData;
@@ -363,10 +377,10 @@ public class ReportController {
         }
         ResultSet rs;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT MONTH(order_date) AS Month ,sum(discount_price) AS revenue FROM `order` WHERE \n" +
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT WEEK(order_date) AS weeks ,sum(discount_price) AS revenue FROM `order` WHERE \n" +
                     "branch = ? AND MONTH(order_date) BETWEEN ? AND ? AND YEAR(order_date) = ? \n" +
                     "AND (order_status = 'NORMAL_COMPLETED' OR order_status = 'EXPRESS_COMPLETED')\n" +
-                    "GROUP BY Month ORDER BY Month;");
+                    "GROUP BY weeks ORDER BY weeks;");
             preparedStatement.setString(1, branch);
 
             preparedStatement.setString(2, period.substring(0, 2));
@@ -375,7 +389,7 @@ public class ReportController {
             rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                revenueData.put(rs.getString("Month"), rs.getFloat("revenue"));
+                revenueData.put(rs.getString("weeks"), rs.getFloat("revenue"));
             }
 
         } catch (SQLException e) {

@@ -34,7 +34,7 @@ public class OrderController {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCustomerId(resultSet.getInt("customer_id"));
-                order.setBranch(resultSet.getString("complaint"));
+                order.setBranch(resultSet.getString("branch"));
                 order.setOrderStatus(resultSet.getString("order_status"));
                 order.setGreetingCard(resultSet.getString("greeting_card"));
                 order.setPrice(resultSet.getFloat("price"));
@@ -69,7 +69,7 @@ public class OrderController {
             stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT branch FROM branch;");
             while (resultSet.next()) {
-                branches.add(resultSet.getString("complaint"));
+                branches.add(resultSet.getString("branch"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -340,7 +340,7 @@ public class OrderController {
             preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                branch = resultSet.getString("complaint");
+                branch = resultSet.getString("branch");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -368,7 +368,7 @@ public class OrderController {
                 Order order = new Order();
                 order.setOrderId(resultSet.getInt("order_id"));
                 order.setCustomerId(resultSet.getInt("customer_id"));
-                order.setBranch(resultSet.getString("complaint"));
+                order.setBranch(resultSet.getString("branch"));
                 order.setOrderStatus(resultSet.getString("order_status"));
                 order.setGreetingCard(resultSet.getString("greeting_card"));
                 order.setPrice(resultSet.getFloat("price"));

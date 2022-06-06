@@ -62,7 +62,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
             closeDocument(ReportType.QUARTERLY_ORDER_REPORT);
         }
         catch (DocumentException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

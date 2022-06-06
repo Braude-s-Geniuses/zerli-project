@@ -94,20 +94,22 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
         DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
         int max = 0, sum = 0;
         String month= null;
+        String week= null;
 
-        for (int i = 0; i < 3 ; i++){
+        for (int i = 0; i < 15 ; i++){
             if(complaintsData.get(i) > max) {
                 max = complaintsData.get(i);
-                month = String.valueOf(monthsForYAxis);
+                week = String.valueOf((i+1));
             }
             sum += complaintsData.get(i);
-            dataSet.setValue(complaintsData.get(i), "Month",  Month.of(monthsForYAxis+i));
+            dataSet.addValue(complaintsData.get(i), String.valueOf(i/5), ""+ (i+1));
         }
+
         this.reportSummery.add(String.valueOf(sum));
         this.reportSummery.add(String.valueOf(max));
-        this.reportSummery.add(month);
+        this.reportSummery.add(week);
         JFreeChart chart = ChartFactory.createBarChart(
-                "Complaints amount over the quarter", "Month", "Complaints in Units",
+                "Complaints amount over the quarter", "Week", "Complaints in Units",
                 dataSet, PlotOrientation.VERTICAL, false, true, false);
         CategoryPlot chartPlot = (CategoryPlot)chart.getPlot();
         chart.getPlot().setBackgroundPaint( new Color(228,215,222) );
@@ -118,6 +120,7 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
 
         return chart;
     }
+
     /**
      * Writes summery lines to the report
      * @throws DocumentException
@@ -129,8 +132,8 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-        PdfPCell cell = new PdfPCell(new Phrase("Total Complaints: " + reportSummery.get(0) , FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
-        PdfPCell cell2 = new PdfPCell(new Phrase("Week number " + reportSummery.get(2) + " Was With Most Complaints This Month: " + reportSummery.get(1), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
+        PdfPCell cell = new PdfPCell(new Phrase("Total complaints: " + reportSummery.get(0) , FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
+        PdfPCell cell2 = new PdfPCell(new Phrase("Week number " + reportSummery.get(2) + " was with most complaints this quarter: " + reportSummery.get(1), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK)));
         setCell(cell);
         setCell(cell3);
         setCell(cell2);
@@ -140,6 +143,7 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
         table.addCell(cell2);
         document.add(table);
     }
+
     @Override
     public void fillColumns(ArrayList<Object> values) throws DocumentException {}
 

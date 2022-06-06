@@ -46,7 +46,7 @@ public class ReportMonthlyComplaintsGenerator extends AbstractMonthlyReportGener
                 closeDocument(ReportType.MONTHLY_COMPLAINTS_REPORT);
             }
         } catch (DocumentException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }

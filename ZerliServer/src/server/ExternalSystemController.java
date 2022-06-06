@@ -60,7 +60,7 @@ public class ExternalSystemController {
                 user.setEmail(resultSet.getString("email"));
                 user.setPhone(resultSet.getString("phone"));
                 userPlusBranch.add(user);
-                userPlusBranch.add(resultSet.getString("complaint"));
+                userPlusBranch.add(resultSet.getString("branch"));
                 externalUsers.add(userPlusBranch);
 
             }
