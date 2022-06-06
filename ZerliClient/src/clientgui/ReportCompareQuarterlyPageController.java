@@ -46,7 +46,6 @@ public class ReportCompareQuarterlyPageController implements Initializable {
         ArrayList<ImageView> reportImages = new ArrayList<>();
         Message message;
         File pdfFile;
-        ImageView iv = new ImageView();
 
         Client.reportController.viewReport(reportData);
         message = Client.reportController.getService().getResponse();
@@ -68,6 +67,7 @@ public class ReportCompareQuarterlyPageController implements Initializable {
                 {
                     BufferedImage bim = pdPage.convertToImage(BufferedImage.TYPE_INT_RGB, 200);
                     Image image = SwingFXUtils.toFXImage(bim, null );
+                    ImageView iv = new ImageView();
 
                     iv.setImage(image);
                     reportImages.add(iv);

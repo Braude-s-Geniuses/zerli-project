@@ -12,18 +12,18 @@
             <tabs>
                 <Tab text="Pre-built items">
                     <content>
-                        <ScrollPane fx:id="sPane" prefHeight="600.0" prefWidth="970.0" style="-fx-background-color: white;">
+                        <ScrollPane fx:id="sPane" prefHeight="600.0" prefWidth="990.0" style="-fx-background-color: white;">
                             <content>
-                                <TilePane fx:id="tilePane" prefHeight="594.0" prefWidth="990.0" style="-fx-background-color: white;" />
+                                <TilePane fx:id="tilePane" prefHeight="590.0" prefWidth="990.0" style="-fx-background-color: white;" />
                             </content>
                         </ScrollPane>
                     </content>
                 </Tab>
                 <Tab text="Single items">
                     <content>
-                        <ScrollPane fx:id="sPaneSingle" prefHeight="600.0" prefWidth="980.0">
+                        <ScrollPane fx:id="sPaneSingle" prefHeight="600.0" prefWidth="990.0">
                             <content>
-                                <TilePane fx:id="tilePaneSingle" prefHeight="560.0" prefWidth="990.0" style="-fx-background-color: white;" />
+                                <TilePane fx:id="tilePaneSingle" prefHeight="590.0" prefWidth="990.0" style="-fx-background-color: white;" />
                             </content>
                         </ScrollPane>
                     </content>
