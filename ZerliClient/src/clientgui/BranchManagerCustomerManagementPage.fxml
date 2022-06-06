@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.BranchManagerCustomerManagementPageController">
     <children>
-        <Label layoutX="398.0" layoutY="22.0" text="User Managemet" textFill="#77385a">
+        <Label layoutX="398.0" layoutY="22.0" text="User Management" textFill="#77385a">
             <font>
                 <Font name="Calibri" size="34.0" />
             </font>

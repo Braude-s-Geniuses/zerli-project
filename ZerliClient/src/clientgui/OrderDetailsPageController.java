@@ -62,7 +62,7 @@ public class OrderDetailsPageController implements Initializable {
 
         switch(Client.userController.getLoggedInUser().getUserType()){
             case CUSTOMER:
-                if(order.getOrderStatus() == OrderStatus.NORMAL_CONFIRMED || order.getOrderStatus() == OrderStatus.EXPRESS_CONFIRMED)
+                if(order.getOrderStatus() == OrderStatus.NORMAL_CONFIRMED || order.getOrderStatus() == OrderStatus.EXPRESS_CONFIRMED || order.getOrderStatus() == OrderStatus.NORMAL_PENDING || order.getOrderStatus() == OrderStatus.EXPRESS_PENDING)
                     btnCancel.setVisible(true);
                 btnConfirm.setVisible(false);
                 break;
@@ -90,6 +90,7 @@ public class OrderDetailsPageController implements Initializable {
                 Label lblImage = new Label(null, iv);
                 Label lblName = new Label(op.getProduct().getName());
                 lblName.getStyleClass().add("details-label");
+                lblName.setWrapText(true);
                 Label lblPrice = new Label(op.getProduct().discountPriceToString());
                 lblPrice.getStyleClass().add("details-label");
                 Label lblCustom = new Label(op.getProduct().customMadeToString());
