@@ -299,7 +299,7 @@ public class ReportController {
         int complaintsCount = 0;
         ResultSet rs;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(distinct complaint_id) AS quantity FROM Complaint\n" +
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(distinct complaint_id) AS quantity FROM `complaint`\n" +
                     " WHERE order_id IN\n" +
                     "(SELECT order_id FROM `order` WHERE branch = ? AND YEAR(order_date) = ? AND MONTH(order_date) = ?);");
             preparedStatement.setString(1, branch);
@@ -328,12 +328,12 @@ public class ReportController {
         int complaintsCount = 0;
         ResultSet rs = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(distinct complaint_id) AS quantity FROM `Complaint`" +
-                    "WHERE order_id IN " +
-                    "(SELECT order_id FROM `order` WHERE branch = ? AND order_date between ? AND ?);");
-            preparedStatement.setString(1, branch);
-            preparedStatement.setString(2, from);
-            preparedStatement.setString(3, to);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(distinct complaint_id) AS quantity FROM `complaint`" +
+                    "WHERE DATE(created_at) between ? AND ?  AND order_id IN " +
+                    "(SELECT order_id FROM `order` WHERE branch = ? );");
+            preparedStatement.setString(1, from);
+            preparedStatement.setString(2, to);
+            preparedStatement.setString(3, branch);
             rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
