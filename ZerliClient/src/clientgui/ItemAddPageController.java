@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import order.Item;
+import util.Alert;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -96,9 +98,8 @@ public class ItemAddPageController implements Initializable {
 
         switch(Client.itemController.getService().getResponse().getAnswer()) {
             case ITEM_ADD_SUCCESS:
-                lblMessage.setStyle("-fx-text-fill: green");
-                lblMessage.setText("Item added  !");
                 MainDashboardController.setContentFromFXML("ItemAddPage.fxml");
+                MainDashboardController.createAlert("Item successfully added", Alert.SUCCESS, Duration.seconds(3), 135, 67);
                 break;
             case ITEM_ADD_FAIL:
                 lblMessage.setStyle("-fx-text-fill: indianred");
