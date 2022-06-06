@@ -8,6 +8,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import survey.SurveyAnswers;
 
 import java.net.URL;
@@ -106,6 +107,10 @@ public class SurveyDataPageController implements Initializable {
         barChart.setTitle("Answer Distribution of Question #" + questionNumber);
         categoryAxis.setLabel("Grade");
         numberAxis.setLabel("Num. of Customers");
+        numberAxis.setStyle("-fx-font-size: 14");
+        categoryAxis.setStyle("-fx-font-size: 14");
+        numberAxis.tickLabelFontProperty().set(Font.font(14));
+        categoryAxis.tickLabelFontProperty().set(Font.font(14));
         XYChart.Series series = new XYChart.Series();
         for(int i = 0 ; i<numberOfAnswers ; i++) {
             series.getData().add(new XYChart.Data(String.valueOf(i+1), answers[i]));

@@ -180,12 +180,14 @@ public class UserController {
                 if(!resultSet.next())
                     return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 int userID = resultSet.getInt("user_id");
+
                 preparedStatement = con.prepareStatement("SELECT * FROM `branch` WHERE manager_id=?");
                 preparedStatement.setInt(1, userID);
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
                     return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
-                String branch = resultSet.getString("complaint");
+                String branch = resultSet.getString("branch");
+
                 preparedStatement = con.prepareStatement("SELECT * FROM `branch_employee` WHERE user_id=? AND" +
                         " branch=?");
                 preparedStatement.setInt(1, user.getUserId());
