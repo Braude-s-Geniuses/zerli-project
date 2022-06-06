@@ -4,6 +4,7 @@ import communication.Message;
 import user.BranchEmployee;
 import user.Customer;
 import user.User;
+import user.UserType;
 
 import java.util.List;
 
@@ -146,15 +147,17 @@ public class UserController extends AbstractController {
      * @param user
      * @return the response from server
      */
-    public boolean getPermissions(User user) {
+    public void getPermissions(User user) {
         Message getUserPermission = new Message();
         getUserPermission.setTask(GET_USER_PERMISSION);
         getUserPermission.setData(user);
-
+//        if(user.getUserType() == UserType.BRANCH_MANAGER){//TODO ask Itshak
+//            return true;
+//        }
         //Client.clientController.getClient().handleMessageFromUI(getUserPermission,true);
 
         //return  (boolean) getResponse().getData();
-        return (boolean) (getService().sendToServer(getUserPermission, true)).getData();
+        getService().sendToServer(getUserPermission, true);
     }
 
     /**

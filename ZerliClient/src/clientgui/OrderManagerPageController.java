@@ -49,18 +49,37 @@ public class OrderManagerPageController implements Initializable {
                         setActionForButton(button, order);
                         Label lblOrderNumber = new Label("#" + order.getOrderId(), null);
                         Label lblOrderDetails = new Label("Ordered On:  " + order.orderDateToString() + "\nFrom Branch:  " + order.getBranch(), null);
-                        Label lblOrderPrices = new Label("Total Paid:\n" + order.discountPriceToString(), null);
+                        Label lblOrderPrices = new Label("Total Paid:  " + order.discountPriceToString(), null);
                         // Label lblOrderRefund = new Label("Refund Amount:\n" + order.discountPriceToString(), null); //need to calc
+
                         Label lblOrderStatus = new Label(order.getOrderStatus().toString(), null);
                         lblOrderStatus.setTextFill(Color.web("#e0921d"));
+                        switch (order.getOrderStatus()){
+                            case CANCEL_PENDING:
+                            case CANCEL_CONFIRMED:
+                                lblOrderStatus.setTextFill(Color.web("#000000"));
+                                break;
+                            case NORMAL_PENDING:
+                            case EXPRESS_PENDING:
+                                lblOrderStatus.setTextFill(Color.web("#bf2d39"));
+                                break;
+                            case NORMAL_COMPLETED:
+                            case EXPRESS_COMPLETED:
+                                lblOrderStatus.setTextFill(Color.web("#77385a"));
+                                break;
+                            default:
+                                break;
+                        }
+
                         lblOrderDetails.setPrefWidth(170);
                         setLabels(lblOrderDetails);
                         lblOrderPrices.setPrefWidth(170);
                         setLabels(lblOrderStatus);
-                        lblOrderStatus.setPrefWidth(200);
+                        lblOrderStatus.setPrefWidth(170);
                         setLabels(lblOrderNumber);
                         lblOrderNumber.setPrefWidth(40);
                         setLabels(lblOrderPrices);
+                        lblOrderPrices.setAlignment(Pos.CENTER);
                         HBox h = new HBox(30, lblOrderNumber, lblOrderDetails, lblOrderPrices, lblOrderStatus, button);
                         h.setPrefWidth(940);
                         h.setAlignment(Pos.CENTER);

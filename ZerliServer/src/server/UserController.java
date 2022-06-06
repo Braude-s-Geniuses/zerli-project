@@ -34,7 +34,7 @@ public class UserController {
 
     public Message login(User data) {
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user WHERE username=?");
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM `user` WHERE username=?");
             preparedStatement.setString(1, data.getUsername());
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -84,7 +84,7 @@ public class UserController {
     public void setUserAsLoggedIn(int id) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("UPDATE user SET logged_in=1 WHERE user_id=?");
+            preparedStatement = con.prepareStatement("UPDATE `user` SET logged_in=1 WHERE user_id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -95,7 +95,7 @@ public class UserController {
     public boolean setUserAsLoggedOut(int id) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("UPDATE user SET logged_in=0 WHERE user_id=?");
+            preparedStatement = con.prepareStatement("UPDATE `user` SET logged_in=0 WHERE user_id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             return true;
@@ -107,7 +107,7 @@ public class UserController {
     }
 
     public void addCustomerDetails(Customer data) throws SQLException{
-        PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM customer WHERE customer_id=?");
+        PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM `customer` WHERE customer_id=?");
         preparedStatement.setInt(1, data.getUserId());
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
@@ -124,7 +124,7 @@ public class UserController {
     public Message getUserInformation(List<String> userIdAndManagerId) {
         User user = new User();
         try {
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user WHERE id=?");
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM `user` WHERE id=?");
             preparedStatement.setString(1, userIdAndManagerId.get(0));
             ResultSet resultSet = preparedStatement.executeQuery();
             if(!resultSet.next())
@@ -141,7 +141,7 @@ public class UserController {
             }
             else if(user.getUserType()==UserType.CUSTOMER) {
                 Customer customer = new Customer(user);
-                preparedStatement = con.prepareStatement("SELECT * FROM customer WHERE customer_id=?");
+                preparedStatement = con.prepareStatement("SELECT * FROM `customer` WHERE customer_id=?");
                 preparedStatement.setInt(1, user.getUserId());
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
@@ -152,19 +152,19 @@ public class UserController {
             }
             else if (user.getUserType()==UserType.BRANCH_EMPLOYEE) {
                 BranchEmployee branchEmployee = new BranchEmployee(user);
-                preparedStatement = con.prepareStatement("SELECT * FROM user WHERE id=?");
+                preparedStatement = con.prepareStatement("SELECT * FROM `user` WHERE id=?");
                 preparedStatement.setString(1, userIdAndManagerId.get(1));
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
                     return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 int userID = resultSet.getInt("user_id");
-                preparedStatement = con.prepareStatement("SELECT * FROM branch WHERE manager_id=?");
+                preparedStatement = con.prepareStatement("SELECT * FROM `branch` WHERE manager_id=?");
                 preparedStatement.setInt(1, userID);
                 resultSet = preparedStatement.executeQuery();
                 if(!resultSet.next())
                     return new Message(null, MessageFromServer.USER_INFORMATION_GET_FAIL);
                 String branch = resultSet.getString("branch");
-                preparedStatement = con.prepareStatement("SELECT * FROM branch_employee WHERE user_id=? AND" +
+                preparedStatement = con.prepareStatement("SELECT * FROM `branch_employee` WHERE user_id=? AND" +
                         " branch=?");
                 preparedStatement.setInt(1, user.getUserId());
                 preparedStatement.setString(2, branch);
@@ -187,7 +187,7 @@ public class UserController {
     {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("UPDATE branch_employee SET survey=?, discount=?" +
+            preparedStatement = con.prepareStatement("UPDATE `branch_employee` SET survey=?, discount=?" +
                     ", catalogue=? WHERE user_id= ? ;");
             preparedStatement.setBoolean(1, branchEmployee.isSurvey());
             preparedStatement.setBoolean(2, branchEmployee.isDiscount());
@@ -204,7 +204,7 @@ public class UserController {
     public Message createNewUser(Customer data) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = con.prepareStatement("INSERT INTO customer VALUES (?,?,?,?,?,?,?);");
+            preparedStatement = con.prepareStatement("INSERT INTO `customer` VALUES (?,?,?,?,?,?,?);");
             preparedStatement.setInt(1,data.getUserId());
             preparedStatement.setBoolean(2,data.isBlocked());
             preparedStatement.setString(3,data.getCreditCard());
@@ -213,7 +213,7 @@ public class UserController {
             preparedStatement.setDouble(6,data.getBalance());
             preparedStatement.setBoolean(7,true);//new customer
             boolean result = preparedStatement.execute();
-            preparedStatement = con.prepareStatement("UPDATE user SET user_type=? WHERE user_id=?");
+            preparedStatement = con.prepareStatement("UPDATE `user` SET user_type=? WHERE user_id=?");
             preparedStatement.setString(1, UserType.CUSTOMER.name());
             preparedStatement.setInt(2, data.getUserId());
             result = preparedStatement.execute();
@@ -246,7 +246,7 @@ public class UserController {
         {
             case BRANCH_EMPLOYEE:
                 try {
-                    preparedStatement = con.prepareStatement("SELECT * FROM branch_employee WHERE user_id=?");
+                    preparedStatement = con.prepareStatement("SELECT * FROM `branch_employee` WHERE user_id=?");
                     preparedStatement.setInt(1,user.getUserId());
                     resultSet = preparedStatement.executeQuery();
                     if(!resultSet.next())
@@ -273,7 +273,7 @@ public class UserController {
         PreparedStatement preparedStatement = null;
         String result = null;
         try {
-            preparedStatement = con.prepareStatement("SELECT email FROM user WHERE user_id = ?");
+            preparedStatement = con.prepareStatement("SELECT email FROM `user` WHERE user_id = ?");
             preparedStatement.setInt(1, customerId);
             ResultSet resultSet = preparedStatement.executeQuery();
             

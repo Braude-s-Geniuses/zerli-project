@@ -33,6 +33,7 @@ public class MainDashboardController implements Initializable {
     public static Pane topNavigationBox;
     public static Button btnLogInOrOut;
     public static Button btnCart;
+    public static Label lblCurrentBalance;
     public static VBox sideNavigationBox;
     private static AnchorPane contentBox;
 
@@ -151,11 +152,11 @@ public class MainDashboardController implements Initializable {
         else {
             switch (Client.userController.getLoggedInUser().getUserType()) {
                 case CUSTOMER:
-                    Button btnCurrentBalance = new Button("Balance: " + ((Customer) Client.userController.getLoggedInUser()).getBalance() + " \u20AA");
-                    btnCurrentBalance.setLayoutX(700.0);
-                    btnCurrentBalance.setPadding(new Insets(10, 5, 0, 0));
-                    btnCurrentBalance.getStyleClass().add("balance-btn");
-                    addTopNavButton(btnCurrentBalance);
+                    lblCurrentBalance = new Label("Balance: " + ((Customer) Client.userController.getLoggedInUser()).getBalance() + " \u20AA");
+                    lblCurrentBalance.setLayoutX(700.0);
+                    lblCurrentBalance.setPadding(new Insets(10, 5, 0, 0));
+                    lblCurrentBalance.getStyleClass().add("balance-btn");
+                    addTopNavLabel(lblCurrentBalance);
 
                     btnCart = new Button();
                     btnCart.setLayoutX(780.0);
@@ -274,10 +275,18 @@ public class MainDashboardController implements Initializable {
         String count = Client.orderController.getCart().size() > 0 ? " (" + Client.orderController.getCart().size() + ")" : "";
         btnCart.setText("My Cart" + count);
     }
+    public static void refreshBalanceLabel() {
+        String balance = "Balance: " + ((Customer) Client.userController.getLoggedInUser()).getBalance() + " \u20AA";
+        lblCurrentBalance.setText(balance);
+    }
 
     private static void addTopNavButton(Button button) {
         button.setLayoutY(10.0);
         topNavigationBox.getChildren().add(button);
+    }
+    private static void addTopNavLabel(Label label) {
+        label.setLayoutY(10.0);
+        topNavigationBox.getChildren().add(label);
     }
 
     public static void addSideNavButton(Button button) {

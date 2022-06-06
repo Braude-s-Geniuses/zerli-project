@@ -42,6 +42,7 @@ public class OrderCompletePageController implements Initializable {
             lblDiscount.setVisible(false);
         }
         Client.orderController.getCart().clear();
+        MainDashboardController.refreshBalanceLabel();
     }
 
     @FXML

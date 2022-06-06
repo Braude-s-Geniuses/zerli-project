@@ -53,7 +53,7 @@ public class SurveyDataPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources)
     {
         answers = new int[numberOfAnswers]; //counter array 1-10 answer
-        backButton.setText("Return");
+        backButton.setText("Back");
         backButton.setVisible(true);
         sumTheAnswers();
         questionNumberLabel.setText("Question #" + questionNumber);
@@ -66,8 +66,8 @@ public class SurveyDataPageController implements Initializable {
         if(questionNumber<=7) {
             SetArrayAndChart(true);
             if (questionNumber == 1)
-                backButton.setText("Return");
-            else backButton.setText("Back");
+                backButton.setText("Back");
+            else backButton.setText("Previous");
         }
     }
 

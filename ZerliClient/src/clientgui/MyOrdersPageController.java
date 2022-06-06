@@ -55,6 +55,10 @@ public class MyOrdersPageController implements Initializable {
                     case CANCEL_CONFIRMED:
                         lblOrderStatus.setTextFill(Color.web("#bf2d39"));
                         break;
+                    case EXPRESS_CONFIRMED:
+                    case NORMAL_CONFIRMED:
+                        lblOrderStatus.setTextFill(Color.web("#da1782"));
+                        break;
                     case NORMAL_PENDING:
                     case EXPRESS_PENDING:
                         lblOrderStatus.setTextFill(Color.web("#e0921d"));

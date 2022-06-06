@@ -112,6 +112,7 @@ public class ItemsManagePageController implements Initializable {
         ObservableList observableList = FXCollections.observableList(colorList);
         cbColor.getItems().clear();
         cbColor.setItems(observableList);
+        cbColor.getStyleClass().add("combo-time");
 
         typeList.add("Branch");
         typeList.add("Flower");
@@ -120,6 +121,7 @@ public class ItemsManagePageController implements Initializable {
         observableList = FXCollections.observableList(typeList);
         cbType.getItems().clear();
         cbType.setItems(observableList);
+        cbType.getStyleClass().add("combo-time");
 
         columnName.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         columnType.setCellValueFactory(new PropertyValueFactory<Item, String>("type"));

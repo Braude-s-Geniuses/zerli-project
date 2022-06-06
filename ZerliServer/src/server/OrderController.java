@@ -25,7 +25,7 @@ public class OrderController {
         List<Order> orders = new ArrayList<Order>();
         ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE `customer_id`=?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `order` WHERE `customer_id`=? ORDER BY FIELD(order_status, 'EXPRESS_PENDING', 'NORMAL_PENDING', 'CANCEL_PENDING', 'NORMAL_CONFIRMED', 'EXPRESS_CONFIRMED', 'CANCEL_CONFIRMED', 'NORMAL_COMPLETED', 'EXPRESS_COMPLETED');");
             preparedStatement.setInt(1, userId);
             resultSet = preparedStatement.executeQuery();
 
