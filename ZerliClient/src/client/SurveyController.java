@@ -6,7 +6,6 @@ import communication.MessageFromServer;
 import survey.Survey;
 import survey.SurveyAnswers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyController extends AbstractController {
@@ -26,10 +25,19 @@ public class SurveyController extends AbstractController {
         super(service);
     }
 
-    public boolean checkIfFull(SurveyAnswers survey){return survey.getAnswers().size() == 6;}
+    /**
+     * Checks if the SurveyAnswers instance has 6 answers completed
+     * @param survey
+     * @return true if 6 questions were answered; false otherwise
+     */
+    public boolean checkSurveyAnswersComplete(SurveyAnswers survey){return survey.getAnswers().size() == 6;}
 
 
-    public List<List> getSurveyIDs() {
+    /**
+     * Gets all surveys ids and names from the server
+     * @return a List of (List Survey ID, List Survey Name)
+     */
+    public List<List> getSurveysIdsAndNames() {
         Message requestIdsOfSurvey = new Message();
         requestIdsOfSurvey.setTask(MessageFromClient.SURVEY_IDS_REQUEST);
         requestIdsOfSurvey.setData(null);
@@ -39,7 +47,12 @@ public class SurveyController extends AbstractController {
         return getSurveyIds();
     }
 
-    public MessageFromServer tryToSentSurvey(SurveyAnswers survey){
+    /**
+     * Adds a customer's answers to a survey if he's authorized to so do
+     * @param survey - the answers of the customer
+     * @return the server's response regarding if it was successful or not
+     */
+    public MessageFromServer addSurveyAnswersOfCustomer(SurveyAnswers survey){
         Message requestInsertSurvey = new Message();
         requestInsertSurvey.setTask(MessageFromClient.SURVEY_SEND);
         requestInsertSurvey.setData(survey);
@@ -70,8 +83,7 @@ public class SurveyController extends AbstractController {
      * @param value
      * @return the surveyAnswersList - List<SurveyAnswers>
      */
-    public List<SurveyAnswers> getAllSurveyAnswers(String value)
-    {
+    public List<SurveyAnswers> getAllSurveyAnswers(String value) {
         Message requestSurveyAnswer = new Message();
         requestSurveyAnswer.setTask(MessageFromClient.SURVEY_ANSWERS_GET);
         requestSurveyAnswer.setData(value);

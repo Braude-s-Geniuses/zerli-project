@@ -10,6 +10,9 @@ import java.util.ArrayList;
 
 public class OrderController extends AbstractController {
 
+    /**
+     * The delivery cost used to calculate the additional cost
+     */
     public final float DELIVERY_PRICE = 20;
 
     /**
@@ -192,15 +195,23 @@ public class OrderController extends AbstractController {
         getService().sendToServer(msg, true);
     }
 
+    /**
+     * Getter for <code>cart</code>
+     * @return <code>cart</code>
+     */
     public ArrayList<OrderProduct> getCart() {
         return cart;
     }
 
+    /**
+     * Setter for <code>currentOrder</code>
+     * @param currentOrder
+     */
     public void setCurrentOrder(Order currentOrder) { this.currentOrder = currentOrder; }
 
+    /**
+     * Getter for <code>currentOrder</code>
+     * @return <code>currentOrder</code>
+     */
     public Order getCurrentOrder() { return currentOrder; }
-
-    public String getBranchManager() {
-        return currBranch;
-    }
 }

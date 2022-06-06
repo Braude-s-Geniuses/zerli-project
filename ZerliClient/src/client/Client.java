@@ -13,8 +13,9 @@ import javafx.stage.WindowEvent;
 public class Client extends Application {
 
     /**
-     * represents the only (static) instance of a client.
+     * represents the static instances of all controllers
      */
+
     public static ClientController clientController;
     public static UserController userController;
     public static DeliveryController deliveryController;
@@ -52,6 +53,7 @@ public class Client extends Application {
 
     /**
      * Initializes the Controllers once the Client clicks connect with a valid hostname.
+     * or when all controllers need to be re-instantiated
      * @param hostname <code>ZerliServer</code> to connect to
      */
     public static void initController(String hostname, boolean firstInit) {

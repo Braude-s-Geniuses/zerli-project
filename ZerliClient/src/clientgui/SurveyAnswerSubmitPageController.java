@@ -58,17 +58,36 @@ public class SurveyAnswerSubmitPageController implements Initializable {
     @FXML
     private ToggleGroup answer_6=null;
 
-
+    /**
+     *
+     * Initialize method - displays to the user a clean screen with no comments,
+     * no previous selections, no poll names or username.
+     * The user has to select/type from the beginning.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         messLable.setVisible(false);
-        surveyData = Client.surveyController.getSurveyIDs();
+        surveyData = Client.surveyController.getSurveysIdsAndNames();
         surveyIDs = surveyData.get(0);
         surveyNames = surveyData.get(1);
         ObservableList<String> Names = FXCollections.observableArrayList(surveyNames);
         comboBoxSurveys.getItems().addAll(Names);
     }
 
+    /**
+     * This function gets a survey name from combo-box that the client chosen and
+     * returns the index of its position within the list of survey names.
+     *
+     * @param event
+     */
     @FXML
     void getIndex(ActionEvent event) {
         index=0;
@@ -81,8 +100,13 @@ public class SurveyAnswerSubmitPageController implements Initializable {
         }
     }
 
+    /**
+     * This function creates a new survey.
+     * Puts into the survey the customer's name, survey number and
+     * the answers marked by the customer.
+     */
     @FXML
-    public void enterSurvey(){
+    private void enterSurvey(){
 
         answers.setUsername(username_lable.getText());
         answers.setSurveyID(surveyIDs.get(index));
@@ -125,11 +149,17 @@ public class SurveyAnswerSubmitPageController implements Initializable {
 
         return;
     }
+
+    /**
+     * This function sends the survey completed by the user and displays a message accordingly.
+     * First the function checks whether all the survey responses have been filled out, then sends another request,
+     * displays a message accordingly.
+     */
     @FXML
-    public void sendSurvey() {
+    private void sendSurvey() {
         enterSurvey();
-        if (Client.surveyController.checkIfFull(answers)) {
-            switch (Client.surveyController.tryToSentSurvey(answers)) {
+        if (Client.surveyController.checkSurveyAnswersComplete(answers)) {
+            switch (Client.surveyController.addSurveyAnswersOfCustomer(answers)) {
 
                 case SURVEY_UNAUTHORIZED_CUSTOMER:
                     showErrorMessage("This customer is unable to complete this survey.");
@@ -151,22 +181,33 @@ public class SurveyAnswerSubmitPageController implements Initializable {
         }
     }
 
+    /**
+     * Shows Error label with given message
+     * @param err - the message to show
+     */
     private void showErrorMessage(String err) {
         messLable.setText(err);
         messLable.setTextFill(Color.RED);
         messLable.setVisible(true);
     }
 
+    /**
+     * Shows Success label with given message
+     * @param message - the message to show
+     */
     private void showSuccessfulMessage(String message) {
         messLable.setText(message);
         messLable.setTextFill(Color.GREEN);
         messLable.setVisible(true);
     }
 
+    /**
+     * This function resets the results of the previous survey.
+     * @param event
+     */
     @FXML
     void reset(ActionEvent event){
         MainDashboardController.setContentFromFXML("SurveyAnswerSubmitPage.fxml");
     }
-
 
 }

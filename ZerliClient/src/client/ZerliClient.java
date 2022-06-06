@@ -125,6 +125,8 @@ public class ZerliClient extends AbstractClient {
             case DELIVERIES_GET_SUCCESS:
             case DELIVERY_UPDATE_FAIL:
             case DELIVERY_UPDATE_SUCCESS:
+            case DELIVERY_ORDER_REFUND_SUCCESS:
+            case DELIVERY_ORDER_REFUND_FAIL:
                 Client.deliveryController.getService().setResponse(messageFromServer);
                 break;
             case SURVEY_INSERT_FAIL:

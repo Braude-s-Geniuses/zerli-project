@@ -239,15 +239,18 @@ public class ProductModifyPageController implements Initializable {
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpeg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
         File file = fileChooser.showOpenDialog(null);
-        byte[] fileContent = Files.readAllBytes(file.toPath());
-        uploadedImage = new SerialBlob(fileContent);
+        if(file != null) {
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            uploadedImage = new SerialBlob(fileContent);
 
-        lblPictureName.setText(file.getName());
-        lblPictureName.setVisible(true);
+            lblPictureName.setText(file.getName());
+            lblPictureName.setVisible(true);
+        }
     }
 
     @FXML
