@@ -89,6 +89,7 @@ public class BrowseCatalogPageController implements Initializable {
         Label nameLabel = new Label(product.getName());
         nameLabel.getStyleClass().add("name-label");
         nameLabel.setWrapText(true);
+        nameLabel.setPrefWidth(170);
 
         ComboBox<String> comboBoxQuantity = new ComboBox<>(quantityPicker);
         comboBoxQuantity.getStyleClass().add("combo-color");
