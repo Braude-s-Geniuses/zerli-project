@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA_BOLD;
-import static com.sun.xml.internal.ws.util.StringUtils.capitalize;
 
 public abstract class AbstractMonthlyReportGenerator extends AbstractReportsGenerator{
     protected String title;
@@ -47,7 +46,7 @@ public abstract class AbstractMonthlyReportGenerator extends AbstractReportsGene
             Month month = Month.of(Integer.valueOf(this.month));
             String monthStr = month.toString();
             monthStr = monthStr.toLowerCase();
-            monthStr = capitalize(monthStr);
+            monthStr = monthStr.substring(0, 1).toUpperCase() + monthStr.substring(1);
             PdfPCell cell3 = new PdfPCell(new Phrase(monthStr + " - " + year + "\n\n", FontFactory.getFont(HELVETICA, 16, new BaseColor(119, 56, 90))));
             setCell(cell3);
             table.addCell(cell3);

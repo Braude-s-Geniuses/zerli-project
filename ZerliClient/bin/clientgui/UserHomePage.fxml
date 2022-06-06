@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.UserHomePageController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="8.0" prefHeight="82.0" prefWidth="963.0" text="Welcome!" textAlignment="CENTER" textFill="#77385a">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblUserRole" layoutX="58.0" layoutY="384.0" prefHeight="82.0" prefWidth="528.0" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbluserFullname" layoutX="99.0" layoutY="474.0" prefHeight="82.0" prefWidth="480.0" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="picturePane" layoutX="592.0" layoutY="125.0" prefHeight="447.0" prefWidth="395.0">
+         <children>
+            <ImageView fitHeight="447.0" fitWidth="412.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/flower.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

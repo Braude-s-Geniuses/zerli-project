@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="mysql-connector-java-8.0.13.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/ZerliServer/lib/mysql-connector-java-8.0.13.jar!/"/>
+	</lib>
+	<lib name="lib" scope="COMPILE">
+		<srcroot url="file://$MODULE_DIR$/../ZerliCommon/lib"/>
+		<relative-module-src project-related="file://$PROJECT_DIR$/ZerliCommon/lib"/>
+		<relative-module-cls project-related="file://$PROJECT_DIR$/ZerliCommon/lib"/>
+	</lib>
+	<levels>
+		<level name="lib" value="project"/>
+	</levels>
+</component>

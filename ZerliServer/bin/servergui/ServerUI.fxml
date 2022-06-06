@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="509.0" prefWidth="640.0" style="-fx-background-color: white;" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="servergui.ServerUIController">
+   <children>
+      <TextField fx:id="fldDbName" layoutX="10.0" layoutY="49.0" prefHeight="40.0" prefWidth="220.0" promptText="Database Name" text="zerli">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <Button fx:id="btnStart" layoutX="10.0" layoutY="199.0" mnemonicParsing="false" onAction="#clickBtnStart" prefHeight="40.0" prefWidth="220.0" styleClass="btn" text="Start">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnStop" disable="true" layoutX="10.0" layoutY="249.0" mnemonicParsing="false" onAction="#clickBtnStop" prefHeight="40.0" prefWidth="220.0" styleClass="btn" text="Stop">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="txtServerConsole" editable="false" layoutX="10.0" layoutY="315.0" prefHeight="180.0" prefWidth="620.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
+         <font>
+            <Font name="Calibri" size="12.0" />
+         </font></TextArea>
+      <TextField fx:id="fldDbUser" layoutX="10.0" layoutY="99.0" prefHeight="40.0" prefWidth="220.0" promptText="Database User" text="root">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <PasswordField fx:id="fldDbPassword" layoutX="10.0" layoutY="149.0" prefHeight="40.0" prefWidth="220.0" promptText="Database Password" text="root">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </PasswordField>
+      <StackPane layoutX="250.0" layoutY="49.0">
+         <children>
+            <TableView fx:id="tableClients" prefHeight="240.0" prefWidth="380.0">
+               <columns>
+                  <TableColumn fx:id="columnIP" prefWidth="112.0" text="IP Address" />
+                  <TableColumn fx:id="columnClient" prefWidth="124.0" text="Client Name" />
+                  <TableColumn fx:id="columnStatus" prefWidth="143.0" text="Status" />
+               </columns>
+            </TableView>
+         </children>
+      </StackPane>
+      <Label fx:id="lblServerConsole" layoutX="262.0" layoutY="289.0" prefHeight="22.0" prefWidth="116.0" text="Server Console" textFill="#b2b2b2">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnImport" disable="true" layoutX="10.0" layoutY="6.0" mnemonicParsing="false" onAction="#clickBtnImport" prefHeight="30.0" prefWidth="620.0" styleClass="import-btn" text="Import Users from External Database">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.MyCartPageController">
+    <children>
+        <Label alignment="CENTER" layoutY="6.0" prefHeight="75.0" prefWidth="990.0" text="My Cart" textFill="#77385a">
+            <font>
+                <Font size="74.0" />
+            </font>
+        </Label>
+        <ListView fx:id="cartAsListView" editable="true" layoutX="164.0" layoutY="114.0" prefHeight="458.0" prefWidth="680.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" />
+        <Button fx:id="btnCheckOut" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="776.0" layoutY="589.0" mnemonicParsing="false" onAction="#clickBtnCheckOut" prefWidth="200.0" styleClass="btn" text="Checkout" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font size="27.0" />
+            </font>
+        </Button>
+        <Label fx:id="totalLabel" layoutX="33.0" layoutY="589.0" prefHeight="45.0" prefWidth="263.0" text="Total: " textFill="#77385a">
+            <font>
+                <Font size="35.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

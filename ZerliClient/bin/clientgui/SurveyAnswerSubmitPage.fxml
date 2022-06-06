@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);;" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.SurveyAnswerSubmitPageController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="14.0" prefHeight="82.0" prefWidth="963.0" text="Submit Survey Result" textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="64.0" />
+            </font>
+        </Label>
+        <Button alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="512.0" layoutY="605.0" mnemonicParsing="false" onAction="#sendSurvey" prefWidth="200.0" styleClass="btn" text="Submit" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <Label layoutX="26.0" layoutY="145.0" prefHeight="37.0" prefWidth="280.0" text="Select Survey" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="22.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="comboBoxSurveys" layoutX="328.0" layoutY="143.0" onAction="#getIndex" prefHeight="36.0" prefWidth="170.0" promptText="Survey Name" styleClass="combo-time" />
+        <Label layoutX="35.0" layoutY="277.0" prefHeight="37.0" prefWidth="119.0" text="Answer 1:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="20.0" />
+            </font>
+        </Label>
+        <Pane layoutX="155.0" layoutY="279.0" prefHeight="36.0" prefWidth="758.0" style="-fx-background-color: #e4d7de;">
+            <children>
+                <RadioButton blendMode="SRC_ATOP" layoutX="42.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <effect>
+                        <Blend />
+                    </effect>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="answer_1" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton layoutX="612.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="9" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="542.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="8" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="472.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="7" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="402.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="6" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="332.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="5" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="122.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="2" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="192.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="3" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="262.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="4" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="682.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10" toggleGroup="$answer_1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+            </children>
+        </Pane>
+        <Label layoutX="35.0" layoutY="329.0" prefHeight="37.0" prefWidth="118.0" text="Answer 2:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="35.0" layoutY="372.0" prefHeight="37.0" prefWidth="117.0" text="Answer 3" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="20.0" />
+            </font>
+        </Label>
+        <Pane layoutX="155.0" layoutY="374.0" prefHeight="36.0" prefWidth="759.0" style="-fx-background-color: #e4d7de;">
+            <children>
+                <RadioButton layoutX="42.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="answer_3" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton layoutX="612.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="9" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="542.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="8" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="472.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="7" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="402.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="6" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="332.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="5" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="122.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="2" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="192.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="3" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="262.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="4" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="682.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10" toggleGroup="$answer_3">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+            </children>
+        </Pane>
+        <Label layoutX="35.0" layoutY="423.0" prefHeight="37.0" prefWidth="116.0" text="Answer 4:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="35.0" layoutY="469.0" prefHeight="37.0" prefWidth="118.0" text="Answer 5:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="35.0" layoutY="518.0" prefHeight="37.0" prefWidth="117.0" text="Answer 6:" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="20.0" />
+            </font>
+        </Label>
+        <Pane layoutX="155.0" layoutY="469.0" prefHeight="36.0" prefWidth="760.0" style="-fx-background-color: #e4d7de;">
+            <children>
+                <RadioButton layoutX="42.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="answer_5" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton layoutX="612.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="9" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="542.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="8" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="472.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="7" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="402.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="6" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="332.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="5" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="122.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="2" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="192.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="3" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="262.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="4" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="682.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10" toggleGroup="$answer_5">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+            </children>
+        </Pane>
+        <Pane layoutX="155.0" layoutY="329.0" prefHeight="36.0" prefWidth="759.0" style="-fx-background-color: #77385a;">
+            <children>
+                <RadioButton layoutX="42.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1" textFill="WHITE">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="answer_2" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton layoutX="612.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="9" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="542.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="8" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="472.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="7" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="402.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="6" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="332.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="5" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="122.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="2" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="192.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="3" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="262.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="4" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="682.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10" textFill="WHITE" toggleGroup="$answer_2">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+            </children>
+        </Pane>
+        <Pane layoutX="155.0" layoutY="424.0" prefHeight="36.0" prefWidth="759.0" style="-fx-background-color: #77385a;">
+            <children>
+                <RadioButton layoutX="42.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1" textFill="WHITE">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="answer_4" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton layoutX="612.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="9" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="542.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="8" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="472.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="7" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="402.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="6" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="332.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="5" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="122.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="2" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="192.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="3" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="262.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="4" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="682.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10" textFill="WHITE" toggleGroup="$answer_4">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+            </children>
+        </Pane>
+        <Pane layoutX="155.0" layoutY="519.0" prefHeight="36.0" prefWidth="762.0" style="-fx-background-color: #77385a;">
+            <children>
+                <RadioButton layoutX="42.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1" textFill="WHITE">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="answer_6" />
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton layoutX="612.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="9" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="542.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="8" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="472.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="7" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="402.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="6" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="332.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="5" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="122.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="2" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="192.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="3" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="262.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="4" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+                <RadioButton layoutX="682.0" layoutY="9.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10" textFill="WHITE" toggleGroup="$answer_6">
+                    <font>
+                        <Font name="Calibri Italic" size="15.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </RadioButton>
+            </children>
+        </Pane>
+        <Label fx:id="messLable" layoutX="278.0" layoutY="569.0" prefHeight="26.0" prefWidth="478.0" text="label" textFill="#3eab00">
+            <font>
+                <Font name="Calibri" size="22.0" />
+            </font>
+        </Label>
+        <Label layoutX="26.0" layoutY="195.0" prefHeight="37.0" prefWidth="254.0" text="Submitter - Customer" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="22.0" />
+            </font>
+        </Label>
+        <Button fx:id="reset" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="259.0" layoutY="605.0" mnemonicParsing="false" onAction="#reset" prefWidth="200.0" styleClass="btn-secondary" text="Reset" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <TextField fx:id="username_lable" layoutX="328.0" layoutY="195.0" prefHeight="34.0" prefWidth="170.0" promptText="Username" />
+    </children>
+</AnchorPane>

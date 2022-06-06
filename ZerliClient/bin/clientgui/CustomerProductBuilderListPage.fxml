@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.CustomerProductBuilderListPageController">
+    <children>
+        <Label alignment="CENTER" layoutY="-9.0" prefHeight="75.0" prefWidth="990.0" text="Product Builder" textFill="#77385a">
+            <font>
+                <Font size="64.0" />
+            </font>
+        </Label>
+        <ListView fx:id="listSelectedProducts" editable="true" layoutX="20.0" layoutY="127.0" prefHeight="460.0" prefWidth="950.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" />
+        <Button fx:id="btnFinish" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="770.0" layoutY="602.0" mnemonicParsing="false" onAction="#clickBtnFinish" prefWidth="200.0" styleClass="btn" text="Finish" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Button>
+        <Label fx:id="totalLabel" layoutX="20.0" layoutY="595.0" prefHeight="45.0" prefWidth="263.0" text="Total 0.0 ₪" textFill="#77385a">
+            <font>
+                <Font size="35.0" />
+            </font>
+        </Label>
+      <Button fx:id="btnBrowseProducts" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="73.0" mnemonicParsing="false" onAction="#clickBtnBrowseProducts" prefWidth="200.0" styleClass="btn" text="Browse Products" textAlignment="JUSTIFY" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="24.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+    </children>
+</AnchorPane>

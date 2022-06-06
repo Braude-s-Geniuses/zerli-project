@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.ItemsManagePageController">
+    <children>
+      <Label layoutX="29.0" layoutY="14.0" text="Manage Items" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableItems" layoutX="29.0" layoutY="124.0" prefHeight="508.0" prefWidth="593.0">
+        <columns>
+          <TableColumn fx:id="columnName" prefWidth="124.0" text="Name" />
+          <TableColumn fx:id="columnType" prefWidth="112.0" text="Type" />
+            <TableColumn fx:id="columnColor" minWidth="0.0" prefWidth="110.0" text="Color" />
+            <TableColumn fx:id="columnPrice" editable="false" minWidth="0.0" prefWidth="104.0" sortable="false" text="Price" />
+            <TableColumn fx:id="columnAction" prefWidth="141.0" text="Action" />
+        </columns>
+      </TableView>
+      <AnchorPane fx:id="paneModifyItem" layoutX="659.0" layoutY="124.0" prefHeight="508.0" prefWidth="302.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;">
+         <children>
+            <TextField fx:id="fldName" layoutX="40.0" layoutY="60.0" prefHeight="40.0" prefWidth="220.0" promptText="Name">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="cbType" editable="true" layoutX="40.0" layoutY="130.0" prefHeight="40.0" prefWidth="220.0" promptText="Type" />
+            <ComboBox fx:id="cbColor" layoutX="40.0" layoutY="200.0" prefHeight="40.0" prefWidth="220.0" promptText="Color" />
+            <Button fx:id="btnUpdateItem" layoutX="40.0" layoutY="340.0" mnemonicParsing="false" onAction="#clickBtnUpdateItem" prefHeight="40.0" prefWidth="220.0" styleClass="btn" text="Update" textFill="#77385a">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDeleteItem" layoutX="105.0" layoutY="400.0" mnemonicParsing="false" onAction="#clickBtnDeleteItem" prefHeight="20.0" prefWidth="90.0" styleClass="btn-red" text="Delete" textFill="INDIANRED">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Button>
+            <TextField fx:id="fldPrice" layoutX="40.0" layoutY="270.0" prefHeight="40.0" prefWidth="220.0" promptText="Price">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </TextField>
+            <Label fx:id="lblCloseItem" layoutX="252.0" layoutY="14.0" onMouseClicked="#clickCloseItem" style="-fx-underline: true;" text="Close" />
+            <Label fx:id="lblUpdateItemMessage" layoutX="40.0" layoutY="35.0" prefHeight="21.0" prefWidth="220.0">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnAddItem" layoutX="29.0" layoutY="74.0" mnemonicParsing="false" onAction="#clickBtnAddItem" prefHeight="20.0" prefWidth="110.0" styleClass="btn" text="Add Item" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+    </children>
+</AnchorPane>

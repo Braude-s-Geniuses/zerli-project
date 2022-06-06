@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.LoginPageController">
+    <children>
+          <TextField fx:id="fldUsername" layoutX="404.0" layoutY="224.0" prefHeight="40.0" prefWidth="220.0" promptText="Username">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </TextField>
+          <Button fx:id="login_Button" layoutX="404.0" layoutY="364.0" mnemonicParsing="false" onAction="#loginClick" prefWidth="220.0" styleClass="btn" text="Login">
+              <font>
+                  <Font name="Calibri" size="24.0" />
+              </font>
+          </Button>
+          <Label alignment="CENTER" layoutX="280.0" layoutY="301.0" pickOnBounds="false" text="Password" textFill="#77385a">
+              <opaqueInsets>
+                  <Insets right="20.0" />
+              </opaqueInsets>
+              <font>
+                  <Font name="Calibri Bold" size="18.0" />
+              </font>
+              <padding>
+                  <Insets right="20.0" top="4.0" />
+              </padding>
+          </Label>
+          <Label layoutX="275.0" layoutY="233.0" pickOnBounds="false" text="Username" textFill="#77385a">
+              <font>
+                  <Font name="Calibri Bold" size="18.0" />
+              </font>
+              <padding>
+                  <Insets right="20.0" />
+              </padding>
+          </Label>
+          <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="288.0" layoutY="28.0" prefHeight="150.0" prefWidth="453.0" text="Zerli - Login" textAlignment="CENTER" textFill="#77385a">
+              <font>
+                  <Font name="Calibri Bold" size="60.0" />
+              </font>
+          </Label>
+          <Label fx:id="error_Lab" alignment="CENTER" contentDisplay="CENTER" layoutX="308.0" layoutY="160.0" textAlignment="CENTER" textFill="RED" wrapText="true">
+              <font>
+                  <Font name="Calibri Bold" size="15.0" />
+              </font>
+      </Label>
+          <PasswordField fx:id="fldPassword" layoutX="404.0" layoutY="294.0" prefHeight="40.0" prefWidth="220.0" promptText="Password">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </PasswordField>
+          <Button fx:id="back_Button" layoutX="14.0" layoutY="612.0" mnemonicParsing="false" onAction="#backClick" prefWidth="110.0" styleClass="btn-secondary" text="Back">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Button>
+    </children>
+</AnchorPane>

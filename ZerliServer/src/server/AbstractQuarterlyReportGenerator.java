@@ -11,7 +11,6 @@ import java.time.Month;
 import java.util.HashMap;
 
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
-import static com.sun.xml.internal.ws.util.StringUtils.capitalize;
 
 public abstract class AbstractQuarterlyReportGenerator extends AbstractReportsGenerator {
 
@@ -61,12 +60,12 @@ public abstract class AbstractQuarterlyReportGenerator extends AbstractReportsGe
             Month fromMonth = Month.of(Integer.valueOf(getQuarters().get(quarter).substring(0,2)));
             String fromMonthStr = fromMonth.toString();
             fromMonthStr = fromMonthStr.toLowerCase();
-            fromMonthStr = capitalize(fromMonthStr);
+            fromMonthStr = fromMonthStr.substring(0, 1).toUpperCase() + fromMonthStr.substring(1);
 
             Month toMonth = Month.of(Integer.valueOf(getQuarters().get(quarter).substring(3)));
             String toMonthStr = toMonth.toString();
             toMonthStr = toMonthStr.toLowerCase();
-            toMonthStr = capitalize(toMonthStr);
+            toMonthStr = toMonthStr.substring(0, 1).toUpperCase() + toMonthStr.substring(1);
 
             PdfPCell cell3 = new PdfPCell(new Phrase("Months  "  +fromMonthStr + " - " + toMonthStr + ",  " + year + "\n\n", FontFactory.getFont(HELVETICA, 15, new BaseColor(119, 56, 90))));
             setCell(cell3);

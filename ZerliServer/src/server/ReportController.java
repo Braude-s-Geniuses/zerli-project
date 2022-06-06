@@ -462,15 +462,15 @@ public class ReportController {
      * @return - branch name
      */
     public static Message getManagersBranch(Integer branchMangerId) {
-        String branch;
+        String branch = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT branch FROM `branch` WHERE manager_id =?");
             preparedStatement.setInt(1, branchMangerId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            branch = resultSet.getString("complaint");
+            branch = resultSet.getString("branch");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return new Message(branch, MessageFromServer.MANAGER_BRANCH_GET_SUCCESS);
     }

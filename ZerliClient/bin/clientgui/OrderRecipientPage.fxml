@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.OrderRecipientPageController">
+    <children>
+        <Label alignment="CENTER" layoutX="-3.0" layoutY="-8.0" prefHeight="75.0" prefWidth="990.0" text="Recipient Information" textFill="#77385a">
+            <font>
+                <Font name="Calibri Bold" size="64.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnProceed" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="845.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnProceed" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Proceed" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <ProgressBar fx:id="progressBar" layoutX="340.0" layoutY="75.0" prefHeight="20.0" prefWidth="300.0" progress="0.49" styleClass="progressBar">
+            <effect>
+                <ColorAdjust brightness="-0.1" contrast="0.04" hue="-0.21" saturation="-0.21" />
+            </effect>
+        </ProgressBar>
+        <Button layoutX="297.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Delivery Details" textFill="#b82297" />
+        <Button layoutX="419.0" layoutY="97.0" mnemonicParsing="false" styleClass="order-btn" text="Recipient Information" textFill="#b82297" />
+        <Button layoutX="583.0" layoutY="97.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="83.0" styleClass="order-btn" text="Payment " textFill="#77385a" />
+        <Label fx:id="RecipientLable" layoutX="31.0" layoutY="198.0" prefHeight="37.0" prefWidth="216.0" text="Recipient Information: " textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="20.0" />
+            </font>
+        </Label>
+        <RadioButton fx:id="btnIamTheRecipient" layoutX="276.0" layoutY="207.0" mnemonicParsing="false" onAction="#clickBtnRadioIAmTheRecipient" prefHeight="19.0" prefWidth="150.0" text="I am the Recipient" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="14.0" />
+            </font>
+        </RadioButton>
+        <Label fx:id="nameLabel" layoutX="43.0" layoutY="263.0" prefHeight="37.0" prefWidth="50.0" text="Name:" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="16.0" />
+            </font>
+        </Label>
+        <Label fx:id="PhoneLabel" layoutX="43.0" layoutY="316.0" prefHeight="37.0" prefWidth="74.0" text="Phone:" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="16.0" />
+            </font>
+        </Label>
+        <TextField fx:id="phoneField" layoutX="109.0" layoutY="321.0" prefHeight="27.0" prefWidth="300.0" />
+        <Label fx:id="lblNoNameError" layoutX="28.0" layoutY="245.0" prefHeight="18.0" prefWidth="216.0" text="You Must Fill Up Recipient Name" textFill="#d71515" visible="false">
+            <font>
+                <Font name="Calibri Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblNoPhoneError" layoutX="28.0" layoutY="301.0" prefHeight="18.0" prefWidth="216.0" text="You Must Fill Up Recipient Phone" textFill="#d71515" visible="false">
+            <font>
+                <Font name="Calibri Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblGreetingError" layoutX="266.0" layoutY="417.0" prefHeight="18.0" prefWidth="187.0" text="You Must Enter A Greeting" textFill="#d71515" visible="false">
+            <font>
+                <Font name="Calibri Bold" size="14.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnBack" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnBack" prefHeight="35.0" prefWidth="137.0" styleClass="btn-secondary" text="Back" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <TextField fx:id="nameField" layoutX="109.0" layoutY="268.0" prefHeight="27.0" prefWidth="300.0" />
+        <Label fx:id="GreetingLabelIfYes" layoutX="28.0" layoutY="432.0" prefHeight="37.0" prefWidth="226.0" text="Enter Greeting Card Here:" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="20.0" />
+            </font>
+        </Label>
+        <RadioButton fx:id="btnAddGreeting" layoutX="276.0" layoutY="389.0" mnemonicParsing="false" onAction="#clickBtnRadioAddGreeting" prefHeight="19.0" prefWidth="150.0" text="Yes" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="14.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="btnIamNotTheRecipient" layoutX="467.0" layoutY="207.0" mnemonicParsing="false" onAction="#clickBtnIamNotTheRecipient" prefHeight="19.0" prefWidth="184.0" text="Other Recipient" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="14.0" />
+            </font>
+        </RadioButton>
+        <TextArea fx:id="greetingField" layoutX="264.0" layoutY="438.0" prefHeight="190.0" prefWidth="362.0" />
+        <Label fx:id="GreetingLable" layoutX="28.0" layoutY="380.0" prefHeight="37.0" prefWidth="226.0" text="Add Greeting Card: " textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="20.0" />
+            </font>
+        </Label>
+        <RadioButton fx:id="btnNoAddGreeting" layoutX="469.0" layoutY="389.0" mnemonicParsing="false" onAction="#clickBtnRadioNoAddGreeting" prefHeight="19.0" prefWidth="150.0" text="No" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="14.0" />
+            </font>
+        </RadioButton>
+        <Label fx:id="lblNoRecipientError" layoutX="266.0" layoutY="185.0" prefHeight="18.0" prefWidth="216.0" text="You Must Choose a Recipient " textFill="#d71515" visible="false">
+            <font>
+                <Font name="Calibri Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblNoGreetingChooseError" layoutX="276.0" layoutY="369.0" prefHeight="18.0" prefWidth="216.0" text="You Must Choose a Greeting Option" textFill="#d71515" visible="false">
+            <font>
+                <Font name="Calibri Bold" size="14.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

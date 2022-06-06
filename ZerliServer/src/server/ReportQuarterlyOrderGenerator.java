@@ -14,7 +14,6 @@ import java.util.Locale;
 
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA_BOLD;
-import static com.sun.xml.internal.ws.util.StringUtils.capitalize;
 
 public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenerator {
     private  ArrayList<String> orderColumns = new ArrayList<String>();
@@ -34,7 +33,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
         int to =  Integer.valueOf(getQuarters().get(quarter).substring(3));
         for (int i = from; i<=to; i++){
             String month = String.valueOf(Month.of(i)).toLowerCase(Locale.ROOT);
-            month = capitalize(month);
+            month = month.substring(0, 1).toUpperCase() + month.substring(1);
             orderColumns.add("Quantity\n" + month);
         }
         orderColumns.add("Total");

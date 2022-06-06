@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.ProductAddPageController">
+    <children>
+          <TextField fx:id="fldName" layoutX="136.0" layoutY="109.0" prefHeight="40.0" prefWidth="220.0" promptText="Name" styleClass="text-field">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </TextField>
+          <Label fx:id="lblName" layoutX="56.0" layoutY="118.0" text="Name:">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Label>
+          <Label layoutX="20.0" layoutY="15.0" text="Add Product" textFill="#77385a">
+              <font>
+                  <Font name="Calibri" size="36.0" />
+              </font>
+          </Label>
+          <Label layoutX="41.0" layoutY="45.0" text="Product is composed of Item(s).">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Label>
+          <Button fx:id="btnAddProduct" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="776.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnAddProduct" prefWidth="200.0" styleClass="btn" text="Add Product" textAlignment="CENTER" textFill="#77385a">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Button>
+          <Label fx:id="lblNameMessage" layoutX="155.0" layoutY="149.0" prefHeight="22.0" prefWidth="183.0" text="Name cannot be empty" textFill="INDIANRED">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Label>
+          <Button fx:id="btnBack" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="611.0" mnemonicParsing="false" onAction="#clickBtnBack" prefWidth="80.0" styleClass="btn-secondary" text="Back" textAlignment="CENTER" textFill="#77385a">
+              <font>
+                  <Font name="Calibri" size="18.0" />
+              </font>
+          </Button>
+      <ListView fx:id="listItems" layoutX="136.0" layoutY="179.0" prefHeight="250.0" prefWidth="220.0" styleClass="text-field" />
+      <ListView fx:id="listProduct" layoutX="556.0" layoutY="179.0" prefHeight="250.0" prefWidth="220.0" styleClass="text-field" />
+      <Button fx:id="btnAdd" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="406.0" layoutY="179.0" mnemonicParsing="false" onAction="#clickBtnAdd" prefWidth="100.0" styleClass="btn" text="Add" textAlignment="CENTER" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnRemove" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="406.0" layoutY="229.0" mnemonicParsing="false" onAction="#clickBtnRemove" prefWidth="100.0" styleClass="btn-secondary" text="Remove" textAlignment="CENTER" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblItems" layoutX="26.0" layoutY="195.0" text="Add Items:">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPrice" layoutX="66.0" layoutY="468.0" text="Price:">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fldPrice" layoutX="136.0" layoutY="459.0" prefHeight="40.0" prefWidth="220.0" promptText="Price" styleClass="text-field">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </TextField>
+      <Label fx:id="lblImage" layoutX="56.0" layoutY="535.0" text="Image:">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnUploadImage" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="136.0" layoutY="529.0" mnemonicParsing="false" onAction="#clickBtnUploadImage" prefWidth="220.0" styleClass="btn-secondary" text="Upload Image" textAlignment="CENTER" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblColor" layoutX="484.0" layoutY="535.0" text="Color:">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbColor" layoutX="556.0" layoutY="526.0" prefHeight="40.0" prefWidth="220.0" promptText="Dominant Color" styleClass="combo" />
+      <Label fx:id="lblPictureName" layoutX="361.0" layoutY="535.0" prefHeight="22.0" prefWidth="107.0">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAddMessage" layoutX="346.0" layoutY="149.0" prefHeight="22.0" prefWidth="220.0" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCalculatedPrice" layoutX="361.0" layoutY="471.0" prefHeight="17.0" prefWidth="155.0" textFill="#77385a">
+         <font>
+            <Font name="Calibri" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblItemsMessage" layoutX="550.0" layoutY="429.0" prefHeight="22.0" prefWidth="233.0" text="Product items cannot be empty" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPriceMessage" layoutX="164.0" layoutY="499.0" prefHeight="22.0" prefWidth="165.0" text="Invalid product price" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblColorMessage" layoutX="584.0" layoutY="566.0" prefHeight="22.0" prefWidth="165.0" text="Select product color" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblImageMessage" layoutX="164.0" layoutY="566.0" prefHeight="22.0" prefWidth="165.0" text="Upload product image" textFill="INDIANRED">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+    </children>
+    <stylesheets>
+        <URL value="@/Stylesheet.css" />
+    </stylesheets>
+</AnchorPane>

@@ -21,6 +21,7 @@ import util.ReportType;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -99,29 +100,37 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
         int weeks = 0, i = 0;
         float max = 0, sum = 0;
         String bestWeek= null;
-        TreeMap<Integer,Float> newVals = new TreeMap<>();
+        HashMap<Integer,Float> newVals = new HashMap<>();
+
         for (Map.Entry<String, Float> entry : revenueDataForHistogram.entrySet()) {      //i- is declining to reverse the months on the chart.
             newVals.put(Integer.valueOf(entry.getKey()), entry.getValue());
         }
 
-        for ( Map.Entry<Integer, Float> entry : newVals.entrySet()){
-            if (i == 0){
-                i = entry.getKey();
-            }
-            while (Integer.valueOf(entry.getKey()) != i) {
-                dataSet.setValue(0 , String.valueOf(weeks/5), weeks+1 +"");
-                i++;
-            }
-            if(entry.getValue() > max) {
-                max = entry.getValue();
-                bestWeek = String.valueOf(weeks+1);
-            }
-            sum += entry.getValue();
-            dataSet.setValue(entry.getValue() , String.valueOf(weeks/5), weeks+1 +"");
+        Object[] newValsArr = newVals.keySet().toArray();
+        Arrays.sort(newValsArr);
+        
+        for(Object key : newValsArr) {
+        	if(i == 0) {
+        		i = (int) key;
+        	}
+        	
+        	while((int) key != i) {
+        		dataSet.setValue(0, String.valueOf(weeks / 5), weeks + 1 + "");
+        		i++;
+        	}
+        	
+        	if(newVals.get(key) > max) {
+        		max = newVals.get(key);
+        		bestWeek = String.valueOf(weeks + 1);
+        	}
+        	
+        	sum += newVals.get(key);
+        	dataSet.setValue(newVals.get(key) , String.valueOf(weeks/5), weeks+1 +"");
             i++;
             weeks++;
         }
-        while (weeks != 15){
+        
+        while (weeks < 15){
             dataSet.setValue(0 , String.valueOf(weeks/5), weeks+1 +"");
             weeks++;
         }

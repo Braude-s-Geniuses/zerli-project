@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.CustomerProductBuilderPageController">
+    <children>
+        <Label alignment="CENTER" prefHeight="75.0" prefWidth="990.0" text="Product Builder" textFill="#77385a">
+            <font>
+                <Font size="64.0" />
+            </font>
+        </Label>
+        <TextField fx:id="fldProductName" layoutX="193.0" layoutY="109.0" prefHeight="40.0" prefWidth="220.0" promptText="Name" styleClass="text-field">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </TextField>
+        <Label layoutX="16.0" layoutY="118.0" text="Name Your Product:">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Label>
+        <ListView fx:id="listColors" layoutX="193.0" layoutY="179.0" prefHeight="150.0" prefWidth="220.0" styleClass="text-field" />
+        <ListView fx:id="listSelectedColors" layoutX="613.0" layoutY="179.0" prefHeight="150.0" prefWidth="220.0" styleClass="text-field" />
+        <Button fx:id="btnAdd" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="463.0" layoutY="179.0" mnemonicParsing="false" onAction="#clickBtnAdd" prefWidth="100.0" styleClass="btn" text="Add" textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnRemove" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="463.0" layoutY="229.0" mnemonicParsing="false" onAction="#clickBtnRemove" prefWidth="100.0" styleClass="btn-secondary" text="Remove" textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <Label layoutX="35.0" layoutY="196.0" text="(Optional) Colors:">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Label>
+        <Slider fx:id="sliderPrice" layoutX="193.0" layoutY="349.0" majorTickUnit="50.0" minorTickCount="10" prefHeight="45.0" prefWidth="220.0" showTickLabels="true" showTickMarks="true" />
+        <Label layoutX="74.0" layoutY="349.0" text="Price Range:">
+            <font>
+            <Font name="Calibri" size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnBuild" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="413.0" layoutY="421.0" mnemonicParsing="false" onAction="#clickBtnBuild" prefWidth="200.0" styleClass="btn" text="Start Building" textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <Label fx:id="lblAddMessage" layoutX="366.0" layoutY="149.0" prefHeight="22.0" prefWidth="295.0" textFill="INDIANRED">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Label>
+      <Label fx:id="lblRange" layoutX="418.0" layoutY="349.0">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblName" layoutX="418.0" layoutY="118.0" prefHeight="22.0" prefWidth="256.0" text="You must name your new product" textFill="INDIANRED" visible="false">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

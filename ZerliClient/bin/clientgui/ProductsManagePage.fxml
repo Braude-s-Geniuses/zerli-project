@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: white;" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.ProductsManagePageController">
+    <children>
+        <Label layoutX="29.0" layoutY="14.0" text="Manage Products" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="36.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tableProducts" layoutX="29.0" layoutY="124.0" prefHeight="508.0" prefWidth="930.0">
+            <columns>
+                <TableColumn fx:id="columnName" prefWidth="229.0" text="Name" />
+                <TableColumn fx:id="columnCustom" prefWidth="101.0" text="Custom" />
+                <TableColumn fx:id="columnColor" minWidth="0.0" prefWidth="94.0" text="Color" />
+                <TableColumn fx:id="columnPrice" editable="false" minWidth="0.0" prefWidth="187.0" sortable="false" text="Price" />
+            <TableColumn fx:id="columnInCatalog" prefWidth="149.0" text="In Catalog" />
+                <TableColumn fx:id="columnAction" editable="false" prefWidth="168.0" sortable="false" text="Action" />
+            </columns>
+        </TableView>
+        <Button fx:id="btnAddProduct" layoutX="29.0" layoutY="74.0" mnemonicParsing="false" onAction="#clickBtnAddProduct" prefHeight="34.0" prefWidth="120.0" styleClass="btn" text="Add Product" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

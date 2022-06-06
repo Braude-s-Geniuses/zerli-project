@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.OrderCompletePageController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="273.0" prefHeight="106.0" prefWidth="990.0" text="Your Order has been placed and is awaiting confirmation." textAlignment="CENTER" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="36.0" />
+            </font>
+        </Label>
+        <Label layoutX="342.0" layoutY="410.0" prefHeight="82.0" prefWidth="282.0" text="Your Order Number:" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="33.0" />
+            </font>
+        </Label>
+        <Label fx:id="CustomerNameLabel1" alignment="CENTER" layoutX="174.0" layoutY="40.0" prefHeight="101.0" prefWidth="670.0" text="Thank You " textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="96.0" />
+            </font>
+        </Label>
+        <Label fx:id="CustomerNameLabel11" alignment="CENTER" layoutX="114.0" layoutY="155.0" prefHeight="118.0" prefWidth="789.0" text="for choosing Zerli!" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="96.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnContinueShopping" layoutX="373.0" layoutY="513.0" mnemonicParsing="false" onAction="#clickBtnContinueShopping" styleClass="btn" text="Continue Shopping" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="30.0" />
+            </font>
+        </Button>
+        <Label fx:id="lblOrderId" layoutX="624.0" layoutY="410.0" prefHeight="82.0" prefWidth="312.0" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="33.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblDiscount" layoutX="71.0" layoutY="338.0" prefHeight="82.0" prefWidth="348.0" text="In this order you saved:  " textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="33.0" />
+            </font>
+        </Label>
+        <Label fx:id="lblOrderDiscount" layoutX="391.0" layoutY="338.0" prefHeight="82.0" prefWidth="312.0" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="33.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

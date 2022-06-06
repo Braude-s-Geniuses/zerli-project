@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="990.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0, 1.5);" stylesheets="@/Stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clientgui.BranchManagerCustomerManagementPageController">
+    <children>
+        <Label layoutX="398.0" layoutY="22.0" text="User Management" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="34.0" />
+            </font>
+        </Label>
+        <AnchorPane fx:id="newCustomerAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="515.0" prefWidth="990.0" visible="false">
+            <children>
+                <Label fx:id="firstNameNewCustomerLabel" layoutX="75.0" layoutY="54.0" text="First Name:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lastNameNewCustomerLabel" layoutX="75.0" layoutY="97.0" text="Last Name:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="firstNameNewCustomerTextField" layoutX="212.0" layoutY="53.0" />
+                <TextField fx:id="lastNameNewCustomerTextField" layoutX="212.0" layoutY="96.0" />
+                <Label fx:id="emailNewCustomerLabel" layoutX="75.0" layoutY="146.0" text="Email:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="emailNewCustomerTextField" layoutX="212.0" layoutY="143.0" />
+                <Label fx:id="creditLabel" layoutX="75.0" layoutY="278.0" prefHeight="37.0" prefWidth="123.0" text="Card Number:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="idLabel" layoutX="76.0" layoutY="235.0" prefHeight="37.0" prefWidth="74.0" text="I.D:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="idNewCustomerTextField" layoutX="212.0" layoutY="238.0" prefHeight="31.0" prefWidth="187.0" />
+                <TextField fx:id="cardNewCustomerTextField4" layoutX="542.0" layoutY="282.0" prefHeight="27.0" prefWidth="92.0" />
+                <Label fx:id="lblCVV" layoutX="75.0" layoutY="323.0" prefHeight="37.0" prefWidth="92.0" text="CVV:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="expLable" layoutX="75.0" layoutY="369.0" prefHeight="37.0" prefWidth="113.0" text="Exp. Date:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="cardNewCustomerTextField3" layoutX="436.0" layoutY="282.0" prefHeight="27.0" prefWidth="92.0" />
+                <TextField fx:id="cardNewCustomerTextField2" layoutX="326.0" layoutY="282.0" prefHeight="27.0" prefWidth="92.0" />
+                <TextField fx:id="cardNewCustomerTextField1" layoutX="212.0" layoutY="282.0" prefHeight="27.0" prefWidth="92.0" />
+                <Label fx:id="lblForSideLine" layoutX="305.0" layoutY="368.0" prefHeight="37.0" prefWidth="23.0" text="/" textFill="#77385a">
+                    <font>
+                        <Font size="27.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="cvvNewCustomerTextField" layoutX="212.0" layoutY="326.0" prefHeight="27.0" prefWidth="74.0" promptText="123" />
+                <ComboBox fx:id="monthNewCustomerComboBox" layoutX="210.0" layoutY="371.0" prefHeight="35.0" prefWidth="92.0" promptText="Month">
+                    <styleClass>
+                        <String fx:value="combo" />
+                        <String fx:value="combo-time" />
+                    </styleClass>
+                </ComboBox>
+                <ComboBox fx:id="yearNewCustomerComboBox" layoutX="324.0" layoutY="371.0" prefHeight="35.0" prefWidth="92.0" promptText="Year">
+                    <styleClass>
+                        <String fx:value="combo" />
+                        <String fx:value="combo-time" />
+                    </styleClass>
+                </ComboBox>
+                <Label fx:id="phoneNewCustomerLabel" layoutX="76.0" layoutY="194.0" text="Phone:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="phoneNewCustomerTextField" layoutX="213.0" layoutY="191.0" />
+                <Button fx:id="updateNewCustomerButton" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="414.0" layoutY="446.0" mnemonicParsing="false" onAction="#clickBtnUpdateDetails" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Update" textAlignment="JUSTIFY" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="18.0" />
+                    </font>
+                </Button>
+                <Label fx:id="messageNewCustomerLabel" alignment="CENTER" layoutX="180.0" layoutY="490.0" prefHeight="23.0" prefWidth="654.0" text="Message" visible="false">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="addNewCustomerLabel" alignment="CENTER" layoutX="375.0" text="Add New Customer" textAlignment="CENTER" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="34.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="editCustomerAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="990.0" visible="false">
+            <children>
+                <Label fx:id="editCustomerLabel" alignment="CENTER" layoutX="375.0" prefHeight="40.0" prefWidth="269.0" text="Edit Customer" textAlignment="CENTER" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="34.0" />
+                    </font>
+                </Label>
+                <Label fx:id="balanceLabel" layoutX="396.0" layoutY="80.0" prefHeight="55.0" prefWidth="185.0" text="Balance:" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="48.0" />
+                    </font>
+                </Label>
+                <Label fx:id="actualBalanceLabel" alignment="CENTER" layoutX="320.0" layoutY="146.0" prefHeight="55.0" prefWidth="323.0" text="0" textAlignment="CENTER">
+                    <font>
+                        <Font name="Calibri" size="48.0" />
+                    </font>
+                </Label>
+                <CheckBox fx:id="freezeCustomerCheckBox" layoutX="345.0" layoutY="225.0" mnemonicParsing="false" text="Freeze Customer?" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="30.0" />
+                    </font>
+                </CheckBox>
+                <Button fx:id="updateEditCustomerButton" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="414.0" layoutY="446.0" mnemonicParsing="false" onAction="#clickBtnEditCustomer" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Update" textAlignment="JUSTIFY" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="18.0" />
+                    </font>
+                </Button>
+                <Label fx:id="messageEditCustomerLabel" alignment="CENTER" layoutX="180.0" layoutY="490.0" prefHeight="23.0" prefWidth="654.0" text="Message" visible="false">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="editPermissionAnchorPane" layoutY="145.0" minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="990.0">
+            <children>
+                <CheckBox fx:id="editCatalogueCheckBox" layoutX="345.0" layoutY="257.0" mnemonicParsing="false" text="Edit Catalogue" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="30.0" />
+                    </font>
+                </CheckBox>
+                <CheckBox fx:id="activateDiscountCheckBox" layoutX="345.0" layoutY="171.0" mnemonicParsing="false" text="Activate Discount" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="30.0" />
+                    </font>
+                </CheckBox>
+                <CheckBox fx:id="insertSurveyAnswersCheckBox" layoutX="345.0" layoutY="93.0" mnemonicParsing="false" text="Insert Survey Answers" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="30.0" />
+                    </font>
+                </CheckBox>
+                <Label fx:id="messageEditEmployeeLabel" alignment="CENTER" layoutX="180.0" layoutY="490.0" prefHeight="23.0" prefWidth="654.0" text="Message" visible="false">
+                    <font>
+                        <Font name="Calibri" size="20.0" />
+                    </font>
+                </Label>
+                <Button fx:id="updateBranchEmployeeButton" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="414.0" layoutY="446.0" mnemonicParsing="false" onAction="#clickBtnEditBranchEmployee" prefHeight="35.0" prefWidth="137.0" styleClass="btn" text="Update" textAlignment="JUSTIFY" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="18.0" />
+                    </font>
+                </Button>
+                <Label fx:id="editEmployeeLabel" alignment="CENTER" layoutX="375.0" prefHeight="40.0" prefWidth="269.0" text="Edit Employee" textAlignment="CENTER" textFill="#77385a">
+                    <font>
+                        <Font name="Calibri" size="34.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+        <Label fx:id="enterIDLabel" layoutX="280.0" layoutY="87.0" prefHeight="37.0" prefWidth="94.0" text="Enter I.D:" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="20.0" />
+            </font>
+        </Label>
+        <TextField fx:id="enterIDTextField" layoutX="395.0" layoutY="90.0" prefHeight="31.0" prefWidth="240.0" />
+        <Button fx:id="enterButton" alignment="BASELINE_CENTER" contentDisplay="CENTER" layoutX="678.0" layoutY="89.0" mnemonicParsing="false" onAction="#clickBtnEnterID" prefHeight="30.0" prefWidth="135.0" styleClass="btn" text="Enter" textAlignment="JUSTIFY" textFill="#77385a">
+            <font>
+                <Font name="Calibri" size="18.0" />
+            </font>
+        </Button>
+        <Label fx:id="firstErrorLabel" alignment="CENTER" layoutX="342.0" layoutY="127.0" prefHeight="18.0" prefWidth="332.0" text="Label" textAlignment="CENTER" textFill="RED" visible="false">
+            <font>
+                <Font name="Calibri" size="15.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
