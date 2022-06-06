@@ -98,6 +98,7 @@ public class ItemAddPageController implements Initializable {
             case ITEM_ADD_SUCCESS:
                 lblMessage.setStyle("-fx-text-fill: green");
                 lblMessage.setText("Item added  !");
+                MainDashboardController.setContentFromFXML("ItemAddPage.fxml");
                 break;
             case ITEM_ADD_FAIL:
                 lblMessage.setStyle("-fx-text-fill: indianred");
