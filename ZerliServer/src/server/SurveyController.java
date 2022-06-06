@@ -129,16 +129,15 @@ public class SurveyController {
     }
 
     /**
-     * Gets all surveys related to a given expert
-     * @param expertID
+     * Gets all surveys
      * @return
      */
-    public Message tryToGetSurveyNames(int expertID) {
+    public Message tryToGetSurveyNames() {
         Statement stmt;
         List<String> surveys = new ArrayList<>();
         try {
             stmt = con.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM survey WHERE expert_id = "+ expertID+";"); //get all surveys names by expert
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM survey;");
             while (resultSet.next()) {
                 String surveyName = resultSet.getString("survey_name");
                 surveyName.replace('_', ' ');
@@ -198,12 +197,9 @@ public class SurveyController {
      */
     public Message tryToUploadFile(Survey survey) {
         try {
-            preparedStatement = con.prepareStatement("UPDATE survey SET conclusion_report=?" +
-                    " WHERE survey_id= ? " +
-                    "AND expert_id= ?", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = con.prepareStatement("UPDATE survey SET conclusion_report=? WHERE survey_id= ?", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setBlob(1,survey.getReportData());
             preparedStatement.setInt(2,survey.getSurveyID());
-            preparedStatement.setInt(3,survey.getExpertID());
 
             if(preparedStatement.executeUpdate()==1)
                 return new Message(null, MessageFromServer.SURVEY_UPLOAD_SUMMARY_SUCCESS);

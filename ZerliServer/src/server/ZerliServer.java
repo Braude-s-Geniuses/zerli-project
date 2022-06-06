@@ -148,9 +148,9 @@ public class ZerliServer extends AbstractServer {
                 surveyServerController= new SurveyController();
                 messageFromServer = surveyServerController.addSurveyAnswersByCustomer((SurveyAnswers)messageFromClient.getData());
                 break;
-            case SURVEY_NAMES_GET_BY_EXPERT:
+            case SURVEY_NAMES_GET:
                 surveyServerController= new SurveyController();
-                messageFromServer = surveyServerController.tryToGetSurveyNames((int)messageFromClient.getData());
+                messageFromServer = surveyServerController.tryToGetSurveyNames();
                 break;
             case SURVEY_ANSWERS_GET:
                 surveyServerController= new SurveyController();

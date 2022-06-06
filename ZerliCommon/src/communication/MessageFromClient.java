@@ -48,7 +48,7 @@ public enum MessageFromClient implements Serializable {
     /* SurveyController */
     SURVEY_IDS_REQUEST,
     SURVEY_SEND,
-    SURVEY_NAMES_GET_BY_EXPERT,
+    SURVEY_NAMES_GET,
     SURVEY_ANSWERS_GET,
     SURVEY_UPLOAD_SUMMARY,
     SURVEY_ID_GET,

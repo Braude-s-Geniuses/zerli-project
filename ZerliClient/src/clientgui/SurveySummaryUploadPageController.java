@@ -45,7 +45,7 @@ public class SurveySummaryUploadPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         surveyController = Client.surveyController;
-        ObservableList<String> surveysList = FXCollections.observableArrayList(surveyController.getAllSurveyNamesByExpert(Client.userController.getLoggedInUser().getUserId()));
+        ObservableList<String> surveysList = FXCollections.observableArrayList(surveyController.getAllSurveys());
         surveyComboBox.setItems(surveysList);
     }
 
@@ -69,7 +69,7 @@ public class SurveySummaryUploadPageController implements Initializable {
 
     public void confirmButtonClick(ActionEvent event)
     {
-        boolean returnValue = Client.surveyController.uploadSurveySummary(new Survey(surveyController.getSurveyID(surveyComboBox.getValue()),Client.userController.getLoggedInUser().getUserId(),uploadedPdf));
+        boolean returnValue = Client.surveyController.uploadSurveySummary(new Survey(surveyController.getSurveyID(surveyComboBox.getValue()), uploadedPdf));
 
         if(returnValue)
             showMessage("Upload Successfully", false);

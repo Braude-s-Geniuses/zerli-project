@@ -14,11 +14,6 @@ public class Survey implements Serializable {
     private int surveyID;
 
     /**
-     * The User ID of the expert who submitting his reportData
-     */
-    private int expertID;
-
-    /**
      * The title of the Survey
      */
     private String name;
@@ -28,9 +23,8 @@ public class Survey implements Serializable {
      */
     private SerialBlob reportData;
 
-    public Survey(int surveyID, int expertID, SerialBlob reportData) {
+    public Survey(int surveyID, SerialBlob reportData) {
         this.surveyID = surveyID;
-        this.expertID = expertID;
         this.reportData = reportData;
     }
 
@@ -40,14 +34,6 @@ public class Survey implements Serializable {
 
     public void setSurveyID(int surveyID) {
         this.surveyID = surveyID;
-    }
-
-    public int getExpertID() {
-        return expertID;
-    }
-
-    public void setExpertID(int expertID) {
-        this.expertID = expertID;
     }
 
     public String getName() {

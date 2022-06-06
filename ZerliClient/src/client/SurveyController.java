@@ -65,17 +65,16 @@ public class SurveyController extends AbstractController {
 
 
     /**
-     * This method prepares MessageFromClient to get all survey names by expert
+     * This method prepares MessageFromClient to get all survey names
      * and sends it to server using clientController
-     * @param expertID
      * @return the surveyNames - List
      */
-    public List<String> getAllSurveyNamesByExpert(int expertID) {
-        Message requestSurveysNamesByExpert = new Message();
-        requestSurveysNamesByExpert.setTask(MessageFromClient.SURVEY_NAMES_GET_BY_EXPERT);
-        requestSurveysNamesByExpert.setData(expertID);
+    public List<String> getAllSurveys() {
+        Message message = new Message();
+        message.setTask(MessageFromClient.SURVEY_NAMES_GET);
+        message.setData(null);
 
-        getService().sendToServer(requestSurveysNamesByExpert, true);
+        getService().sendToServer(message, true);
 
         return surveyNames;
     }

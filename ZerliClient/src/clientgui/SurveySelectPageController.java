@@ -35,7 +35,7 @@ public class SurveySelectPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         surveyController = Client.surveyController;
-        ObservableList<String> surveysList = FXCollections.observableArrayList(surveyController.getAllSurveyNamesByExpert(Client.userController.getLoggedInUser().getUserId()));
+        ObservableList<String> surveysList = FXCollections.observableArrayList(surveyController.getAllSurveys());
         surveyComboBox.setItems(surveysList);
     }
 
