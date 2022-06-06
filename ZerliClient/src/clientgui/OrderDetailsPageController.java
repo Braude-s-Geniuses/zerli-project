@@ -90,7 +90,7 @@ public class OrderDetailsPageController implements Initializable {
                 Label lblImage = new Label(null, iv);
                 Label lblName = new Label(op.getProduct().getName());
                 lblName.getStyleClass().add("details-label");
-                lblName.setWrapText(true);
+                lblName.setPrefWidth(150);
                 Label lblPrice = new Label(op.getProduct().discountPriceToString());
                 lblPrice.getStyleClass().add("details-label");
                 Label lblCustom = new Label(op.getProduct().customMadeToString());
