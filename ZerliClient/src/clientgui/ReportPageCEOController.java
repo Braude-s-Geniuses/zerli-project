@@ -408,7 +408,7 @@ public class ReportPageCEOController implements Initializable{
         cbReportType.getItems().addAll(reports);
 
         List<String> yearList = new ArrayList<String>();
-        for (int i = 2017; i <= LocalDate.now().getYear(); i++) {
+        for (int i = 2020; i <= LocalDate.now().getYear(); i++) {
             yearList.add(String.valueOf(i));
         }
 

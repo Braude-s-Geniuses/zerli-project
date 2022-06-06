@@ -47,7 +47,7 @@ public class ReportController {
         String lastReport = (String) OrderController.getLastReport().getData();     //get last report.
 
         if (lastReport == null) { //First time generating reports
-            fromYear = 2017;
+            fromYear = 2020;
             fromMonth = 1;
         }
         else  //Saving last report values
@@ -88,7 +88,7 @@ public class ReportController {
         try{
             if (month == 4 || month == 7 || month == 10) {
                 generateQuarterlyReport(quarters.get(month), String.valueOf(year));
-            } else if (month == 1 && year != 2017)
+            } else if (month == 1 && year != 2020)
                 generateQuarterlyReport(quarters.get(month), String.valueOf(year - 1));
 
             if (month < 10) {
