@@ -207,6 +207,7 @@ public class ProductAddPageController implements Initializable {
             Client.productController.addProduct(product);
 
             if(Client.productController.getService().getResponse().getAnswer() == MessageFromServer.PRODUCT_ADD_SUCCESS) {
+                MainDashboardController.setContentFromFXML("ProductAddPage.fxml");
                 MainDashboardController.createAlert("Product added successfully!", Alert.SUCCESS, Duration.seconds(3), 135, 67);
             }
         }
@@ -223,6 +224,7 @@ public class ProductAddPageController implements Initializable {
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpeg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
