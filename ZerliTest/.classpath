@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ZerliCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ZerliClient"/>
+	<classpathentry kind="var" path="MAVEN_REPOSITORY/junit/junit/4.13.1/junit-4.13.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ZerliServer"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

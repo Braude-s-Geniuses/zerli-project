@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="lib">
+    <archive path="C:/Users/itzha/Downloads/HW2_S2022/zerli-project/ZerliCommon/lib/jcommon-1.0.23.jar" />
+    <archive path="C:/Users/itzha/Downloads/HW2_S2022/zerli-project/ZerliCommon/lib/itextpdf-5.5.13.3.jar" />
+    <archive path="C:/Users/itzha/Downloads/HW2_S2022/zerli-project/ZerliCommon/lib/jfreechart-1.0.19.jar" />
+    <archive path="C:/Users/itzha/Downloads/HW2_S2022/zerli-project/ZerliCommon/lib/pdfbox-app-1.8.16.jar" />
+  </library>
+  <library name="lib" />
+</eclipse-userlibraries>
+
