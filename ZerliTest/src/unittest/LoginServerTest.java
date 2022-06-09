@@ -3,16 +3,11 @@ package unittest;
 import communication.Message;
 import communication.MessageFromServer;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import server.DatabaseController;
 import server.UserController;
-import servergui.ServerUIController;
-import user.BranchEmployee;
 import user.Customer;
 import user.User;
-import user.UserType;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
