@@ -61,7 +61,7 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
         for (int i : ordersReportDataFromDB) {
             sum += i;
         }
-        return sum == 0 ? true : false;
+        return sum == 0;
     }
 
     /**
@@ -128,7 +128,7 @@ public class ReportQuarterlyComplaintsGenerator extends AbstractQuarterlyReportG
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));

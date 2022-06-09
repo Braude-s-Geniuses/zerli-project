@@ -282,11 +282,7 @@ public class ReportPageCEOController implements Initializable{
      */
     @FXML
     void clickCheckBoxCompare(ActionEvent event) {
-        if (cbCompare.isSelected()){
-            setCompare(false);
-        }else {
-            setCompare(true);
-        }
+        setCompare(!cbCompare.isSelected());
     }
 
     /**
@@ -384,7 +380,8 @@ public class ReportPageCEOController implements Initializable{
             lblErrorInReportType.setVisible(true);
             flag++;
         }
-        return flag > 0 ? false : true;
+
+        return flag <= 0;
     }
 
     /**

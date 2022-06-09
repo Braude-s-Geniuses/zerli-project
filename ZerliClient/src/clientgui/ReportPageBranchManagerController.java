@@ -138,7 +138,7 @@ public class ReportPageBranchManagerController implements Initializable {
             lblErrorInReportType.setVisible(true);
             flag++;
         }
-        return flag > 0 ? false : true;
+        return flag <= 0;
     }
 
     /**

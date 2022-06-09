@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class OrderManagerPageController implements Initializable {
-    private String branch=null;
+    private final String branch=null;
     @FXML
     private AnchorPane baseAnchor;
 

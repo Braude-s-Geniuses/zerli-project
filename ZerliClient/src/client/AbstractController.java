@@ -8,7 +8,7 @@ public class AbstractController {
     /**
      * Stores the MessageService implementation injected by the constructor
      */
-    private IMessageService service;
+    private final IMessageService service;
 
     AbstractController(IMessageService service) {
         this.service = service;

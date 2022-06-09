@@ -61,7 +61,7 @@ public class ReportMonthlyRevenueGenerator extends AbstractMonthlyReportGenerato
     @Override
     public void fillColumns(ArrayList<Object> values) throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = new float[revenueColumns.size()];
+        float[] columnWidth = new float[revenueColumns.size()];
         float productSum = 0;
         int priceIndex = revenueColumns.indexOf("Price") +1;
         ArrayList<String> dataSumOfReport = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ReportMonthlyRevenueGenerator extends AbstractMonthlyReportGenerato
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell cell3 = new PdfPCell(new Phrase("\n\n\n\n\n"));

@@ -105,6 +105,7 @@ public class Server extends Application {
         }
 
         /* A Task that checks once a day if new reports need to be created */
+        ReportController.setConnection(Server.databaseController.getConnection());
         ReportController.TaskGenerateReport();
 
         return result;

@@ -56,7 +56,7 @@ public class User implements Serializable {
      */
     private String phone;
 
-    public User(int userId, String username, String password,UserType userType, boolean loggedIn,
+    public User(int userId, String username, String password, UserType userType, boolean loggedIn,
                 String firstName, String lastName, String id, String email, String phone) {
         this.userId = userId;
         this.username = username;
@@ -173,12 +173,10 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
 
-        if (getUserId() != user.getUserId()) return false;
         if (!getUsername().equals(user.getUsername())) return false;
-        return getId().equals(user.getId());
+        return getId().equals(user.getId()) && getUserType().equals(user.getUserType());
     }
 }

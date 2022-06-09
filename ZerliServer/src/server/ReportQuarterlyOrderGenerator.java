@@ -16,7 +16,7 @@ import static com.itextpdf.text.pdf.BaseFont.HELVETICA;
 import static com.itextpdf.text.pdf.BaseFont.HELVETICA_BOLD;
 
 public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenerator {
-    private  ArrayList<String> orderColumns = new ArrayList<String>();
+    private final ArrayList<String> orderColumns = new ArrayList<String>();
     public ArrayList<String> getOrderColumns() {return orderColumns;}
     /**
      * Creates order report column in addition to the month in the wanted quarter
@@ -75,7 +75,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
     @Override
     public void fillColumns(ArrayList<Object> values) throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = new float[orderColumns.size()];
+        float[] columnWidth = new float[orderColumns.size()];
         int max = 0, productSum = 0, quantitySum = 0;
         int totalIndex = orderColumns.indexOf("Total") + 1;
         String mostSold = null;
@@ -117,7 +117,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
     public void generateColumns(ArrayList<String> columns) throws DocumentException {
 
         float colSize = 830 / columns.size();
-        float columnWidth[] = new float[columns.size()];
+        float[] columnWidth = new float[columns.size()];
         for (int i = 0; i < columns.size(); i++) {
             columnWidth[i] = colSize;
         }
@@ -138,7 +138,7 @@ public class ReportQuarterlyOrderGenerator extends AbstractQuarterlyReportGenera
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell spaceCell = new PdfPCell(new Phrase("\n\n\n\n\n"));

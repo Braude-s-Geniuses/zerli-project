@@ -111,4 +111,12 @@ public class Customer extends User {
                 ", balance=" + balance +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        Customer customer = (Customer) o;
+        return blocked == customer.blocked && customer.balance==balance && newCustomer == customer.newCustomer && creditCard.equals(customer.creditCard) && expDate.equals(customer.expDate) && cvv.equals(customer.cvv);
+    }
+
 }

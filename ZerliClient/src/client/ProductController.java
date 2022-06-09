@@ -22,7 +22,7 @@ public class ProductController extends AbstractController {
      * key: product_id
      * value: image
      */
-    private HashMap<Integer, Image> productImages = new HashMap<>();
+    private final HashMap<Integer, Image> productImages = new HashMap<>();
 
     ProductController(IMessageService service) {
         super(service);

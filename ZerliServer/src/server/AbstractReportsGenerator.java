@@ -61,7 +61,7 @@ public abstract class AbstractReportsGenerator {
         PdfPCell cell = null;
         try {
             float col = 600f;
-            float columnWidth[] = {col};
+            float[] columnWidth = {col};
             PdfPTable table = new PdfPTable(columnWidth);
             switch (type){
                 case "Order":

@@ -25,7 +25,7 @@ public class UserController extends AbstractController {
     private Customer customerForInformation;
     private BranchEmployee branchEmployeeForInformation;
 
-    UserController(IMessageService service) {
+    public UserController(IMessageService service) {
         super(service);
     }
 

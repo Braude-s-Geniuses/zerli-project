@@ -33,7 +33,7 @@ public abstract class AbstractMonthlyReportGenerator extends AbstractReportsGene
     public void generateReportTitle() {
         try {
             float col = 600f;
-            float columnWidth[] = {col};
+            float[] columnWidth = {col};
             PdfPTable table = new PdfPTable(columnWidth);
 
             PdfPCell cell = new PdfPCell(new Phrase(this.title + " Report\n", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 40, new BaseColor(119, 56, 90))));
@@ -66,7 +66,7 @@ public abstract class AbstractMonthlyReportGenerator extends AbstractReportsGene
     public void generateColumns(ArrayList<String> columns) throws DocumentException {
 
         float colSize = 830 / columns.size();
-        float columnWidth[] = new float[columns.size()];
+        float[] columnWidth = new float[columns.size()];
         for (int i = 0; i < columns.size(); i++) {
             columnWidth[i] = colSize;
         }

@@ -30,6 +30,7 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
 
     public ReportQuarterlyRevenueGenerator(String branch, String quarter, String year, String type) {
         super(branch, quarter, year, type);
+        ReportController.setConnection(Server.databaseController.getConnection());
     }
 
     /**
@@ -65,7 +66,7 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
         for (Map.Entry<String, Float> entry : revenueReportDataFromDB.entrySet()) {
             sum += entry.getValue();
         }
-        return sum == 0 ? true : false;
+        return sum == 0;
     }
 
     /**
@@ -108,28 +109,28 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
 
         Object[] newValsArr = newVals.keySet().toArray();
         Arrays.sort(newValsArr);
-        
+
         for(Object key : newValsArr) {
-        	if(i == 0) {
-        		i = (int) key;
-        	}
-        	
-        	while((int) key != i) {
-        		dataSet.setValue(0, String.valueOf(weeks / 5), weeks + 1 + "");
-        		i++;
-        	}
-        	
-        	if(newVals.get(key) > max) {
-        		max = newVals.get(key);
-        		bestWeek = String.valueOf(weeks + 1);
-        	}
-        	
-        	sum += newVals.get(key);
-        	dataSet.setValue(newVals.get(key) , String.valueOf(weeks/5), weeks+1 +"");
+            if(i == 0) {
+                i = (int) key;
+            }
+
+            while((int) key != i) {
+                dataSet.setValue(0, String.valueOf(weeks / 5), weeks + 1 + "");
+                i++;
+            }
+
+            if(newVals.get(key) > max) {
+                max = newVals.get(key);
+                bestWeek = String.valueOf(weeks + 1);
+            }
+
+            sum += newVals.get(key);
+            dataSet.setValue(newVals.get(key) , String.valueOf(weeks/5), weeks+1 +"");
             i++;
             weeks++;
         }
-        
+
         while (weeks < 15){
             dataSet.setValue(0 , String.valueOf(weeks/5), weeks+1 +"");
             weeks++;
@@ -159,7 +160,7 @@ public class ReportQuarterlyRevenueGenerator extends AbstractQuarterlyReportGene
     @Override
     public void endOfReport() throws DocumentException {
         float colSize = 600f;
-        float columnWidth[] = {colSize};
+        float[] columnWidth = {colSize};
 
         PdfPTable table = new PdfPTable(columnWidth);
         PdfPCell skipTheHistogramCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));

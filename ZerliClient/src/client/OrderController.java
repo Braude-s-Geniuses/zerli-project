@@ -23,7 +23,7 @@ public class OrderController extends AbstractController {
      */
     private final ArrayList<OrderProduct> cart = new ArrayList<OrderProduct>();
 
-    private String currBranch = null;
+    private final String currBranch = null;
 
     private Order currentOrder;
 
@@ -39,7 +39,7 @@ public class OrderController extends AbstractController {
     public void addToCart(OrderProduct orderProduct){
         // if added order already exists in cart - adds quantity to existing OrderProduct
         for(OrderProduct op : cart) {
-            if(orderProduct.getProduct().equals(op.getProduct())) {
+            if(orderProduct.getProduct().getProductId() == op.getProduct().getProductId()) {
                 op.setQuantity(op.getQuantity() + orderProduct.getQuantity());
                 return;
             }

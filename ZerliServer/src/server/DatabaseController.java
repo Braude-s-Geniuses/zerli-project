@@ -19,7 +19,7 @@ public class DatabaseController {
     /** represents the database connection instance.
      *
      */
-    private Connection connection;
+    protected Connection connection;
 
     /** stores the Application Database Schema name.
      *
@@ -47,7 +47,7 @@ public class DatabaseController {
         return databaseController;
     }
 
-    private DatabaseController() { }
+    protected DatabaseController() { }
 
     /** The method is used to make a connection to the database.
      *
@@ -114,6 +114,4 @@ public class DatabaseController {
         this.dbPassword = dbPassword;
     }
 
-
 }
-

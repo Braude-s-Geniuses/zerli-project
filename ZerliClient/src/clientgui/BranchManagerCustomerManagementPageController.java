@@ -35,9 +35,9 @@ public class BranchManagerCustomerManagementPageController implements Initializa
     private Customer customer;
     private BranchEmployee branchEmployee;
 
-    private int creditCardCharsCount = 0;
+    private final int creditCardCharsCount = 0;
 
-    private int cvvCharsCount = 0;
+    private final int cvvCharsCount = 0;
 
     @FXML // fx:id="newCustomerAnchorPane"
     private AnchorPane newCustomerAnchorPane; // Value injected by FXMLLoader
@@ -270,7 +270,7 @@ public class BranchManagerCustomerManagementPageController implements Initializa
         List<String> monthList = new ArrayList<String>();       //Set value of months.
         for (int i = 1; i <= 12; i++) {
             if (i<10){
-                monthList.add("0" + String.valueOf(i));
+                monthList.add("0" + i);
             }else {
                 monthList.add(String.valueOf(i));
             }

@@ -15,17 +15,17 @@ public interface IMessageService {
      * @return server response if exists; null otherwise
      * @see {@link client.ZerliClient#handleMessageFromUI(Object, boolean)}
      */
-    public Message sendToServer(Object message, boolean await);
+    Message sendToServer(Object message, boolean await);
 
     /**
      * getter for server response
      * @return
      */
-    public Message getResponse();
+    Message getResponse();
 
     /**
      * setter for server response
      * @param message
      */
-    public void setResponse(Message message);
+    void setResponse(Message message);
 }

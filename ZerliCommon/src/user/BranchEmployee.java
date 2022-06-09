@@ -72,4 +72,11 @@ public class BranchEmployee extends User {
     public void setCatalogue(boolean catalogue) {
         this.catalogue = catalogue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        BranchEmployee that = (BranchEmployee) o;
+        return survey == that.survey && discount == that.discount && catalogue == that.catalogue && branch.equals(that.branch);
+    }
 }

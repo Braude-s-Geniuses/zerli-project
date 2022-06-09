@@ -144,13 +144,10 @@ public class MyDeliveriesPageController implements Initializable {
             if (timeDiffHours >= 3 && orderStatus == OrderStatus.EXPRESS_CONFIRMED){
                 return true;    //Refund if express order was more than three hours late.
             }
-            if (timeDiffHours >= 0.5 && orderStatus == OrderStatus.NORMAL_CONFIRMED){
-                return true;        //Refund if normal order was more than one hour late.
-            }
-        }else {
+
+            return timeDiffHours >= 0.5 && orderStatus == OrderStatus.NORMAL_CONFIRMED; //Refund if normal order was more than one hour late.
+        } else
             return true;        //if a day or more has passed.
-        }
-        return false;
     }
 
 }

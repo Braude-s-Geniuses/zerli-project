@@ -11,14 +11,20 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 public class ReportController {
-    public static Connection connection = Server.databaseController.getConnection();
-    private static HashMap<Integer, String> quarters = new HashMap<>();
+
+    public static Connection connection;
+
+    public static void setConnection(Connection connection1){
+        connection=connection1;
+    }
+
+    private static final HashMap<Integer, String> quarters = new HashMap<>();
 
     private static void  initQuarters() {
         quarters.put(1, "04");
         quarters.put(4, "01");
         quarters.put(7, "02");
-        quarters.put(10, "03");
+        quarters.put(10,"03");
     }
 
     /**
@@ -369,12 +375,12 @@ public class ReportController {
      * @return
      */
     public static HashMap<String, Float> extractRevenueInfoForReportQuarterly(String branch, String period, String year) {
+        if(branch == null || period == null || year == null)
+            throw new NullPointerException();
+        if(branch == "" || period == "" || year == "")
+            throw new StringIndexOutOfBoundsException();
+
         HashMap<String, Float> revenueData = new HashMap<>();
-        int from = Integer.valueOf(period.substring(0, 2));
-        int to = Integer.valueOf(period.substring(3));
-        for (int i = from; i <= to; i++) {
-            revenueData.put(String.valueOf(i), 0f);
-        }
         ResultSet rs;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT WEEK(order_date) AS weeks ,sum(discount_price) AS revenue FROM `order` WHERE \n" +
@@ -418,7 +424,7 @@ public class ReportController {
             byte[] pdfBytes = byteArrayOutputStream.toByteArray();
             ByteArrayInputStream bais = new ByteArrayInputStream(pdfBytes);
             preparedStatement.setBlob(4, bais);
-            if (reportType.toString().substring(0, 7).equals("MONTHLY")) {
+            if (reportType.toString().startsWith("MONTHLY")) {
                 preparedStatement.setString(5, period);
                 preparedStatement.setString(6, null);
             } else {       //for quarter

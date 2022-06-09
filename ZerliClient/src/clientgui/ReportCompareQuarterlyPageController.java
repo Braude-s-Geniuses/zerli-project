@@ -57,7 +57,7 @@ public class ReportCompareQuarterlyPageController implements Initializable {
                 pdfFile = File.createTempFile("zerli", "report.pdf");
                 pdfFile.deleteOnExit();
                 FileOutputStream fileOutputStream = new FileOutputStream(pdfFile);
-                byte b[] = blob.getBytes(1, (int) blob.length());
+                byte[] b = blob.getBytes(1, (int) blob.length());
                 fileOutputStream.write(b);
                 fileOutputStream.close();
 

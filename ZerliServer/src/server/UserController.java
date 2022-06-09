@@ -15,12 +15,16 @@ import java.util.List;
 
 public class UserController {
 
-    private final ZerliServer server;
+    private  ZerliServer server;
     private final Connection con;
 
     public UserController() {
         server = ServerController.getServer();
         con = Server.databaseController.getConnection();
+    }
+
+    public UserController(Connection con){
+        this.con=con;
     }
 
     /**
@@ -320,7 +324,7 @@ public class UserController {
             preparedStatement = con.prepareStatement("SELECT email FROM `user` WHERE user_id = ?");
             preparedStatement.setInt(1, customerId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            
+
             if(!resultSet.next())
                 return new Message(null, MessageFromServer.CUSTOMER_GET_EMAIL_FAIL);
             result = resultSet.getString("email");
